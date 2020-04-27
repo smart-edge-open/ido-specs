@@ -18,7 +18,7 @@ title Policy Authorization flow between Openness and 5G core
 actor "User/Admin" as user
 participant "CLI" as CLI 
 participant "Af Microservice" as AF 
-participant "NGC CP Function" as 5GC
+participant "Core Network Test Function \n(CNTF)" as 5GC
 
 box "OpenNESS Controller Components" #LightBlue
 	participant CLI
@@ -37,7 +37,7 @@ group Policy Authorization - Application Session Context Event Subscription DELE
     user -> CLI : kubectl cnca policy-authorization unsubscribe <app-sessionId>
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId}/events-subscription DELETE
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId}/events-subscription DELETE
-    5GC -> 5GC : NGC_STUB (PCF SMF)
+    5GC -> 5GC : PolicyAuthorization_Stub
 
     5GC -> AF : 204 No Content \ ERROR 
     AF -> CLI : 204 No Content \ ERROR 

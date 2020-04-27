@@ -33,14 +33,18 @@ box "5G Core Components" #LightGreen
     end note
 end box
 
-group Policy Authorization - Application Session Context Event Subscription PUT flow
-    user -> CLI : kubectl cnca policy-authorization subscribe <app-sessionId> -f <config.yml>
-    CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId}/events-subscription PUT
-    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId}/events-subscription PUT
+group Policy Authorization - Terminate Notification flow
+/'    user -> CLI : kubectl cnca policy-authorization patch <app-sessionId> -f <config.yml>
+    CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
+    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
     5GC -> 5GC : PolicyAuthorization_Stub
-
-    5GC -> AF : 200 OK or 204 No Content : Event notification information \ ERROR 
-    AF -> CLI : 200 OK or 204 No Content : Event notification information\ ERROR 
-    CLI -> user : Success: Event notification information
+'/
+    
+    note over 5GC 
+        Invoke termination notification 
+        through proprietary API call to 
+        CNTF
+    end note
+    5GC -> AF : POST {notifUri}/terminate
 end
 @enduml
