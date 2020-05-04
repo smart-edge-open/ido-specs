@@ -4,6 +4,9 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 - [Edge Cloud Deployment with 3GPP 5G Non Stand Alone](#edge-cloud-deployment-with-3gpp-5g-non-stand-alone)
 - [Introduction](#introduction)
 - [5G NSA Option-3 Architecture aspects](#5g-nsa-option-3-architecture-aspects)
+  - [Option-3](#option-3)
+  - [Option-3A](#option-3a)
+  - [Option-3x](#option-3x)
 - [5G NSA Integration with Edge Platforms](#5g-nsa-integration-with-edge-platforms)
   - [Open Network Edge Services Software (OpenNESS)](#open-network-edge-services-software-openness)
   - [5G NAS Deployment Models and Integration with Edge Platforms](#5g-nas-deployment-models-and-integration-with-edge-platforms)
@@ -26,22 +29,34 @@ The focus of this paper is towards the edge deployment using the **5G NSA Option
 
 # 5G NSA Option-3 Architecture aspects
 
-The standardised NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as shown below:
+Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic.(user plane). The UE can connect to the LTE and 5G NR base station. In this option, the operators do not need a 5G Core. To support EN-DC, the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**. 
 
-| Option-3 | Option-3A | Option - 3x |
-| 
+The following figure hows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB does connect to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
 
+![5g-nsa](5g-nsa-images/5g-nsa.png "5G-NSA")
 
+A basic setup for such a scheme is:
 
+1. The UE attaches to the LTE network. The UE signals to the network that it can simultaneously connect to the 4G and 5G networks.
+2. The Core Network checks if the UE is authorized to connect to 4G and 5G networks. The 4G eNodeB is notified that the UE is permitted to connect to the 5G network.
+3. The eNodeB then takes a decision to activate a bearer on the 5G gNodeB.
+4. The 4G eNodeB and 5G gNodeB communicate to set up the bearer on the 5G gNodeB.
+5. The UE is notified about the 5G bearer via the RRC Connection Reconfiguration message.
+6. The UE then connects to the 5G network while maintaining the connectivity to the 4G network.
 
-In the Option 3 networking mode, the X2 interface traffic between eNB and gNB has NSA user plane traffic. This traffic is huge. The core network needs to increase the bandwidth of the S1-U interface to meet the LTE/NSA transmission requirements. 
-In the Option 3a networking mode, there is only control plane traffic in the X2 interface. So the X2
-traffic is very small.
-In the Option 3x networking mode, there is a little LTE user plane traffic in the X2 interface.
-From the perspective of the impact on the existing network, the Option 3x is relatively small and
-has become the mainstream choice for NSA networking. By using 4G as the anchor point of the
-control plane, it can meet good service continuity and support rapid network construction in the
-initial stage of 5G deployment
+The standardised NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here.
+
+## Option-3
+In the Option 3 networking mode, the X2 interface traffic between eNB and gNB has NSA user plane traffic. This traffic is huge. The core network needs to increase the bandwidth of the S1-U interface to meet the LTE/NSA transmission requirements.
+![Option-3](5g-nsa-images/option-3.png "Option-3")
+
+## Option-3A
+In the Option 3a networking mode, there is only control plane traffic in the X2 interface. So the X2 traffic is very small.
+![Option-3a](5g-nsa-images/option-3a.png "Option-3a")
+
+## Option-3x
+In the Option 3x networking mode, there is a little LTE user plane traffic in the X2 interface. From the perspective of the impact on the existing network, the Option 3x is relatively small and has become the mainstream choice for NSA networking. By using 4G as the anchor point of the control plane, it can meet good service continuity and support rapid network construction in the initial stage of 5G deployment
+![Option-3x](5g-nsa-images/option-3a.png "Option-3x")
 
 # 5G NSA Integration with Edge Platforms
 
