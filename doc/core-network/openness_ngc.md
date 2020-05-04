@@ -149,13 +149,18 @@ Below are list of functional elements provided through the OpenNESS solution to 
 
 ![5G OpenNESS Components](ngc-images/5g_openess_components.png)
 
+##### TODO: No need to change the diagram add arrow from AF to PCF 
+
 Below pictures shows the Micro service architectural view of OpenNESS solution with 5G integration components:
 
 ![5G OpenNESS Microservices](ngc-images/5g_openess_microservices.png)
 
+##### TODO: Add another box for PCF connecting from AF.
+##### TODO: Add a new chapter Openness NGC Validation and add CNTF here
+
 ### Application Function
 
-An Application Function (AF) is a micro service in the OpenNESS edge controller solution, developed in golang.  In the scope of the current release (OpenNESS 20.03), AF supports the Traffic influencing subscription and Packet Flow Description Management functionality to help in steering the Edge specific traffic in UPF towards the applications deployed on the OpenNESS edge node.
+An Application Function (AF) is a micro service in the OpenNESS edge controller solution, developed in golang. AF supports the Traffic influencing subscription, Packet Flow Description Management functionality and Policy Authorization to help in steering the Edge specific traffic in UPF towards the applications deployed on the OpenNESS edge node.
 
 Other AF functionalities as discussed in 3GPP 5G standard [3GPP_29122], Changing chargeable party Section 4.4.4, configuration QoS for AF sessions Section 4.4.13, Monitoring Section 4.4.2, Device triggering Section 4.4.6 and resource management of Background Data Transfer (BDT) Section 4.4.3 are in under consideration for implementation in future OpenNESS releases.
 
@@ -189,6 +194,10 @@ The OpenNESS AF micro service provides a northbound (NB) REST based API interfac
 
 As part of the traffic subscription API exchange, SMF generated notifications related to DNAI change can be forwarded to AF through NEF. NEF Reference implementation has place holders to integrate with 5G Core control plane.
 
+##### TODO: To do notification updates for Policy Auth
+
+##### TODO: Policy Authorization NB APIs
+
 ### Network Exposure Function
 
 According to 3GPP 5G System Architecture [3GPP TS 23.501-f30], NEF is a functional component in 5G Core network.  However, the reason for including NEF as micro service in OpenNESS solution is two fold.
@@ -197,7 +206,7 @@ According to 3GPP 5G System Architecture [3GPP TS 23.501-f30], NEF is a function
 
 * Trivial, but still may be helpful for 5G Core partners who are looking for NEF service to add to their solution for OpenNESS integration.
 
-In the OpenNESS provided NEF reference implementation for Traffic influence and PFD management is as per 3GPP TS 23.502 Section 5.2.6. Supported API endpoints, Nnef_TrafficInfluence {CREATE,UPDATE,DELETE} and Nnef_PfdManagement {CREATE, UPDATE, DELETE}, are terminated and looped back at NEF itself, which allows partner the flexibility to integrate and validate without a Core solution.
+In the OpenNESS provided NEF reference implementation for Traffic influence and PFD management is as per 3GPP TS 23.502 Section 5.2.6. Supported API endpoints, Nnef_TrafficInfluence {CREATE,UPDATE,DELETE} and Nnef_PfdManagement {CREATE, UPDATE, DELETE}.
 
 ### OAM Interface
 
@@ -222,9 +231,9 @@ The security among OpenNess 5GC micro-services is supported through https and OA
 
 #### HTTPS support
 
-The OpenNess 5GC micro-services such as OAM, CNCA-UI, CLI kube-ctl, AF and NEF communicates using REST API's over https interface among then from 20.03 onwards.
+The OpenNess 5GC micro-services such as OAM, CNCA-UI, CLI kube-ctl, AF and NEF communicates using REST API's over https interface among them.
 
-#### OAuth2 Support between AF and NEF micro-services 
+#### OAuth2 Support 
 
 The AF and NEF micro-services supports the OAuth2 with grant type as "client_credentials" over an https interface. This is in accordance to subclause 13.4.1 of 3GPP TS 33.501 (also refer 3GPP 29.122, 3GPP 29.500 and 3GPP 29.510 ). A reference OAuth2 library is provided which generates the OAuth2 token and validates it. 
 
@@ -234,6 +243,13 @@ The OAuth2 flow between AF and NEF is as shown in below diagram.
 
 ![OAuth2 flow between AF and NEF](ngc-images/OAuth2.png)
 
+##### TODO: Update the OAuth2 flow to align with rest plantUML diagrams and move it to Appendix 
+
+##### TODO: Move Section "REST based API" flows in Appendix 
+
+##### TODO: Introduce a new table with API name, functionality and lint to flow diagram in appendix 
+
+##### TODO: Update Traffic Influence, PFD and Policy Auth (Remove the loop back add reference to NGC ) . In diagram to makesure all uses same font and size 
 
 ## REST based API flows
 
@@ -289,6 +305,13 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 
 ## 5G End to End flows for Edge by OpenNESS
 
+##### TODO: Add 3 diagrams
+  1. PFD and TIF
+  2. Only TIF
+  3. PFD and Policy Auth
+  Note covering AF and OSS and mentioning information of application (Users info, DNAI,TAC etc ) for traffic stearing  
+  Rename Edge component to Edge Controller Components
+
 The flow diagram below depicts a possible end to end edge deployment scenario including the PFD management, traffic influencing and traffic routing in UPF towards Local DN.
 
 ![AF Service Delete](ngc-images/e2e_edge_deployment_flows.png)
@@ -314,6 +337,9 @@ The flow diagram below depicts a possible end to end edge deployment scenario in
 
 The below picture shows multiple data paths that are supported in OpenNESS integrated edge deployment scenarios.
 
+##### TODO: To check can single gNB be connection to multiple UPF simultaneously 
+##### TODO: replace router with a iUPF for N9 interface 
+
 ![5G Edge Data path supported by OpenNESS](ngc-images/5g_edge_data_paths.png)
 
 Each data path/scenario is represented by a colored line, which is described below.
@@ -327,6 +353,8 @@ All the UEs attached from Base Station gNB1 are assigned to UPF1 based on locati
 **Blue colored data-path :** UE attached to a Base Station (gNB2), but assigned to UPF1. UE application traffic that reaches UPF1 is routed towards edge node through N6 interface.
 
 **Red colored data-path :** UE attached to a gNB2, but assigned to UPF2. UE application traffic reaches UPF2 is routed towards cloud through it's N6 interface.
+
+
 
 **NOTE** All the above mentioned data paths also applicable to other two deployment scenarios described in the section [Edge deployment scenarios in 5G](#edge-deployment-scenarios-in-5g).
 
