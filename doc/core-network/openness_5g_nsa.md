@@ -12,8 +12,11 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
   - [UE is in only in 4G coverage](#ue-is-in-only-in-4g-coverage)
     - [Data flows through the SCG Split Bearer, S1-U Split](#data-flows-through-the-scg-split-bearer-s1-u-split)
     - [Data flows through the MCG Bearer, S1-U Path Switch.](#data-flows-through-the-mcg-bearer-s1-u-path-switch)
+  - [Bump in the Wire](#bump-in-the-wire)
+  - [Distributed EPC](#distributed-epc)
+  - [Distributed S/PGW](#distributed-spgw)
+  - [Distributed SGW with Local Breakout (SGW-LBO)](#distributed-sgw-with-local-breakout-sgw-lbo)
     - [Open Network Edge Services Software (OpenNESS)](#open-network-edge-services-software-openness)
-    - [5G NSA Deployment Models and Integration with Edge Platforms](#5g-nsa-deployment-models-and-integration-with-edge-platforms)
   - [OpenNESS integration with 5G NSA systems](#openness-integration-with-5g-nsa-systems)
     - [OpenNESS scope](#openness-scope)
     - [OpenNESS implementation](#openness-implementation)
@@ -95,14 +98,18 @@ There are two possible flows
 
 ![Option-3x-4G-Option2](5g-nsa-images/option-3x-4g-coverage-2.png)
 
-For the 5G NSA, steering traffic to/from MEC applications is achieved by configuring the MEC’s local DNS and the MEC host’s data plane accordingly. The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] which are described here.
+For the 5G NSA, steering traffic to/from MEC applications is achieved by configuring the MEC’s local DNS and the MEC host’s data plane accordingly. The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] and are described here.
 
+## Bump in the Wire
 
+## Distributed EPC
 
+## Distributed S/PGW
+
+## Distributed SGW with Local Breakout (SGW-LBO)
 
 ### Open Network Edge Services Software (OpenNESS)
 
-### 5G NSA Deployment Models and Integration with Edge Platforms
 
 ## OpenNESS integration with 5G NSA systems
 
