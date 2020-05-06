@@ -1,12 +1,17 @@
-# Edge Cloud Deployment with 3GPP 5G Non Stand Alone
+Edge Cloud Deployment with 3GPP 5G Non Stand Alone
+=========
 
 - [Edge Cloud Deployment with 3GPP 5G Non Stand Alone](#edge-cloud-deployment-with-3gpp-5g-non-stand-alone)
-  - [Introduction](#introduction)
-  - [5G NSA Option-3 Architecture aspects](#5g-nsa-option-3-architecture-aspects)
-    - [Option-3](#option-3)
-    - [Option-3a](#option-3a)
-    - [Option-3x](#option-3x)
-  - [5G NSA Integration with Edge Platforms](#5g-nsa-integration-with-edge-platforms)
+- [Introduction](#introduction)
+- [5G NSA Option-3 Architecture aspects](#5g-nsa-option-3-architecture-aspects)
+  - [Option-3](#option-3)
+  - [Option-3a](#option-3a)
+  - [Option-3x](#option-3x)
+- [5G NSA Integration with Edge Platforms](#5g-nsa-integration-with-edge-platforms)
+  - [UE is in both 4G & 5G Coverage](#ue-is-in-both-4g--5g-coverage)
+  - [UE is in only in 4G coverage](#ue-is-in-only-in-4g-coverage)
+    - [Data flows through the SCG Split Bearer, S1-U Split](#data-flows-through-the-scg-split-bearer-s1-u-split)
+    - [Data flows through the MCG Bearer, S1-U Path Switch.](#data-flows-through-the-mcg-bearer-s1-u-path-switch)
     - [Open Network Edge Services Software (OpenNESS)](#open-network-edge-services-software-openness)
     - [5G NSA Deployment Models and Integration with Edge Platforms](#5g-nsa-deployment-models-and-integration-with-edge-platforms)
   - [OpenNESS integration with 5G NSA systems](#openness-integration-with-5g-nsa-systems)
@@ -15,21 +20,21 @@
     - [OpenNESS functional elements](#openness-functional-elements)
   - [Summary](#summary)
 
-## Introduction
+# Introduction
 
 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have
 already been completed.
 
-Non-standalone option 3 is where radio access network is composed of eNBs (eNode Bs) as the master node and gNBs (gNode Bs) as the secondary node. The radio
+Non-standalone option 3 is where radio access network is composed of LTE eNBs (eNode Bs) as the master node and 5G gNBs (gNode Bs) as the secondary node. The radio
 access network is connected to EPC (Evolved Packet Core). The NSA option 3, as it leverages existing 4G deployment, can be brought to market quickly with minor modification to the 4G network. This option also supports legacy 4G devices and the 5G devices only need to support NR (New Radio) protocols so device can also be developed quickly. On the other hand, NSA option 3 does not introduce 5GC and therefore may not be optimized for new 5G use cases beyond mobile broadband.
 
 The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**.
 
-## 5G NSA Option-3 Architecture aspects
+# 5G NSA Option-3 Architecture aspects
 
-Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic.(user plane). The UE can connect to the LTE and 5G NR base station. In this option, the operators do not need a 5G Core. To support EN-DC, the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
+Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic.(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
 
-The following figure hows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB does connect to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
+The following figure hows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB connects to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
 
 ![5g-nsa](5g-nsa-images/5g-nsa.png "5G-NSA")
 
@@ -44,23 +49,56 @@ A basic setup for such a scheme is:
 
 The standardised NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here.
 
-### Option-3
+## Option-3
 
-In the Option 3 networking mode, the X2 interface traffic between eNB and gNB has NSA user plane traffic. This traffic is huge. The core network needs to increase the bandwidth of the S1-U interface to meet the LTE/NSA transmission requirements.
+In the plain option 3, all uplink/downlink data flows to and from the LTE part of the LTE/NR base station, i.e. to and from the eNB. The eNB then decides which part of the data it wants to forward to the 5G gNB part of the base station over the Xx interface. In simple terms, the 5G gNB never communicates with the 4G core network directly.
+
+In this option, the X2 interface traffic between eNB and gNB has control plane traffic and  user plane traffic. This traffic is huge. 
 
 ![Option-3](5g-nsa-images/option-3.png)
 
-### Option-3a
+## Option-3a
 
-In the Option 3a networking mode, there is only control plane traffic in the X2 interface. So the X2 traffic is very small.
+In this option, both the LTE eNB and the 5G gNB can directly talk to the EPS core network but they cannot directly talk with each other over the Xx (X2) interface. This means that a single data bearer cannot share the load over LTE and NR. For example, VoLTE voice traffic for a user is handled by LTE while the users Internet traffic is handled by the 5G part of the base station. It would be difficult to implement this scenario if the devices keep moving in and out of 5G network coverage continuously.
+
+In this option, the X2 interface traffic between eNB and gNB has only control plane traffic. So the X2 traffic is very small.
+
 ![Option-3a](5g-nsa-images/option-3a.png)
 
-### Option-3x
+## Option-3x
+
+Option 3X is a combination of 3 and 3A. In this configuration, user data traffic will flow directly to the 5G gNB part of the base station. From there, it is delivered over the air to the mobile device. A part of the data can also be forwarded over the X2 interface to the 4G eNB part of the base station and from there to the UE. Slow data streams (Low Data), e.g. VoLTE bearers with a different IP address than that used for Internet access can be directly delivered from the core network to the 4G eNB part of the 4G/5G base station. The advantage is that the 5G upgrade of the base station is likely to have the much better performing IP interface so it is better suited to handle the higher data rates that can only be reached with a 4G/5G Non-Standalone network deployment.
 
 In the Option 3x networking mode, there is a little LTE user plane traffic in the X2 interface. From the perspective of the impact on the existing network, the Option 3x is relatively small and has become the mainstream choice for NSA networking. By using 4G as the anchor point of the control plane, it can meet good service continuity and support rapid network construction in the initial stage of 5G deployment
-![Option-3x](5g-nsa-images/option-3a.png)
 
-## 5G NSA Integration with Edge Platforms
+In this configuration, the LTE eNB will act as the Master and will have control over which S1-U bearers are handled by radio of LTE or NR. Based on instructions from LTE eNB, MME will inform S-GW where to establish S1-U bearers, i.e. LTE or NR. If NR radio quality falls below a certain threshold,  S1-U bearer towards NR may be either split at NR and sent entirely over Xx to LTE or a PATH SWITCH may be triggered where all S1- U will go to LTE eNB.
+
+![Option-3x](5g-nsa-images/option-3x.png)
+
+# 5G NSA Integration with Edge Platforms
+
+The focus of this chatper would be considering the 5G NAS Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and both dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
+
+## UE is in both 4G & 5G Coverage 
+
+![Option-3x-DC](5g-nsa-images/option-3x-5g-coverage.png)
+
+## UE is in only in 4G coverage
+
+There are two possible flows
+
+### Data flows through the SCG Split Bearer, S1-U Split
+
+![Option-3x-4G-Option1](5g-nsa-images/option-3x-4g-coverage-1.png)
+
+### Data flows through the MCG Bearer, S1-U Path Switch.
+
+![Option-3x-4G-Option2](5g-nsa-images/option-3x-4g-coverage-2.png)
+
+For the 5G NSA, steering traffic to/from MEC applications is achieved by configuring the MEC’s local DNS and the MEC host’s data plane accordingly. The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] which are described here.
+
+
+
 
 ### Open Network Edge Services Software (OpenNESS)
 
