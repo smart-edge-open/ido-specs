@@ -12,7 +12,6 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
   - [UE is in only in 4G coverage](#ue-is-in-only-in-4g-coverage)
     - [Data flows through the SCG Split Bearer, S1-U Split](#data-flows-through-the-scg-split-bearer-s1-u-split)
     - [Data flows through the MCG Bearer, S1-U Path Switch.](#data-flows-through-the-mcg-bearer-s1-u-path-switch)
-  - [Bump in the Wire](#bump-in-the-wire)
   - [Distributed EPC](#distributed-epc)
   - [Distributed S/PGW](#distributed-spgw)
   - [Distributed SGW with Local Breakout (SGW-LBO)](#distributed-sgw-with-local-breakout-sgw-lbo)
@@ -100,13 +99,37 @@ There are two possible flows
 
 For the 5G NSA, steering traffic to/from MEC applications is achieved by configuring the MEC’s local DNS and the MEC host’s data plane accordingly. The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] and are described here.
 
-## Bump in the Wire
-
 ## Distributed EPC
+
+In this deployment the MEC host logically includes all or part of the 3GPP Evolved Packet Core (EPC) components, as specified in the 4G system architecture in ETSI TS
+23.401, and the MEC data plane sits on the SGi interface. By doing so, in order to steer U-plane traffic towards the MEC system, two elements, the local DNS of MEC and the PDN Gateway (PGW) of a distributed EPC, play critical roles. In fact, as the UE subscribes to the distributed EPC co-located with the MEC host, the PGW there upon terminates the PDN connection and assigns the IP address and local DNS information to resolve the MEC applications’ IP address. This scenario requires less changes to the
+operator’s network as standard 3GPP entities and interfaces are leveraged for operations such as session management, charging, etc.
+
+![distributed-epc](5g-nsa-images/distributed-epc.png)
 
 ## Distributed S/PGW
 
+The distributed S/PGW deployment option is similar to the previous one, except that only SGW and PGW entities are deployed at the edge site, whereas the control plane functions such as the Mobility Management Entity (MME) and HSS are located at the operator’s core site. Still, the MEC host’s data plane connects to the PGW over the SGi interface.
+
+The local SGW selection is performed by the central MME according to the 3GPP standard DNS procedures and based on the Tracking Area Code (TAC) of the radio where the UE attaches to. This architecture allows offloading the traffic based on the APN, which means, for example, that the IMS for VoLTE APN and roaming APNs
+may not be offloaded
+
+![distributed-spgw](5g-nsa-images/distributed-spgw.png)
+
+The diagram above shows the deployment with the SGW and PGW co-located at the network edge, which requires the operator to extend the S5 interface to the MEC site. This type of deployment allows the operator to retain full control over the MME.
+
 ## Distributed SGW with Local Breakout (SGW-LBO)
+
+Local breakout at the SGWs is a new architecture for MEC that originates from operators’ desire to have a greater control on the granularity of the traffic that needs to be steered. This principle is dictated by the to have the users able to reach both the MEC applications and the operator’s core site application in
+a selective manner over the same APN.
+
+With the Distributed SGW deployment, one of the optional MEC deployment scenarios is to co-locate MEC hosts with the SGW. Both the SGW-LBO and the MEC application may be hosted as VNFs in the same MEC platform. The following figure describes co-locating MEC hosts with the SGW in a mobile network where the MEC system and the distributed SGW are co-located at the edge
+![sgw-lbo](5g-nsa-images/sgw-lbo.png)
+
+The traffic steering uses the SGi - Local Break Out interface which supports traffic separation and allows the same level of security as the operator expects from a 3GPP-compliant solution. This solution allows the operator to specify traffic filters similar to the uplink classifiers in 5G, which are used for traffic steering. This architecture also supports MEC host mobility, extension to the edge of CDN, push
+applications that requires paging and ultra-low latency use cases. The SGW selection process performed by MMEs is according to the 3GPP standard and based on the geographical location of UEs (Tracking Areas) as provisioned in the operator’s DNS.
+
+The SGW-LBO offers the possibility to steer traffic based on any operator-chosen combination of the policy sets, such as APN and user identifier, packet’s 5-tuple, and other IP level parameters including IP version and DSCP marking.
 
 ### Open Network Edge Services Software (OpenNESS)
 
