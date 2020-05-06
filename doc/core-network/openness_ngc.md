@@ -3,6 +3,7 @@ Copyright © 2019 Intel Corporation
 
 # Edge Cloud Deployment with 3GPP 5G Stand Alone
 
+
 - [Edge Cloud Deployment with 3GPP 5G Stand Alone](#edge-cloud-deployment-with-3gpp-5g-stand-alone)
 - [Introduction](#introduction)
 - [5G Systems Architecture](#5g-systems-architecture)
@@ -13,31 +14,50 @@ Copyright © 2019 Intel Corporation
   - [OpenNESS scope](#openness-scope)
   - [OpenNESS implementation](#openness-implementation)
   - [OpenNESS functional elements](#openness-functional-elements)
+        - [TODO: No need to change the diagram add arrow from AF to PCF -- Done](#todo-no-need-to-change-the-diagram-add-arrow-from-af-to-pcf----done)
+        - [TODO: Add another box for PCF connecting from AF. -- Done](#todo-add-another-box-for-pcf-connecting-from-af----done)
+        - [TODO: Add a new chapter Openness NGC Validation and add CNTF here -- Done](#todo-add-a-new-chapter-openness-ngc-validation-and-add-cntf-here----done)
     - [Application Function](#application-function)
       - [Traffic steering NB APIs](#traffic-steering-nb-apis)
       - [AF supported Traffic steering API (South bound)](#af-supported-traffic-steering-api-south-bound)
       - [PFD Management NB APIs](#pfd-management-nb-apis)
       - [AF supported PFD management API (South bound)](#af-supported-pfd-management-api-south-bound)
       - [NGC notifications](#ngc-notifications)
+      - [AF supported Policy Authorization NB APIs](#af-supported-policy-authorization-nb-apis)
+      - [AF supported Policy Authorization API (South bound)](#af-supported-policy-authorization-api-south-bound)
+        - [TODO: To do notification updates for Policy Auth - Sonia to Update](#todo-to-do-notification-updates-for-policy-auth---sonia-to-update)
+        - [TODO: Policy Authorization NB APIs -- Done](#todo-policy-authorization-nb-apis----done)
     - [Network Exposure Function](#network-exposure-function)
     - [OAM Interface](#oam-interface)
       - [Edge service registration](#edge-service-registration)
     - [Core Network Configuration Agent](#core-network-configuration-agent)
     - [Security between OpenNess 5GC micro-services](#security-between-openness-5gc-micro-services)
       - [HTTPS support](#https-support)
-      - [OAuth2 Support between AF and NEF micro-services](#oauth2-support-between-af-and-nef-micro-services)
+      - [OAuth2 Support](#oauth2-support)
+        - [TODO: Update the OAuth2 flow to align with rest plantUML diagrams and move it to Appendix](#todo-update-the-oauth2-flow-to-align-with-rest-plantuml-diagrams-and-move-it-to-appendix)
+        - [TODO: Move Section "REST based API" flows in Appendix --Done](#todo-move-section-%22rest-based-api%22-flows-in-appendix---done)
+        - [TODO: Introduce a new table with API name, functionality and link to flow diagram in appendix](#todo-introduce-a-new-table-with-api-name-functionality-and-link-to-flow-diagram-in-appendix)
+        - [TODO: Update Traffic Influence, PFD and Policy Auth (Remove the loop back add reference to NGC ) . In diagram to make sure all uses same font and size](#todo-update-traffic-influence-pfd-and-policy-auth-remove-the-loop-back-add-reference-to-ngc---in-diagram-to-make-sure-all-uses-same-font-and-size)
+  - [5G End to End flows for Edge by OpenNESS](#5g-end-to-end-flows-for-edge-by-openness)
+        - [TODO: Add 3 diagrams](#todo-add-3-diagrams)
+  - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
+        - [TODO: To check can single gNB be connection to multiple UPF simultaneously](#todo-to-check-can-single-gnb-be-connection-to-multiple-upf-simultaneously)
+        - [TODO: replace router with a iUPF for N9 interface](#todo-replace-router-with-a-iupf-for-n9-interface)
+  - [OpenNess NGC Component Validation](#openness-ngc-component-validation)
+- [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
+  - [API's](#apis)
+    - [Traffic Influence Subscription](#traffic-influence-subscription)
+- [Appendix](#appendix)
   - [REST based API flows](#rest-based-api-flows)
     - [AF-NEF interface for traffic influence](#af-nef-interface-for-traffic-influence)
+        - [1. Addition of traffic influencing rules subscription through AF](#1-addition-of-traffic-influencing-rules-subscription-through-af)
     - [AF-NEF interface for PFD Management](#af-nef-interface-for-pfd-management)
     - [OAM interface for edge service registration](#oam-interface-for-edge-service-registration)
       - [OAM API flows](#oam-api-flows)
-  - [5G End to End flows for Edge by OpenNESS](#5g-end-to-end-flows-for-edge-by-openness)
-  - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
-- [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
 - [Summary](#summary)
   - [References](#references)
   - [List of abbreviations](#list-of-abbreviations)
-
+  
 # Introduction
 
 The introduction of the Release 15 specification from 3GPP officially introduced Edge Computing. Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services. 
@@ -149,14 +169,15 @@ Below are list of functional elements provided through the OpenNESS solution to 
 
 ![5G OpenNESS Components](ngc-images/5g_openess_components.png)
 
-##### TODO: No need to change the diagram add arrow from AF to PCF 
+##### TODO: No need to change the diagram add arrow from AF to PCF -- Done
 
 Below pictures shows the Micro service architectural view of OpenNESS solution with 5G integration components:
 
 ![5G OpenNESS Microservices](ngc-images/5g_openess_microservices.png)
 
-##### TODO: Add another box for PCF connecting from AF.
-##### TODO: Add a new chapter Openness NGC Validation and add CNTF here
+##### TODO: Add another box for PCF connecting from AF. -- Done
+
+##### TODO: Add a new chapter Openness NGC Validation and add CNTF here -- Done
 
 ### Application Function
 
@@ -194,9 +215,21 @@ The OpenNESS AF micro service provides a northbound (NB) REST based API interfac
 
 As part of the traffic subscription API exchange, SMF generated notifications related to DNAI change can be forwarded to AF through NEF. NEF Reference implementation has place holders to integrate with 5G Core control plane.
 
-##### TODO: To do notification updates for Policy Auth
+#### AF supported Policy Authorization NB APIs
 
-##### TODO: Policy Authorization NB APIs
+* API End point: _/af/v1/policy-authorization/app-sessions_ 
+* Supported methods: POST,PUT,PATCH,GET,DELETE
+* Request/Response body: _5G AF North Bound APIs schema at openness.org_
+
+#### AF supported Policy Authorization API (South bound)
+
+* API End point: _/npcf-policyauthorization/v1/app-sessions_
+* Supported methods:  POST,PUT,PATCH,GET,DELETE
+* Request/Response body: _5G NEF North Bound APIs schema at openness.org_
+
+##### TODO: To do notification updates for Policy Auth - Sonia to Update
+
+##### TODO: Policy Authorization NB APIs -- Done
 
 ### Network Exposure Function
 
@@ -245,63 +278,11 @@ The OAuth2 flow between AF and NEF is as shown in below diagram.
 
 ##### TODO: Update the OAuth2 flow to align with rest plantUML diagrams and move it to Appendix 
 
-##### TODO: Move Section "REST based API" flows in Appendix 
+##### TODO: Move Section "REST based API" flows in Appendix --Done
 
-##### TODO: Introduce a new table with API name, functionality and lint to flow diagram in appendix 
+##### TODO: Introduce a new table with API name, functionality and link to flow diagram in appendix 
 
-##### TODO: Update Traffic Influence, PFD and Policy Auth (Remove the loop back add reference to NGC ) . In diagram to makesure all uses same font and size 
-
-## REST based API flows
-
-The flow diagrams below depict the scenarios for the traffic influence subscription operations from an end user of OpenNESS controller towards 5G core.
-
-### AF-NEF interface for traffic influence
-
-* Addition of traffic influencing rules subscription through AF
-![Traffic influence subscription Addition](ngc-images/traffic_subscription_add.png)
-
-* Update of traffic influencing rules subscription through AF
-![Traffic influence subscription Update](ngc-images/traffic_subscription_update.png)
-
-* Get traffic influencing rules subscription through AF
-![Traffic influence subscription Get](ngc-images/traffic_subscription_get.png)
-
-* Deletion of traffic influencing rules subscription through AF
-![Traffic influence subscription Delete](ngc-images/traffic_subscription_del.png)
-
-### AF-NEF interface for PFD Management
-
-* Addition of PFD Management transaction rules through AF
-![PFD Management transaction Addition](ngc-images/PFD_Management_transaction_add.png)
-
-* Update of PFD Management transaction rules through AF
-![PFD Management transaction update](ngc-images/PFD_Management_transaction_update.png)
-
-* Get PFD Management transaction rules through AF
-![PFD Management transaction Get](ngc-images/PFD_Management_transaction_get.png)
-
-* Deletion of PFD Management transaction rules through AF
-![PFD Management transaction Delete](ngc-images/PFD_Management_transaction_del.png)
-
-### OAM interface for edge service registration
-
-#### OAM API flows
-
-As discussed above, the need for configuring the 5G Control plane components with the information about UPF DNN information related to the edge.  The flow diagrams below depict the API flow between various components to passdown the information towards 5G control plane. 
-Detailed information about the OAM reference API endpoints can be found at 5G OAM API Schema in the documentation page at OpenNESS.org.
-
-* Addition of UPF services info about Edge to 5G Control Plane:
-![AF Service registration](ngc-images/oam_af_service_add.png)
-
-* Update of UPF services info about Edge to 5G Control Plane:
-![AF Service Update](ngc-images/oam_af_service_update.png)
-
-* Get/Read UPF services info about Edge from 5G Control Plane:
-![AF Service Get](ngc-images/oam_af_service_get.png)
-
-* Delete UPF services info about Edge from 5G Control Plane:
-![AF Service Delete](ngc-images/oam_af_service_del.png)
-
+##### TODO: Update Traffic Influence, PFD and Policy Auth (Remove the loop back add reference to NGC ) . In diagram to make sure all uses same font and size 
 
 ## 5G End to End flows for Edge by OpenNESS
 
@@ -355,8 +336,9 @@ All the UEs attached from Base Station gNB1 are assigned to UPF1 based on locati
 **Red colored data-path :** UE attached to a gNB2, but assigned to UPF2. UE application traffic reaches UPF2 is routed towards cloud through it's N6 interface.
 
 
-
 **NOTE** All the above mentioned data paths also applicable to other two deployment scenarios described in the section [Edge deployment scenarios in 5G](#edge-deployment-scenarios-in-5g).
+
+## OpenNess NGC Component Validation
 
 # 5G Core Network functionality for OpenNESS integration
 
@@ -367,6 +349,66 @@ The following is the minimum functionality required to support the integration o
 * Interface for dynamic configuration of user-plane deployed or deleted from edge nodes. Referred to as the OAM interface in this document. 
 
 * Network Exposure Function (NEF), with minimal functionality to support Traffic influence subscription operations through Application Function (AF)
+
+## API's
+### Traffic Influence Subscription
+
+| API                           | Functionality                           |
+| ----------------------------- | --------------------------------------- |
+| {apiroot}/af/v1/subscriptions | Create a Traffic Influence Subscription |
+
+# Appendix
+
+## REST based API flows
+
+The flow diagrams below depict the scenarios for the traffic influence subscription operations from an end user of OpenNESS controller towards 5G core.
+
+### AF-NEF interface for traffic influence
+
+##### 1. Addition of traffic influencing rules subscription through AF
+![Traffic influence subscription Addition](ngc-images/traffic_subscription_add.png)
+
+* Update of traffic influencing rules subscription through AF
+![Traffic influence subscription Update](ngc-images/traffic_subscription_update.png)
+
+* Get traffic influencing rules subscription through AF
+![Traffic influence subscription Get](ngc-images/traffic_subscription_get.png)
+
+* Deletion of traffic influencing rules subscription through AF
+![Traffic influence subscription Delete](ngc-images/traffic_subscription_del.png)
+
+### AF-NEF interface for PFD Management
+
+* Addition of PFD Management transaction rules through AF
+![PFD Management transaction Addition](ngc-images/PFD_Management_transaction_add.png)
+
+* Update of PFD Management transaction rules through AF
+![PFD Management transaction update](ngc-images/PFD_Management_transaction_update.png)
+
+* Get PFD Management transaction rules through AF
+![PFD Management transaction Get](ngc-images/PFD_Management_transaction_get.png)
+
+* Deletion of PFD Management transaction rules through AF
+![PFD Management transaction Delete](ngc-images/PFD_Management_transaction_del.png)
+
+### OAM interface for edge service registration
+
+#### OAM API flows
+
+As discussed above, the need for configuring the 5G Control plane components with the information about UPF DNN information related to the edge.  The flow diagrams below depict the API flow between various components to passdown the information towards 5G control plane. 
+Detailed information about the OAM reference API endpoints can be found at 5G OAM API Schema in the documentation page at OpenNESS.org.
+
+* Addition of UPF services info about Edge to 5G Control Plane:
+![AF Service registration](ngc-images/oam_af_service_add.png)
+
+* Update of UPF services info about Edge to 5G Control Plane:
+![AF Service Update](ngc-images/oam_af_service_update.png)
+
+* Get/Read UPF services info about Edge from 5G Control Plane:
+![AF Service Get](ngc-images/oam_af_service_get.png)
+
+* Delete UPF services info about Edge from 5G Control Plane:
+![AF Service Delete](ngc-images/oam_af_service_del.png)
 
 # Summary
 
