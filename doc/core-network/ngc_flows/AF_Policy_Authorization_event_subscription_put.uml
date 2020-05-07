@@ -18,7 +18,8 @@ title Policy Authorization flow between Openness and 5G core
 actor "User/Admin" as user
 participant "CLI" as CLI 
 participant "Af Microservice" as AF 
-participant "Core Network Test Function \n(CNTF)" as 5GC
+participant "NEF" as NEF
+participant "NGC CP Function" as 5GC
 
 box "OpenNESS Controller Components" #LightBlue
 	participant CLI
@@ -26,21 +27,22 @@ box "OpenNESS Controller Components" #LightBlue
 end box
 
 box "5G Core Components" #LightGreen
+	participant NEF
     participant 5GC
-    note over 5GC 
-        OpenNESS ngc-core simulation
-        (PCF UDR SMF)
-    end note
+    note over NEF 
+        OpenNESS provided 
+        Core component with 
+        limited functionality
+    end note    
 end box
 
 group Policy Authorization - Application Session Context Event Subscription PUT flow
     user -> CLI : kubectl cnca policy-authorization subscribe <app-sessionId> -f <config.yml>
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId}/events-subscription PUT
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId}/events-subscription PUT
-    5GC -> 5GC : PolicyAuthorization_Stub
 
-    5GC -> AF : 200 OK or 204 No Content : Event notification information \ ERROR 
-    AF -> CLI : 200 OK or 204 No Content : Event notification information\ ERROR 
-    CLI -> user : Success: Event notification information
+    5GC --> AF : 200 OK or 204 No Content : Event notification information \ ERROR 
+    AF --> CLI : 200 OK or 204 No Content : Event notification information\ ERROR 
+    CLI --> user : Success: Event notification information
 end
 @enduml

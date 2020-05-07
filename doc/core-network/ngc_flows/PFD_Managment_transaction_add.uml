@@ -40,10 +40,11 @@ group PFD transaction creation flow
     user -> UI : PFD transaction create
     UI -> AF : /af/v1/pfd/transaction POST
     AF -> NEF : /3gpp-pfd-management/v1/{scsAsId}/transactions/ POST
-    NEF -> NEF : NGC_STUB (UDR SMF)
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
 
-    NEF -> AF : OK: transactionId \ ERROR 
-    AF -> UI : OK: transactionId \ ERROR 
-    UI -> user : Success: transactionId
+    NEF --> AF : OK: transactionId \ ERROR 
+    AF --> UI : OK: transactionId \ ERROR 
+    UI --> user : Success: transactionId
 end
 @enduml

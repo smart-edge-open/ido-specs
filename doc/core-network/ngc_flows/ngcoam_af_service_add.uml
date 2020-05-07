@@ -34,7 +34,7 @@ group AF services registration with 5G Core
     activate cnca
     cnca  -> oam  : /ngcoam/v1/af/services : POST \n {dnn, dnai, snssai, tac, dns-ip, upf-ip}
     activate oam
-    oam -> oam : NGC_OAM_STUB()
+    
     oam -> ngccp : {Open: 3rd Party NGC integration with OpenNESS(oam)} 
     ngccp --> oam : 
     oam  --> cnca : OK : {afServiceId} \n ERROR: {400/500}

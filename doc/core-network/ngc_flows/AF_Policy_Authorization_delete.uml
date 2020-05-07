@@ -18,7 +18,9 @@ title Policy Authorization flow between Openness and 5G core
 actor "User/Admin" as user
 participant "CLI" as CLI 
 participant "Af Microservice" as AF 
-participant "Core Network Test Function \n(CNTF)" as 5GC
+participant "NEF" as NEF
+participant "NGC CP Function" as 5GC
+
 
 box "OpenNESS Controller Components" #LightBlue
 	participant CLI
@@ -26,21 +28,22 @@ box "OpenNESS Controller Components" #LightBlue
 end box
 
 box "5G Core Components" #LightGreen
+	participant NEF
     participant 5GC
-    note over 5GC 
-        OpenNESS ngc-core simulation
-        (PCF UDR SMF)
-    end note
+    note over NEF 
+        OpenNESS provided 
+        Core component with 
+        limited functionality
+    end note    
 end box
 
 group Policy Authorization - Application Session Context DELETE flow
     user -> CLI : kubectl cnca policy-authorization delete <app-sessionId>
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId}/delete POST
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId}/delete POST
-    5GC -> 5GC : PolicyAuthorization_Stub
 
-    5GC -> AF : 200 OK or 204 No Content : app-session information \ ERROR 
-    AF -> CLI : 200 OK or 204 No Content : app-session information\ ERROR 
-    CLI -> user : Success: app-sessionId deleted
+    5GC --> AF : 200 OK or 204 No Content : app-session information \ ERROR 
+    AF --> CLI : 200 OK or 204 No Content : app-session information\ ERROR 
+    CLI --> user : Success: app-sessionId deleted
 end
 @enduml
