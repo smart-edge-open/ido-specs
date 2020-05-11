@@ -7,7 +7,7 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
   - [Option-3](#option-3)
   - [Option-3a](#option-3a)
   - [Option-3x](#option-3x)
-- [5G NSA Integration with Edge Platforms](#5g-nsa-integration-with-edge-platforms)
+- [Edge Deployments with 5G NSA Option - 3x](#edge-deployments-with-5g-nsa-option---3x)
   - [UE is in both 4G & 5G Coverage](#ue-is-in-both-4g--5g-coverage)
   - [UE is in only in 4G coverage](#ue-is-in-only-in-4g-coverage)
     - [Data flows through the SCG Split Bearer, S1-U Split](#data-flows-through-the-scg-split-bearer-s1-u-split)
@@ -77,9 +77,9 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 ![Option-3x](5g-nsa-images/option-3x.png)
 
-# 5G NSA Integration with Edge Platforms
+# Edge Deployments with 5G NSA Option - 3x
 
-The focus of this chatper would be considering the 5G NAS Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and both dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
+The focus of this chapter would be considering the 5G NSA Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and both dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
 
 ## UE is in both 4G & 5G Coverage 
 
