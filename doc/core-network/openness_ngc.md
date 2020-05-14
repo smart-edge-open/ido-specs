@@ -31,7 +31,7 @@ Copyright © 2019 Intel Corporation
       - [OAuth2 Support](#oauth2-support)
   - [5G End to End flows for Edge by OpenNESS](#5g-end-to-end-flows-for-edge-by-openness)
   - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
-  - [OpenNESS NGC Component Validation](#openness-ngc-component-validation)
+  - [OpenNESS NGC Validation](#openness-ngc-validation)
 - [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
   - [Application Function North Bound API's](#application-function-north-bound-apis)
     - [Traffic Influence Subscription](#traffic-influence-subscription)
@@ -41,9 +41,27 @@ Copyright © 2019 Intel Corporation
 - [Appendix](#appendix)
   - [API flows](#api-flows)
     - [1. AF-NEF interface for traffic influence](#1-af-nef-interface-for-traffic-influence)
+        - [1.1 Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af)
+        - [1.2 Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)
+        - [1.3 Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)
+        - [1.4 Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af)
     - [2. AF-NEF interface for PFD Management](#2-af-nef-interface-for-pfd-management)
+        - [2.1 Addition of PFD Management transaction rules through AF](#21-addition-of-pfd-management-transaction-rules-through-af)
+        - [2.2 Update of PFD Management transaction rules through AF](#22-update-of-pfd-management-transaction-rules-through-af)
+        - [2.3 Get PFD Management transaction rules through AF](#23-get-pfd-management-transaction-rules-through-af)
+        - [2.4 Deletion of PFD Management transaction rules through AF](#24-deletion-of-pfd-management-transaction-rules-through-af)
     - [3. AF-PCF interface for Policy Authorization](#3-af-pcf-interface-for-policy-authorization)
+        - [3.1 Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)
+        - [3.2 Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)
+        - [3.3 Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)
+        - [3.4 Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)
+        - [3.5 Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)
+        - [3.6 Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af)
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
+        - [4.1 Addition of UPF services info about Edge to 5G Control Plane:](#41-addition-of-upf-services-info-about-edge-to-5g-control-plane)
+        - [4.2 Update of UPF services info about Edge to 5G Control Plane:](#42-update-of-upf-services-info-about-edge-to-5g-control-plane)
+        - [4.3 Get/Read UPF services info about Edge from 5G Control Plane:](#43-getread-upf-services-info-about-edge-from-5g-control-plane)
+        - [4.4 Delete UPF services info about Edge from 5G Control Plane:](#44-delete-upf-services-info-about-edge-from-5g-control-plane)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
 - [Summary](#summary)
   - [References](#references)
@@ -165,8 +183,7 @@ Below pictures shows the Micro service architectural view of OpenNESS solution w
 ![5G OpenNESS Microservices](ngc-images/5g_openess_microservices.png)
 
 
-*NOTE The 5GC*
-Vaidation of OpenNESS 5G microservices is performed using the Core Network Test Function (CNTF) microservice  as described in - [OpenNESS NGC Validation](#openness-ngc-validation)
+*NOTE: The 5GC Vaidation of OpenNESS 5G microservices is performed using the Core Network Test Function (CNTF) microservice  as described in - [OpenNESS NGC Validation](#openness-ngc-validation)*
 
 ### Application Function
 
@@ -302,7 +319,11 @@ All the UEs attached from Base Station gNB1 are assigned to UPF1 based on locati
 **NOTE** All the above mentioned data paths also applicable to other two deployment scenarios described in the section [Edge deployment scenarios in 5G](#edge-deployment-scenarios-in-5g).
 
 ## OpenNESS NGC Validation
-For standalone validation of OpenNESS NGC components such AF and NEF, NGC core simulation microservice is provided. This microservice is called Core Network Test Function which simultes the functionality of PCF, SMF and UDR needed for testing N33 and N5 interfaces. 
+For standalone validation of OpenNESS NGC components such AF and NEF, NGC core simulation microservice is provided. This microservice is called Core Network Test Function which simulates the functionality of PCF, SMF and UDR needed for testing N33 and N5 interfaces. 
+
+The below diagram represents CNTF microservice in 5G architecture.
+
+![CNTF in 5G Architecture view](ngc-images/cntf_in_5G_ref_architecture.png)
 
 
 # 5G Core Network functionality for OpenNESS integration
