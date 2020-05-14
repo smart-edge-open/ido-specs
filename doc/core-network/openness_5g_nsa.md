@@ -24,19 +24,18 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 
 # Introduction
 
-5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have
-already been completed.
+5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have already been completed.
 
 Non-standalone option 3 is where radio access network is composed of LTE eNBs (eNode Bs) as the master node and 5G gNBs (gNode Bs) as the secondary node. The radio
-access network is connected to EPC (Evolved Packet Core). The NSA option 3, as it leverages existing 4G deployment, can be brought to market quickly with minor modification to the 4G network. This option also supports legacy 4G devices and the 5G devices only need to support NR (New Radio) protocols so device can also be developed quickly. On the other hand, NSA option 3 does not introduce 5GC and therefore may not be optimized for new 5G use cases beyond mobile broadband.
+access network is connected to EPC (Evolved Packet Core). The NSA option 3, as it leverages existing 4G deployment, can be brought to market quickly by partially upgrading existing EPC SWs to support LTE-NR dual connectivity and charging for 5G base stations. This option also supports legacy 4G devices and the 5G devices only need to support NR (New Radio) protocols so devices can also be developed quickly. On the other hand, NSA option 3 does not introduce 5GC and therefore may not be optimized for new 5G use cases beyond mobile broadband.
 
 The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**.
 
 # 5G NSA Option-3 Architecture aspects
 
-Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic.(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
+Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
 
-The following figure hows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB connects to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
+The following figure shows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB connects to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
 
 ![5g-nsa](5g-nsa-images/5g-nsa.png "5G-NSA")
 
@@ -49,13 +48,13 @@ A basic setup for such a scheme is:
 5. The UE is notified about the 5G bearer via the RRC Connection Reconfiguration message.
 6. The UE then connects to the 5G network while maintaining the connectivity to the 4G network.
 
-The standardised NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here.
+The 5G NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here.
 
 ## Option-3
 
 In the plain option 3, all uplink/downlink data flows to and from the LTE part of the LTE/NR base station, i.e. to and from the eNB. The eNB then decides which part of the data it wants to forward to the 5G gNB part of the base station over the Xx interface. In simple terms, the 5G gNB never communicates with the 4G core network directly.
 
-In this option, the X2 interface traffic between eNB and gNB has control plane traffic and  user plane traffic. This traffic is huge. 
+In this option, the X2 interface traffic between eNB and gNB has control plane traffic and  user plane traffic. This traffic is huge.
 
 ![Option-3](5g-nsa-images/option-3.png)
 
@@ -79,7 +78,7 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 # Edge Deployments with 5G NSA Option - 3x
 
-The focus of this chapter would be considering the 5G NSA Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and both dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
+The focus of this chapter would be considering the 5G NSA Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
 
 ## UE is in both 4G & 5G Coverage 
 
@@ -97,19 +96,19 @@ There are two possible flows
 
 ![Option-3x-4G-Option2](5g-nsa-images/option-3x-4g-coverage-2.png)
 
-For the 5G NSA, steering traffic to/from MEC applications is achieved by configuring the MEC’s local DNS and the MEC host’s data plane accordingly. The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] and are described here.
+The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] and are described here.
 
 ## Distributed EPC
 
-In this deployment the MEC host logically includes all or part of the 3GPP Evolved Packet Core (EPC) components, as specified in the 4G system architecture in ETSI TS
-23.401, and the MEC data plane sits on the SGi interface. By doing so, in order to steer U-plane traffic towards the MEC system, two elements, the local DNS of MEC and the PDN Gateway (PGW) of a distributed EPC, play critical roles. In fact, as the UE subscribes to the distributed EPC co-located with the MEC host, the PGW there upon terminates the PDN connection and assigns the IP address and local DNS information to resolve the MEC applications’ IP address. This scenario requires less changes to the
-operator’s network as standard 3GPP entities and interfaces are leveraged for operations such as session management, charging, etc.
+In this deployment the MEC host/Edge Site logically includes all or part of the 3GPP Evolved Packet Core (EPC) components, as specified in the 4G system architecture in ETSI TS 23.401, and the MEC data plane sits on the SGi interface. By doing so, in order to steer U-plane traffic towards the MEC system, two elements, the local DNS of MEC and the PDN Gateway (PGW) of a distributed EPC, play critical roles. In fact, as the UE subscribes to the distributed EPC co-located with the MEC host, the PGW there upon terminates the PDN connection and assigns the IP address and local DNS information to resolve the MEC applications’ IP address. This scenario requires less changes to the operator’s network as standard 3GPP entities and interfaces are leveraged for operations such as session management, charging, etc.
 
 ![distributed-epc](5g-nsa-images/distributed-epc.png)
 
 ## Distributed S/PGW
 
-The distributed S/PGW deployment option is similar to the previous one, except that only SGW and PGW entities are deployed at the edge site, whereas the control plane functions such as the Mobility Management Entity (MME) and HSS are located at the operator’s core site. Still, the MEC host’s data plane connects to the PGW over the SGi interface.
+The distributed S/PGW deployment option is similar to the previous one, except that only SGW-U and PGW-U entities are deployed at the edge site, whereas the control plane functions such as the Mobility Management Entity (MME), SGW-C, PGW-C and HSS are located at the operator’s core site. Still, the MEC host’s data plane connects to the PGW over the SGi interface.
+
+Similarly to the previous option with the whole distributed EPC, the SGW-U and PGW-U can also run as VNFs together with the MEC application on the NFV platform as part of the same MEC host
 
 The local SGW selection is performed by the central MME according to the 3GPP standard DNS procedures and based on the Tracking Area Code (TAC) of the radio where the UE attaches to. This architecture allows offloading the traffic based on the APN, which means, for example, that the IMS for VoLTE APN and roaming APNs
 may not be offloaded
@@ -120,7 +119,7 @@ The diagram above shows the deployment with the SGW and PGW co-located at the ne
 
 ## Distributed SGW with Local Breakout (SGW-LBO)
 
-Local breakout at the SGWs is a new architecture for MEC that originates from operators’ desire to have a greater control on the granularity of the traffic that needs to be steered. This principle is dictated by the to have the users able to reach both the MEC applications and the operator’s core site application in
+Local breakout at the SGWs is a new architecture for MEC that originates from operators’ desire to have a greater control on the granularity of the traffic that needs to be steered. This principle is dictated by the need to have the users able to reach both the MEC applications and the operator’s core site application in
 a selective manner over the same APN.
 
 With the Distributed SGW deployment, one of the optional MEC deployment scenarios is to co-locate MEC hosts with the SGW. Both the SGW-LBO and the MEC application may be hosted as VNFs in the same MEC platform. The following figure describes co-locating MEC hosts with the SGW in a mobile network where the MEC system and the distributed SGW are co-located at the edge
