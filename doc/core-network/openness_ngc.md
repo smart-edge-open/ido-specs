@@ -41,27 +41,9 @@ Copyright © 2019 Intel Corporation
 - [Appendix](#appendix)
   - [API flows](#api-flows)
     - [1. AF-NEF interface for traffic influence](#1-af-nef-interface-for-traffic-influence)
-        - [1.1 Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af)
-        - [1.2 Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)
-        - [1.3 Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)
-        - [1.4 Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af)
     - [2. AF-NEF interface for PFD Management](#2-af-nef-interface-for-pfd-management)
-        - [2.1 Addition of PFD Management transaction rules through AF](#21-addition-of-pfd-management-transaction-rules-through-af)
-        - [2.2 Update of PFD Management transaction rules through AF](#22-update-of-pfd-management-transaction-rules-through-af)
-        - [2.3 Get PFD Management transaction rules through AF](#23-get-pfd-management-transaction-rules-through-af)
-        - [2.4 Deletion of PFD Management transaction rules through AF](#24-deletion-of-pfd-management-transaction-rules-through-af)
     - [3. AF-PCF interface for Policy Authorization](#3-af-pcf-interface-for-policy-authorization)
-        - [3.1 Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)
-        - [3.2 Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)
-        - [3.3 Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)
-        - [3.4 Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)
-        - [3.5 Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)
-        - [3.6 Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af)
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
-        - [4.1 Addition of UPF services info about Edge to 5G Control Plane:](#41-addition-of-upf-services-info-about-edge-to-5g-control-plane)
-        - [4.2 Update of UPF services info about Edge to 5G Control Plane:](#42-update-of-upf-services-info-about-edge-to-5g-control-plane)
-        - [4.3 Get/Read UPF services info about Edge from 5G Control Plane:](#43-getread-upf-services-info-about-edge-from-5g-control-plane)
-        - [4.4 Delete UPF services info about Edge from 5G Control Plane:](#44-delete-upf-services-info-about-edge-from-5g-control-plane)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
 - [Summary](#summary)
   - [References](#references)
@@ -410,6 +392,9 @@ The flow diagrams below depict the scenarios for the traffic influence subscript
 ##### 2.4 Deletion of PFD Management transaction rules through AF
 ![PFD Management transaction Delete](ngc-images/PFD_Management_transaction_delete.png)
 
+
+Note :  scaAsId (Services Capability Server/Application Server Id ) and AfId (Application Function Id) represents the AF ID in OpenNESS.  
+
 ### 3. AF-PCF interface for Policy Authorization
 
 ##### 3.1 Addition of Policy Authorization Individual Application Session Context through AF
@@ -515,4 +500,4 @@ Along with discussing the supported features in OpenNESS for 5G integration also
 - CNCA: Core Network Configuration Agent
 - UI: User Interface
 - CLI: Command Line Interface
-- SCASID: TODO
+- SCS/AS: Services Capability Server/Application Server
