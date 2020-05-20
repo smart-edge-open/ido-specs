@@ -7,33 +7,24 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
   - [Option-3](#option-3)
   - [Option-3a](#option-3a)
   - [Option-3x](#option-3x)
-- [Edge Deployments with 5G NSA Option - 3x](#edge-deployments-with-5g-nsa-option---3x)
+- [Edge Deployments with 5G NSA](#edge-deployments-with-5g-nsa)
   - [UE is in both 4G & 5G Coverage](#ue-is-in-both-4g--5g-coverage)
-  - [UE is in only in 4G coverage](#ue-is-in-only-in-4g-coverage)
+  - [UE is only in 4G coverage](#ue-is-only-in-4g-coverage)
     - [Data flows through the SCG Split Bearer, S1-U Split](#data-flows-through-the-scg-split-bearer-s1-u-split)
     - [Data flows through the MCG Bearer, S1-U Path Switch.](#data-flows-through-the-mcg-bearer-s1-u-path-switch)
-  - [Distributed EPC](#distributed-epc)
-  - [Distributed S/PGW](#distributed-spgw)
-  - [Distributed SGW with Local Breakout (SGW-LBO)](#distributed-sgw-with-local-breakout-sgw-lbo)
-    - [Open Network Edge Services Software (OpenNESS)](#open-network-edge-services-software-openness)
-  - [OpenNESS integration with 5G NSA systems](#openness-integration-with-5g-nsa-systems)
-    - [OpenNESS scope](#openness-scope)
-    - [OpenNESS implementation](#openness-implementation)
-    - [OpenNESS functional elements](#openness-functional-elements)
-  - [Summary](#summary)
+  - [OpenNESS deployment for 5G-NSA Option 3x](#openness-deployment-for-5g-nsa-option-3x)
+- [Summary](#summary)
+- [References](#references)
 
 # Introduction
 
-5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have already been completed.
+Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services. 
 
-Non-standalone option 3 is where radio access network is composed of LTE eNBs (eNode Bs) as the master node and 5G gNBs (gNode Bs) as the secondary node. The radio
-access network is connected to EPC (Evolved Packet Core). The NSA option 3, as it leverages existing 4G deployment, can be brought to market quickly by partially upgrading existing EPC SWs to support LTE-NR dual connectivity and charging for 5G base stations. This option also supports legacy 4G devices and the 5G devices only need to support NR (New Radio) protocols so devices can also be developed quickly. On the other hand, NSA option 3 does not introduce 5GC and therefore may not be optimized for new 5G use cases beyond mobile broadband.
-
-The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**.
+OpenNESS supports edge compute deployment for LTE(CUPS) as described  in[OpenNESS_EPC] and 5G Stand Alone as described in  [OpenNESS_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either Non Stand Alone(NSA) option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**. 
 
 # 5G NSA Option-3 Architecture aspects
 
-Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
+5G NSA Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
 
 The following figure shows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB connects to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
 
@@ -76,15 +67,17 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 ![Option-3x](5g-nsa-images/option-3x.png)
 
-# Edge Deployments with 5G NSA Option - 3x
+# Edge Deployments with 5G NSA
 
-The focus of this chapter would be considering the 5G NSA Option - 3x. Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
+The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLCC, massive IOT cannot be supported as still the 5G NSA core network is still based out of EPC. 
+
+Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
 
 ## UE is in both 4G & 5G Coverage 
 
 ![Option-3x-DC](5g-nsa-images/option-3x-5g-coverage.png)
 
-## UE is in only in 4G coverage
+## UE is only in 4G coverage
 
 There are two possible flows
 
@@ -96,52 +89,44 @@ There are two possible flows
 
 ![Option-3x-4G-Option2](5g-nsa-images/option-3x-4g-coverage-2.png)
 
-The edge deployment options for 5G NSA follow the ones described in [ETSI_4G_WP] and are described here.
+## OpenNESS deployment for 5G-NSA Option 3x
 
-## Distributed EPC
+The MEC solution is dependant on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework. 
 
-In this deployment the MEC host/Edge Site logically includes all or part of the 3GPP Evolved Packet Core (EPC) components, as specified in the 4G system architecture in ETSI TS 23.401, and the MEC data plane sits on the SGi interface. By doing so, in order to steer U-plane traffic towards the MEC system, two elements, the local DNS of MEC and the PDN Gateway (PGW) of a distributed EPC, play critical roles. In fact, as the UE subscribes to the distributed EPC co-located with the MEC host, the PGW there upon terminates the PDN connection and assigns the IP address and local DNS information to resolve the MEC applications’ IP address. This scenario requires less changes to the operator’s network as standard 3GPP entities and interfaces are leveraged for operations such as session management, charging, etc.
+For MEC with EPC there are generally two approaches: S1-based and SGi-based.
 
-![distributed-epc](5g-nsa-images/distributed-epc.png)
+The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink.  
 
-## Distributed S/PGW
+ The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstarted with OpenNESS, as described in [OpenNESS_epc] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below: 
 
-The distributed S/PGW deployment option is similar to the previous one, except that only SGW-U and PGW-U entities are deployed at the edge site, whereas the control plane functions such as the Mobility Management Entity (MME), SGW-C, PGW-C and HSS are located at the operator’s core site. Still, the MEC host’s data plane connects to the PGW over the SGi interface.
+![OpenNESS-NSA-DEpc](5g-nsa-images/openness-nsa-depc.png)
 
-Similarly to the previous option with the whole distributed EPC, the SGW-U and PGW-U can also run as VNFs together with the MEC application on the NFV platform as part of the same MEC host
+The API's exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be used to set the appropriate configuration rules in the LTE Access Network through the OAM agent. These configurations can be grouped into three categories:
 
-The local SGW selection is performed by the central MME according to the 3GPP standard DNS procedures and based on the Tracking Area Code (TAC) of the radio where the UE attaches to. This architecture allows offloading the traffic based on the APN, which means, for example, that the IMS for VoLTE APN and roaming APNs
-may not be offloaded
+- Config: Configure Sxx related IP address of user plane. Since the EPC control plane can also learn these parameters through other means, whether these parameters are required is vendor-dependent.
 
-![distributed-spgw](5g-nsa-images/distributed-spgw.png)
+- Selectors: Bind the user plane to APN, TAC, etc. in the control plane, so that UEs can be assigned to a particular user plane (PGW-U and/or SGW-U) at the time of connection establishment.
 
-The diagram above shows the deployment with the SGW and PGW co-located at the network edge, which requires the operator to extend the S5 interface to the MEC site. This type of deployment allows the operator to retain full control over the MME.
+- Entitlements: Allow further level of control in the gateway selection for UEs at EPC Control plane through IMSIs. It is recommended to use some level of indirect reference of IMSIs (proprietary to the operator network) to identify UEs, rather than to use IMSI itself.
 
-## Distributed SGW with Local Breakout (SGW-LBO)
+Further informaton on the OpenNESS implementation can be found in [OpenNESS_EPC]
 
-Local breakout at the SGWs is a new architecture for MEC that originates from operators’ desire to have a greater control on the granularity of the traffic that needs to be steered. This principle is dictated by the need to have the users able to reach both the MEC applications and the operator’s core site application in
-a selective manner over the same APN.
+# Summary
+This white paper describes an investigation of how the OpenNESS support for LTE CUPS based edge platform can be integrated with an 5G NSA network Option-3x. Further validation of the OpenNESS support for 5G NSA can be carried out with commercial 5G NSA partners
 
-With the Distributed SGW deployment, one of the optional MEC deployment scenarios is to co-locate MEC hosts with the SGW. Both the SGW-LBO and the MEC application may be hosted as VNFs in the same MEC platform. The following figure describes co-locating MEC hosts with the SGW in a mobile network where the MEC system and the distributed SGW are co-located at the edge
-![sgw-lbo](5g-nsa-images/sgw-lbo.png)
+# References
 
-The traffic steering uses the SGi - Local Break Out interface which supports traffic separation and allows the same level of security as the operator expects from a 3GPP-compliant solution. This solution allows the operator to specify traffic filters similar to the uplink classifiers in 5G, which are used for traffic steering. This architecture also supports MEC host mobility, extension to the edge of CDN, push
-applications that requires paging and ultra-low latency use cases. The SGW selection process performed by MMEs is according to the 3GPP standard and based on the geographical location of UEs (Tracking Areas) as provisioned in the operator’s DNS.
+1. 3GPP 23.799 Study on Architecture for Next Generation System(Release 14) Annex J: Deployment Scenarios - <https://www.3gpp.org/DynaReport/23799.htm>
 
-The SGW-LBO offers the possibility to steer traffic based on any operator-chosen combination of the policy sets, such as APN and user identifier, packet’s 5-tuple, and other IP level parameters including IP version and DSCP marking.
+2. ETSI GS MEC 003 V2.1.1, “Mobile Edge Computing (MEC); Framework and Reference Architecture (2019-01) - <https://www.etsi.org/deliver/etsi_gs/MEC/001_099/003/02.01.01_60/gs_mec003v020101p.pdf>
 
-### Open Network Edge Services Software (OpenNESS)
+3. GSMA 5G Implementation Guidelines: NSA Option 3 February 2020 - <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf>
 
+4. ETSI White Paper #24 - MEC Deployments in 4G and Evolution Towards 5G, First Edition, February 2018 - <https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.>
 
-## OpenNESS integration with 5G NSA systems
+5. Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md>
 
-### OpenNESS scope
-
-### OpenNESS implementation
-
-### OpenNESS functional elements
-
-## Summary
+6. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md>
 
 [3GPP_23799]: <https://www.3gpp.org/DynaReport/23799.htm> "3GPP 23.799 Study on Architecture for Next Generation System(Release 14) Annex J: Deployment Scenarios"
 
@@ -151,12 +136,6 @@ The SGW-LBO offers the possibility to steer traffic based on any operator-chosen
 
 [ETSI_4G_WP]: <https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.> "ETSI White Paper #24 - MEC Deployments in 4G and Evolution Towards 5G, First Edition, February 2018"
 
-[3GPP_23214]: <https://www.3gpp.org/DynaReport/23214.htm> "TS 23.214 3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; Architecture enhancements for control and user plane separation of EPC nodes; Stage 2."
+[OpenNESS_EPC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
 
-[3GPP_29244]: <https://www.3gpp.org/DynaReport/29244.htm> "TS 29.244 Interface between the Control Plane and the User Plane of EPC Nodes"
-
-[3GPP_29303]: <https://www.3gpp.org/dynareport/29303.htm> "TS 29.303 DNS procedures for UP function selection"
-
-[3GPP_23501]: <https://www.3gpp.org/DynaReport/23501.htm> "3GPP TS 23.501 V15.1.0, “3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; System Architecture for the 5G System; Stage 2 (Release 15)” (2018-03)"
-
-[3GPP_CUPS]: <https://www.3gpp.org/cups> "Control and User Plane Separation of EPC Nodes (CUPS) Control and User Plane Separation of EPC Nodes (CUPS)"
+[OpenNESS_NGC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
