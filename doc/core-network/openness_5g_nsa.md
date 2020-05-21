@@ -69,7 +69,7 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 # Edge Deployments with 5G NSA
 
-The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLCC, massive IOT cannot be supported as still the 5G NSA core network is still based out of EPC. 
+The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLCC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC. 
 
 Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
 
@@ -93,9 +93,7 @@ There are two possible flows
 
 The MEC solution is dependant on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework. 
 
-For MEC with EPC there are generally two approaches: S1-based and SGi-based.
-
-The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink.  
+For MEC with EPC there are generally two approaches: SGi-based and S1-based.
 
  The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstarted with OpenNESS, as described in [OpenNESS_epc] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below: 
 
@@ -111,8 +109,10 @@ The API's exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be
 
 Further informaton on the OpenNESS implementation can be found in [OpenNESS_EPC]
 
+The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink. S1-based approach is currently not in the scope of OpenNESS functionality
+
 # Summary
-This white paper describes an investigation of how the OpenNESS support for LTE CUPS based edge platform can be integrated with an 5G NSA network Option-3x. Further validation of the OpenNESS support for 5G NSA can be carried out with commercial 5G NSA partners
+This white paper describes an investigation of how the OpenNESS support for LTE CUPS based edge platform can be integrated with an 5G NSA network Option-3x. Further validation of the OpenNESS support for 5G NSA can be carried out with commercial 5G NSA partners.
 
 # References
 
