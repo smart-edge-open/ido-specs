@@ -29,15 +29,16 @@ Copyright © 2019 Intel Corporation
     - [Security between OpenNESS 5GC micro-services](#security-between-openness-5gc-micro-services)
       - [HTTPS support](#https-support)
       - [OAuth2 Support](#oauth2-support)
-  - [5G End to End flows for Edge by OpenNESS](#5g-end-to-end-flows-for-edge-by-openness)
-  - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
-  - [OpenNESS NGC Validation](#openness-ngc-validation)
-- [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
   - [Application Function North Bound API's](#application-function-north-bound-apis)
     - [Traffic Influence Subscription](#traffic-influence-subscription)
     - [PFD Management](#pfd-management)
     - [Policy Authorization](#policy-authorization)
     - [OAM](#oam)
+  - [5G End to End flows for Edge by OpenNESS](#5g-end-to-end-flows-for-edge-by-openness)
+    - [General Flow Description](#general-flow-description)
+  - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
+  - [OpenNESS NGC Validation](#openness-ngc-validation)
+- [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
 - [Appendix](#appendix)
   - [API flows](#api-flows)
     - [1. AF-NEF interface for traffic influence](#1-af-nef-interface-for-traffic-influence)
@@ -256,6 +257,46 @@ The AF and NEF micro-services supports the OAuth2 with grant type as "client_cre
 
 *Note: When using 5GC core from any vendor the OAuth2 library need to be implemented as described by the vendor.*
 
+## Application Function North Bound API's
+### Traffic Influence Subscription
+
+| Traffic Influence API                          | Method | Functionality                                                                                                                      |
+| ---------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af) |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)     |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                 |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af) |
+
+### PFD Management 
+
+| PFD Management API                              | Method | Functionality                                                                                                          |
+| ----------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------- |
+| {apiroot}/af/v1/pfd/transaction                 | POST   | [Addition of PFD Management transaction rules through AF](#21-addition-of-pfd-management-transaction-rules-through-af) |
+| {apiroot}/af/v1/pfd/transaction/{transactionId} | PUT    | [Update of PFD Management transaction rules through AF](#22-update-of-pfd-management-transaction-rules-through-af)     |
+| {apiroot}/af/v1/pfd/transaction/{transactionId} | GET    | [Get PFD Management transaction rules through AF](#23-get-pfd-management-transaction-rules-through-af)                 |
+| {apiroot}/af/v1/pfd/transaction/{transactionId} | DELETE | [Deletion of PFD Management transaction rules through AF](#24-deletion-of-pfd-management-transaction-rules-through-af) |
+
+
+### Policy Authorization
+| Policy Authorization API                                                              | Method | Functionality                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| {apiRoot}/af/v1/policy-authorization/app-sessions                                     | POST   | [Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)                                       |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | PATCH  | [Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)                                           |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | GET    | [Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)                                                       |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}/delete               | POST   | [Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)                                       |
+| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | PUT    | [Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)     |
+| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | DELETE | [Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af) |
+
+ 
+### OAM 
+| OAM API                                       | Method | Functionality                                                                                                                     |
+| --------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| {apiroot}/ngcoam/v1/af/services               | POST   | [Addition of UPF services info about Edge to 5G Control Plane:](#41-addition-of-upf-services-info-about-edge-to-5g-control-plane) |
+| {apiroot}/ngcoam/v1/af/services/{afServiceId} | PATCH  | [Update of UPF services info about Edge to 5G Control Plane:](#42-update-of-upf-services-info-about-edge-to-5g-control-plane)     |
+| {apiroot}/ngcoam/v1/af/services/{afServiceId} | GET    | [Get/Read UPF services info about Edge from 5G Control Plane:](#43-getread-upf-services-info-about-edge-from-5g-control-plane)    |
+| {apiroot}/ngcoam/v1/af/services/{afServiceId} | DELETE | [Delete UPF services info about Edge from 5G Control Plane:](#44-delete-upf-services-info-about-edge-from-5g-control-plane)       |
+
+
 ## 5G End to End flows for Edge by OpenNESS
 
 The flow diagrams below depicts a possible end to end edge deployment scenario including the PFD management, traffic influencing and traffic routing in UPF towards Local DN.
@@ -263,12 +304,13 @@ The flow diagrams below depicts a possible end to end edge deployment scenario i
 1. Traffic influencing using PFD and NEF Traffic Influencing interface
 ![PFD TI ](ngc-images/e2e_pfd_tif.png)
 
-2. Traffic influencing NEF Traffic Influencing interface
+2. Traffic influencing using NEF Traffic Influencing interface
 ![TI ](ngc-images/e2e_tif.png)
 
-3. Traffic influencing using PFD and PCF PolicyAuthorization interface
+3. Traffic influencing using PCF PolicyAuthorization interface
 ![PFD PA ](ngc-images/e2e_pfd_pa.png)
 
+### General Flow Description 
 * AF authenticates and registers with the 5G Core
   
 * PFD Profile management (Applicable for option 1 and 3 )
@@ -325,45 +367,6 @@ The following is the minimum functionality required to support the integration o
 
 * Network Exposure Function (NEF), with minimal functionality to support Traffic influence subscription operations through Application Function (AF)
 
-## Application Function North Bound API's
-### Traffic Influence Subscription
-
-| Traffic Influence API                          | Method | Functionality                                                                                                                      |
-| ---------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af) |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)     |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                 |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af) |
-
-### PFD Management 
-
-| PFD Management API                              | Method | Functionality                                                                                                          |
-| ----------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------- |
-| {apiroot}/af/v1/pfd/transaction                 | POST   | [Addition of PFD Management transaction rules through AF](#21-addition-of-pfd-management-transaction-rules-through-af) |
-| {apiroot}/af/v1/pfd/transaction/{transactionId} | PUT    | [Update of PFD Management transaction rules through AF](#22-update-of-pfd-management-transaction-rules-through-af)     |
-| {apiroot}/af/v1/pfd/transaction/{transactionId} | GET    | [Get PFD Management transaction rules through AF](#23-get-pfd-management-transaction-rules-through-af)                 |
-| {apiroot}/af/v1/pfd/transaction/{transactionId} | DELETE | [Deletion of PFD Management transaction rules through AF](#24-deletion-of-pfd-management-transaction-rules-through-af) |
-
-
-### Policy Authorization
-| Policy Authorization API                                                              | Method | Functionality                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| {apiRoot}/af/v1/policy-authorization/app-sessions                                     | POST   | [Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | PATCH  | [Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)                                           |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | GET    | [Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)                                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}/delete               | POST   | [Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | PUT    | [Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)     |
-| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | DELETE | [Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af) |
-
- 
-### OAM 
-| OAM API                                       | Method | Functionality                                                                                                                     |
-| --------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| {apiroot}/ngcoam/v1/af/services               | POST   | [Addition of UPF services info about Edge to 5G Control Plane:](#41-addition-of-upf-services-info-about-edge-to-5g-control-plane) |
-| {apiroot}/ngcoam/v1/af/services/{afServiceId} | PATCH  | [Update of UPF services info about Edge to 5G Control Plane:](#42-update-of-upf-services-info-about-edge-to-5g-control-plane)     |
-| {apiroot}/ngcoam/v1/af/services/{afServiceId} | GET    | [Get/Read UPF services info about Edge from 5G Control Plane:](#43-getread-upf-services-info-about-edge-from-5g-control-plane)    |
-| {apiroot}/ngcoam/v1/af/services/{afServiceId} | DELETE | [Delete UPF services info about Edge from 5G Control Plane:](#44-delete-upf-services-info-about-edge-from-5g-control-plane)       |
-
 
 # Appendix
 
@@ -400,7 +403,7 @@ The flow diagrams below depict the scenarios for the traffic influence subscript
 ![PFD Management transaction Delete](ngc-images/PFD_Management_transaction_delete.png)
 
 
-Note :  scaAsId (Services Capability Server/Application Server Id ) and AfId (Application Function Id) represents the AF ID in OpenNESS.  
+Note :  scsAsId (Services Capability Server/Application Server Id ) and AfId (Application Function Id) represents the AF ID in OpenNESS.  
 
 ### 3. AF-PCF interface for Policy Authorization
 

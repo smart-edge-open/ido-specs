@@ -37,7 +37,7 @@ box "5G Core Components" #LightGreen
 end box
 
 group Policy Authorization - Application Session Context GET flow
-    user -> CLI : kubectl cnca policy-authorization get <app-sessionId>
+    user -> CLI : Get app session context with appSessionId
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} GET
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} GET
 

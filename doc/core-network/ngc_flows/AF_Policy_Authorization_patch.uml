@@ -37,7 +37,7 @@ box "5G Core Components" #LightGreen
 end box
 
 group Policy Authorization - Application Session Context PATCH flow
-    user -> CLI : kubectl cnca policy-authorization patch <app-sessionId> -f <config.yml>
+    user -> CLI : Update app session context with app-sessionId
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
 

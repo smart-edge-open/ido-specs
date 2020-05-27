@@ -35,7 +35,7 @@ end box
 
 == 5G CN pre-established ==
 
-group PFD Profile management in PCF/UDR by Operator or AF
+group PFD Profile management in PCF/UDR by Operator or AF (Optional)
     note over nef 
         PFD profiles/rules can be created
         Network operator or can be pushed

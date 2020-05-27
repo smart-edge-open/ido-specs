@@ -37,7 +37,7 @@ box "5G Core Components" #LightGreen
 end box
 
 group Policy Authorization - Application Session Context Event Subscription DELETE flow
-    user -> CLI : kubectl cnca policy-authorization unsubscribe <app-sessionId>
+    user -> CLI : Delete app session context Event Subscription
     CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId}/events-subscription DELETE
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId}/events-subscription DELETE
 

@@ -38,7 +38,7 @@ box "5G Core Components" #LightGreen
 end box
 
 group Policy Authorization - Individual Application Session Context creation flow
-    user -> CLI : kubectl cnca policy-authorization apply -f <config.yml>
+    user -> CLI : Create application session context 
     CLI -> AF : /af/v1/policy-authorization/app-sessions POST
     AF -> 5GC : /npcf-policyauthorization/v1/app-sessions POST
 
