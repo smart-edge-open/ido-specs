@@ -1,3 +1,6 @@
+SPDX-License-Identifier: Apache-2.0       
+Copyright (c) 2019 Intel Corporation
+
 Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 =========
 
