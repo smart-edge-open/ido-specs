@@ -15,12 +15,13 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
   - [OpenNESS deployment for 5G-NSA Option 3x](#openness-deployment-for-5g-nsa-option-3x)
 - [Summary](#summary)
 - [References](#references)
+- [List of abbreviations](#list-of-abbreviations)
 
 # Introduction
 
-Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services. 
+Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services.
 
-OpenNESS supports edge compute deployment for LTE(CUPS) as described  in[OpenNESS_EPC] and 5G Stand Alone as described in  [OpenNESS_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either Non Stand Alone(NSA) option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**. 
+OpenNESS supports edge compute deployment for LTE(CUPS) as described  in[OpenNESS_EPC] and 5G Stand Alone as described in  [OpenNESS_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either Non Stand Alone(NSA) option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment**.
 
 # 5G NSA Option-3 Architecture aspects
 
@@ -69,7 +70,7 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 # Edge Deployments with 5G NSA
 
-The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLCC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC. 
+The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLLC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC. 
 
 Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
 
@@ -91,11 +92,11 @@ There are two possible flows
 
 ## OpenNESS deployment for 5G-NSA Option 3x
 
-The MEC solution is dependant on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework. 
+The MEC solution is dependent on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework.
 
 For MEC with EPC there are generally two approaches: SGi-based and S1-based.
 
- The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstarted with OpenNESS, as described in [OpenNESS_epc] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below: 
+ The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstrated with OpenNESS, as described in [OpenNESS_epc] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below:
 
 ![OpenNESS-NSA-DEpc](5g-nsa-images/openness-nsa-depc.png)
 
@@ -105,13 +106,14 @@ The API's exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be
 
 - Selectors: Bind the user plane to APN, TAC, etc. in the control plane, so that UEs can be assigned to a particular user plane (PGW-U and/or SGW-U) at the time of connection establishment.
 
-- Entitlements: Allow further level of control in the gateway selection for UEs at EPC Control plane through IMSIs. It is recommended to use some level of indirect reference of IMSIs (proprietary to the operator network) to identify UEs, rather than to use IMSI itself.
+- Entitlements: Allow further level of control in the gateway selection for UEs at EPC Control plane through IMSI's. It is recommended to use some level of indirect reference of IMSI's (proprietary to the operator network) to identify UEs, rather than to use IMSI itself.
 
-Further informaton on the OpenNESS implementation can be found in [OpenNESS_EPC]
+Further information on the OpenNESS implementation can be found in [OpenNESS_EPC]
 
 The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink. S1-based approach is currently not in the scope of OpenNESS functionality
 
 # Summary
+
 This white paper describes an investigation of how the OpenNESS support for LTE CUPS based edge platform can be integrated with an 5G NSA network Option-3x. Further validation of the OpenNESS support for 5G NSA can be carried out with commercial 5G NSA partners.
 
 # References
@@ -122,11 +124,9 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 
 3. GSMA 5G Implementation Guidelines: NSA Option 3 February 2020 - <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf>
 
-4. ETSI White Paper #24 - MEC Deployments in 4G and Evolution Towards 5G, First Edition, February 2018 - <https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.>
+4. Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md>
 
-5. Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md>
-
-6. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md>
+5. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md>
 
 [3GPP_23799]: <https://www.3gpp.org/DynaReport/23799.htm> "3GPP 23.799 Study on Architecture for Next Generation System(Release 14) Annex J: Deployment Scenarios"
 
@@ -134,8 +134,27 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 
 [GSMA_5G_NSA]: <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf> "GSMA 5G Implementation Guidelines: NSA Option 3 February 2020"  
 
-[ETSI_4G_WP]: <https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.> "ETSI White Paper #24 - MEC Deployments in 4G and Evolution Towards 5G, First Edition, February 2018"
-
 [OpenNESS_EPC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
 
 [OpenNESS_NGC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
+
+# List of abbreviations
+
+- 3GPP: Third Generation Partnership Project
+- CUPS: Control and User Plane Separation of EPC Nodes
+- APN: Access Point Name
+- TAC: Tracking Area Code
+- RAN: Radio Access Network
+- UE: User Equipment (in the context of LTE)
+- MME: Mobility Management Entity
+- API: Application Programming Interface
+- ETSI: European Telecommunications Standards Institute
+- HTTP: Hyper Text Transfer Protocol
+- MEC: Multi-Access Edge Computing
+- OpenNESS: Open Network Edge Services Software
+- LTE: Long-Term Evolution
+- OAM: Operations, Administration and Maintenance
+- PDN: Packet Data Network
+- CNCA: Core Network Configuration Agent
+- UI: User Interface
+- URLLC : Ultra-Reliable Low-Latency Communication
