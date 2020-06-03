@@ -59,7 +59,7 @@ end note
 end
 
 group Traffic influence in UPF by AF
-oss -> af :  or traffic influence create action\n can be initiated by external component 
+oss -> af :  Traffic influence create action\n can be initiated by external component 
 af -> nef : Create traffic influence rule and \n Request for notification \n DNAI change \n (as suggested in \n3GPP TS 23.502 Sec. 4.3.6.2)
 nef --> pcf : configured to PCF or UDR \n based on traffic rule info.
 

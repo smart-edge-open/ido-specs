@@ -39,16 +39,16 @@ Copyright © 2019 Intel Corporation
   - [5G Edge Data paths supported by OpenNESS](#5g-edge-data-paths-supported-by-openness)
   - [OpenNESS NGC Validation](#openness-ngc-validation)
 - [5G Core Network functionality for OpenNESS integration](#5g-core-network-functionality-for-openness-integration)
+- [Summary](#summary)
+  - [References](#references)
+  - [List of abbreviations](#list-of-abbreviations)
 - [Appendix](#appendix)
   - [API flows](#api-flows)
-    - [1. AF-NEF interface for traffic influence](#1-af-nef-interface-for-traffic-influence)
+    - [1. AF-NEF interface for Traffic Influence](#1-af-nef-interface-for-traffic-influence)
     - [2. AF-NEF interface for PFD Management](#2-af-nef-interface-for-pfd-management)
     - [3. AF-PCF interface for Policy Authorization](#3-af-pcf-interface-for-policy-authorization)
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
-- [Summary](#summary)
-  - [References](#references)
-  - [List of abbreviations](#list-of-abbreviations)
   
 # Introduction
 
@@ -367,6 +367,71 @@ The following is the minimum functionality required to support the integration o
 
 * Network Exposure Function (NEF), with minimal functionality to support Traffic influence subscription operations through Application Function (AF)
 
+# Summary
+
+This white paper highlights the Edge computing enhancements made in the 3GPP 5G standards along with the key implementation challenges. The document provides a description of the OpenNESS view of integration for Edge controllers with the 5G Core Network as well as the API end points and end to end flows required in edge deployments. The OpenNESS reference implementation was validated with a modified 5G Core in SA mode to support the APIs for edge deployments (per 3GPP 5G Standard) and the 5G UPF with multiple N6 interfaces with the edge node connected towards local DNN interface.
+
+Along with discussing the supported features in OpenNESS for 5G integration also outlined are the areas of interest for future enhancements. 
+
+## References
+
+-	[ETSI_MEC003]ETSI GS MEC 003 V1.1.1, “Mobile Edge Computing (MEC); Framework and Reference Architecture” (2016-03)
+-	[ETSI_2018]ETSI White Paper #24, "MEC Deployments in 4G and Evolution Towards 5G", First Edition, February 2018, https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.
+-	[ETSI_2018a] ETSI White Paper #28, "MEC in 5G Networks", June 2018, https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp28_mec_in_5G_FINAL.pdf.
+-	[3GPP_29244]TS 29.244 Interface between the Control Plane and the User Plane of EPC Nodes.
+-	[3GPP_23501]3GPP TS 23.501 V15.3.0, “3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; System Architecture for the 5G System; Stage 2 (Release 15)”
+- [3GPP_23502]3GPP TS 23.502 v15.3.0, "Procedures for 5G Systems; Stage2 (Release 15)"
+- [3GPP_29122]: 3GPP TS 29.122 V15.3.0, "T8 reference point of Northbound APIs (Release 15)"
+- [3GPP_29512]3GPP TS 29.512 V15.3.0, "5G System; Session Management Policy Control Service; Stage3; (Release 15)"
+- [3GPP_29522]3GPP TS 29.522 V15.3.0, "5G System; Network Exposure Function Northbound APIs; Stage 3; (Release 15)"
+-	[3GPP_CUPS]"Control and User Plane Separation of EPC Nodes (CUPS)", https://www.3gpp.org/cups 
+- [OpenNESS_2019]"OpenNESS Architecture and Solution", white paper, 2019.
+
+## List of abbreviations
+
+- 3GPP: Third Generation Partnership Project
+- 5GC: 5G Core Network
+- CUPS: Control and User Plane Separation of EPC Nodes
+- NEF: Network Exposure Function
+- AF: Application Function
+- AMF: Access and Mobility Management Function
+- CP: Control Plane
+- DN: Data Network
+- DNN: Data Network Name
+- DNAI: DN Access Identifier
+- LADN: Local Area Data Network
+- APN: Access Point Name
+- TAC: Tracking Area Code
+- SUPI: Subscriber Permanent Identifier
+- RAN: Radio Access Network
+- S-NSSAI: Single Network Slice Selection Assistance Information
+- SSC: Session and Service Continuity
+- UL CL: Uplink Classifier
+- UPF: User Plane Function
+- UDM : Unified Data Management
+- NRF: Network Repository Function
+- PFD: Packet Flow Description
+- UE: User Equipment (in the context of LTE)
+- MCC: Mobile Country Code
+- MME: Mobility Management Entity
+- MNC: Mobile Network Code
+- API: Application Programming Interface
+- ETSI: European Telecommunications Standards Institute
+- FQDN: Fully Qualified Domain Name
+- HTTP: Hyper Text Transfer Protocol
+- JSON:	JavaScript Object Notation
+- MEC: Multi-Access Edge Computing
+- OpenNESS: Open Network Edge Services Software
+- LTE: Long-Term Evolution
+- OAM: Operations, Administration and Maintenance
+- PDN: Packet Data Network
+- DNS: Domain Name Service 
+- REST: Representational State Transfer
+- CNCA: Core Network Configuration Agent
+- UI: User Interface
+- CLI: Command Line Interface
+- SCS/AS: Services Capability Server/Application Server
+
 
 # Appendix
 
@@ -374,7 +439,7 @@ The following is the minimum functionality required to support the integration o
 
 The flow diagrams below depict the scenarios for the traffic influence subscription operations from an end user of OpenNESS controller towards 5G core.
 
-### 1. AF-NEF interface for traffic influence
+### 1. AF-NEF interface for Traffic Influence
 
 ##### 1.1 Addition of traffic influencing rules subscription through AF
 ![Traffic influence subscription Addition](ngc-images/AF_traffic_influence_add.png)
@@ -447,67 +512,3 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 
 ![OAuth2 flow between AF and NEF](ngc-images/OAuth2Flow.png)
 
-# Summary
-
-This white paper highlights the Edge computing enhancements made in the 3GPP 5G standards along with the key implementation challenges. The document provides a description of the OpenNESS view of integration for Edge controllers with the 5G Core Network as well as the API end points and end to end flows required in edge deployments. The OpenNESS reference implementation was validated with a modified 5G Core in SA mode to support the APIs for edge deployments (per 3GPP 5G Standard) and the 5G UPF with multiple N6 interfaces with the edge node connected towards local DNN interface.
-
-Along with discussing the supported features in OpenNESS for 5G integration also outlined are the areas of interest for future enhancements. 
-
-## References
-
--	[ETSI_MEC003]ETSI GS MEC 003 V1.1.1, “Mobile Edge Computing (MEC); Framework and Reference Architecture” (2016-03)
--	[ETSI_2018]ETSI White Paper #24, "MEC Deployments in 4G and Evolution Towards 5G", First Edition, February 2018, https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf.
--	[ETSI_2018a] ETSI White Paper #28, "MEC in 5G Networks", June 2018, https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp28_mec_in_5G_FINAL.pdf.
--	[3GPP_29244]TS 29.244 Interface between the Control Plane and the User Plane of EPC Nodes.
--	[3GPP_23501]3GPP TS 23.501 V15.3.0, “3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; System Architecture for the 5G System; Stage 2 (Release 15)”
-- [3GPP_23502]3GPP TS 23.502 v15.3.0, "Procedures for 5G Systems; Stage2 (Release 15)"
-- [3GPP_29122]: 3GPP TS 29.122 V15.3.0, "T8 reference point of Northbound APIs (Release 15)"
-- [3GPP_29512]3GPP TS 29.512 V15.3.0, "5G System; Session Management Policy Control Service; Stage3; (Release 15)"
-- [3GPP_29522]3GPP TS 29.522 V15.3.0, "5G System; Network Exposure Function Northbound APIs; Stage 3; (Release 15)"
--	[3GPP_CUPS]"Control and User Plane Separation of EPC Nodes (CUPS)", https://www.3gpp.org/cups 
-- [OpenNESS_2019]"OpenNESS Architecture and Solution", white paper, 2019.
-
-## List of abbreviations
-
-- 3GPP: Third Generation Partnership Project
-- 5GC: 5G Core Network
-- CUPS: Control and User Plane Separation of EPC Nodes
-- NEF: Network Exposure Function
-- AF: Application Function
-- AMF: Access and Mobility Management Function
-- CP: Control Plane
-- DN: Data Network
-- DNN: Data Network Name
-- DNAI: DN Access Identifier
-- LADN: Local Area Data Network
-- APN: Access Point Name
-- TAC: Tracking Area Code
-- SUPI: Subscriber Permanent Identifier
-- RAN: Radio Access Network
-- S-NSSAI: Single Network Slice Selection Assistance Information
-- SSC: Session and Service Continuity
-- UL CL: Uplink Classifier
-- UPF: User Plane Function
-- UDM : Unified Data Management
-- NRF: Network Repository Function
-- PFD: Packet Flow Description
-- UE: User Equipment (in the context of LTE)
-- MCC: Mobile Country Code
-- MME: Mobility Management Entity
-- MNC: Mobile Network Code
-- API: Application Programming Interface
-- ETSI: European Telecommunications Standards Institute
-- FQDN: Fully Qualified Domain Name
-- HTTP: Hyper Text Transfer Protocol
-- JSON:	JavaScript Object Notation
-- MEC: Multi-Access Edge Computing
-- OpenNESS: Open Network Edge Services Software
-- LTE: Long-Term Evolution
-- OAM: Operations, Administration and Maintenance
-- PDN: Packet Data Network
-- DNS: Domain Name Service 
-- REST: Representational State Transfer
-- CNCA: Core Network Configuration Agent
-- UI: User Interface
-- CLI: Command Line Interface
-- SCS/AS: Services Capability Server/Application Server

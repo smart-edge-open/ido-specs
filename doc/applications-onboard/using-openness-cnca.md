@@ -525,27 +525,27 @@ kubectl cnca policy-authorization apply -f <config.yml>
 
 When the application session context is successfully created, the `apply` command will return the application session context ID (appSessionId). Only this `<appSessionId>` should be used in further correspondence with AF concerning this particular application session context. **It is the responsibility of the user to retain the `<appSessionId>` as `kube-cnca` is a stateless function.**
 
-To retrieve an existing AppSession Session Context with a known transaction ID, use the below command:
+To retrieve an existing AppSession Session Context with a known appSessionId, use the below command:
 ```shell
 kubectl cnca policy-authorization get <appSessionId>
 ```
 
-To modify an active AppSession Session Context, use the `patch` command providing a YAML file with the subset of the configuration to be modified:
+To modify an active Application Session Context, use the `patch` command providing a YAML file with the subset of the configuration to be modified:
 ```shell
 kubectl cnca policy-authorization patch <appSessionId> -f <config.yml>
 ```
 
-To delete an active AppSession Session Context, use the `delete` command as below:
+To delete an active Application Session Context, use the `delete` command as below:
 ```shell
 kubectl cnca policy-authorization delete <appSessionId>
 ```
 
-To add/modify Event Notification of active AppSession Session Context, use the `subscribe` command providing a YAML file with the subset of the configuration to be modified:
+To add/modify Event Notification of active Application Session Context, use the `subscribe` command providing a YAML file with the subset of the configuration to be modified:
 ```shell
 kubectl cnca policy-authorization subscribe <appSessionId> -f <config.yml>
 ```
 
-To unsubscribe from Event Notification of active AppSession Session Context, use the `unsubscribe` command as below:
+To unsubscribe from Event Notification of active Application Session Context, use the `unsubscribe` command as below:
 ```shell
 kubectl cnca policy-authorization unsubscribe <appSessionId>
 ```
