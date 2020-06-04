@@ -3,7 +3,6 @@ Copyright © 2019 Intel Corporation
 
 # Edge Cloud Deployment with 3GPP 5G Stand Alone
 
-
 - [Edge Cloud Deployment with 3GPP 5G Stand Alone](#edge-cloud-deployment-with-3gpp-5g-stand-alone)
 - [Introduction](#introduction)
 - [5G Systems Architecture](#5g-systems-architecture)
@@ -19,9 +18,9 @@ Copyright © 2019 Intel Corporation
       - [AF supported Traffic steering API (South bound)](#af-supported-traffic-steering-api-south-bound)
       - [PFD Management NB APIs](#pfd-management-nb-apis)
       - [AF supported PFD management API (South bound)](#af-supported-pfd-management-api-south-bound)
-      - [NGC notifications](#ngc-notifications)
       - [AF supported Policy Authorization NB APIs](#af-supported-policy-authorization-nb-apis)
       - [AF supported Policy Authorization API (South bound)](#af-supported-policy-authorization-api-south-bound)
+      - [NGC Notifications](#ngc-notifications)
     - [Network Exposure Function](#network-exposure-function)
     - [OAM Interface](#oam-interface)
       - [Edge service registration](#edge-service-registration)
@@ -49,6 +48,7 @@ Copyright © 2019 Intel Corporation
     - [3. AF-PCF interface for Policy Authorization](#3-af-pcf-interface-for-policy-authorization)
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
+    - [6. Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
   
 # Introduction
 
@@ -176,6 +176,8 @@ Other AF functionalities as discussed in 3GPP 5G standard [3GPP_29122], Changing
 
 The OpenNESS AF micro service provides a northbound (NB) REST based API interface for other micro services which provide a user interface (i.e. CNCA/UI or CLI) and also these NB API can be invoked from external services which provides infrastructure for automation and/or orchestration.
 
+AF provides the framework to receive notifications from Core Network and send these to the external services which have subscribed to the events using AF NB APIs as described in - [NGC Notifications](#ngc-notifications)
+
 #### Traffic steering NB APIs
 
 * API End point: _/af/v1/subscriptions_
@@ -200,10 +202,6 @@ The OpenNESS AF micro service provides a northbound (NB) REST based API interfac
 * Supported methods:  POST,PUT,PATCH,GET,DELETE
 * Request/Response body: _5G NEF North Bound APIs schema at openness.org_
 
-#### NGC notifications
-
-As part of the traffic subscription API exchange, SMF generated notifications related to DNAI change can be forwarded to AF through NEF. NEF Reference implementation has place holders to integrate with 5G Core control plane.
-
 #### AF supported Policy Authorization NB APIs
 
 * API End point: _/af/v1/policy-authorization/app-sessions_ 
@@ -215,6 +213,16 @@ As part of the traffic subscription API exchange, SMF generated notifications re
 * API End point: _/npcf-policyauthorization/v1/app-sessions_
 * Supported methods:  POST,PUT,PATCH,GET,DELETE
 * Request/Response body: _5G NEF North Bound APIs schema at openness.org_
+
+#### NGC Notifications
+
+The external services/consumer can subscribe for core network events using AF NB APIs. As per current scope(20.06) only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from Core Network. 
+There are two delivery mechanisms for such notifications:
+
+* The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications as POST REST API
+* The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
+
+For one Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
 
 ### Network Exposure Function
 
@@ -508,7 +516,11 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 ![AF Service Delete](ngc-images/ngcoam_af_service_delete.png)
 
 ### 5. The OAuth2 flow between AF and NEF
- 
 
 ![OAuth2 flow between AF and NEF](ngc-images/OAuth2Flow.png)
+
+### 6. Policy Authorization Notification for UP_PATH_CHANGE
+
+![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Policy_Authorization_Notification.png)
+ 
 
