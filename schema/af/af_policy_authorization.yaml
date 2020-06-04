@@ -501,6 +501,7 @@ paths:
           $ref: '#/components/responses/503'
         default:
           $ref: '#/components/responses/default'
+
 components:
   schemas:
     AppSessionContext:
@@ -576,6 +577,8 @@ components:
           $ref: '#/components/schemas/ServAuthInfo'
         suppFeat:
           $ref: '#/components/schemas/SupportedFeatures'
+        websocketUri:
+          $ref: '#/components/schemas/Link'
     AppSessionContextUpdateData:
       description: Identifies the modifications to an Individual Application Session Context and may include the modifications to the sub-resource Events Subscription.
       type: object
@@ -726,8 +729,6 @@ components:
       description: describes the websocket configuration for AF notifications
       type: object
       properties:
-        websocketUri:
-          $ref: '#/components/schemas/Link'
         requestWebsocketUri:
           type: boolean
           description: Set by the consumer to indicate that the Websocket delivery is requested.
@@ -1291,11 +1292,12 @@ components:
           $ref: '#/components/schemas/Uri'
         notifCorreId:
           type: string
-          description: It is used to set the value of Notification Correlation ID in the notification sent by the SMF.
+          description: It is used to set the value of Notification Correlation ID in the notification sent by the SMF and should be a unique identification of notification
         dnaiChgType:
           $ref: '#/components/schemas/DnaiChangeType'
       required:
         - dnaiChgType
+        - notifCorreId
       nullable: true
     BdtReferenceId:
       type: string
