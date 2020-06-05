@@ -34,22 +34,23 @@ The following figure shows a 5G gNodeB connected to the 4G EPC at the data plane
 
 ![5g-nsa](5g-nsa-images/5g-nsa.png "5G-NSA")
 
+Image Credit: [Samsung](<https://images.samsung.com/is/content/samsung/p5/global/business/networks/insights/white-paper/4g-5g-interworking/global-networks-insight-4g-5g-interworking-0.pdf>)
+
 A basic setup for such a scheme is:
 
 1. The UE attaches to the LTE network. The UE signals to the network that it can simultaneously connect to the 4G and 5G networks.
-2. The Core Network checks if the UE is authorized to connect to 4G and 5G networks. The 4G eNodeB is notified that the UE is permitted to connect to the 5G network.
+2. The Core Network checks if the UE is authorized to connect to 4G and 5G networks. The 4G eNodeB is notified by the EPC(Core Network) that the UE is permitted to connect to the 5G network.
 3. The eNodeB then takes a decision to activate a bearer on the 5G gNodeB.
 4. The 4G eNodeB and 5G gNodeB communicate to set up the bearer on the 5G gNodeB.
 5. The UE is notified about the 5G bearer via the RRC Connection Reconfiguration message.
 6. The UE then connects to the 5G network while maintaining the connectivity to the 4G network.
 
-The 5G NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here.
+The 5G NSA EPC networking architecture includes Option 3, Option 3a, and Option 3x as described here. Ref [3GPP 23.799][3GPP_23799] & [GSMA_5G_NSA][GSMA_5G_NSA]
 
 ## Option-3
+In the option 3, all uplink/downlink data flows to and from the LTE part of the LTE/NR base station, i.e. to and from the eNB. The eNB then decides which part of the data it wants to forward to the 5G gNB part of the base station over the Xx interface. In simple terms, the 5G gNB never communicates with the 4G core network directly.
 
-In the plain option 3, all uplink/downlink data flows to and from the LTE part of the LTE/NR base station, i.e. to and from the eNB. The eNB then decides which part of the data it wants to forward to the 5G gNB part of the base station over the Xx interface. In simple terms, the 5G gNB never communicates with the 4G core network directly.
-
-In this option, the X2 interface traffic between eNB and gNB has control plane traffic and  user plane traffic. This traffic is huge.
+In this option, the X2 interface traffic between eNB and gNB has control plane traffic and user plane traffic. The traffic on the X2 interface is huge due to the control plane and user plane traffic.
 
 ![Option-3](5g-nsa-images/option-3.png)
 
@@ -73,11 +74,11 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 # Edge Deployments with 5G NSA
 
-The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this the industry main stream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLLC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC. 
+The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this being the industry mainstream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLLC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC.
 
-Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios: 
+Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios:
 
-## UE is in both 4G & 5G Coverage 
+## UE is in both 4G & 5G Coverage
 
 ![Option-3x-DC](5g-nsa-images/option-3x-5g-coverage.png)
 
@@ -99,13 +100,15 @@ The MEC solution is dependent on the Core Network deployed. MEC can be supported
 
 For MEC with EPC there are generally two approaches: SGi-based and S1-based.
 
- The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstrated with OpenNESS, as described in [OpenNESS_epc] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below:
+ The SGi-based approach for MEC can be addressed through a distributed anchor point approach. The distributed anchor point approach  has been demonstrated with OpenNESS, as described in [OpenNESS_EPC] Deployment model 3. The OpenNESS EPC deployment can work seamlessly with the 5G NSA as long as the traffic intercept point is the SGi Interface. A deployment model of OpenNESS with 5G NSA is shown below:
 
 ![OpenNESS-NSA-DEpc](5g-nsa-images/openness-nsa-depc.png)
 
-NOTE: In the above picture, the GW-U components (SGW-U and PGW-U) are not part of OpenNESS solution.
+NOTE:
+1. In the above picture, the GW-U components (SGW-U and PGW-U) are not part of OpenNESS solution.
+2. There is no standard defined by 3GPP for the deployment of edge with 5G NSA. The solution provided by OpenNESS is just a reference
 
-The API's exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be used to set the appropriate configuration rules in the LTE Access Network through the OAM agent. These configurations can be grouped into three categories:
+The [4G CUPS Management API] exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be used to set the appropriate configuration rules in the LTE Access Network through the OAM agent. These configurations can be grouped into three categories:
 
 - Config: Configure Sxx related IP address of user plane. Since the EPC control plane can also learn these parameters through other means, whether these parameters are required is vendor-dependent.
 
@@ -115,7 +118,7 @@ The API's exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be
 
 Further information on the OpenNESS implementation can be found in [OpenNESS_EPC]
 
-The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink. S1-based approach is currently not in the scope of OpenNESS functionality
+The S1-based approach for MEC can be addressed as “bump-in-the-wire” implementation whereby all uplink traffic on S1 is intercepted and inspected, some traffic is diverted towards the MEC platform, while the rest of it is re-injected on S1 in the uplink.
 
 # Summary
 
@@ -133,15 +136,19 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 
 5. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md>
 
+6. 4G Control and User Plane Separation (CUPS) Management API - <https://github.com/otcshare/specs/tree/master/schema/cups>
+
 [3GPP_23799]: <https://www.3gpp.org/DynaReport/23799.htm> "3GPP 23.799 Study on Architecture for Next Generation System(Release 14) Annex J: Deployment Scenarios"
 
 [ETSI_MEC]: <https://www.etsi.org/deliver/etsi_gs/MEC/001_099/003/02.01.01_60/gs_mec003v020101p.pdf> "ETSI GS MEC 003 V2.1.1, “Mobile Edge Computing (MEC); Framework and Reference Architecture (2019-01)"
 
-[GSMA_5G_NSA]: <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf> "GSMA 5G Implementation Guidelines: NSA Option 3 February 2020"  
+[GSMA_5G_NSA]: <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf> "GSMA 5G Implementation Guidelines: NSA Option 3 February 2020"
 
 [OpenNESS_EPC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
 
 [OpenNESS_NGC]: <https://github.com/otcshare/specs/blob/master/doc/core-network/openness_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
+
+[4G CUPS Management API]: <https://github.com/otcshare/specs/tree/master/schema/cups> "4G Control and User Plane Separation (CUPS) Management API"
 
 # List of abbreviations
 
@@ -163,3 +170,5 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 - CNCA: Core Network Configuration Agent
 - UI: User Interface
 - URLLC : Ultra-Reliable Low-Latency Communication
+- MCG : Master Cell Group
+- SCG : Secondary Cell Group
