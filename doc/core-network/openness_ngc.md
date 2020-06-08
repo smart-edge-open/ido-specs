@@ -20,7 +20,7 @@ Copyright © 2019 Intel Corporation
       - [AF supported PFD management API (South bound)](#af-supported-pfd-management-api-south-bound)
       - [AF supported Policy Authorization NB APIs](#af-supported-policy-authorization-nb-apis)
       - [AF supported Policy Authorization API (South bound)](#af-supported-policy-authorization-api-south-bound)
-      - [NGC Notifications](#ngc-notifications)
+      - [5GC Notifications](#5gc-notifications)
     - [Network Exposure Function](#network-exposure-function)
     - [OAM Interface](#oam-interface)
       - [Edge service registration](#edge-service-registration)
@@ -176,7 +176,7 @@ Other AF functionalities as discussed in 3GPP 5G standard [3GPP_29122], Changing
 
 The OpenNESS AF micro service provides a northbound (NB) REST based API interface for other micro services which provide a user interface (i.e. CNCA/UI or CLI) and also these NB API can be invoked from external services which provides infrastructure for automation and/or orchestration.
 
-AF provides the framework to receive notifications from Core Network and send these to the external services which have subscribed to the events using AF NB APIs as described in - [NGC Notifications](#ngc-notifications)
+AF provides the framework to receive notifications from 5GC and send these to the external services which have subscribed to the events using AF NB APIs as described in - [5GC Notifications](#5gc-notifications)
 
 #### Traffic steering NB APIs
 
@@ -214,12 +214,12 @@ AF provides the framework to receive notifications from Core Network and send th
 * Supported methods:  POST,PUT,PATCH,GET,DELETE
 * Request/Response body: _5G NEF North Bound APIs schema at openness.org_
 
-#### NGC Notifications
+#### 5GC Notifications
 
-The external services/consumer can subscribe for core network events using AF NB APIs. As per current scope(20.06) only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from Core Network. 
+The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from 5GC.
 There are two delivery mechanisms for such notifications:
 
-* The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications as POST REST API
+* The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications to the notification URI through POST request
 * The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
 
 For one Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
@@ -286,14 +286,14 @@ The AF and NEF micro-services supports the OAuth2 with grant type as "client_cre
 
 
 ### Policy Authorization
-| Policy Authorization API                                                              | Method | Functionality                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| {apiRoot}/af/v1/policy-authorization/app-sessions                                     | POST   | [Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | PATCH  | [Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)                                           |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | GET    | [Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)                                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}/delete               | POST   | [Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)                                       |
-| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | PUT    | [Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)     |
-| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | DELETE | [Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af) |
+| Policy Authorization API                                                              | Method | Functionality                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| {apiRoot}/af/v1/policy-authorization/app-sessions                                     | POST   | [Addition of Policy Authorization Individual Application Session Context through AF](#31-addition-of-policy-authorization-individual-application-session-context-through-af)<br><br>[Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change) |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | PATCH  | [Update of Policy Authorization Individual Application Session Context through AF](#32-update-of-policy-authorization-individual-application-session-context-through-af)<br><br>[Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)     |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}                      | GET    | [Get Policy Authorization Individual Application Session Context through AF](#33-get-policy-authorization-individual-application-session-context-through-af)                                                                                                                                        |
+| {apiRoot}/af/v1/policy-authorization/app-sessions/{appSessionID}/delete               | POST   | [Deletion of Policy Authorization Individual Application Session Context through AF](#34-deletion-of-policy-authorization-individual-application-session-context-through-af)                                                                                                                        |
+| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | PUT    | [Update of Policy Authorization Individual Application Session Context Event Subscription through AF](#35-update-of-policy-authorization-individual-application-session-context-event-subscription-through-af)                                                                                      |
+| {apiRoot}/af/v1/policy-authorization/app-sessions//{appSessionID}/events-subscription | DELETE | [Deletion of Policy Authorization Individual Application Session Context Event Subscription through AF](#36-deletion-of-policy-authorization-individual-application-session-context-event-subscription-through-af)                                                                                  |
 
  
 ### OAM 

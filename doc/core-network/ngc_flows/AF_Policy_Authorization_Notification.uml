@@ -12,7 +12,7 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title Policy Authorization Notification(UP_PATH_CHANGE) flow between Openness and 5G core
+title Policy Authorization Notification(UP_PATH_CHANGE) flow between OpenNESS and 5G core
 
 
 actor "Consumer" as user
@@ -57,5 +57,24 @@ group Policy Authorization - Notification(UP_PATH_CHANGE) flow
     AF --> user: Afnotification (UP_PATH_CHANGE)\n as HTTP POST
     user --> AF: Success 2xx
     end
+
+    user -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
+    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
+
+    5GC --> AF : 200 OK or 204 No Content : app-session information \ ERROR 
+    AF --> user : 200 OK or 204 No Content : app-session information\ ERROR 
+    
+    5GC -> AF: /af/v1/policy-authorization/smfnotify POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
+    AF -> 5GC: 204 No Content
+    group Variant Websocket
+    AF --> user: Afnotification (UP_PATH_CHANGE)\n
+    end
+
+    group Variant HTTP(s)
+    AF --> user: Afnotification (UP_PATH_CHANGE)\n as HTTP POST
+    user --> AF: Success 2xx
+    end
+
+
 end
 @enduml
