@@ -24,6 +24,8 @@ Copyright (c) 2019-2020 Intel Corporation
         - [Sample YAML NGC AF subscription configuration](#sample-yaml-ngc-af-subscription-configuration)
       - [Packet Flow Description operations with 5G Core (through AF interface)](#packet-flow-description-operations-with-5g-core-through-af-interface)
         - [Sample YAML NGC AF PFD transaction configuration](#sample-yaml-ngc-af-pfd-transaction-configuration)
+      - [Policy Authorization operations with 5G Core (through AF interface)](#policy-authorization-operations-with-5g-core-through-af-interface)
+        - [Sample YAML NGC AF Policy Authorization configuration](#sample-yaml-ngc-af-policy-authorization-configuration)
   - [On-Premises mode](#on-premises-mode)
     - [Bringing up NGC components in On-Premises mode](#bringing-up-ngc-components-in-on-premises-mode)
     - [Configuring in On-Premises mode](#configuring-in-on-premises-mode-1)
@@ -43,6 +45,7 @@ Copyright (c) 2019-2020 Intel Corporation
     - [UPF Event Notifications (Optional)](#upf-event-notifications-optional)
     - [AF to NEF specific (Optional)](#af-to-nef-specific-optional)
   - [Packet Flow Description transaction description](#packet-flow-description-transaction-description)
+  - [Policy Authorization Application Session Context description](#policy-authorization-application-session-context-description)
 
 # 4G/LTE Core Configuration using CNCA
 
@@ -505,6 +508,172 @@ policy:
         - "www.latest_example.com"
 ```
 
+#### Policy Authorization operations with 5G Core (through AF interface)
+
+Supported operations through `kube-cnca` plugin:
+
+  * Creation of Policy Authorization - Application session context through the AF micro service.
+  * Deletion of application session context
+  * Updating (patching) application session context.
+  * Get application session context.
+  * Update or delete Event Notification within a application session context.
+
+Creation of the Policy Authorization Application session context is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in the [Sample YAML NGC AF transaction configuration](#sample-yaml-ngc-af-policy-authorization-configuration) section. Use the `apply` command as below to post a application session context creation request onto AF:
+```shell
+kubectl cnca policy-authorization apply -f <config.yml>
+```
+
+When the application session context is successfully created, the `apply` command will return the application session context ID (appSessionId). Only this `<appSessionId>` should be used in further correspondence with AF concerning this particular application session context. **It is the responsibility of the user to retain the `<appSessionId>` as `kube-cnca` is a stateless function.**
+
+To retrieve an existing AppSession Session Context with a known appSessionId, use the below command:
+```shell
+kubectl cnca policy-authorization get <appSessionId>
+```
+
+To modify an active Application Session Context, use the `patch` command providing a YAML file with the subset of the configuration to be modified:
+```shell
+kubectl cnca policy-authorization patch <appSessionId> -f <config.yml>
+```
+
+To delete an active Application Session Context, use the `delete` command as below:
+```shell
+kubectl cnca policy-authorization delete <appSessionId>
+```
+
+To add/modify Event Notification of active Application Session Context, use the `subscribe` command providing a YAML file with the subset of the configuration to be modified:
+```shell
+kubectl cnca policy-authorization subscribe <appSessionId> -f <config.yml>
+```
+
+To unsubscribe from Event Notification of active Application Session Context, use the `unsubscribe` command as below:
+```shell
+kubectl cnca policy-authorization unsubscribe <appSessionId>
+```
+
+##### Sample YAML NGC AF Policy Authorization configuration
+
+The `kube-cnca policy-authorixation apply` expects the YAML configuration as in the format below. The file must contain the topmost configurations; `apiVersion`, `kind` and `policy`. The configuration `policy` retains the NGC AF-specific transaction information.
+
+```yaml
+apiVersion: v1
+kind: ngc_policy_authorization
+policy:
+  afAppId: PolicyAuthAppId01
+  afRoutReq:
+    appReloc: true
+    routeToLocs:
+    - dnai: DNAI_RTL1
+      routeProfId: RouteInfo_ProfId01
+      routeInfo:
+        ipv4Addr: 196.168.0.1
+        ipv6Addr: 2001:db8:a0b:12f0::1
+        portNumber: 12345
+    spVal:
+      presenceInfoList:
+      - praId: PraId_01
+        presenceState: PRESENT
+        trackingAreaList:
+        - plmnId:
+            mcc: '010'
+            mnc: '101'
+          tac: tac02
+        ecgiList:
+        - plmnId:
+            mcc: '010'
+            mnc: '101'
+          eutraCellId: EutraCellId01
+        ncgiList:
+        - plmnId:
+            mcc: '010'
+            mnc: '101'
+          nrCellId: NrCellId01
+        globalRanNodeIdList:
+        - plmnId:
+            mcc: '010'
+            mnc: '101'
+          n3IwfId: N3IwfId01
+          gNbId:
+            bitLength: 32
+            gNBValue: GNB01
+          ngeNbId: NgeNbId
+    tempVals:
+    - startTime: '10:30'
+      stopTime: '11:30'
+    - startTime: '12:30'
+      stopTime: '13:30'
+    upPathChgSub:
+      notificationUri: http://example.com/notif
+      notifCorreId: '1234'
+      dnaiChgType: EARLY
+  evSubsc:
+    events:
+    - event: PLMN_CHG
+      notifMethod: EVENT_DETECTION
+    notifUri: www.example.com
+    usgThres:
+      duration: 100
+      totalVolume: 1000
+      downlinkVolume: 500
+      uplinkVolume: 200
+  medComponents:
+    - afAppId: MC_AppId01
+      afRoutReq:
+        appReloc: true
+        routeToLocs:
+        - dnai: EARLY
+          routeProfId: RouteInfo_ProfId02
+          routeInfo:
+            ipv4Addr: 196.168.0.1
+            ipv6Addr: 2001:db8:a0b:12f0::1
+            portNumber: 12345
+        spVal:
+         presenceInfoList:
+         - praId: PraId_01
+           presenceState: PRESENT
+           trackingAreaList:
+           - plmnId:
+               mcc: '010'
+               mnc: '101'
+             tac: tac01
+           ecgiList:
+           - plmnId:
+               mcc: '010'
+               mnc: '101'
+             eutraCellId: EutraCellId01
+           ncgiList:
+           - plmnId:
+               mcc: '010'
+               mnc: '101'
+             nrCellId: NrCellId02
+           globalRanNodeIdList:
+           - plmnId:
+               mcc: '010'
+               mnc: '101'
+             n3IwfId: N3IwfId01
+             gNbId:
+               bitLength: 32
+               gNBValue: GNB01
+             ngeNbId: NgeNbId
+        tempVals:
+        - startTime: '13:30'
+          stopTime: '14:30'
+        - startTime: '15:30'
+          stopTime: '16:30'
+        upPathChgSub:
+         notificationUri: http://example.com/notif_mc
+         notifCorreId: '4321'
+         dnaiChgType: EARLY
+      contVer: 123
+      medCompN: 1
+  dnn: PolicyAuthDnn01
+  ipDomain: PolicyAuthIPDomain
+  notifUri: http://afservice:9050/policyAuthorizationNotif
+  sliceInfo:
+    sst: 100
+    sd: PolicyAuthSd_01
+  suppFeat: 1
+  ueIpv4: 127.0.0.1
+  ```
 
 ## On-Premises mode
 
@@ -698,3 +867,21 @@ This sections describes the parameters that are used in the Packet flow descript
 
   **NOTE:**
   One of the attribute of flowDescriptions, URls and domainName is mandatory.
+
+## Policy Authorization Application Session Context description
+This sections describes the parameters that are used in the AppSessionContextReqData part of Policy Authorization POST request. Groups mentioned as Mandatory needs to be provided, in the absence of the Mandatory parameters a 400 response would be returned.
+| Attribute name | Mandatory   | Description                                                                                                                                                                                                                |
+| -------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| suppFeat       | Yes         | This provides a list of Supported features used as described Individual Application Session Context resource. Supported features are: (a)InfluenceOnTrafficRouting (b) SponsoredConnectivity (c) MediaComponentVersioning. |
+| notifUri       | Yes         | Notification URI for Application Session Context termination requests.                                                                                                                                                     |
+| afRoutReq      | Conditional | Indicates the AF traffic routing requirements. It shall be included if Influence on Traffic Routing feature is supported. Applicable when `suppFeat` indicates InfluenceOnTrafficRouting                                   |
+| dnn            | Conditional | Data Network Name. Applicable when `suppFeat` indicates InfluenceOnTrafficRouting and `afRoutReq` is present                                                                                                               |
+| aspId          | Conditional | Application service provider identity. It shall be included if "SponsoredConnectivity" feature is supported                                                                                                                |
+| sponId         | Conditional | Sponsor identity. It shall be included if "SponsoredConnectivity" feature is supported.                                                                                                                                    |
+| sponStatus     | Optional    | Indication of whether sponsored connectivity is enabled or disabled/not enabled                                                                                                                                            |
+| contVer        | Conditional | Represents the content version of a media component.                                                                                                                                                                       |
+| ueIpv4         | Optional    | The IPv4 address of the served UE.                                                                                                                                                                                         |
+| ueIpv6         | Optional    | The IPv6 address of the served UE.                                                                                                                                                                                         |
+| ueMac          | Optional    | The MAC address of the served UE.                                                                                                                                                                                          |
+**NOTE:**
+  Only one of the attribute of ueIpv4, ueIpv6 and ueMAC is mandatory.

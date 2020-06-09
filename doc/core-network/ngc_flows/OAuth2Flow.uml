@@ -12,14 +12,14 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title PFD flow between Openness and 5G core
+title OAuth2 flow between Openness AF and NEF
 
-
-actor "User/Admin" as user
+actor Admin as user
 participant "UI/CLI" as UI 
 participant "Af Microservice" as AF 
 participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
+participant "OAuth2" as OAUTH2
 
 box "OpenNESS Controller Components" #LightBlue
 	participant UI
@@ -27,24 +27,30 @@ box "OpenNESS Controller Components" #LightBlue
 end box
 
 box "5G Core Components" #LightGreen
+    participant OAUTH2
 	participant NEF
+    participant 5GC
     note over NEF 
         OpenNESS provided 
         Core component with 
         limited functionality
     end note    
-    participant 5GC
 end box
 
-group PFD transaction creation flow
-    user -> UI : PFD transaction create
-    UI -> AF : /af/v1/pfd/transaction POST
-    AF -> NEF : /3gpp-pfd-management/v1/{scsAsId}/transactions/ POST
-    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
-    5GC --> NEF :
-
-    NEF --> AF : OK: transactionId \ ERROR 
-    AF --> UI : OK: transactionId \ ERROR 
-    UI --> user : Success: transactionId
+AF -> OAUTH2 : GetAccessToken
+OAUTH2 -> AF : Token
+group Success Case 
+    AF -> NEF : POST (Authorization: Bearer <token>)
+    NEF -> OAUTH2 : ValidateAccessToken
+    OAUTH2 -> NEF : Success
+    NEF -> AF : 200 OK
 end
+
+group Failure case
+    AF -> NEF : POST (Authorization: Bearer <token>)
+    NEF -> OAUTH2 : ValidateAccessToken
+    OAUTH2 -> NEF : Failure
+    NEF -> AF : 401 Unauthorized \nWWW-Authenticate: Bearer <POST API>
+end
+
 @enduml

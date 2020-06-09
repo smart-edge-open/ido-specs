@@ -35,7 +35,7 @@ group Update a subscribed traffic influence by subscriptionId
     activate af
     af -> nef : /3gpp-traffic-Influence/v1/{afId}/subscriptions/{subscriptionId} : PUT
     activate nef
-    nef -> nef : NGC_STUB(PCF,UDR,BSF)
+    
     nef -> ngccp : {Open: 3rd party NGC integration with OpenNESS(NEF)}
     ngccp --> nef :
     nef --> af : OK : Update success, traffic influence info \n ERROR: {400/500}

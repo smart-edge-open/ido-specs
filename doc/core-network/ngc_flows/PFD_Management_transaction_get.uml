@@ -40,33 +40,36 @@ group Get all transactions with PFD
     user -> UI : Request all PFD transactions 
     UI -> AF : af/v1/pfd/transaction GET
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/ GET
-    NEF -> NEF : NGC_STUB (UDR SMF)
-
-    NEF -> AF : OK: PFD information \ ERROR 
-    AF -> UI : OK: PFD information \ ERROR 
-    UI -> user : PFD details
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
+    
+    NEF --> AF : OK: PFD information \ ERROR 
+    AF --> UI : OK: PFD information \ ERROR 
+    UI --> user : PFD details
 end
 
 group Get transactions with transactionId
     user -> UI : Request transaction with transactionId
     UI -> AF : af/v1/pfd/transactions/{transactionId} GET
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId} GET
-    NEF -> NEF : NGC_STUB (UDR SMF)
-
-    NEF -> AF : OK: PFD information \ ERROR 
-    AF -> UI : OK: PFD information \ ERROR 
-    UI -> user : PFD details
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
+    
+    NEF --> AF : OK: PFD information \ ERROR 
+    AF --> UI : OK: PFD information \ ERROR 
+    UI --> user : PFD details
 end
 
 group Get transactions with applicationId
     user -> UI : Request transactions with applicationId
     UI -> AF : af/v1/pfd/transactions/{transactionId}/applications/{appId} GET
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId}/applications/{appId} GET
-    NEF -> NEF : NGC_STUB (UDR SMF)
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
 
-    NEF -> AF : OK: PFD information \ ERROR 
-    AF -> UI : OK: PFD information \ ERROR 
-    UI -> user : PFD details
+    NEF --> AF : OK: PFD information \ ERROR 
+    AF --> UI : OK: PFD information \ ERROR 
+    UI --> user : PFD details
 end
 
 @enduml

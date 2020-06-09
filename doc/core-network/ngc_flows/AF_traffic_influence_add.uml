@@ -35,7 +35,7 @@ group Traffic influence submission flow
     activate af
     af -> nef : /3gpp-traffic-Influence/v1/{afId}/subscriptions : POST \n {3GPP TS 29.522v15.3 \n Sec. 5.4} 
     activate nef
-    nef -> nef : NGC_STUB(PCF,UDR,BSF)
+    
     nef -> ngccp : {Open: 3rd party NGC integration with OpenNESS(NEF)}
     ngccp --> nef :
     nef --> af : OK: {subscriptionId} \n ERROR: {400/500}

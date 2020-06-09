@@ -12,39 +12,37 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title PFD flow between Openness and 5G core
+title Policy Authorization flow between Openness and 5G core
 
 
 actor "User/Admin" as user
-participant "UI/CLI" as UI 
+participant "CLI" as CLI 
 participant "Af Microservice" as AF 
 participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
 
 box "OpenNESS Controller Components" #LightBlue
-	participant UI
+	participant CLI
     participant AF
 end box
 
 box "5G Core Components" #LightGreen
 	participant NEF
+    participant 5GC
     note over NEF 
         OpenNESS provided 
         Core component with 
         limited functionality
     end note    
-    participant 5GC
 end box
 
-group PFD transaction creation flow
-    user -> UI : PFD transaction create
-    UI -> AF : /af/v1/pfd/transaction POST
-    AF -> NEF : /3gpp-pfd-management/v1/{scsAsId}/transactions/ POST
-    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
-    5GC --> NEF :
+group Policy Authorization - Application Session Context PATCH flow
+    user -> CLI : Update app session context with app-sessionId
+    CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
+    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
 
-    NEF --> AF : OK: transactionId \ ERROR 
-    AF --> UI : OK: transactionId \ ERROR 
-    UI --> user : Success: transactionId
+    5GC --> AF : 200 OK or 204 No Content : app-session information \ ERROR 
+    AF --> CLI : 200 OK or 204 No Content : app-session information\ ERROR 
+    CLI --> user : Success: app-sessionId information
 end
 @enduml

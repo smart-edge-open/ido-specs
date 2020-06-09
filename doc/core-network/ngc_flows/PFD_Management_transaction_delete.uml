@@ -39,22 +39,23 @@ group Detete PFD transaction with transactionId
     user -> UI : Detete request by transactionId
     UI -> AF : af/v1/pfd/transactions/{transactionId} DELETE
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId} DELETE
-    NEF -> NEF : NGC_STUB (UDR SMF)
-
-    NEF -> AF : OK \ ERROR 
-    AF -> UI : OK: \ ERROR 
-    UI -> user : Success \ ERROR
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
+    NEF --> AF : OK \ ERROR 
+    AF --> UI : OK: \ ERROR 
+    UI --> user : Success \ ERROR
 end
 
 group Detete applicationId in PFD transaction
     user -> UI : Detete request by applicationId
     UI -> AF : af/v1/pfd/transactions/{transactionId}/{transactionId}/applications/{appId} DELETE
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId}/{transactionId}/applications/{appId} DELETE
-    NEF -> NEF : NGC_STUB (UDR SMF)
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
 
-    NEF -> AF : OK \ ERROR 
-    AF -> UI : OK: \ ERROR 
-    UI -> user : Success \ ERROR
+    NEF --> AF : OK \ ERROR 
+    AF --> UI : OK: \ ERROR 
+    UI --> user : Success \ ERROR
 end
 
 @enduml

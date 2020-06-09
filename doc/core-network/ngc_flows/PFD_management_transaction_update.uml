@@ -40,21 +40,23 @@ group Update PFD transaction with transactionId
     user -> UI : Update request by transactionId
     UI -> AF : af/v1/pfd/transactions/{transactionId} PUT
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId} PUT
-    NEF -> NEF : NGC_STUB (UDR SMF)
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
 
-    NEF -> AF : OK: Updated PFD information \ ERROR 
-    AF -> UI : OK: Updated PFD information \ ERROR 
-    UI -> user : Updated PFD details \ ERROR
+    NEF --> AF : OK: Updated PFD information \ ERROR 
+    AF --> UI : OK: Updated PFD information \ ERROR 
+    UI --> user : Updated PFD details \ ERROR
 end
 
 group Update applicationId PFD in a transaction
     user -> UI : Update request with applicationId
     UI -> AF : af/v1/pfd/transactions/{transactionId}/applications/{appId} PUT
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId}/applications/{appId} PUT
-    NEF -> NEF : NGC_STUB (UDR SMF)
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    5GC --> NEF :
 
-    NEF -> AF : OK: Updated PFD information \ ERROR 
-    AF -> UI : OK: Updated PFD information \ ERROR 
-    UI -> user : PFD details updated \ERROR
+    NEF --> AF : OK: Updated PFD information \ ERROR 
+    AF --> UI : OK: Updated PFD information \ ERROR 
+    UI --> user : PFD details updated \ERROR
 end
 @enduml

@@ -35,7 +35,7 @@ group AF services deregistration with 5G Core
     activate cnca
     cnca -> oam : /ngcoam/v1/af/services/{afServiceId}: DELETE
     activate oam
-    oam -> oam : NGC_OAM_STUB()
+    
     oam -> ngccp : {Open: 3rd Party NGC integration with OpenNESS(oam)} 
     ngccp --> oam : 
     oam --> cnca : OK \n ERROR: {400/500}
