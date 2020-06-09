@@ -905,6 +905,9 @@
           },
           "suppFeat": {
             "$ref": "#/components/schemas/SupportedFeatures"
+          },
+          "websocketUri": {
+            "$ref": "#/components/schemas/Link"
           }
         }
       },
@@ -1124,9 +1127,6 @@
         "description": "describes the websocket configuration for AF notifications",
         "type": "object",
         "properties": {
-          "websocketUri": {
-            "$ref": "#/components/schemas/Link"
-          },
           "requestWebsocketUri": {
             "type": "boolean",
             "description": "Set by the consumer to indicate that the Websocket delivery is requested."
@@ -1943,14 +1943,15 @@
           },
           "notifCorreId": {
             "type": "string",
-            "description": "It is used to set the value of Notification Correlation ID in the notification sent by the SMF."
+            "description": "It is used to set the value of Notification Correlation ID in the notification sent by the SMF and should be a unique identification of notification"
           },
           "dnaiChgType": {
             "$ref": "#/components/schemas/DnaiChangeType"
           }
         },
         "required": [
-          "dnaiChgType"
+          "dnaiChgType",
+          "notifCorreId"
         ],
         "nullable": true
       },
