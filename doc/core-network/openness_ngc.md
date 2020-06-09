@@ -176,7 +176,7 @@ Other AF functionalities as discussed in 3GPP 5G standard [3GPP_29122], Changing
 
 The OpenNESS AF micro service provides a northbound (NB) REST based API interface for other micro services which provide a user interface (i.e. CNCA/UI or CLI) and also these NB API can be invoked from external services which provides infrastructure for automation and/or orchestration.
 
-AF provides the framework to receive notifications from 5GC and send these to the external services which have subscribed to the events using AF NB APIs as described in - [5GC Notifications](#5gc-notifications)
+AF provides a framework to receive notifications from 5GC and send these to the external services which have subscribed to the events using AF NB APIs as described in - [5GC Notifications](#5gc-notifications)
 
 #### Traffic steering NB APIs
 
@@ -222,7 +222,7 @@ There are two delivery mechanisms for such notifications:
 * The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications to the notification URI through POST request
 * The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
 
-For one Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+For a given Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
 
 ### Network Exposure Function
 
