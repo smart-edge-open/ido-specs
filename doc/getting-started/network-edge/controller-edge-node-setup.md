@@ -14,11 +14,10 @@ Copyright (c) 2019-2020 Intel Corporation
     - [Quickstart](#quickstart)
     - [Application on-boarding](#application-on-boarding)
     - [Single-node Network Edge cluster](#single-node-network-edge-cluster)
-  - [Docker registry](#Docker-registry)
-    - [Deploy Docker Registry](#Deploy-Docker-Registry)
-    - [Docker registry image push](#Docker-registry-image-push)
-    - [Docker registry image pull](#Docker-registry-image-pull)
-
+  - [Docker Registry](#docker-registry)
+    - [Deploy Docker Registry](#deploy-docker-registry)
+    - [Docker registry image push](#docker-registry-image-push)
+    - [Docker registry image pull](#docker-registry-image-pull)
   - [Kubernetes cluster networking plugins (Network Edge)](#kubernetes-cluster-networking-plugins-network-edge)
     - [Selecting cluster networking plugins (CNI)](#selecting-cluster-networking-plugins-cni)
     - [Adding additional interfaces to pods](#adding-additional-interfaces-to-pods)
@@ -56,9 +55,9 @@ For convenience, playbooks can be executed by running helper deployment scripts.
 
 > NOTE: All nodes provided in the inventory may reboot during the installation.
 
-Convention for the scripts is: `action_mode.sh [group]`. Following scripts are available for Network Edge mode:
-  - `deploy_ne.sh [ controller | nodes ]`
-  - `cleanup_ne.sh [ controller | nodes ] `
+Convention for the scripts is: `action_mode.sh [-f flavor] [group]`. Following scripts are available for Network Edge mode:
+  - `deploy_ne.sh [-f flavor] [ controller | nodes ]`
+  - `cleanup_ne.sh [-f flavor] [ controller | nodes ] `
 
 To run deploy of only Edge Nodes or Edge Controller use `deploy_ne.sh nodes` and `deploy_ne.sh controller` respectively.
 
@@ -69,7 +68,7 @@ To run deploy of only Edge Nodes or Edge Controller use `deploy_ne.sh nodes` and
 ## Network Edge Playbooks
 
 The `network_edge.yml` and `network_edge_cleanup.yml` files contain playbooks for Network Edge mode.
-Playbooks can be customized by enabling and configuring features in `group_var/all/10-default.yml` file.
+Playbooks can be customized by enabling and configuring features in `group_var/all/10-open.yml` file.
 
 ### Cleanup playbooks
 
@@ -123,17 +122,18 @@ In order to deploy Network Edge in single-node cluster scenario follow the steps
 
    [edgenode_vca_group]
    ```
-2. Features can be enabled in `group_vars/all/10-default.yml` file by tweaking the configuration variables.
-3. Settings regarding the kernel, grub, hugepages & tuned can be customized in `group_vars/edgenode_group/10-default.yml`.
+2. Features can be enabled in `group_vars/all/10-open.yml` file by tweaking the configuration variables.
+3. Settings regarding the kernel, grub, hugepages & tuned can be customized in `group_vars/edgenode_group/10-open.yml`.
    > Default settings in single-node cluster mode are those of the Edge Node, i.e. kernel & tuned customization enabled.
 4. Single-node cluster can be deployed by running command: `./deploy_ne.sh single`
-## Docker Registry 
+
+## Docker Registry
 
 Docker registry is a storage and distribution system for Docker Images. On OpenNESS environment, Docker registry service deployed as a pod on Master Node. Docker Registry authentication enabled with self-signed certificates and all worker and master node will have access to docker registry.
 
-## Deploy Docker Registry:
+### Deploy Docker Registry
 
-Ansible “docker_registry” roles created on openness-experience-kits. For deploying docker registry on Kubernetes master node roles are enabled on openness-experience-kits “network_edge.yml” file.
+Ansible "docker_registry" roles created on openness-experience-kits. For deploying docker registry on Kubernetes master node roles are enabled on openness-experience-kits "network_edge.yml" file.
 
  ```ini
   role: docker_registry/master
@@ -148,10 +148,10 @@ Following steps are processed during the docker registry deploy on openness setu
 * Share public key and client.cert on trusted Worker Node and ansible build Host location
   /etc/docker/certs.d/<Kubernetes_Master_IP: port>
 * After the docker registry deploy successfully Worker Node and Ansible host can access the private docker registry.
-* IP address of docker registry will be: “Kubernetes_Master_IP”
+* IP address of docker registry will be: "Kubernetes_Master_IP"
 * Port no of docker registry will be: 5000
 
-## Docker registry image push
+### Docker registry image push
 Use the docker tag to create an alias of the image with the fully qualified path to your docker registry after tag success push image on docker registry.
 
  ```ini
@@ -160,7 +160,7 @@ Use the docker tag to create an alias of the image with the fully qualified path
    ```
 Now image tag with the fully qualified path to your private registry, you can push the image to the registry using docker push command.
 
-## Docker registry image pull
+### Docker registry image pull
 Use the docker pull command to pull the image from docker registry:
 
  ```ini
@@ -187,7 +187,11 @@ Following CNIs are currently supported:
   * IPAM: host-local
   * CIDR: 10.243.0.0/16
   * Network attachment definition: openness-calico
+* [weavenet](https://github.com/weaveworks/weave)
+  * CIDR: 10.32.0.0/12
 * [SR-IOV](https://github.com/intel/sriov-cni) (cannot be used as a standalone or primary CNI - [sriov setup](doc/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md))
+* [Userspace](https://github.com/intel/userspace-cni-network-plugin) (cannot be used as a standalone or primary CNI - [Userspace CNI setup](doc/dataplane/openness-userspace-cni.md)
+
 
 Multiple CNIs can be requested to be set up for the cluster. To provide such functionality [Multus CNI](https://github.com/intel/multus-cni) is used.
 
@@ -195,9 +199,7 @@ Multiple CNIs can be requested to be set up for the cluster. To provide such fun
 
 ### Selecting cluster networking plugins (CNI)
 
-> Note: When using non-default CNI (default is kube-ovn) remember to add CNI's networks (CIDR for pods and other CIDRs used by the CNI) to `proxy_os_noproxy` in `group_vars/all/10-default.yml`
-
-In order to customize which CNI are to be deployed for the Network Edge cluster edit `kubernetes_cnis` variable in `group_vars/all/10-default.yml` file.
+In order to customize which CNI are to be deployed for the Network Edge cluster edit `kubernetes_cnis` variable in `group_vars/all/10-open.yml` file.
 CNIs are applied in requested order.
 By default `kube-ovn` and `calico` are set up (with `multus` in between):
 ```yaml
@@ -218,7 +220,8 @@ kubernetes_cnis:
 
 In order to add additional interface from secondary CNIs annotation is required.
 Below is an example pod yaml file for a scenario with `kube-ovn` as a primary CNI and `calico` and `flannel` as additional CNIs.
-Multus will create an interface named `calico` using network attachment definition `openness-calico` and interface `flannel` using network attachment definition `openness-flannel`:
+Multus will create an interface named `calico` using network attachment definition `openness-calico` and interface `flannel` using network attachment definition `openness-flannel`.
+Note that additional annotations such as `openness-calico@calico` are required only if the CNI is secondary. If the CNI is primary, the interface will be added automatically by multus.
 
 ```yaml
 apiVersion: v1
@@ -270,12 +273,12 @@ By default CentOS ships with [chrony](https://chrony.tuxfamily.org/) NTP client.
 OpenNESS requires the time to be synchronized between all of the nodes and controllers to allow for correct certificate verification.
 
 OpenNESS provides possibility to synchronize machine's time with NTP server.
-To enable NTP synchronization change `ntp_enable` in `group_var/all/10-default.yml`:
+To enable NTP synchronization change `ntp_enable` in `group_var/all/10-open.yml`:
 ```yaml
 ntp_enable: true
 ```
 
-Servers to be used instead of default ones can be provided using `ntp_servers` variable in `group_var/all/10-default.yml`:
+Servers to be used instead of default ones can be provided using `ntp_servers` variable in `group_var/all/10-open.yml`:
 ```yaml
 ntp_servers: ["ntp.local.server"]
 ```
@@ -384,7 +387,7 @@ To make sure key is copied successfully, try to SSH to the host: `ssh 'root@host
 
 ## Setting proxy
 
-If proxy is required in order to connect to the Internet it can be configured in `group_vars/all/10-default.yml` file.
+If proxy is required in order to connect to the Internet it can be configured in `group_vars/all/10-open.yml` file.
 To enable proxy provide values for `proxy_` variables and set `proxy_enable` to `true`.
 Also append your network CIDR (e.g. `192.168.0.1/24`) to the `proxy_noproxy`.
 
@@ -402,8 +405,7 @@ proxy_ftp: "http://proxy.example.org:3128"
 # Proxy to be used by YUM (/etc/yum.conf)
 proxy_yum: "{{ proxy_http }}"
 # No proxy setting contains addresses and networks that should not be accessed using proxy (e.g. local network, Kubernetes CNI networks)
-# NOTE - VCA: 172.32.1.0/24 is used for VCA node.
-proxy_noproxy: "localhost,virt-api,kubevirt.svc,virt-api.kubevirt.svc,cdi-api,cdi.svc,127.0.0.1,10.244.0.0/16,10.96.0.0/16,10.16.0.0/16,10.32.0.0/12,172.32.1.0/24,192.168.0.1/24"
+proxy_noproxy: ""
 ```
 > NOTE: Ensure the no_proxy environment variable in your profile is set
 >
@@ -418,11 +420,11 @@ In order to clone private repositories GitHub token must be provided.
 
 To generate GitHub token refer to [GitHub help - Creating a personal access token for the command line](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line).
 
-To provide the token, edit value of `git_repo_token` variable in in `group_vars/all/10-default.yml`.
+To provide the token, edit value of `git_repo_token` variable in in `group_vars/all/10-open.yml`.
 
 ### Customize tag/branch/sha to checkout
 
-Specific tag, branch or commit SHA can be checked out by setting `controller_repository_branch` and `edgenode_repository_branch` variables in `group_vars/all/10-default.yml` for Edge Nodes and Kubernetes master / Edge Controller respectively.
+Specific tag, branch or commit SHA can be checked out by setting `controller_repository_branch` and `edgenode_repository_branch` variables in `group_vars/all/10-open.yml` for Edge Nodes and Kubernetes master / Edge Controller respectively.
 
 ```yaml
 controller_repository_branch: master
