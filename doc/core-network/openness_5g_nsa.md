@@ -24,17 +24,11 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 
 Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services.
 
-OpenNESS supports edge compute deployment for LTE(CUPS) as described  in[OpenNESS_EPC] and 5G Stand Alone as described in  [OpenNESS_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (standalone) options consist of only one generation of radio access technology and NSA (non stand alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either Non Stand Alone(NSA) option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment** and how OpenNESS support those deployment models.
+OpenNESS supports edge compute deployment for LTE Control and User Plane Separation(CUPS) as described  in[OpenNESS_EPC] and 5G Stand Alone as described in  [OpenNESS_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (Stand Alone) options consist of only one generation of radio access technology and NSA (Non Stand Alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment** and how OpenNESS supports those deployment models.
 
 # 5G NSA Option-3 Architecture aspects
 
-5G NSA Option 3 represents a network having both LTE and NR radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic(user plane). The UE can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
-
-The following figure shows a 5G gNodeB connected to the 4G EPC at the data plane level. The 5G gNodeB does not connect to the MME. NAS Signaling is still the same as that of LTE. The gNodeB connects to the LTE eNodeB over the X2 interface to receive requests to activate and deactivate 5G bearers.
-
-![5g-nsa](5g-nsa-images/5g-nsa.png "5G-NSA")
-
-Image Credit: [Samsung](<https://images.samsung.com/is/content/samsung/p5/global/business/networks/insights/white-paper/4g-5g-interworking/global-networks-insight-4g-5g-interworking-0.pdf>)
+5G NSA Option 3 represents a network having both LTE and NR(New Radio) radio access, but using only the EPC core of LTE to route the Control signals. In this option, LTE is used as the control plane anchor for NR, and both LTE and NR are used for user data traffic(user plane). The UE (User Equipment) can connect to the LTE and 5G NR base station. To support EN-DC (E-UTRAN New Radio Dual Connectivity, here E-UTRAN stands for Evolved UMTS Terrestrial Radio Access Network or in every days terms known as LTE ), the legacy LTE network needs to be upgraded to 3GPP release 15 which will be called **eLTE**.
 
 A basic setup for such a scheme is:
 
@@ -66,7 +60,7 @@ In this option, the X2 interface traffic between eNB and gNB has only control pl
 
 Option 3x is a combination of 3 and 3A. In this configuration, user data traffic will flow directly to the 5G gNB part of the base station. From there, it is delivered over the air to the mobile device. A part of the data can also be forwarded over the X2 interface to the 4G eNB part of the base station and from there to the UE. Slow data streams (Low Data), e.g. VoLTE bearers with a different IP address than that used for Internet access can be directly delivered from the core network to the 4G eNB part of the 4G/5G base station. The advantage is that the 5G upgrade of the base station is likely to have the much better performing IP interface so it is better suited to handle the higher data rates that can only be reached with a 4G/5G Non-Standalone network deployment.
 
-In the Option 3x networking mode, there is a little LTE user plane traffic in the X2 interface. From the perspective of the impact on the existing network, the Option 3x is relatively small and has become the mainstream choice for NSA networking. By using 4G as the anchor point of the control plane, it can meet good service continuity and support rapid network construction in the initial stage of 5G deployment
+In the Option 3x networking mode, there is little LTE user plane traffic in the X2 interface. From the perspective of the impact on the existing network, the Option 3x is relatively small and has become the mainstream choice for NSA networking. By using 4G as the anchor point of the control plane, it can meet service continuity targets and support rapid network construction in the initial stage of 5G deployment
 
 In this configuration, the LTE eNB will act as the Master and will have control over which S1-U bearers are handled by radio of LTE or NR. Based on instructions from LTE eNB, MME will inform S-GW where to establish S1-U bearers, i.e. LTE or NR. If NR radio quality falls below a certain threshold,  S1-U bearer towards NR may be either split at NR and sent entirely over Xx to LTE or a PATH SWITCH may be triggered where all S1- U will go to LTE eNB.
 
@@ -74,9 +68,9 @@ In this configuration, the LTE eNB will act as the Master and will have control 
 
 # Edge Deployments with 5G NSA
 
-The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as this being the industry mainstream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLLC, massive IOT cannot be supported as still the 5G NSA core network is based out of EPC.
+The focus of this chapter would be considering the 5G NSA Option-3x. Option 3x has been considered as being the industry mainstream option as described in [GSMA_5G_NSA]. With the 5G NSA network the benefit seen over LTE networks is only enhanced mobile broadband (eMBB). The 5G features like URLLC (Ultra Reliable Low Latency Communication), massive IOT cannot be supported as still the 5G NSA core network is based out of EPC.
 
-Before the Edge platform location and integration is described its important to understand the traffic flows considering two different PDN's ( Data and Voice) and along with the UE being in 4G only coverage and dual coverage. The figures here show the traffic flows for the different coverage scenarios:
+Before the Edge platform location and integration is described it is important to understand the traffic flows considering two different PDN's (Packet Data Network's- one for Data and one for Voice) and along with the UE being in 4G only coverage and in dual coverage. The figures here show the traffic flows for the different coverage scenarios:
 
 ## UE is in both 4G & 5G Coverage
 
@@ -96,7 +90,7 @@ There are two possible flows
 
 ## OpenNESS deployment for 5G-NSA Option 3x
 
-The MEC solution is dependent on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework.
+The MEC(Multi-access Edge Computing) solution is dependent on the Core Network deployed. MEC can be supported in EPC, but without a generic standardized framework.
 
 For MEC with EPC there are generally two approaches: SGi-based and S1-based.
 
@@ -106,15 +100,18 @@ For MEC with EPC there are generally two approaches: SGi-based and S1-based.
 
 NOTE:
 1. In the above picture, the GW-U components (SGW-U and PGW-U) are not part of OpenNESS solution.
-2. There is no standard defined by 3GPP for the deployment of edge with 5G NSA. The solution provided by OpenNESS is just a reference
+2. There is no standard defined by 3GPP for the deployment of MEC with 5G NSA. The solution provided by OpenNESS is just a reference
 
-The [4G CUPS Management API] exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be used to set the appropriate configuration rules in the LTE Access Network through the OAM agent. These configurations can be grouped into three categories:
+The [4G CUPS Management API] exposed by the OpenNESS Core Network Configuration Agent (CNCA) can be used to set the appropriate configuration rules in the LTE Access Network through the OAM(Operations, Administration and Maintenance) agent. The OAM agent functionality should be part of EPC Core solution to add/update certain configuration information which is outside the scope of standards. The OAM configuration information supported by OpenNESS can be grouped into three
+categories as described below:
 
 - Config: Configure Sxx related IP address of user plane. Since the EPC control plane can also learn these parameters through other means, whether these parameters are required is vendor-dependent.
 
 - Selectors: Bind the user plane to APN, TAC, etc. in the control plane, so that UEs can be assigned to a particular user plane (PGW-U and/or SGW-U) at the time of connection establishment.
 
-- Entitlements: Allow further level of control in the gateway selection for UEs at EPC Control plane through IMSI's. It is recommended to use some level of indirect reference of IMSI's (proprietary to the operator network) to identify UEs, rather than to use IMSI itself.
+- Entitlements: Allow further level of control in the gateway selection for UEs at EPC Control plane through IMSI's (International Mobile Subscriber Identity). It is recommended to use some level of indirect reference of IMSI's (proprietary to the operator network) to identify UEs, rather than to use IMSI itself.
+
+OpenNESS suggests a REST based OAM interface APIs to configure the information.
 
 Further information on the OpenNESS implementation can be found in [OpenNESS_EPC]
 
@@ -172,3 +169,10 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 - URLLC : Ultra-Reliable Low-Latency Communication
 - MCG : Master Cell Group
 - SCG : Secondary Cell Group
+- NR : New Radio
+- NSA : Non Stand Alone
+- SA : Stand Alone
+- EN-DC : E-UTRAN New RAdio Dual Connectivity
+- E-UTRAN : Evolved UMTS Terrestrial Radio Access Network
+- MEC : Multi-access Edge Computing
+- IMSI: International Mobile Subscriber Identity
