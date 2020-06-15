@@ -58,7 +58,7 @@ _Figure - SR-IOV Device plugin_
 
 ## Details - Multiple Interface and PCIe SRIOV support in OpenNESS
 
-In Network Edge mode Multus CNI, which provides possibility for attaching multiple interfaces to the pod, is deployed automatically when `kubernetes_cnis` variable list (in the `group_vars/all/10-default.yml` file) contains at least two elements, e.g.:
+In Network Edge mode Multus CNI, which provides possibility for attaching multiple interfaces to the pod, is deployed automatically when `kubernetes_cnis` variable list (in the `group_vars/all/10-open.yml` file) contains at least two elements, e.g.:
 ```yaml
 kubernetes_cnis:
 - kubeovn
@@ -141,11 +141,11 @@ SR-IOV CNI and device plugin are deployed in OpenNESS using Helm chart. The Helm
 #### Edge Node SRIOV interfaces configuration
 
 For the installer to turn on the specified number of SR-IOV VFs for selected network interface of node, please provide that information in format `{interface_name: VF_NUM, ...}` in `sriov.network_interfaces` variable inside config files in `host_vars` ansible directory.
-Due to the technical reasons, each node has to be configured separately. Copy the example file `host_vars/node1.yml` and then create a similar one for each node being deployed.
+Due to the technical reasons, each node has to be configured separately. Copy the example file `host_vars/node01/10-open.yml` and then create a similar one for each node being deployed.
 
 Please also remember, that each node must be added to Ansible inventory file `inventory.ini`.
 
-For example providing `host_vars/node1.yml` with:
+For example providing `host_vars/node01/10-open.yml` with:
 
 ```yaml
 sriov:
@@ -222,24 +222,18 @@ spec:
 Support for providing SR-IOV interfaces to containers and virtual machines is also available for OpenNESS On-Premises deployments.
 
 #### Edgenode Setup
-To install the OpenNESS node with SR-IOV support, the option `role: sriov_device_init/onprem` must be uncommented in the `edgenode_group` in `on_premises.yml` of the ansible scripts.
-
-```yaml
-- role: sriov_device_init/onprem
-```
-
-In order to configure the number of SR-IOV VFs on the node, the `network_interfaces` variable located under `sriov` in `host_vars/node01.yml` needs to be updated with the physical network interfaces on the node where the VFs should be created, along with the number of VFs to be created for each interface. The format this information should be provided in is `{interface_name: number_of_vfs, ...}`.
+In order to configure the number of SR-IOV VFs on the node, the `network_interfaces` variable located under `sriov` in `host_vars/node01/10-open.yml` needs to be updated with the physical network interfaces on the node where the VFs should be created, along with the number of VFs to be created for each interface. The format this information should be provided in is `{interface_name: number_of_vfs, ...}`.
 
 > Note: Remember that each node must be added to the ansible inventory file `inventory.ini` if they are to be deployed by the ansible scripts.
 
 To inform the installer of the number of VFs to configure for use with virtual machine deployments, the variable `vm_vf_ports` must be set, e.g. `vm_vf_ports: 4` tells the installer to configure four VFs for use with virtual machines. The installer will use this setting to assign that number of VFs to the kernel pci-stub driver so that they can be passed to virtual machines at deployment.
 
-When deploying containers in On-Premises mode, additional settings in the `host_vars/node01.yml` file are required so the installer can configure the VFs correctly. Each VF will be assigned to a Docker network configuration which will be created by the installer. To do this, the following variables must be configured:
+When deploying containers in On-Premises mode, additional settings in the `host_vars/node01/10-open.yml` file are required so the installer can configure the VFs correctly. Each VF will be assigned to a Docker network configuration which will be created by the installer. To do this, the following variables must be configured:
 - `interface_subnets`: This contains the subnet information for the Docker network that the VF will be assigned to. Must be provided in the format `[subnet_ip/subnet_mask,...]`.
 - `interface_ips`: This contains the gateway IP address for the Docker network which will be assigned to the VF in the container. The address must be located within the subnet provided above. Must be provided in the format `[ip_address,...]`.
 - `network_name`: This contains the name of the Docker network to be created by the installer. Must be in the format `[name_of_network,...]`.
 
-An example `host_vars/node01.yml` which enables 4 VFs across two interfaces with two VFs configured for virtual machines and two VFs configured for containers is shown below:
+An example `host_vars/node01/10-open.yml` which enables 4 VFs across two interfaces with two VFs configured for virtual machines and two VFs configured for containers is shown below:
 ```yaml
 sriov:
   network_interfaces: {enp24s0f0: 2, enp24s0f1: 2}
