@@ -3,8 +3,6 @@ Copyright (c) 2020 Intel Corporation
 
 Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 =========
-
-- [Edge Cloud Deployment with 3GPP 5G Non Stand Alone](#edge-cloud-deployment-with-3gpp-5g-non-stand-alone)
 - [Introduction](#introduction)
 - [5G NSA Option-3 Architecture aspects](#5g-nsa-option-3-architecture-aspects)
   - [Option-3](#option-3)
