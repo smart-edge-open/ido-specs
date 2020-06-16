@@ -317,7 +317,7 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
     - Now restart AF POD using the below command:
   
       ```shell
-      helm install af /opt/openness-helm-charts/af --set image.repository=10.190.212.195:5000/af-image
+      helm install af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
       NAME: af
       LAST DEPLOYED: Tue Jun 16 13:23:58 2020
       NAMESPACE: default
@@ -328,7 +328,7 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
       Chart af was successfully installed
 
       af image was saved in the docker registry
-      Image name: 10.190.212.195:5000/af-image:1.0
+      Image name: <controller-ip>:5000/af-image:1.0
 
       Your release is named af.
 
@@ -355,7 +355,7 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
     - Delete the OAM pod using helm use **helm uninstall oam**
     - Open the file `/etc/openness/configs/ngc/oam.json` and modify the parameters.
     - Save and exit.
-    - Now restart OAM POD using the command **helm install oam /opt/openness-helm-charts/oam --set image.repository=10.190.212.195:5000/oam-image**
+    - Now restart OAM POD using the command **helm install oam /opt/openness-helm-charts/oam --set image.repository=\<controller-ip\>:5000/oam-image**
     - Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs:
 
     NOTE: In case of ngc-test role/configuration, NEF, OAM and CNTF PODs will run in OpenNESS-Controller/Kubernetes-Master node for testing purpose. In a real implementation, if NEF and OAM are being used, these two services will run on the 5G Core network servers either in a POD or a standalone application on the host depending on 5G Core server environment
