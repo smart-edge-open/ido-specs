@@ -235,58 +235,130 @@ In case of On-Premises deployment mode, Core network can be configured through t
 OpenNESS provides ansible scripts for setting up NGC components for two scenarios. Each of the scenarios is supported by a separate role in the OpenNESS Experience Kit:
 
 1. Role "ngc_test"
-  This role brings up the 5g OpenNESS setup in the loopback mode for testing and demonstrating its usability. This scenario is currently the default 5G OpenNESS scenario. The ansible scripts that are part of "ngc_test" role build, configure and start AF, NEF and OAM in the Network Edge or On-Premises mode. Within this role, AF, NEF and OAM are set up on the controller node.  Description of the configuration and setup of the NGC components provided in the next sections of this document refers to ngc_test role. The NGC componetns set up within ngc_test role can be fully integrated and tested with provided Kubectl plugin or CNCA UI.
+  This role brings up the 5g OpenNESS setup in the loopback mode for testing and demonstrating its usability. This scenario is currently the default 5G OpenNESS scenario. The ansible scripts that are part of "ngc_test" role build, configure and start AF(Application Function), NEF(Network Exposure Function), OAM(Operation Administration and Maintenance) and CNTF(Core Network Test Function) in the Network Edge or On-Premises mode. Within this role, AF, NEF, OAM and CNTF are set up on the controller node.  **Description of the configuration and setup of the NGC components provided in the next sections of this document refers to ngc_test role**. The NGC components set up within ngc_test role can be fully integrated and tested with provided kubectl plugin or CNCA UI.
 
 2. Role "ngc"
-  This role brings up 5g OpenNESS components - AF and NEF - to present the real deployment scenario, where the components can be further integrated with the real 5G core network. The ansible scripts that are part of this role build, configure and start AF and NEF components on separate nodes either in Network Edge or On-Premises mode. The ansible scripts place AF again on the controller node, whereas NEF is placed on a worker node. Similar functionality will be added for OAM component in the future release. Currently, integration with CNCA UI and Kubectl is not complete due to missing OAM component - the services can not be created and accessed. In CNCA UI the "services" web page does not show any content. The user should proceed to "subscriptions" web page to view and modify subscriptions.
+  This role brings up 5g OpenNESS services - AF and NEF - to present the real deployment scenario, where these services can be further integrated with the real 5G core network. The ansible scripts that are part of this role build, configure and start AF and NEF micoservices on separate nodes either in Network Edge or On-Premises mode. The ansible scripts place AF again on the controller node, whereas NEF is placed on a worker node. Similar functionality will be added for OAM component in the future release. Currently, integration with CNCA UI and kubectl is not complete due to missing OAM component - the services can not be created and accessed. In CNCA UI the "services" web page does not show any content. The user should proceed to "subscriptions" web page to view and modify subscriptions.
 
 ## Network Edge mode
 
 ### Bring-up of NGC components in Network Edge mode
 
-1. If the Edge controller is not yet deployed through openness-experience-kit then:
-   Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/10-default.yml` before running `deploy_ne.sh controller` or `deploy_ne.sh` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document,  **otherwise skip this step.**
+- If the Edge controller is not yet deployed through openness-experience-kit then:
+   Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/20-enhanced.yml` before running `deploy_ne.sh controller` or `deploy_ne.sh` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document,  **otherwise skip this step.**
 
-2. If Edge-controller is already deployed (but without enabling ngc role) and at a later stage you want to enable NGC components on edge-controller then,
-  Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/10-default.yml` and then re-run `deploy_ne.sh controller` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
+- If Edge-controller is already deployed (but without enabling ngc role) and at a later stage you want to enable NGC components on edge-controller then,
+  Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh controller` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
 
     **NOTE:**
-    In addition to the OpenNESS controller bringup, by enabling the ngc rule the playbook scripts performs:  Clone epcforedge repo from github, builds AF, NEF and OAM micro services, generates certificate files, creates docker images and starts PODs.
+    In addition to the OpenNESS controller bring-up, by enabling the ngc_test role the playbook scripts performs:
+  - Clone of the x-epcforedge repo from github
+  - Builds AF(Application Function), NEF(Network Exposure Function), OAM(Operation,Administration and Maintenance) and CNTF(Core Network Test Function) micro services
+  - Generates certificate files at the location **/etc/openness/certs/ngc**
+  - Updates the configuration files of AF and NEF with the service names of NEF and CNTF respectively.
+  - Copies the OAM, NEF, CNTF and AF configuration to the location **/etc/openness/configs/ngc**
+  - Creates docker images for AF, NEF, OAM and CNTF micro services and adds them into the docker registry at **\<controller ip:port\>**.
+  - Installs the helm charts for AF, NEF, OAM and CNTF using the images from the docker registry
+  - Copies the helm charts for AF, NEF, OAM and CNTF into the location **/opt/openness-helm-charts/**
 
-3. On successful start of AF, NEF and OAM PODs, status of PODS and Services can verified using the below commands:
-   - `kubectl get pods --all-namespaces`
-  expected out as below:
-  ![NGC list of PODS](using-openness-cnca-images/ngc_pods_list_output.png)
+- On successful start of AF, NEF, OAM and CNTF PODs. Status of PODs, Services, images and helm charts can verified using the below commands:
 
-   - `kubectl get services--all-namespaces`
-    expected out as below:
-    ![NGC list of PODS](using-openness-cnca-images/ngc_services_list_output.png)
+    ```shell
+   - kubectl get po -n ngc
+      NAME   READY   STATUS    RESTARTS   AGE
+      af     1/1     Running   0          56m
+      cntf   1/1     Running   0          6d5h
+      nef    1/1     Running   0          6d5h
+      oam    1/1     Running   0          6d5h
 
-    *NOTE: In general, below steps #4 and #5 are not needed. If user wants to change the hostname/ip-address parameters for AF/NEF/OAM then #4 and #5 will provide the guidance.*
+   - kubectl get services -n ngc
+      NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
+      afservice     NodePort   10.96.241.176   <none>        8050:30050/TCP,8051:31357/TCP   57m
+      cntfservice   NodePort   10.96.122.239   <none>        8095:30852/TCP                  6d5h
+      nefservice    NodePort   10.96.124.222   <none>        8060:30685/TCP                  6d6h
+      oamservice    NodePort   10.96.48.159    <none>        8070:30070/TCP                  6d6h
 
-4. After all the PODs are successfully up and running, few AF and OAM configuration parameters need to be updated (as per your deployment configuration) and then re-start the AF.
+   - docker image ls
+      REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
+      10.190.212.195:5000/cntf-image                  1.0                 515ac537d5df        6 days ago          261MB
+      10.190.212.195:5000/af-image                    1.0                 f3ee00000a29        6 days ago          264MB
+      10.190.212.195:5000/nef-image                   1.0                 99e172731e56        6 days ago          263MB
+      10.190.212.195:5000/oam-image                   1.0                 b5a771311ff8        6 days ago          261MB
 
-   * Open the file `/etc/openness/configs/ngc/af.json` and modify the below parameters.
-   * `"UIEndpoint": "http://localhost:3020"` : Replace the `localhost` with `IP Address` of edge-controller, and no change to port number.
-   * `"NEFHostname": "localhost"` : Replace the `localhost` with `nefservice` ie., service name NEF POD.
-   * Save and exit.
-   * Now restart AF POD using the below command:
-  `kubectl exec -it af --namespace=ngc -- /bin/bash -c "pkill af"`
-  Successful restart of AF with the updated config can be observed through AF container logs. Run the below command to get AF container logs:
-  `kubectl logs af --namespace=ngc af-container`
-  Sample output of the AF container logs with updated config may appear as:
-![NGC list of PODS](using-openness-cnca-images/ngc_af_service_config_log.png)
+    - helm list
+      NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+      af              default         1               2020-06-16 13:23:58.920063681 +0530 IST deployed        af-0.1.0                0.1.0
+      cntf            default         1               2020-06-10 08:22:42.730030568 +0530 IST deployed        cntf-0.1.0              0.1.0
+      nef             default         1               2020-06-10 08:21:25.081038001 +0530 IST deployed        nef-0.1.0               0.1.0
+      oam             default         1               2020-06-10 08:20:45.755123843 +0530 IST deployed        oam-0.1.0               0.1.0
+    ```
 
-5. To update OAM configuration and restart OAM micro service:
-   * Open the file `/etc/openness/configs/ngc/oam.json` and modify the below parameters.
-   * `"UIEndpoint": "http://localhost:3020"` : Replace the `localhost` with `IP Address` of edge-controller, and no change to port number.
-   * Save and exit.
-   * Now restart OAM POD using the below command:
-  `kubectl exec -it oam --namespace=ngc -- /bin/bash -c "pkill oam"`
-  Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs:
-  `kubectl logs oam --namespace=ngc oam-container`
+- After all the PODs are successfully up and running, if AF and OAM configuration parameters need to be updated (as per your deployment configuration) then follow the below steps.
 
-*NOTE: In case of ngc-test rule/configuration, NEF and OAM PODs will run in OpenNESS-Controller/Kubernetes-Master node for testing purpose. In a real implementation, if NEF and OAM are being used, these two services will run on the 5G Core network servers either in a POD or a standalone application on the host depending on 5G Core server environment*
+  - Modify the AF configuration
+    - Delete the AF pod using helm as below
+
+      ```shell
+      helm list | grep af
+      af              default         1               2020-06-16 10:38:32.692955717 +0530 IST deployed        af-0.1.0                0.1.0
+
+      helm uninstall af
+      release "af" uninstalled
+
+      ne-controller## kubectl get po -n ngc
+      NAME   READY   STATUS    RESTARTS   AGE
+      cntf   1/1     Running   0          6d4h
+      nef    1/1     Running   0          6d5h
+      oam    1/1     Running   0          6d5h
+      ```
+
+    - Open the file `/etc/openness/configs/ngc/af.json` and modify the parameters.
+    - Save and exit.
+    - Now restart AF POD using the below command:
+  
+      ```shell
+      helm install af /opt/openness-helm-charts/af --set image.repository=10.190.212.195:5000/af-image
+      NAME: af
+      LAST DEPLOYED: Tue Jun 16 13:23:58 2020
+      NAMESPACE: default
+      STATUS: deployed
+      REVISION: 1
+      TEST SUITE: None
+      NOTES:
+      Chart af was successfully installed
+
+      af image was saved in the docker registry
+      Image name: 10.190.212.195:5000/af-image:1.0
+
+      Your release is named af.
+
+      To learn more about the release, try:
+
+        $ helm status af
+        $ helm get all af
+
+      kubectl get po -n ngc
+      NAME   READY   STATUS    RESTARTS   AGE
+      af     1/1     Running   0          2m6s
+      cntf   1/1     Running   0          6d5h
+      nef    1/1     Running   0          6d5h
+      oam    1/1     Running   0          6d5h
+      ```
+
+    - Successful restart of AF with the updated config can be observed through AF container logs. Run the below command to get AF container logs:
+    `kubectl logs af --namespace=ngc af-container`
+    Sample output of the AF container logs with updated config may appear as:
+  ![NGC list of PODS](using-openness-cnca-images/ngc_af_service_config_log.png)
+
+  - Modify the OAM configuration.  Follow the same steps as above(as done for AF) with the following differences
+ 
+    - Delete the OAM pod using helm use **helm uninstall oam**
+    - Open the file `/etc/openness/configs/ngc/oam.json` and modify the parameters.
+    - Save and exit.
+    - Now restart OAM POD using the command **helm install oam /opt/openness-helm-charts/oam --set image.repository=10.190.212.195:5000/oam-image**
+    - Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs:
+
+    NOTE: In case of ngc-test role/configuration, NEF, OAM and CNTF PODs will run in OpenNESS-Controller/Kubernetes-Master node for testing purpose. In a real implementation, if NEF and OAM are being used, these two services will run on the 5G Core network servers either in a POD or a standalone application on the host depending on 5G Core server environment
 
 ### Configuring in Network Edge mode
 
