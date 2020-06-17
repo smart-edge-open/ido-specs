@@ -245,7 +245,7 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
 ### Bring-up of NGC components in Network Edge mode
 
 - If the Edge controller is not yet deployed through openness-experience-kit then:
-   Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/20-enhanced.yml` before running `deploy_ne.sh controller` or `deploy_ne.sh` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document,  **otherwise skip this step.**
+   Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/20-enhanced.yml` before running `deploy_ne.sh controller` or `deploy_ne.sh` or `deploy_ne.sh single` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document,  **otherwise skip this step.**
 
 - If Edge-controller is already deployed (but without enabling ngc role) and at a later stage you want to enable NGC components on edge-controller then,
   Enable the role for ngc by changing `ne_ngc_test_enable` variable to `true` in `group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh controller` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
@@ -272,11 +272,10 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
       oam    1/1     Running   0          6d5h
 
    - kubectl get services -n ngc
-      NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
-      afservice     NodePort   10.96.241.176   <none>        8050:30050/TCP,8051:31357/TCP   57m
-      cntfservice   NodePort   10.96.122.239   <none>        8095:30852/TCP                  6d5h
-      nefservice    NodePort   10.96.124.222   <none>        8060:30685/TCP                  6d6h
-      oamservice    NodePort   10.96.48.159    <none>        8070:30070/TCP                  6d6h
+      afservice     NodePort   10.111.119.116   <none>        8050:30050/TCP,8051:31475/TCP,30052:30052/TCP   9m1s
+      cntfservice   NodePort   10.99.96.19      <none>        8095:32224/TCP                                  8m40s
+      nefservice    NodePort   10.96.82.23      <none>        8060:32459/TCP                                  9m41s
+      oamservice    NodePort   10.109.193.121   <none>        8070:30070/TCP                                  10m
 
    - docker image ls
       REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
@@ -345,8 +344,8 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
       oam    1/1     Running   0          6d5h
       ```
 
-    - Successful restart of AF with the updated config can be observed through AF container logs. Run the below command to get AF container logs:
-    `kubectl logs af --namespace=ngc af-container`
+    - Successful restart of AF with the updated config can be observed through AF container logs. Run the below command to get AF logs:
+    `kubectl logs -f af --namespace=ngc`
     Sample output of the AF container logs with updated config may appear as:
   ![NGC list of PODS](using-openness-cnca-images/ngc_af_service_config_log.png)
 
@@ -356,7 +355,8 @@ OpenNESS provides ansible scripts for setting up NGC components for two scenario
     - Open the file `/etc/openness/configs/ngc/oam.json` and modify the parameters.
     - Save and exit.
     - Now restart OAM POD using the command **helm install oam /opt/openness-helm-charts/oam --set image.repository=\<controller-ip\>:5000/oam-image**
-    - Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs:
+    - Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs OAM logs:
+    `kubectl logs -f oam --namespace=ngc`
 
     NOTE: In case of ngc-test role/configuration, NEF, OAM and CNTF PODs will run in OpenNESS-Controller/Kubernetes-Master node for testing purpose. In a real implementation, if NEF and OAM are being used, these two services will run on the 5G Core network servers either in a POD or a standalone application on the host depending on 5G Core server environment
 
