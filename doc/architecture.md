@@ -2,6 +2,8 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019-2020 Intel Corporation
 ```
+<!-- omit in toc -->
+# OpenNESS Architecture and Solution overview
 - [OpenNESS Overview](#openness-overview)
 - [OpenNESS Distributions](#openness-distributions)
 - [Deployment based on Location](#deployment-based-on-location)
