@@ -164,7 +164,7 @@ Industry leading cloud native Telemetry and Monitoring frameworks are supported 
 Hardware Telemetry support 
 - CPU: Supported metrics - cpu, cpufreq, load, hugepages, intel_pmu, intel_rdt, ipmi 
 - Dataplane: Supported metrics - ovs_stats and ovs_pmd_stats
-- Accelerator: Supported Metrics from - FPGA–PAC-N3000, VCAC-A, HDDL-R, eASIC, GPU and NIC 
+- Accelerator: Supported Metrics from - FPGA–PAC-N3000, VCAC-A, HDDL-R, eASIC, GPU and NIC
 
 OpenNESS also supports a reference application of using telemetry to take actions using Kubernetes APIs. This reference is provided to the Telemetry Aware Scheduler project. 
 
@@ -189,9 +189,8 @@ Here is the sub set of edge applications supported:
 
 Here is the sub set of reference Network Functions supported:  
 - <b>gNodeB or eNodeB</b>: 5G or 4G Base station implementation on Intel architecture based on Intel FlexRAN.
-- <b>Application Function</b>: Application influence on traffic routing and Accessing NEF
-Interaction with the policy framework for policy control.
-- <b>Network Exposure Function</b>: NEF securely exposes services and features of the 5G core. Exposes capabilities and events, Secure provision of information from an external application to 3GPP network, Translation of internal/external information, Control plane parameter provisioning and Packet Flow Description (PFD) management. A PFD is a tuple of protocol, server-side IP and port number.
+- <b>Application Function(AF)</b>: AF interacts with the 5G Control Plane Functions through 3GPP standard SBI's(Service Based Interfaces) for enabling Application influence on traffic routing, Packet Flow Description, Policy Authorization and Core Network Notifications.
+- <b>Network Exposure Function(NEF)</b>: NEF securely exposes services and features of the 5G core. NEF interacts with the 5G Control Plane Functions for providing the Traffic Influence and Packet Flow Description(PFD) Services.
 - <b>User Plane Function</b>: UPF is responsible for Packet routing and forwarding, Packet inspection and QoS handling. The UPF may optionally integrate a Deep Packet Inspection (DPI) for packet inspection and classification.
 
 ## OpenNESS Experience Kit 
@@ -293,3 +292,4 @@ In future OpenNESS releases, various CERA flavor may be available.
 - COTS: Commercial Off-The-Shelf 
 - DU: Distributed Unit of RAN
 - CU: Centralized Unit of RAN
+- SBI: Service Based Interfaces
