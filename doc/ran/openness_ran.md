@@ -67,7 +67,7 @@ This section will explain the steps involved in building the FlexRAN image. Only
    - FlexRAN CPA libraries 
 6. `cd` to the folder where docker image is built and start the docker build ` docker build -t flexran-va:1.0 .` 
 
-By the end of step 5 the FlexRAN docker image will be created. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel PACN3000 FPGA. Please refer to [Using FPGA in OpenNESS: Programming, Resource Allocation and Configuration](https://github.com/open-ness/specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md) document for further details for setting up Intel PACN3000 vRAN FPGA. 
+By the end of step 5 the FlexRAN docker image will be created. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel PACN3000 FPGA. Please refer to [Using FPGA in OpenNESS: Programming, Resource Allocation and Configuration](https://github.com/open-ness/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md) document for further details for setting up Intel PACN3000 vRAN FPGA. 
 
 # FlexRAN hardware platform configuration 
 ## BIOS 
@@ -81,11 +81,11 @@ usbcore.autosuspend=-1 selinux=0 enforcing=0 nmi_watchdog=0 softlockup_panic=0 a
 
 Host kernel version - 3.10.0-1062.12.1.rt56.1042.el7.x86_64 
 
-Instructions on how to configure kernel command line in OpenNESS can be found in [OpenNESS getting started documentation](https://github.com/otcshare/specs/blob/master/doc/getting-started/openness-experience-kits.md#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
+Instructions on how to configure kernel command line in OpenNESS can be found in [OpenNESS getting started documentation](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
 
 # Deploying and Running the FlexRAN pod
 
-1. Deploy the OpenNESS cluster with [SRIOV for FPGA enabled](https://github.com/otcshare/specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md#fpga-fec-ansible-installation-for-openness-network-edge) .
+1. Deploy the OpenNESS cluster with [SRIOV for FPGA enabled](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md#fpga-fec-ansible-installation-for-openness-network-edge) .
 2. Ensure there are no FlexRAN pods and FPGA configuration pods are not deployed using `kubectl get pods`
 3. Ensure all the EPA microservice and Enhancements (part of OpenNESS play book) are deployed `kubectl get po --all-namespaces` 
   ```yaml
@@ -119,8 +119,8 @@ Instructions on how to configure kernel command line in OpenNESS can be found in
   openness      syslog-master-894hs                       1/1     Running   0          7d19h
   openness      syslog-ng-n7zfm                           1/1     Running   16         7d19h
   ```
-4. Deploy the Kubernetes job to program the [FPGA](https://github.com/open-ness/specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md)
-5. Deploy the Kubernetes job to configure the [BIOS](https://github.com/open-ness/specs/blob/master/doc/enhanced-platform-awareness/openness-bios.md) (note: only works on select Intel development platforms)
+4. Deploy the Kubernetes job to program the [FPGA](https://github.com/open-ness/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md)
+5. Deploy the Kubernetes job to configure the [BIOS](https://github.com/open-ness/x-specs/blob/master/doc/enhanced-platform-awareness/openness-bios.md) (note: only works on select Intel development platforms)
 6. Deploy the Kubernetes job to configure the Intel PAC N3000 FPGA `kubectl create -f /opt/edgecontroller/fpga/fpga-config-job.yaml`
 7. Deploy the FlexRAN Kubernetes pod `kubectl create -f flexran-va.yaml` - more info [here](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/5G/flexRAN-gnb/flexran-va.yaml)
 8. `exec` into FlexRAN pod `kubectl exec -it flexran -- /bin/bash`

@@ -352,7 +352,7 @@ This chapter describes how to deploy OpenVINO applications on OpenNESS platform 
 
     Note: Fields `Port` and `Protocol` have no affect on the application
 
-    Note: When creating a new application, there is an option to specify a key/value pair which defines an enhanced platform awareness (EPA) feature. If set, this key/value pair will be used to configure the feature when deploying an application to an edge node. For more information on the EPA features supported by OpenNESS, please see [Enhanced Platform Awareness](https://github.com/otcshare/specs/tree/master/doc/enhanced-platform-awareness).
+    Note: When creating a new application, there is an option to specify a key/value pair which defines an enhanced platform awareness (EPA) feature. If set, this key/value pair will be used to configure the feature when deploying an application to an edge node. For more information on the EPA features supported by OpenNESS, please see [Enhanced Platform Awareness](https://github.com/otcshare/x-specs/tree/master/doc/enhanced-platform-awareness).
 
     Note: Deployment of consumer application should be done by analogy
 
