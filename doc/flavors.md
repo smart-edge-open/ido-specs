@@ -11,6 +11,8 @@ This document introduces the supported deployment flavors that are deployable th
 - [Media Analytics Flavor with VCAC-A](#media-analytics-flavor-with-vcac-a)
 - [CDN Transcode Flavor](#cdn-transcode-flavor)
 - [CDN Caching Flavor](#cdn-caching-flavor)
+- [Core Control Plane Flavor](#core-control-plane-flavor)
+- [Core User Plane Flavor](#core-user-plane-flavor)
 
 ## Minimal Flavor
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
@@ -78,3 +80,46 @@ This deployment flavor enables the following ingredients:
 
 ## CDN Caching Flavor
 <todo>
+
+## Core Control Plane Flavor
+
+The pre-defined Core Control Plane flavor provisions the minimal set of configurations for a 5G Control Plane Network Functions on Intel Xeon servers. 
+
+The steps to get it installed are as the following:
+
+1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+
+2. Run x-OEK deployment script:
+   $ x-openness-experience-kits# deploy_ne.sh -f core-cplane
+
+This deployment flavor enables the following ingredients:
+
+- Node Feature Discovery
+- The default Kubernetes CNI: kube-ovn
+- Telemetry
+- OpenNESS 5G Microservices
+  - OAM(Operation, Administration, Maintenance) and AF(Application Function) on the OpenNESS Controller/K8S Master.
+  - Reference NEF(Network Exposure Function) and CNTF(Core Network Test Function) on the OpenNESS Edge Nodes/K8S Node.
+> ** NOTE ** : For a real deployment with the 5G Core Network Network Functions the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
+
+## Core User Plane Flavor
+
+The pre-defined Core Control Plane flavor provisions the minimal set of configurations for a 5G User Plane Function on Intel Xeon servers.
+
+The steps to get it installed are as the following:
+
+1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+
+2. Run x-OEK deployment script:
+   $ x-openness-experience-kits# deploy_ne.sh -f core-uplane
+
+This deployment flavor enables the following ingredients:
+
+- Node Feature Discovery
+- Kubernetes CNI: kube-ovn and SRIOV.
+- CPU Manager for Kubernetes (CMK) with 4 exclusive cores (1 to 4) and 1 core in shared pool.
+- Kubernetes Device Plugin
+- Telemetry
+- Hugepages of size 1Gi and amount of Huge Pages as 8G for the nodes
+
+> ** NOTE ** : For a reference UPF deployment refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
