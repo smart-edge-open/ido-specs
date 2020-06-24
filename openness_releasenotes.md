@@ -2,10 +2,9 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019 Intel Corporation
 ```
-
+<!-- omit in toc -->
 # Release Notes 
 This document provides high level system features, issues and limitations information for OpenNESS. 
-- [Release Notes](#release-notes)
 - [Release history](#release-history)
 - [Features for Release](#features-for-release)
 - [Changes to Existing Features](#changes-to-existing-features)
