@@ -1,0 +1,56 @@
+@startuml
+/' SPDX-License-Identifier: Apache-2.0
+   Copyright (c) 2020 Intel Corporation
+'/
+skinparam monochrome false
+skinparam roundcorner 20
+skinparam defaultFontName "Intel Clear"
+skinparam defaultFontSize 20
+skinparam maxmessagesize 300
+skinparam sequenceArrowThickness 3
+
+header Intel Corporation
+footer Proprietary and Confidential
+
+title OAuth2 flow between Openness AF and NEF
+
+actor Admin as user
+participant "UI/CLI" as UI 
+participant "Af Microservice" as AF 
+participant "NEF" as NEF
+participant "NGC CP Function" as 5GC
+participant "OAuth2" as OAUTH2
+
+box "OpenNESS Controller Components" #LightBlue
+	participant UI
+    participant AF
+end box
+
+box "5G Core Components" #LightGreen
+    participant OAUTH2
+	participant NEF
+    participant 5GC
+    note over NEF 
+        OpenNESS provided 
+        Core component with 
+        limited functionality
+    end note    
+end box
+
+AF -> OAUTH2 : GetAccessToken
+OAUTH2 -> AF : Token
+group Success Case 
+    AF -> NEF : POST (Authorization: Bearer <token>)
+    NEF -> OAUTH2 : ValidateAccessToken
+    OAUTH2 -> NEF : Success
+    NEF -> AF : 200 OK
+end
+
+group Failure case
+    AF -> NEF : POST (Authorization: Bearer <token>)
+    NEF -> OAUTH2 : ValidateAccessToken
+    OAUTH2 -> NEF : Failure
+    NEF -> AF : 401 Unauthorized \nWWW-Authenticate: Bearer <POST API>
+end
+
+@enduml

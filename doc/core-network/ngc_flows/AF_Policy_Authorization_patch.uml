@@ -1,0 +1,48 @@
+@startuml
+/' SPDX-License-Identifier: Apache-2.0
+   Copyright (c) 2020 Intel Corporation
+'/
+skinparam monochrome false
+skinparam roundcorner 20
+skinparam defaultFontName "Intel Clear"
+skinparam defaultFontSize 20
+skinparam maxmessagesize 300
+skinparam sequenceArrowThickness 3
+
+header Intel Corporation
+footer Proprietary and Confidential
+
+title Policy Authorization flow between Openness and 5G core
+
+
+actor "User/Admin" as user
+participant "CLI" as CLI 
+participant "Af Microservice" as AF 
+participant "NEF" as NEF
+participant "NGC CP Function" as 5GC
+
+box "OpenNESS Controller Components" #LightBlue
+	participant CLI
+    participant AF
+end box
+
+box "5G Core Components" #LightGreen
+	participant NEF
+    participant 5GC
+    note over NEF 
+        OpenNESS provided 
+        Core component with 
+        limited functionality
+    end note    
+end box
+
+group Policy Authorization - Application Session Context PATCH flow
+    user -> CLI : Update app session context with app-sessionId
+    CLI -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
+    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
+
+    5GC --> AF : 200 OK or 204 No Content : app-session information \ ERROR 
+    AF --> CLI : 200 OK or 204 No Content : app-session information\ ERROR 
+    CLI --> user : Success: app-sessionId information
+end
+@enduml
