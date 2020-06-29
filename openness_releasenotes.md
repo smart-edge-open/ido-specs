@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019 Intel Corporation
+Copyright (c) 2019-2020 Intel Corporation
 ```
 <!-- omit in toc -->
 # Release Notes 
@@ -16,6 +16,7 @@ This document provides high level system features, issues and limitations inform
   - [2nd Generation Intel® Xeon® Scalable Processors](#2nd-generation-intel-xeon-scalable-processors)
   - [Intel® Xeon® Scalable Processors](#intel-xeon-scalable-processors)
 - [Supported Operating Systems](#supported-operating-systems)
+- [Packages Version](#packages-version)
 
 # Release history 
 1. OpenNESS - 19.06
@@ -275,7 +276,8 @@ This document provides high level system features, issues and limitations inform
   - Cannot remove Edge Node from Controller when its offline and traffic policy is configured or app is deployed. 
   - Legacy OnPremises - Traffic rule creation: cannot parse filled and cleared field
   - There is an issue with using CDI when uploading VM images when CMK is enabled due to missing CMK taint toleration. The CDI upload pod does not get deployed and the `virtctl` plugin command times out waiting for the action to complete. A workaround for the issue is to invoke the CDI upload command, edit the taint toleration for the CDI upload to tolerate CMK, update the pod, create the PV and let the pod run to completion.
-  - 
+  - There is a known issue with cAdvisor which in certain scenarios occasionally fails to expose the metrics for Prometheus endpoint, see Git Hub: https://github.com/google/cadvisor/issues/2537 
+
     
 # Release Content
 - **OpenNESS 19.06** OpenNESS Edge node, OpenNESS Controller, Common, Spec and OpenNESS Applications. 
@@ -334,3 +336,5 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 # Supported Operating Systems
 > OpenNESS was tested on CentOS Linux release 7.6.1810 (Core) : Note: OpenNESS is tested with CentOS 7.6 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is not a requirement from OpenNESS software to run on a Pre-empt RT kernel.
 
+# Packages Version
+Package: telemetry, cadvisor 0.36.0, grafana  7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, tas 0., golang 1.14.2, docker 19.03., kubernetes 1.18.4, dpdk 18.11.6, ovs 2.11.1, ovn 2.12.0, helm 3.0, kubeovn 1.0.1, flannel 0.12.0, calico 3.14.0 , multus 3.4.1, sriov cni 2.3, nfd 0.5.0, cmk v1.4.1
