@@ -153,13 +153,13 @@ This document provides high level system features, issues and limitations inform
       - NEF: dockerfile and pod specification 
       - UPF: dockerfile and pod specification 
 5. <b>OpenNESS – 20.06</b>
-   - OpenNESS now available as 
-     - Open Source 
-     - Intel Distribution of OpenNESS (IDO) - Needs access approval 
-     - Both distributions are hosted behind github.com/open-ness 
-   - OnPremises mode 
-     - Development of Legacy OnPremises native mode has been paused 
-     - Kubernetes based solution will now support both Network and OnPremises Edge 
+    - OpenNESS is now available in two distributions
+      - Open source (Apache 2.0 license)
+      - Intel Distribution of OpenNESS (Intel Proprietary License)
+        - Includes all the code from the open source distribution plus additional features and enhancements to improve the user experience
+        - Access requires a signed license. A request for access can be made at openness.org by navigating to the “Products” section and selecting “Intel Distribution of OpenNESS” 
+      - Both distributions are hosted at github.com/open-ness
+   - On premises configuration now optionally supports Kubernetes 
    - Core Network Feature (5G)
      - Policy Authorization Service support in AF and CNCA over the N5 Interface(3GPP 29.514 - Chapter 5 Npcf_PolicyAuthorization Service API).
      - Core Network Notifications for User Plane Path Change event received through Policy Authorization support in AF.
@@ -267,6 +267,15 @@ This document provides high level system features, issues and limitations inform
   - OpenNESS controller allows management NICs to be in the pool of configuration which might allow configuration by mistake there by disconnecting the node from master
   - When using the SRIOV EPA feature added in 20.03 with OVNCNI, the container cannot access the CNI port. This is due to the SRIOV port being set by changing the network used by the container from default to a custom network, This overwrites the OVNCNI network setting configured prior to this to enable the container to work with OVNCNI. Another issue with the SRIOV, is that this also overwrites the network configuration with the EAA and edgedns, agents, which prevents the SRIOV enabled container from communicating with the agents.
   - Cannot remove Edge Node from Controller when its offline and traffic policy is configured or app is deployed.  
+- **OpenNESS 20.06** 
+  - On-Premises edge installation takes 1.5hrs because of docker image build for OVS-DPDK 
+  - Network edge installation takes 1.5hrs because of docker image build for OVS-DPDK
+  - OpenNESS controller allows management NICs to be in the pool of configuration which might allow configuration by mistake there by disconnecting the node from master
+  - When using the SRIOV EPA feature added in 20.03 with OVNCNI, the container cannot access the CNI port. This is due to the SRIOV port being set by changing the network used by the container from default to a custom network, This overwrites the OVNCNI network setting configured prior to this to enable the container to work with OVNCNI. Another issue with the SRIOV, is that this also overwrites the network configuration with the EAA and edgedns, agents, which prevents the SRIOV enabled container from communicating with the agents.
+  - Cannot remove Edge Node from Controller when its offline and traffic policy is configured or app is deployed. 
+  - Legacy OnPremises - Traffic rule creation: cannot parse filled and cleared field
+  - There is an issue with using CDI when uploading VM images when CMK is enabled due to missing CMK taint toleration. The CDI upload pod does not get deployed and the `virtctl` plugin command times out waiting for the action to complete. A workaround for the issue is to invoke the CDI upload command, edit the taint toleration for the CDI upload to tolerate CMK, update the pod, create the PV and let the pod run to completion.
+  - 
     
 # Release Content
 - **OpenNESS 19.06** OpenNESS Edge node, OpenNESS Controller, Common, Spec and OpenNESS Applications. 
