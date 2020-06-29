@@ -220,7 +220,7 @@ spec:
 
 #### SRIOV for Network-Edge troubleshooting
 
-SR-IOV device plugin image building requires downloading ddptool from `d downloads.sourceforge.net`. Following error is visible in ansible logs when ddptool downloading fails:
+SR-IOV device plugin image building requires downloading ddptool from `downloads.sourceforge.net`. Following error is visible in ansible logs when ddptool downloading fails:
 
 ```shell
 TASK [kubernetes/cni/sriov/master : build device plugin image] *****************************************************
