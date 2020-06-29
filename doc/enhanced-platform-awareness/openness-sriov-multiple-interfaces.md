@@ -216,6 +216,23 @@ spec:
          valid_lft forever preferred_lft forever
    ```
 
+#### SRIOV for Network-Edge troubleshooting
+
+SR-IOV device plugin image building requires downloading ddptool from `downloads.sourceforge.net`. Following error is visible in ansible logs when ddptool downloading fails:
+
+```shell
+TASK [kubernetes/cni/sriov/master : build device plugin image] *****************************************************
+task path: /root/testy/openness-experience-kits/roles/kubernetes/cni/sriov/master/tasks/main.yml:52
+...
+STDERR:
+The command '/bin/sh -c apk add --update --virtual build-dependencies build-base linux-headers &&     cd /usr/src/sriov-network-device-plugin &&     make clean &&     make build &&     cd /tmp/ddptool && tar zxvf ddptool-1.0.0.0.tar.gz && make' returned a non-zero code: 1
+make: *** [image] Error 1
+MSG:
+non-zero return code
+```
+
+As a workaround ddptool can be downloaded manually to `/tmp/ddptool`.
+
 ### SRIOV for On-Premises
 Support for providing SR-IOV interfaces to containers and virtual machines is also available for OpenNESS On-Premises deployments.
 
