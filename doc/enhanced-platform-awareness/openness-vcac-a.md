@@ -4,7 +4,6 @@ Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
 # Using Visual Compute Accelerator Card - Analytics (VCAC-A) in OpenNESS
-
 - [Overview](#overview)
 - [Architecture](#architecture)
   - [VCA Zone](#vca-zone)

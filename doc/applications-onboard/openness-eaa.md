@@ -3,8 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
-# Edge Application Agent and API support
-
+# Edge Application Agent (EAA)
 - [Edge Application APIs](#edge-application-apis)
 - [Edge Application Authentication APIs](#edge-application-authentication-apis)
 
