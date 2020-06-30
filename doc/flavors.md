@@ -132,7 +132,7 @@ The steps to get it installed are as the following:
 1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 
 2. Run x-OEK deployment script:
-   $ x-openness-experience-kits# deploy_ne.sh -f core-cplane
+   $ ido-openness-experience-kits# deploy_ne.sh -f core-cplane
 
 This deployment flavor enables the following ingredients:
 
@@ -153,7 +153,7 @@ The steps to get it installed are as the following:
 1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 
 2. Run x-OEK deployment script:
-   $ x-openness-experience-kits# deploy_ne.sh -f core-uplane
+   $ ido-openness-experience-kits# deploy_ne.sh -f core-uplane
 
 This deployment flavor enables the following ingredients:
 
@@ -164,4 +164,4 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - Hugepages of size 1Gi and amount of Huge Pages as 8G for the nodes
 
-> ** NOTE ** : For a reference UPF deployment refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
+> ** NOTE ** : For a reference UPF deployment refer to [5G UPF Edge App](https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF)
