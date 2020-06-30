@@ -36,7 +36,7 @@ OpenNESS provides the following helm charts:
   - Prometheus, NodeExporter, Cadvisor, Collectd, Opentelemetry, PCM and Grafana.
   - CNI plugins including Multus and SRIOV CNI.
   - video analytics service. 
-  - 5G control plane pods. (Only in the Intel Distribution of OpenNESS) 
+  - 5G control plane pods including AF, NEF, OAM and CNTF. 
 > **Note:**  NFD, CMK, Prometheus, NodeExporter and Grafana leverage existing third-party helm charts: [Container Experience Kits](https://github.com/intel/container-experience-kits) and [Helm Github Repo](https://github.com/helm/charts). For other helm charts, [OpenNESS Experience Kits](https://github.com/otcshare/openness-experience-kits) ansible playbooks perform automatic charts generation and deployment.
 
 - Sample applications, network functions and services that can be deployed and verified on the OpenNESS platform:
