@@ -127,11 +127,11 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 
 3. GSMA 5G Implementation Guidelines: NSA Option 3 February 2020 - <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf>
 
-4. Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC - <https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_epc.md>
+4. Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC - <https://github.com/open-ness/ido-specs/blob/master/doc/core-network/openness_epc.md>
 
-5. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_ngc.md>
+5. Edge Cloud Deployment with 3GPP 5G Stand Alone - <https://github.com/open-ness/ido-specs/blob/master/doc/core-network/openness_ngc.md>
 
-6. 4G Control and User Plane Separation (CUPS) Management API - <https://github.com/otcshare/x-specs/tree/master/schema/cups>
+6. 4G Control and User Plane Separation (CUPS) Management API - <https://github.com/open-ness/ido-specs/tree/master/schema/cups>
 
 [3GPP_23799]: <https://www.3gpp.org/DynaReport/23799.htm> "3GPP 23.799 Study on Architecture for Next Generation System(Release 14) Annex J: Deployment Scenarios"
 
@@ -139,11 +139,11 @@ This white paper describes an investigation of how the OpenNESS support for LTE 
 
 [GSMA_5G_NSA]: <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf> "GSMA 5G Implementation Guidelines: NSA Option 3 February 2020"
 
-[OpenNESS_EPC]: <https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
+[OpenNESS_EPC]: <https://github.com/open-ness/ido-specs/blob/master/doc/core-network/openness_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
 
-[OpenNESS_NGC]: <https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
+[OpenNESS_NGC]: <https://github.com/open-ness/ido-specs/blob/master/doc/core-network/openness_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
 
-[4G CUPS Management API]: <https://github.com/otcshare/x-specs/tree/master/schema/cups> "4G Control and User Plane Separation (CUPS) Management API"
+[4G CUPS Management API]: <https://github.com/open-ness/ido-specs/tree/master/schema/cups> "4G Control and User Plane Separation (CUPS) Management API"
 
 # List of abbreviations
 

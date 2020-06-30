@@ -2,26 +2,25 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019 Intel Corporation
 ```
-
+<!-- omit in toc -->
 # OpenNESS Application development and porting guide
-- [OpenNESS Application development and porting guide](#openness-application-development-and-porting-guide)
-  - [Introduction](#introduction)
-  - [OpenNESS Edge Node Applications](#openness-edge-node-applications)
-    - [Producer Application](#producer-application)
-    - [Consumer Application](#consumer-application)
-    - [Example of Producer and Consumer Applications](#example-of-producer-and-consumer-applications)
-      - [OpenVINO Producer Application](#openvino-producer-application)
-      - [OpenVINO Consumer Application](#openvino-consumer-application)
-      - [Execution Flow Between EAA, Producer and Consumer](#execution-flow-between-eaa-producer-and-consumer)
-    - [Cloud Adapter Edge compute Application](#cloud-adapter-edge-compute-application)
-  - [Application On-boarding](#application-on-boarding)
-    - [OpenNESS-aware Applications](#openness-aware-applications)
-      - [Authentication](#authentication)
-      - [Service Activation](#service-activation)
-      - [Service Discovery and Subscription](#service-discovery-and-subscription)
-      - [Service Notifications](#service-notifications)
-    - [OpenNESS-agnostic Applications](#openness-agnostic-applications)
-    - [Make Legacy Applications OpenNESS-aware](#make-legacy-applications-openness-aware)
+- [Introduction](#introduction)
+- [OpenNESS Edge Node Applications](#openness-edge-node-applications)
+  - [Producer Application](#producer-application)
+  - [Consumer Application](#consumer-application)
+  - [Example of Producer and Consumer Applications](#example-of-producer-and-consumer-applications)
+    - [OpenVINO Producer Application](#openvino-producer-application)
+    - [OpenVINO Consumer Application](#openvino-consumer-application)
+    - [Execution Flow Between EAA, Producer and Consumer](#execution-flow-between-eaa-producer-and-consumer)
+  - [Cloud Adapter Edge compute Application](#cloud-adapter-edge-compute-application)
+- [Application On-boarding](#application-on-boarding)
+  - [OpenNESS-aware Applications](#openness-aware-applications)
+    - [Authentication](#authentication)
+    - [Service Activation](#service-activation)
+    - [Service Discovery and Subscription](#service-discovery-and-subscription)
+    - [Service Notifications](#service-notifications)
+  - [OpenNESS-agnostic Applications](#openness-agnostic-applications)
+  - [Make Legacy Applications OpenNESS-aware](#make-legacy-applications-openness-aware)
 
 ## Introduction
 OpenNESS is an open source software toolkit to enable easy orchestration of edge services across diverse network platform and access technologies in multi-cloud environments. It is inspired by the edge computing architecture defined by the ETSI Multi-access Edge Computing standards (e.g., [ETSI_MEC 003]), as well as the 5G network architecture ([3GPP_23501]).
@@ -120,9 +119,9 @@ OpenNESS supports this by ability to deploy public cloud IOT gateways from cloud
 
 _Figure - Example of Cloud Adapter Edge Application in OpenNESS Platform_
 
-More details about running Baidu OpenEdge as OpenNESS application can be found here [Baidu OpenEdge  Edge Application](https://github.com/open-ness/x-specs/blob/master/doc/openness_baiducloud.md). 
+More details about running Baidu OpenEdge as OpenNESS application can be found here [Baidu OpenEdge  Edge Application](https://github.com/open-ness/ido-specs/blob/master/doc/openness_baiducloud.md). 
 
-More details about running Amazon AWS IoT Greengrass as OpenNESS application can be found here  [Amazon AWS IoT Greengrass Edge Application](https://github.com/open-ness/x-specs/blob/master/doc/openness_awsgreengrass.md). 
+More details about running Amazon AWS IoT Greengrass as OpenNESS application can be found here  [Amazon AWS IoT Greengrass Edge Application](https://github.com/open-ness/ido-specs/blob/master/doc/openness_awsgreengrass.md). 
 
 ## Application On-boarding
 

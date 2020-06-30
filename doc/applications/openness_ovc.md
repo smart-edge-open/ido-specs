@@ -2,19 +2,18 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019 Intel Corporation
 ```
-
+<!-- omit in toc -->
 # Open Visual Cloud Smart City Application on OpenNESS - Solution Overview
-- [Open Visual Cloud Smart City Application on OpenNESS - Solution Overview](#open-visual-cloud-smart-city-application-on-openness---solution-overview)
-  - [OpenNESS Introduction](#openness-introduction)
-  - [Open Visual Cloud Introduction](#open-visual-cloud-introduction)
-  - [Smart City Edge Application Introduction](#smart-city-edge-application-introduction)
-  - [The Smart City Building Blocks](#the-smart-city-building-blocks)
-  - [Smart City App Deployment with OpenNESS](#smart-city-app-deployment-with-openness)
-  - [Open Visual Cloud and OpenNESS Integration using Virtual Machines](#open-visual-cloud-and-openness-integration-using-virtual-machines)
-    - [The Infrastructure Challenges](#the-infrastructure-challenges)
-    - [The Smart City Application Challenges](#the-smart-city-application-challenges)
-  - [Open Visual Cloud and OpenNESS Integration as cloud-native](#open-visual-cloud-and-openness-integration-as-cloud-native)
-  - [Conclusion](#conclusion)
+- [OpenNESS Introduction](#openness-introduction)
+- [Open Visual Cloud Introduction](#open-visual-cloud-introduction)
+- [Smart City Edge Application Introduction](#smart-city-edge-application-introduction)
+- [The Smart City Building Blocks](#the-smart-city-building-blocks)
+- [Smart City App Deployment with OpenNESS](#smart-city-app-deployment-with-openness)
+- [Open Visual Cloud and OpenNESS Integration using Virtual Machines](#open-visual-cloud-and-openness-integration-using-virtual-machines)
+  - [The Infrastructure Challenges](#the-infrastructure-challenges)
+  - [The Smart City Application Challenges](#the-smart-city-application-challenges)
+- [Open Visual Cloud and OpenNESS Integration as cloud-native](#open-visual-cloud-and-openness-integration-as-cloud-native)
+- [Conclusion](#conclusion)
 
 ## OpenNESS Introduction
 OpenNESS is an open source software toolkit that enables easy orchestration of edge services across diverse network platform and access technologies in multi-cloud environments. It is inspired by the edge computing architecture defined by the ETSI Multi-access Edge Computing standards (e.g., [ETSI_MEC 003]), as well as the 5G network architecture ([3GPP_23501]).
@@ -105,7 +104,7 @@ The deployment script is also rewritten to separate the launch of the services i
 
 ## Open Visual Cloud and OpenNESS Integration as cloud-native
 
-Integrating the [cloud-native Smart City application](https://github.com/OpenVisualCloud/Smart-City-Sample/blob/master/deployment/kubernetes/README.md) with OpenNESS was a seamless process due to the OpenNESS adoption of Kubernetes standard features such as: Namespaces, Services, DaemonSets and Network Policies. In one step, The Smart City application is deployed on the OpenNESS setup based on the reference deployment on vanilla Kubernetes. More details on onboarding the cloud-native Smart City application with OpenNESS is covered at the [application onboarding guide](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-smart-city-sample-application).
+Integrating the [cloud-native Smart City application](https://github.com/OpenVisualCloud/Smart-City-Sample/blob/master/deployment/kubernetes/README.md) with OpenNESS was a seamless process due to the OpenNESS adoption of Kubernetes standard features such as: Namespaces, Services, DaemonSets and Network Policies. In one step, The Smart City application is deployed on the OpenNESS setup based on the reference deployment on vanilla Kubernetes. More details on onboarding the cloud-native Smart City application with OpenNESS is covered at the [application onboarding guide](https://github.com/open-ness/ido-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-smart-city-sample-application).
 
 ## Conclusion
 

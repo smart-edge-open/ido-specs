@@ -2,20 +2,20 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019 Intel Corporation
 ```
-
+<!-- omit in toc -->
 # Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS
+- [Overview](#overview)
+- [HDDL Introduction](#hddl-introduction)
+- [HDDL OpenNESS Integration](#hddl-openness-integration)
+  - [Dynamic CPU and VPU usage](#dynamic-cpu-and-vpu-usage)
+- [Using HDDL-R PCI card with OpenNESS - Details](#using-hddl-r-pci-card-with-openness---details)
+  - [HDDL-R PCI card Ansible installation for OpenNESS OnPremise Edge](#hddl-r-pci-card-ansible-installation-for-openness-onpremise-edge)
+  - [Building Docker image with HDDL only or dynamic CPU/VPU usage](#building-docker-image-with-hddl-only-or-dynamic-cpuvpu-usage)
+  - [Deploying application with HDDL support](#deploying-application-with-hddl-support)
+- [Summary](#summary)
+- [Reference](#reference)
 
-- [Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](#using-intel%c2%ae-movidius%e2%84%a2-myriad%e2%84%a2-x-high-density-deep-learning-hddl-solution-in-openness)
-  - [HDDL Introduction](#hddl-introduction)
-  - [HDDL OpenNESS Integration](#hddl-openness-integration)
-    - [Dynamic CPU and VPU usage](#dynamic-cpu-and-vpu-usage)
-  - [Using HDDL-R PCI card with OpenNESS - Details](#using-hddl-r-pci-card-with-openness---details)
-    - [HDDL-R PCI card Ansible installation for OpenNESS OnPremise Edge](#hddl-r-pci-card-ansible-installation-for-openness-onpremise-edge)
-    - [Building Docker image with HDDL only or dynamic CPU/VPU usage](#building-docker-image-with-hddl-only-or-dynamic-cpuvpu-usage)
-    - [Deploying application with HDDL support](#deploying-application-with-hddl-support)
-  - [Summary](#summary)
-  - [Reference](#reference)
-
+## Overview
 Deployment of AI based Machine Learning (ML) applications on the edge is becoming more prevalent. Supporting hardware resources that accelerate AI/ML applications on the edge is key to improve the capacity of edge cloud deployment. It is also important to use CPU instruction set to execute AI/ML tasks when load is less. This paper explains these topics in the context of inference as a edge workload.
 
 ## HDDL Introduction
@@ -67,9 +67,8 @@ onprem_hddl_enable: true
 ```
 Run setup script `deploy_onprem.sh nodes`.
 
-> NOTE: For this release, HDDL only supports default OS kernel(3.10.0-957.el7.x86_64) and need to set flag: `kernel_skip` as `true` in `group_vars/edgenode_group/10-default.yml` before running OpenNESS installation scripts.
-
-> NOTE: The HDDL precheck will check the current role and playbooks variables whether they satisfy the HDDL running pre-conditions.
+> NOTE: For this release, HDDL verifed with default CentOS Minimal No-RT-kernel(3.10.0-957.el7.x86_64) and Customized RT-kernel(3.10.0-1062.12.1.rt56.1042.el7.x86_64).
+> NOTE: For the hardware platforms with ASMedia PCIe Gen3 switch need to upgrade firmware. otherwise there will be potential system hang issue for some small network models such as squeenzenet1.1...etc.
 
 To check HDDL service running status on the edgenode after deploy, docker logs should look like:
 ```
@@ -100,11 +99,11 @@ docker logs --tail 20 ca7e9bf9e570
 
 ### Building Docker image with HDDL only or dynamic CPU/VPU usage
 
-In order to enable HDDL or mixed CPU/VPU operation by the containerized OpenVINO application set the `OPENVINO_ACCL` environmental variable to `HDDL` or `CPU_HDDL` inside producer application Dockerfile, located in Edge Apps repo - [edgeapps/applications/openvino/producer](https://github.com/otcshare/edgeapps/blob/master/applications/openvino/producer/Dockerfile). Build the image using the ./build-image.sh located in same directory. Making the image accessible by Edge Controller via HTTPs server is out of scope of this documentation - please refer to [Application Onboard Document](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/on-premises-applications-onboarding.md).
+In order to enable HDDL or mixed CPU/VPU operation by the containerized OpenVINO application set the `OPENVINO_ACCL` environmental variable to `HDDL` or `CPU_HDDL` inside producer application Dockerfile, located in Edge Apps repo - [edgeapps/applications/openvino/producer](https://github.com/open-ness/edgeapps/blob/master/applications/openvino/producer/Dockerfile). Build the image using the ./build-image.sh located in same directory. Making the image accessible by Edge Controller via HTTPs server is out of scope of this documentation - please refer to [Application Onboard Document](https://github.com/open-ness/ido-specs/blob/master/doc/applications-onboard/on-premises-applications-onboarding.md).
 
 ### Deploying application with HDDL support
 
-Application onboarding is out of scope of this document - please refer to [Application Onboard Document](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/on-premises-applications-onboarding.md). General steps for onboarding OpenVino application should be executed with one exception. During the addition of the OpenVino consumer application to OpenNESS controller's library, the user needs to input an 'EPA Feature Key' and 'EPA Feature Value', the key to be entered is `hddl`, the value is `true`.
+Application onboarding is out of scope of this document - please refer to [Application Onboard Document](https://github.com/open-ness/ido-specs/blob/master/doc/applications-onboard/on-premises-applications-onboarding.md). General steps for onboarding OpenVino application should be executed with one exception. During the addition of the OpenVino consumer application to OpenNESS controller's library, the user needs to input an 'EPA Feature Key' and 'EPA Feature Value', the key to be entered is `hddl`, the value is `true`.
 
 ## Summary
 Intel® Movidius™ Myriad™ X High Density Deep Learning solution integrates multiple Myriad™ X SoCs in a PCIe add-in card form factor or a module form factor to build a scalable, high capacity deep learning solution. OpenNESS provides a toolkit for customers to put together Deep learning solution at the edge. To take it further for efficient resource usage OpenNESS provides mechanism to use CPU or VPU depending on the load or any other criteria.

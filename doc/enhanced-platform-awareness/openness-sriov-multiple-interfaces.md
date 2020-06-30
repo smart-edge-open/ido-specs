@@ -2,24 +2,22 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019-2020 Intel Corporation
 ```
-
+<!-- omit in toc -->
 # Multiple Interface and PCIe SRIOV support in OpenNESS
-
-- [Multiple Interface and PCIe SRIOV support in OpenNESS](#multiple-interface-and-pcie-sriov-support-in-openness)
-  - [Overview](#overview)
-    - [Overview of Multus](#overview-of-multus)
-    - [Overview of SR-IOV CNI](#overview-of-sr-iov-cni)
-    - [Overview of SR-IOV Device Plugin](#overview-of-sr-iov-device-plugin)
-  - [Details - Multiple Interface and PCIe SRIOV support in OpenNESS](#details---multiple-interface-and-pcie-sriov-support-in-openness)
-    - [Multus usage](#multus-usage)
-    - [SRIOV for Network-Edge](#sriov-for-network-edge)
-      - [Edge Node SRIOV interfaces configuration](#edge-node-sriov-interfaces-configuration)
-      - [Usage](#usage)
-    - [SRIOV for On-Premises](#sriov-for-on-premises)
-      - [Edgenode Setup](#edgenode-setup)
-      - [Docker Container Deployment Usage](#docker-container-deployment-usage)
-      - [Virtual Machine Deployment Usage](#virtual-machine-deployment-usage)
-  - [Reference](#reference)
+- [Overview](#overview)
+  - [Overview of Multus](#overview-of-multus)
+  - [Overview of SR-IOV CNI](#overview-of-sr-iov-cni)
+  - [Overview of SR-IOV Device Plugin](#overview-of-sr-iov-device-plugin)
+- [Details - Multiple Interface and PCIe SRIOV support in OpenNESS](#details---multiple-interface-and-pcie-sriov-support-in-openness)
+  - [Multus usage](#multus-usage)
+  - [SRIOV for Network-Edge](#sriov-for-network-edge)
+    - [Edge Node SRIOV interfaces configuration](#edge-node-sriov-interfaces-configuration)
+    - [Usage](#usage)
+  - [SRIOV for On-Premises](#sriov-for-on-premises)
+    - [Edgenode Setup](#edgenode-setup)
+    - [Docker Container Deployment Usage](#docker-container-deployment-usage)
+    - [Virtual Machine Deployment Usage](#virtual-machine-deployment-usage)
+- [Reference](#reference)
 
 ## Overview
 
@@ -67,7 +65,7 @@ kubernetes_cnis:
 
 ### Multus usage
 
-Multus CNI is deployed in OpenNESS using Helm chart. The Helm chart is available in [openness-experience-kits](https://github.com/otcshare/openness-experience-kits/tree/master/roles/kubernetes/cni/multus/master/files/multus-cni). Multus image is pulled by ansible Multus role and pushed to local Docker registry on Edge Controller.
+Multus CNI is deployed in OpenNESS using Helm chart. The Helm chart is available in [openness-experience-kits](https://github.com/open-ness/openness-experience-kits/tree/master/roles/kubernetes/cni/multus/master/files/multus-cni). Multus image is pulled by ansible Multus role and pushed to local Docker registry on Edge Controller.
 
 [Custom resource definition](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-resources) (CRD) is used to define additional network that can be used by Multus.
 
@@ -136,7 +134,7 @@ kubernetes_cnis:
 - sriov
 ```
 
-SR-IOV CNI and device plugin are deployed in OpenNESS using Helm chart. The Helm chart is available in [openness-experience-kits](https://github.com/otcshare/openness-experience-kits/tree/master/roles/kubernetes/cni/sriov/master/files/sriov). Additional chart templates for SR-IOV device plugin are downloaded from [container-experience-kits repository](https://github.com/intel/container-experience-kits/tree/master/roles/sriov-dp-install/charts/sriov-net-dp/templates). SR-IOV images are built from source by ansible SR-IOV role and pushed to local Docker registry on Edge Controller.
+SR-IOV CNI and device plugin are deployed in OpenNESS using Helm chart. The Helm chart is available in [openness-experience-kits](https://github.com/open-ness/openness-experience-kits/tree/master/roles/kubernetes/cni/sriov/master/files/sriov). Additional chart templates for SR-IOV device plugin are downloaded from [container-experience-kits repository](https://github.com/intel/container-experience-kits/tree/master/roles/sriov-dp-install/charts/sriov-net-dp/templates). SR-IOV images are built from source by ansible SR-IOV role and pushed to local Docker registry on Edge Controller.
 
 #### Edge Node SRIOV interfaces configuration
 
@@ -217,6 +215,23 @@ spec:
        inet 10.16.0.10/16 brd 10.16.255.255 scope global eth0
          valid_lft forever preferred_lft forever
    ```
+
+#### SRIOV for Network-Edge troubleshooting
+
+SR-IOV device plugin image building requires downloading ddptool from `downloads.sourceforge.net`. Following error is visible in ansible logs when ddptool downloading fails:
+
+```shell
+TASK [kubernetes/cni/sriov/master : build device plugin image] *****************************************************
+task path: /root/testy/openness-experience-kits/roles/kubernetes/cni/sriov/master/tasks/main.yml:52
+...
+STDERR:
+The command '/bin/sh -c apk add --update --virtual build-dependencies build-base linux-headers &&     cd /usr/src/sriov-network-device-plugin &&     make clean &&     make build &&     cd /tmp/ddptool && tar zxvf ddptool-1.0.0.0.tar.gz && make' returned a non-zero code: 1
+make: *** [image] Error 1
+MSG:
+non-zero return code
+```
+
+As a workaround ddptool can be downloaded manually to `/tmp/ddptool`.
 
 ### SRIOV for On-Premises
 Support for providing SR-IOV interfaces to containers and virtual machines is also available for OpenNESS On-Premises deployments.

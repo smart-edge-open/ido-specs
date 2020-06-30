@@ -2,31 +2,30 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
-
-# VM support in OpenNESS for Network Edge - Setup, deployment, and management considerations.
-
-- [VM support in OpenNESS for Network Edge - Setup, deployment, and management considerations.](#vm-support-in-openness-for-network-edge---setup-deployment-and-management-considerations)
-  - [Overview](#overview)
-  - [KubeVirt](#kubevirt)
-  - [Stateless vs Stateful VMs](#stateless-vs-stateful-vms)
-    - [VMs with ephemeral storage](#vms-with-ephemeral-storage)
-    - [VMs with persistent Local Storage](#vms-with-persistent-local-storage)
-    - [VMs with Cloud Storage](#vms-with-cloud-storage)
-    - [Creating Docker image for stateless VM](#creating-docker-image-for-stateless-vm)
-  - [Enabling in OpenNESS](#enabling-in-openness)
-  - [VM deployment](#vm-deployment)
-    - [Stateless VM deployment](#stateless-vm-deployment)
-    - [Stateful VM deployment](#stateful-vm-deployment)
-    - [VM deployment with SRIOV NIC support](#vm-deployment-with-sriov-nic-support)
-    - [VM snapshot](#vm-snapshot)
-  - [Limitations](#limitations)
-    - [Cloud Storage](#cloud-storage)
-    - [Storage Orchestration and PV/PVC management](#storage-orchestration-and-pvpvc-management)
-    - [Snapshot Creation](#snapshot-creation)
-  - [Useful Commands and Troubleshooting](#useful-commands-and-troubleshooting)
-    - [Commands](#commands)
-    - [Troubleshooting](#troubleshooting)
-  - [Helpful Links](#helpful-links)
+<!-- omit in toc -->
+# VM support in OpenNESS for Network Edge - Setup, deployment, and management considerations
+- [Overview](#overview)
+- [KubeVirt](#kubevirt)
+- [Stateless vs Stateful VMs](#stateless-vs-stateful-vms)
+  - [VMs with ephemeral storage](#vms-with-ephemeral-storage)
+  - [VMs with persistent Local Storage](#vms-with-persistent-local-storage)
+  - [VMs with Cloud Storage](#vms-with-cloud-storage)
+  - [Creating Docker image for stateless VM](#creating-docker-image-for-stateless-vm)
+- [Enabling in OpenNESS](#enabling-in-openness)
+- [VM deployment](#vm-deployment)
+  - [Stateless VM deployment](#stateless-vm-deployment)
+  - [Stateful VM deployment](#stateful-vm-deployment)
+  - [VM deployment with SRIOV NIC support](#vm-deployment-with-sriov-nic-support)
+  - [VM snapshot](#vm-snapshot)
+- [Limitations](#limitations)
+  - [Cloud Storage](#cloud-storage)
+  - [Storage Orchestration and PV/PVC management](#storage-orchestration-and-pvpvc-management)
+  - [Snapshot Creation](#snapshot-creation)
+  - [CDI image upload fails when CMK is enabled](#cdi-image-upload-fails-when-cmk-is-enabled)
+- [Useful Commands and Troubleshooting](#useful-commands-and-troubleshooting)
+  - [Commands](#commands)
+  - [Troubleshooting](#troubleshooting)
+- [Helpful Links](#helpful-links)
 
 ## Overview
 
@@ -60,7 +59,7 @@ In order to create a Docker image for a stateless VM, the VM image needs to be w
 ```
 #Dockerfile
 FROM scratch
-ADD CentOS-7-x86_64-GenericCloud.qcow2 /disk
+ADD CentOS-7-x86_64-GenericCloud.qcow2 /disk/
 ```
 ```shell
 docker build -t centosimage:1.0 .
@@ -122,7 +121,7 @@ The KubeVirt role responsible for bringing up KubeVirt components is enabled by 
 
 ## VM deployment
 Provided below are sample deployment instructions for different types of VMs.
-Please use sample `.yaml` specification files provided in OpenNESS Edge Controller repo - [edgecontroller/kubevirt/examples/](https://github.com/otcshare/edgecontroller/tree/master/kubevirt/examples) in order to deploy the workloads - some of the files will require modification in order to suit the environment they will be deployed in, specific instructions on modifications are provided in steps below.
+Please use sample `.yaml` specification files provided in OpenNESS Edge Controller repo - [edgecontroller/kubevirt/examples/](https://github.com/open-ness/edgecontroller/tree/master/kubevirt/examples) in order to deploy the workloads - some of the files will require modification in order to suit the environment they will be deployed in, specific instructions on modifications are provided in steps below.
 
 ### Stateless VM deployment
 To deploy a sample stateless VM with containerDisk storage:
@@ -159,7 +158,7 @@ To deploy a sample stateful VM with persistent storage and additionally use Gene
       - Edit the sample yaml with hostname of the worker node:
          ```yaml
          # /opt/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
-         # For both pv0 and pv1 enter correct hostname
+         # For both kv-pv0 and kv-pv1 enter correct hostname
          - key: kubernetes.io/hostname
                   operator: In
                   values:
@@ -173,8 +172,8 @@ To deploy a sample stateful VM with persistent storage and additionally use Gene
          ```shell
          [root@controller ~]# kubectl get pv
          NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS    REASON   AGE
-         pv0    15Gi       RWO            Retain           Available           local-storage            7s
-         pv1    15Gi       RWO            Retain           Available           local-storage            7s
+         kv-pv0    15Gi       RWO            Retain           Available           local-storage            7s
+         kv-pv1    15Gi       RWO            Retain           Available           local-storage            7s
          ```
   2. Download the Generic Cloud qcow image for CentOS 7
       ```shell
@@ -185,6 +184,7 @@ To deploy a sample stateful VM with persistent storage and additionally use Gene
       [root@controller ~]# kubectl get services -A | grep cdi-uploadproxy
       ```
   4. Create and upload the image to PVC via CDI
+       > Note: There is currently a limitation when using the CDI together with CMK (Intel's CPU Manager for Kubernetes), the CDI upload pod will fail to deploy on the node due to K8s node taint provided by CMK, for a workaround please see the [limitations section](#cdi-image-upload-fails-when-cmk-is-enabled).
       ```shell
       [root@controller ~]# kubectl virt image-upload dv centos-dv --image-path=/root/kubevirt/CentOS-7-x86_64-GenericCloud-1907.qcow2 --insecure --size=15Gi --storage-class=local-storage --uploadproxy-url=https://<cdi-proxy-ip>:443
 
@@ -202,12 +202,12 @@ To deploy a sample stateful VM with persistent storage and additionally use Gene
   5. Check that PV, DV, PVC are correctly created:
       ```shell
       [root@controller ~]# kubectl get pv
-       pv0    15Gi       RWO            Retain           Bound      default/centos-dv           local-storage            2m48s
-       pv1    15Gi       RWO            Retain           Released   default/   centos-dv-scratch   local-storage            2m48s
+       kv-pv0    15Gi       RWO            Retain           Bound      default/centos-dv           local-storage            2m48s
+       kv-pv1    15Gi       RWO            Retain           Released   default/   centos-dv-scratch   local-storage            2m48s
       [root@controller ~]# kubectl get dv
       centos-dv   Succeeded              105s
       [root@controller ~]# kubectl get pvc
-      centos-dv   Bound    pv0      15Gi       RWO            local-storage   109s
+      centos-dv   Bound    kv-pv0      15Gi       RWO            local-storage   109s
       ```
   6. Create ssh key:
       ```shell
@@ -253,11 +253,11 @@ To deploy a sample stateful VM with persistent storage and additionally use Gene
 To deploy a VM requesting SRIOV VF of NIC:
   1. Bind SRIOV interface to VFIO driver on Edge Node:
      ```shell
-     [root@worker ~]# /opt/dpdk-18.11.2/usertools/dpdk-devbind.py --bind=vfio-pci <PCI.B.F.ID-of-VF>
+     [root@worker ~]# /opt/dpdk-18.11.6/usertools/dpdk-devbind.py --bind=vfio-pci <PCI.B.F.ID-of-VF>
      ```
   2. Delete/Restart SRIOV device plugin on the node:
      ```shell
-     [root@controller ~]# kubectl delete pod kube-sriov-device-plugin-amd64-<podID> -n kube-system
+     [root@controller ~]# kubectl delete pod sriov-release-kube-sriov-device-plugin-amd64-<podID> -n kube-system
      ```
   3. Check that the SRIOV VF for VM is available as allocatable resource for DP (wait a few seconds after restart):
      ```
@@ -355,6 +355,30 @@ Currently in Network Edge OpenNESS there is no mechanism to manage storage, the 
 ### Snapshot Creation
 
 Currently snapshot creation of the stateful VM is to be done by the user manually using the QEMU utility. K8s does provide a Volume Snapshot and Volume Snapshot Restore functionality but at time of writing it is only available for out-off tree K8s device storage plugins supporting CSI driver - the local volume plugin used in this implementation is not yet supported as a CSI plugin. A consideration of how to automate and simplify a VM snapshot for the user will be made in the future.
+
+### CDI image upload fails when CMK is enabled
+
+There is an issue with using CDI when uploading VM images when CMK is enabled due to missing CMK taint toleration. The CDI upload pod does not get deployed and the `virtctl` plugin command times out waiting for the action to complete. A workaround for the issue is to invoke the CDI upload command, edit the taint toleration for the CDI upload to tolerate CMK, update the pod, create the PV and let the pod run to completion. The following script is an example of how to perform the above steps:
+
+```shell
+#!/bin/bash
+
+kubectl virt image-upload dv centos-dv --image-path=/root/CentOS-7-x86_64-GenericCloud-1907.qcow2 --insecure --size=15Gi  --storage-class=local-storage --uploadproxy-url=https://<cdi-proxy-ip>:443 &
+
+sleep 5
+
+kubectl get pod cdi-upload-centos-dv -o yaml --export > cdiUploadCentosDv.yaml
+
+kubectl get pods
+
+awk 'NR==314{print "  - effect: NoSchedule"}NR==314{print "    key: cmk"}NR==314{print "    operator: Exists"}1' cdiUploadCentosDv.yaml > cdiUploadCentosDvToleration.yaml
+
+kubectl apply -f cdiUploadCentosDvToleration.yaml
+
+sleep 5
+
+kubectl create -f /opt/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
+```
 
 ## Useful Commands and Troubleshooting
 
