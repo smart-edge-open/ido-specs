@@ -276,7 +276,13 @@ In this reference validation, UPF will be deployed using helm charts. Reference 
 
 helm install \<pod-name\> \<path to the upf helm chart\> \<list of configuration values\>
 
-Here's an example which configures the following information
+Here's an example
+
+  ```bash
+  ne-controller# helm install upf-cnf ./upf/ --set image.repository=upf-cnf --set node.name=ne-node --set node.path=/root/upf --set upf.vf_if_name=VirtualFunctionEthernetaf/a/0 --set upf.pci_bus_addr=0000:af:0a.1 --set upf.uio_driver=igb_uio --set upf.huge_memory=6G --set upf.main_core=2 --set upf.worker_cores="3\,4" --set upf.pfcp_thread.cores=5 --set upf.pfcp_thread.count=2 --set upf.n3_addr=192.179.120.180/24  --set upf.n4_addr=192.179.120.180 --set upf.n6_addr=192.179.120.180/24 --set upf.n6_gw_addr=192.168.1.180 --set hugePageSize=hugepages-1Gi --set hugePageAmount=4Gi
+  ```
+
+which configures the following information
 
 | Parameter                                    | Description                                                                      |
 | -------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -297,9 +303,7 @@ Here's an example which configures the following information
 | upf.n6_addr=192.168.1.180/24                 | The N6 I/f ip address along with subnet info                                     |
 | upf.n6_gw_addr=192.168.1.180                 | The N6 gateway IP address                                                        |
 
-```bash
-ne-controller# helm install upf-cnf ./upf/ --set image.repository=upf-cnf --set node.name=ne-node --set node.path=/root/upf --set upf.vf_if_name=VirtualFunctionEthernetaf/a/0 --set upf.pci_bus_addr=0000:af:0a.1 --set upf.uio_driver=igb_uio --set upf.huge_memory=6G --set upf.main_core=2 --set upf.worker_cores="3\,4" --set upf.pfcp_thread.cores=5 --set upf.pfcp_thread.count=2 --set upf.n3_addr=192.179.120.180/24  --set upf.n4_addr=192.179.120.180 --set upf.n6_addr=192.179.120.180/24 --set upf.n6_gw_addr=192.168.1.180 --set hugePageSize=hugepages-1Gi --set hugePageAmount=4Gi
-```
+ 
 
 ## To start UPF
 
