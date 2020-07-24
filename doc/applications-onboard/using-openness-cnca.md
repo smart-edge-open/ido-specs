@@ -257,8 +257,8 @@ Role "ngc"
   - Creates ConfigMap **certs-cm** from the above directory.
   - Updates the configuration files of AF and NEF with the service names of NEF and CNTF respectively.
   - Copies the OAM, NEF, CNTF and AF configuration to the location **/etc/openness/configs/ngc** on the controller.
-  - Creates ConfigMap **oauth2-cm** from the above directory.
-  - Creates template of ConfigMaps **af-cm**,**nef-cm**,**cntf-cm**,**oam-cm** from the respective configuration json files present in the above directory.
+  - Creates ConfigMap **oauth2-cm** from the **/etc/openness/configs/ngc/oauth2.json** configuration file.
+  - Creates template of ConfigMaps **af-cm**,**nef-cm**,**cntf-cm**,**oam-cm** from the respective configuration json files present in the **/etc/openness/configs/ngc** directory.
   - Copies these templates to the respective template folders of the helm charts for AF, NEF, OAM and CNTF.
   - Creates docker images for AF, NEF, OAM and CNTF micro services and adds them into the docker registry at **\<controller ip:port\>**.
   - Installs the helm charts for AF, NEF, OAM and CNTF using the images from the docker registry
@@ -336,7 +336,7 @@ If AF configuration need to be updated (as per your deployment configuration) to
 
      - Open the AF configmap template file `/opt/openness-helm-charts/af/templates/configmapAF.yaml` and modify the parameters.
      - Save and exit.
-     - Now update AF POD using the below command:
+     - Now update AF POD using the below command
 
     ```shell
     helm upgrade af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
@@ -386,7 +386,7 @@ If the NEF configuration need to be updated (as per your deployment configuratio
 
      - Open the NEF configmap template file `/opt/openness-helm-charts/nef/templates/configmapNEF.yaml` and modify the parameters.
      - Save and exit.
-     - Now update NEF POD using the below command:
+     - Now update NEF POD using the below command
 
     ```shell
     helm upgrade  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
@@ -443,15 +443,16 @@ Modifying the oauth2 configuration. Follow the following steps:
     ```
 2. Update the ConfigMap associated with oauth2.json
 
-   ```shell
-  kubectl create configmap oauth2-cm --from-file /etc/openness/configs/ngc/oauth2.json -n ngc -o yaml --dry-run=client | kubectl replace -f -
-  ```
+    ```shell
+    kubectl create configmap oauth2-cm --from-file /etc/openness/configs/ngc/oauth2.json -n ngc -o yaml --dry-run=client | kubectl replace -f -
+    ```
 3. Now restart NEF, CNTF, AF PODs using the following commands
-  ```shell
-  helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
-  helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
-  helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
-  ```
+
+    ```shell
+    helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
+    ```
 Modifying the cerificates. Follow the following steps: 
 
 - Update the certificates present in the directory `/etc/openness/certs/ngc/`.
@@ -470,16 +471,17 @@ Modifying the cerificates. Follow the following steps:
     ```
 2. Update the ConfigMap associated with the certificates directory
 
-   ```shell
-  kubectl create configmap certs-cm --from-file /etc/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
-  ```
+    ```shell
+    kubectl create configmap certs-cm --from-file /etc/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
+    ```
 3. Now restart NEF, CNTF, AF, OAM PODs using the following commands
-  ```shell
-  helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
-  helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
-  helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
-  helm install  oam /opt/openness-helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image
-  ```
+
+    ```shell
+    helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
+    helm install  oam /opt/openness-helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image
+    ```
 ### Configuring in Network Edge mode
 
 In case of Network Edge mode, CNCA provides kubectl plugin to configure 5G Core network. Kubernetes adopt plugins concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes eco-system. The plugin performs remote callouts against NGC OAM and AF micro service on the controller itself.
