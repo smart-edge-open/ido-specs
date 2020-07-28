@@ -666,6 +666,10 @@
           "requestWebsocketUri": {
             "type": "boolean",
             "description": "Set by the AF to indicate that the Websocket delivery is requested."
+          },
+          "consumerID": {
+            "type": "integer",
+            "description": "Unique identifier set by consumer."
           }
         }
       },

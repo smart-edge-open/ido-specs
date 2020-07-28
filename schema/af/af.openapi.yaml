@@ -437,6 +437,9 @@ components:
         requestWebsocketUri:
           type: boolean
           description: Set by the AF to indicate that the Websocket delivery is requested.
+        consumerID:
+          type: string
+          description: Unique identifier set by consumer.
     InvalidParam:
       type: object
       properties:
