@@ -472,7 +472,7 @@ Modifying the certificates. Follow the following steps:
 2. Update the ConfigMap associated with the certificates directory
 
     ```shell
-  kubectl create configmap certs-cm --from-file /etc/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
+    kubectl create configmap certs-cm --from-file /etc/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
     ```
 3. Check certs-cm present in available ConfigMaps list:
 
