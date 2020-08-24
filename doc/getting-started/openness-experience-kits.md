@@ -14,7 +14,7 @@ Copyright (c) 2019 Intel Corporation
   - [Default kernel and configure tuned](#default-kernel-and-configure-tuned)
   - [Change amount of hugepages](#change-amount-of-hugepages)
   - [Change size of hugepages](#change-size-of-hugepages)
-  - [Change amount & size of hugepages](#change-amount--size-of-hugepages)
+  - [Change amount and size of hugepages](#change-amount-and-size-of-hugepages)
   - [Remove input output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
   - [Add custom GRUB parameter](#add-custom-grub-parameter)
   - [Configure OVS-DPDK in kube-ovn](#configure-ovs-dpdk-in-kube-ovn)
