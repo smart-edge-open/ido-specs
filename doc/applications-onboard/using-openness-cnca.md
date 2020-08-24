@@ -129,42 +129,64 @@ Role "ngc"
     In addition to the OpenNESS controller bring-up, by enabling the ngc role the playbook scripts performs:
   - Clone of the x-epcforedge repo from github
   - Builds AF(Application Function), NEF(Network Exposure Function), OAM(Operation,Administration and Maintenance) and CNTF(Core Network Test Function) micro services
-  - Generates certificate files at the location **/etc/openness/certs/ngc** on the controller and the node.
+  - Generates certificate files at the location **/etc/openness/certs/ngc** on the controller.
+  - Creates ConfigMap **certs-cm** from the above directory.
   - Updates the configuration files of AF and NEF with the service names of NEF and CNTF respectively.
-  - Copies the OAM, NEF, CNTF and AF configuration to the location **/etc/openness/configs/ngc** on the controller and the node.
+  - Copies the OAM, NEF, CNTF and AF configuration to the location **/etc/openness/configs/ngc** on the controller.
+  - Creates ConfigMap **oauth2-cm** from the **/etc/openness/configs/ngc/oauth2.json** configuration file.
+  - Creates template of ConfigMaps **af-cm**,**nef-cm**,**cntf-cm**,**oam-cm** from the respective configuration json files present in the **/etc/openness/configs/ngc** directory.
+  - Copies these templates to the respective template folders of the helm charts for AF, NEF, OAM and CNTF.
   - Creates docker images for AF, NEF, OAM and CNTF micro services and adds them into the docker registry at **\<controller ip:port\>**.
   - Installs the helm charts for AF, NEF, OAM and CNTF using the images from the docker registry
   - Copies the helm charts for AF, NEF, OAM and CNTF into the location **/opt/openness-helm-charts/**
 
-- On successful start of AF, NEF, OAM and CNTF PODs. Status of PODs, Services, images and helm charts can verified using the below commands:
+- On successful start of AF, NEF, OAM and CNTF PODs. Status of PODs, Deployments, ConfigMaps, Services, images and helm charts can verified using the below commands:
 
     ```shell
-   - kubectl get po -n ngc
-      NAME   READY   STATUS    RESTARTS   AGE
-      af     1/1     Running   0          56m
-      cntf   1/1     Running   0          6d5h
-      nef    1/1     Running   0          6d5h
-      oam    1/1     Running   0          6d5h
+   - kubectl get pods -n ngc
+      NAME                       READY   STATUS    RESTARTS   AGE
+      pod/af-6f5fb6c58f-bhgmk    1/1     Running   0          3d17h
+      pod/cntf-d54ffd544-7xd8j   1/1     Running   0          3d17h
+      pod/nef-55869fc678-wstfw   1/1     Running   0          3d17h
+      pod/oam-659b5db5b5-cf7ds   1/1     Running   0          3d17h
+
+  - kubectl get deployments -n ngc
+      NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+      af     1/1     1            1           3d17h
+      cntf   1/1     1            1           3d17h
+      nef    1/1     1            1           3d17h
+      oam    1/1     1            1           3d17h
+
+  - kubectl get cm -n ngc
+      NAME        DATA   AGE
+      af-cm       1      3d17h
+      certs-cm    8      3d17h
+      cntf-cm     1      3d17h
+      nef-cm      1      3d17h
+      oam-cm      1      3d17h
+      oauth2-cm   1      3d17h
 
    - kubectl get services -n ngc
-      afservice     NodePort   10.111.119.116   <none>        8050:30050/TCP,8051:31475/TCP,30052:30052/TCP   9m1s
-      cntfservice   NodePort   10.99.96.19      <none>        8095:32224/TCP                                  8m40s
-      nefservice    NodePort   10.96.82.23      <none>        8060:32459/TCP                                  9m41s
-      oamservice    NodePort   10.109.193.121   <none>        8070:30070/TCP                                  10m
+      NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                                         AGE
+      afservice     NodePort   10.100.106.19   <none>        8050:30050/TCP,8051:32475/TCP,30052:30052/TCP   3d17h
+      cntfservice   NodePort   10.98.244.147   <none>        8095:32178/TCP                                  3d17h
+      nefservice    NodePort   10.101.91.226   <none>        8060:30372/TCP                                  3d17h
+      oamservice    NodePort   10.97.33.7      <none>        8070:30070/TCP                                  3d17h
 
    - docker image ls
       REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
-      10.190.212.195:5000/cntf-image                  1.0                 515ac537d5df        6 days ago          261MB
-      10.190.212.195:5000/af-image                    1.0                 f3ee00000a29        6 days ago          264MB
-      10.190.212.195:5000/nef-image                   1.0                 99e172731e56        6 days ago          263MB
-      10.190.212.195:5000/oam-image                   1.0                 b5a771311ff8        6 days ago          261MB
+      10.190.212.218:5000/af-image                    1.0                 5f84239da40d        3 days ago          264MB
+      10.190.212.218:5000/oam-image                   1.0                 7e7220f7537d        3 days ago          261MB
+      10.190.212.218:5000/cntf-image                  1.0                 14ba6e5a9f27        3 days ago          261MB
+      10.190.212.218:5000/nef-image                   1.0                 b1cdae311319        3 days ago          263MB
 
     - helm list
       NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
-      af              default         1               2020-06-16 13:23:58.920063681 +0530 IST deployed        af-0.1.0                0.1.0
-      cntf            default         1               2020-06-10 08:22:42.730030568 +0530 IST deployed        cntf-0.1.0              0.1.0
-      nef             default         1               2020-06-10 08:21:25.081038001 +0530 IST deployed        nef-0.1.0               0.1.0
-      oam             default         1               2020-06-10 08:20:45.755123843 +0530 IST deployed        oam-0.1.0               0.1.0
+      af                      default         1               2020-07-20 18:02:31.158137849 +0530 IST deployed        af-0.1.0                                  0.1.0
+      cntf                    default         1               2020-07-20 18:02:57.891084883 +0530 IST deployed        cntf-0.1.0                                0.1.0
+      nef                     default         1               2020-07-20 18:01:24.728140657 +0530 IST deployed        nef-0.1.0                                 0.1.0
+      oam                     default         1               2020-07-20 18:00:06.184551692 +0530 IST deployed        oam-0.1.0                                 0.1.0
+
     ```
 
 #### Deploying the Network Edge Mode to work with 5G Core Network
@@ -176,7 +198,7 @@ The OpenNESS ngc role deploys the PODS as below:
 
 If AF configuration need to be updated (as per your deployment configuration) to use the NEF from the 5G Core Network then follow the below steps:
 
-1. Delete the NEF and CNTF pod using helm as below
+1. Delete the NEF and CNTF PODs using helm as below
 
     ```shell
     helm uninstall nef
@@ -186,31 +208,20 @@ If AF configuration need to be updated (as per your deployment configuration) to
     release "cntf" uninstalled
     ```
 
-2. Delete the AF pod using helm as below
+2. Update the AF POD using helm as below
 
-    ```shell
-    helm list | grep af
-    af              default         1               2020-06-16 10:38:32.692955717 +0530 IST deployed        af-0.1.0                0.1.0
-
-    helm uninstall af
-    release "af" uninstalled
-
-    ne-controller## kubectl get po -n ngc
-    NAME   READY   STATUS    RESTARTS   AGE    
-    nef    1/1     Running   0          6d5h    
-    ```
-
-     - Open the file `/etc/openness/configs/ngc/af.json` and modify the parameters.
+     - Open the AF configmap template file `/opt/openness-helm-charts/af/templates/configmapAF.yaml` and modify the parameters.
      - Save and exit.
-     - Now restart AF POD using the below command:
+     - Now update AF POD using the below command
 
     ```shell
-    helm install af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    helm upgrade af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    Release "af" has been upgraded. Happy Helming!
     NAME: af
-    LAST DEPLOYED: Tue Jun 16 13:23:58 2020
+    LAST DEPLOYED: Fri Jul 24 12:29:44 2020
     NAMESPACE: default
     STATUS: deployed
-    REVISION: 1
+    REVISION: 2
     TEST SUITE: None
     NOTES:
     Chart af was successfully installed
@@ -225,52 +236,42 @@ If AF configuration need to be updated (as per your deployment configuration) to
       $ helm status af
       $ helm get all af
 
-    kubectl get po -n ngc
-    NAME   READY   STATUS    RESTARTS   AGE
-    af     1/1     Running   0          2m6s
-    oam    1/1     Running   0          6d5h
+
+    kubectl get pods -n ngc
+    NAME                   READY   STATUS    RESTARTS   AGE
+    af-7695ccb494-7v4zx    1/1     Running   0          2m39s
+    oam-659b5db5b5-cf7ds   1/1     Running   0          3d18h
+
     ```
 
     - Successful restart of AF with the updated config can be observed through AF container logs. Run the below command to get AF logs:
-    `kubectl logs -f af --namespace=ngc`
+    `kubectl logs -f af-7695ccb494-7v4zx --namespace=ngc`
     Sample output of the AF container logs with updated config may appear as:
   ![NGC list of PODS](using-openness-cnca-images/ngc_af_service_config_log.png)
 
 If the NEF configuration need to be updated (as per your deployment configuration) to use the SMF/PCF/UDR from the 5G Core Network instead of CNTF then follow the below steps:
 
-1. Delete the CNTF pod using helm as below
+1. Delete the CNTF PODs using helm as below
 
     ```shell
     helm uninstall cntf
     release "cntf" uninstalled
     ```
 
-2. Delete the NEF pod using helm as below
+2. Update the NEF POD using helm as below
 
-    ```shell
-    helm list | grep nef
-    nef              default         1               2020-06-16 10:38:32.692955717 +0530 IST deployed        af-0.1.0                0.1.0
-
-    helm uninstall nef
-    release "nef" uninstalled
-
-    ne-controller# kubectl get po -n ngc
-    NAME   READY   STATUS    RESTARTS   AGE
-    af     1/1     Running   0          6d4h    
-    oam    1/1     Running   0          6d5h
-    ```
-
-     - Open the file `/etc/openness/configs/ngc/nef.json` and modify the parameters.
+     - Open the NEF configmap template file `/opt/openness-helm-charts/nef/templates/configmapNEF.yaml` and modify the parameters.
      - Save and exit.
-     - Now restart NEF POD using the below command:
+     - Now update NEF POD using the below command
 
     ```shell
-    helm install nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    helm upgrade  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    Release "nef" has been upgraded. Happy Helming!
     NAME: nef
-    LAST DEPLOYED: Tue Jun 16 13:23:58 2020
+    LAST DEPLOYED: Fri Jul 24 12:37:20 2020
     NAMESPACE: default
     STATUS: deployed
-    REVISION: 1
+    REVISION: 2
     TEST SUITE: None
     NOTES:
     Chart nef was successfully installed
@@ -285,22 +286,83 @@ If the NEF configuration need to be updated (as per your deployment configuratio
       $ helm status nef
       $ helm get all nef
 
-    kubectl get po -n ngc
-    NAME   READY   STATUS    RESTARTS   AGE
-    af     1/1     Running   0          2m6s
-    oam    1/1     Running   0          6d5h
-    nef    1/1     Running   0          1m6s
+
+    kubectl get pods -n ngc
+    NAME                   READY   STATUS    RESTARTS   AGE
+    af-7695ccb494-7v4zx    1/1     Running   0          8m29s
+    nef-77d67c6778-ph5t4   1/1     Running   0          45s
+    oam-659b5db5b5-cf7ds   1/1     Running   0          3d18h
+
     ```
 
-Modifying the OAM configuration.  Follow the same steps as above(as done for AF) with the following differences
+Modifying the OAM configuration. Follow the same steps as above(as done for AF) with the following differences
 
-- Delete the OAM pod using helm use **helm uninstall oam**
-- Open the file `/etc/openness/configs/ngc/oam.json` and modify the parameters.
+- Open the file `/opt/openness-helm-charts/oam/templates/configmapOAM.yaml` and modify the parameters.
 - Save and exit.
-- Now restart OAM POD using the command **helm install oam /opt/openness-helm-charts/oam --set image.repository=\<controller-ip\>:5000/oam-image**
+- Now restart OAM POD using the command **helm upgrade  oam /opt/openness-helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image**
 - Successful restart of OAM with the updated config can be observed through OAM container logs. Run the below command to get logs OAM logs:
-`kubectl logs -f oam --namespace=ngc`
+`kubectl logs -f oam-659b5db5b5-l26q8 --namespace=ngc`
 
+Modifying the oauth2 configuration. Follow the following steps: 
+
+- Open the file `/etc/openness/configs/ngc/oauth2.json` and modify the parameters.
+- Save and exit.
+1. Delete the CNTF, AF, NEF PODs using helm as below
+
+    ```shell
+    helm uninstall cntf
+    release "cntf" uninstalled
+    helm uninstall nef
+    release "nef" uninstalled
+    helm uninstall cntf
+    release "af" uninstalled
+    ```
+2. Update the ConfigMap associated with oauth2.json
+
+    ```shell
+    kubectl create configmap oauth2-cm --from-file /etc/openness/configs/ngc/oauth2.json -n ngc -o yaml --dry-run=client | kubectl replace -f -
+    ```
+3. Now restart NEF, CNTF, AF PODs using the following commands
+
+    ```shell
+    helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
+    ```
+Modifying the certificates. Follow the following steps: 
+
+- Update the certificates present in the directory `/etc/openness/certs/ngc/`.
+
+1. Delete the CNTF, AF, NEF, OAM PODs using helm as below
+
+    ```shell
+    helm uninstall cntf
+    release "cntf" uninstalled
+    helm uninstall nef
+    release "nef" uninstalled
+    helm uninstall cntf
+    release "af" uninstalled
+    helm uninstall oam
+    release "oam" uninstalled
+    ```
+2. Update the ConfigMap associated with the certificates directory
+
+    ```shell
+    kubectl create configmap certs-cm --from-file /etc/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
+    ```
+3. Check certs-cm present in available ConfigMaps list:
+
+    ```shell
+    kubectl get cm -n ngc
+    ```  
+3. Now restart NEF, CNTF, AF, OAM PODs using the following commands
+
+    ```shell
+    helm install  nef /opt/openness-helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
+    helm install  af /opt/openness-helm-charts/af --set image.repository=<controller-ip>:5000/af-image
+    helm install  cntf /opt/openness-helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
+    helm install  oam /opt/openness-helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image
+    ```
 ### Configuring in Network Edge mode
 
 In case of Network Edge mode, CNCA provides kubectl plugin to configure 5G Core network. Kubernetes adopt plugins concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes eco-system. The plugin performs remote callouts against NGC OAM and AF micro service on the controller itself.
