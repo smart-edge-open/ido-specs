@@ -132,7 +132,9 @@ The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 
 2. Run the x-OEK deployment script:
+   ```
    $ ido-openness-experience-kits# deploy_ne.sh -f core-cplane
+   ```
 
 This deployment flavor enables the following ingredients:
 
@@ -152,7 +154,9 @@ The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 
 2. Run the x-OEK deployment script:
+   ```
    $ ido-openness-experience-kits# deploy_ne.sh -f core-uplane
+   ```
 
 This deployment flavor enables the following ingredients:
 
