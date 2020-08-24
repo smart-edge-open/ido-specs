@@ -15,7 +15,7 @@ Copyright (c) 2019 Intel Corporation
   - [Change amount of hugepages](#change-amount-of-hugepages)
   - [Change the size of hugepages](#change-the-size-of-hugepages)
   - [Change amount & size of hugepages](#change-amount--size-of-hugepages)
-  - [Remove input-output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
+  - [Remove input output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
   - [Add custom GRUB parameter](#add-custom-grub-parameter)
   - [Configure OVS-DPDK in kube-ovn](#configure-ovs-dpdk-in-kube-ovn)
 - [Adding new CNI plugins for Kubernetes (Network Edge)](#adding-new-cni-plugins-for-kubernetes-network-edge)
@@ -143,7 +143,7 @@ hugepage_amount: "10"   # default is 5000
 hugepage_size: "1G"     # default is 2M
 ```
 
-### Remove input–output memory management unit (IOMMU) from grub params
+### Remove input output memory management unit (IOMMU) from grub params
 ```yaml
 default_grub_params: "hugepagesz={{ hugepage_size }} hugepages={{ hugepage_amount }}"
 ```
