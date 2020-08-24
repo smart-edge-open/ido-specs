@@ -13,7 +13,7 @@ Copyright (c) 2019 Intel Corporation
   - [Use tuned 2.9](#use-tuned-29)
   - [Default kernel and configure tuned](#default-kernel-and-configure-tuned)
   - [Change amount of hugepages](#change-amount-of-hugepages)
-  - [Change the size of hugepages](#change-the-size-of-hugepages)
+  - [Change size of hugepages](#change-size-of-hugepages)
   - [Change amount & size of hugepages](#change-amount--size-of-hugepages)
   - [Remove input output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
   - [Add custom GRUB parameter](#add-custom-grub-parameter)
@@ -132,7 +132,7 @@ tuned_vars: ""
 hugepage_amount: "1000"   # default is 5000
 ```
 
-### Change the size of HugePages
+### Change size of HugePages
 ```yaml
 hugepage_size: "1G"   # default is 2M
 ```
