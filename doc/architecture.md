@@ -144,10 +144,10 @@ OpenNESS supports the following EPA microservices, which typically span across t
   - HDDL service for scheduling jobs on VPU
   - GPU device plugin for K8s
 - <b>FPGA/eASIC/NIC</b>: Software that enables AI inferencing for applications, high-performance and low-latency packet pre-processing on network cards, and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC). It consists of: 
-<!-- Fix this sentence. “…and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC)” -->
   - FPGA device plugin for inferencing
   - SR-IOV device plugin for FPGA/eASIC
   - Dynamic Device Profile for Network Interface Cards (NIC)
+  <!-- Fix this sentence. “…and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC)” -->
 - <b>Resource Management Daemon (RMD)</b>: RMD uses Intel® Resource Director Technology (Intel® RDT) to implement cache allocation and memory bandwidth allocation to the application pods. This is a key technology for achieving resource isolation and determinism on a cloud-native platform. 
 - <b>Node Feature Discovery (NFD)</b>: Software that enables node feature discovery for Kubernetes. It detects hardware features available on each node in a Kubernetes cluster and advertises those features using node labels. 
 - <b>Topology Manager</b>: This component allows users to align their CPU and peripheral device allocations by NUMA node.
