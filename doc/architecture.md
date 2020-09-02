@@ -70,11 +70,11 @@ Most of these deployments are fully virtualized and moving towards cloud-native 
 Before reviewing the detailed architecture overview of OpenNESS, take a look at the logical overview of how OpenNESS microservices are laid out. 
 
 ### Logical 
-The OpenNESS solution is built on top of Kubernetes, which is a production-grade container orchestration environment. A typical OpenNESS-based deployment consists of an **OpenNESS Kubernetes Master Node** and an **OpenNESS Edge Node**.
+The OpenNESS solution is built on top of Kubernetes, which is a production-grade container orchestration environment. A typical OpenNESS-based deployment consists of an **OpenNESS Kubernetes Control Plane Node** and an **OpenNESS Edge Node**.
 
 ![](arch-images/openness_overview.png)
-
-**OpenNESS Kubernetes Master Node**: This node consists of microservices and Kubernetes extensions, enhancements, and optimizations that provide the functionality to configure one or more OpenNESS Edge Nodes and the application services that run on those nodes (Application Pod Placement, Configuration of Core Network, etc). 
+<!-- Fix images to use inclusive language. control plane / node -->
+**OpenNESS Kubernetes Control Plane Node**: This node consists of microservices and Kubernetes extensions, enhancements, and optimizations that provide the functionality to configure one or more OpenNESS Edge Nodes and the application services that run on those nodes (Application Pod Placement, Configuration of Core Network, etc). 
 
 **OpenNESS Edge Node**: This node consists of microservices and Kubernetes extensions, enhancements, and optimizations that are needed for edge application and network function deployments. It also consists of APIs that are often used for the discovery of application services. 
 
@@ -83,10 +83,10 @@ Another key ingredient is the 4G/5G core network functions that enable a private
 ### Architecture 
 ![](arch-images/openness-arc.png)
 
-#### OpenNESS Kubernetes Master Node
-The OpenNESS Kubernetes Master Node consists of Vanilla Kubernetes Master Node components along with OpenNESS microservices that interact with the Kubernetes Master Node using Kubernetes defined APIs. 
+#### OpenNESS Kubernetes Control Plane Node
+The OpenNESS Kubernetes Control Plane Node consists of Vanilla Kubernetes Control Plane Node components along with OpenNESS microservices that interact with the Kubernetes Control Plane Node using Kubernetes defined APIs. 
 
-The following are the high-level features of the OpenNESS Kubernetes Master microservice:
+The following are the high-level features of the OpenNESS Kubernetes Control Plane microservice:
 - Configuration of the hardware platform that hosts applications and network functions 
 - Configuration of network functions (4G, 5G, and WiFi\*)
 - Detection of various hardware and software capabilities of the edge cluster and use for scheduling applications and network functions 
@@ -99,8 +99,8 @@ The OpenNESS Edge Node consists of Vanilla Kubernetes Node components along with
 
 The following are the high-level features of the OpenNESS Kubernetes node microservice:
 - Container runtime (Docker\*) and virtualization infrastructure (libvirt\*, Open vSwitch (OVS)\*, etc.) support
-- Platform pods consisting of services that enable the configuration of a node for a particular deployment, device plugins enabling hardware resource allocation to an application pod, and detection of interfaces and reporting to the Master node.
-- System pods consisting of services that enable reporting the hardware and software features of each node to the master, resource isolation service for pods, and providing a DNS service to the cluster 
+- Platform pods consisting of services that enable the configuration of a node for a particular deployment, device plugins enabling hardware resource allocation to an application pod, and detection of interfaces and reporting to the Control Plane node.
+- System pods consisting of services that enable reporting the hardware and software features of each node to the Control Plane, resource isolation service for pods, and providing a DNS service to the cluster 
 - Telemetry consisting of services that enable hardware, operating system, infrastructure, and application-level telemetry for the edge node 
 - Support for real-time kernel for low latency applications and network functions like 4G and 5G base station and non-real-time kernel 
  
@@ -154,7 +154,7 @@ OpenNESS supports the following EPA microservices, which typically span across t
 - <b>Kubevirt</b>: Provides support for running legacy applications in VM mode and the allocation of SR-IOV ethernet interfaces to VMs. 
 
 ### System Pods 
-- <b>Edge Interface Service</b>: This service is an application that runs in a Kubernetes pod on each worker node of the OpenNESS Kubernetes cluster. It allows attachment of additional network interfaces of the worker host to provide an OVS bridge, enabling external traffic scenarios for applications deployed in Kubernetes pods. Services on each worker can be controlled from the master node using a  kubectl plugin. 
+- <b>Edge Interface Service</b>: This service is an application that runs in a Kubernetes pod on each node of the OpenNESS Kubernetes cluster. It allows attachment of additional network interfaces of the node host to provide an OVS bridge, enabling external traffic scenarios for applications deployed in Kubernetes pods. Services on each node can be controlled from the Control Plane node using a kubectl plugin. 
 This interface service can attach both kernel and userspace (DPDK) network interfaces to OVS bridges of a suitable type.
 - <b>BIOS/Firmware Configuration Service </b>: Uses Intel's System Configuration Utility (syscfg) tool to build a pod that is scheduled by K8s as a job that configures both BIOS and FW with the given specification.
 - <b>DNS Service</b>: Supports DNS resolution and forwarding services for the application deployed on edge computing. The DNS server is implemented based on the DNS library in Go. DNS service supports resolving DNS requests from user equipment (UE) and applications on the edge cloud.
