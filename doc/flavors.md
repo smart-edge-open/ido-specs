@@ -142,7 +142,7 @@ This deployment flavor enables the following ingredients:
 - The default Kubernetes CNI: kube-ovn
 - Telemetry
 - OpenNESS 5G Microservices
-  - OAM (Operation, Administration, Maintenance) and AF (Application Function) on the OpenNESS Controller/K8S Master.
+  - OAM (Operation, Administration, Maintenance) and AF (Application Function) on the OpenNESS Controller/K8S Control Plane.
   - Reference NEF (Network Exposure Function) and CNTF (Core Network Test Function) on the OpenNESS Edge Nodes/K8S Node.
 > **NOTE**: For a real deployment with the 5G Core Network Functions, the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
 
