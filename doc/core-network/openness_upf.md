@@ -6,9 +6,9 @@ Copyright (c) 2020 Intel Corporation
 # User Plane Function (UPF)
 - [Introduction](#introduction)
 - [How to build](#how-to-build)
-- [UPF configure](#upf-configure)
-  - [Platform specific information](#platform-specific-information)
-  - [UPF application specific information](#upf-application-specific-information)
+- [UPF configuration](#upf-configuration)
+  - [Platform-specific information](#platform--specific-information)
+  - [UPF application-specific information](#upf-application--specific-information)
 - [How to start](#how-to-start)
   - [Deploy UPF POD from OpenNESS controller](#deploy-upf-pod-from-openness-controller)
   - [To start UPF](#to-start-upf)
@@ -16,48 +16,51 @@ Copyright (c) 2020 Intel Corporation
 
 # Introduction
 
-The User Plane Function (UPF) is the evolution of the Control and User Plane Separation (CUPS) which part of the Rel.14 in Evolved Packet core (EPC). CUPS enabled PGW to be split in to PGW-C and PGW-U. By doing this PGW-U can be distributed and could be used for Edge Cloud deployment. 
-
+The User Plane Function (UPF) is the evolution of the Control and User Plane Separation (CUPS), which is part of the Rel.14 in Evolved Packet Core (EPC). CUPS allows the PDN Gateway (PGW) to be split into PGW - Control Plane Function (PGW-C) and PGW - User Plane Function (PGW-U). By doing this, PGW-U can be distributed and used for Edge Cloud deployment. 
+<!-- Rel.14? -->
+<!-- Author to address the use of capitalization of nouns throughout document (some examples: Edge Cloud, PDU Session, Data Network, Branching). Author to determine if there is a reason for the capitalization and then use those capitalized nouns consistently in document.  -->
+<!-- Provide link to specification referenced below. -->
+<!-- Define acronyms on first use in list below and rest of document (examples: PDU, RAT, SMF). -->
 Defined in 3GPP technical specification 23.501, the UPF provides:
 
 -	Anchor point for Intra-/Inter-RAT mobility (when applicable).
 -	External PDU Session point of interconnect to Data Network.
--	Packet routing & forwarding (e.g. support of Uplink classifier to route traffic flows to an instance of a data network, support of Branching point to support multi-homed PDU Session).
--	Packet inspection (e.g. Application detection based on service data flow template and the optional PFDs received from the SMF in addition).
--	User Plane part of policy rule enforcement, e.g. Gating, Redirection, Traffic steering).
+-	Packet routing and forwarding (e.g., support of Uplink classifier to route traffic flows to an instance of a data network and support of Branching point to support multi-homed PDU Session).
+-	Packet inspection (e.g., Application detection based on service data flow template and the optional PFDs received from the SMF also).
+-	User Plane part of policy rule enforcement (e.g., Gating, Redirection, Traffic steering).
 -	Lawful intercept (UP collection).
 -	Traffic usage reporting.
--	QoS handling for user plane, e.g. UL/DL rate enforcement, Reflective QoS marking in DL.
+-	QoS handling for user plane (e.g., UL/DL rate enforcement and Reflective QoS marking in DL).
 -	Uplink Traffic verification (SDF to QoS Flow mapping).
 -	Transport level packet marking in the uplink and downlink.
 -	Downlink packet buffering and downlink data notification triggering.
--	Sending and forwarding of one or more "end marker" to the source NG-RAN node.
--	Functionality to respond to Address Resolution Protocol (ARP) requests and / or IPv6 Neighbor Solicitation requests based on local cache information for the Ethernet PDUs. The UPF responds to the ARP and / or the IPv6 Neighbor Solicitation Request by providing the MAC address corresponding to the IP address sent in the request.
+-	Sending and forwarding of one or more "end marker(s)" to the source NG-RAN node.
+-	Functionality to respond to Address Resolution Protocol (ARP) requests and / or IPv6 Neighbor Solicitation requests based on local cache information for the Ethernet\* PDUs. The UPF responds to the ARP and / or the IPv6 Neighbor Solicitation Request by providing the MAC address corresponding to the IP address sent in the request.
 
-As part of the end-to-end integration of the Edge cloud deployment using OpenNESS a reference 5G Core network is used along with reference RAN (FlexRAN). The diagram below shows UPF and NGC Control plane deployed on the OpenNESS platform with the necessary microservice and Kubernetes enhancements required for high throughput user plane workload deployment.
+As part of the end-to-end integration of the Edge cloud deployment using OpenNESS, a reference 5G Core network is used along with reference RAN (FlexRAN). The diagram below shows the UPF and NGC Control plane deployed on the OpenNESS platform along with the necessary microservice and Kubernetes\* (K8s) enhancements required for high throughput user plane workload deployment.
 
 ![UPF and NGC Control plane deployed on OpenNESS](openness-core.png)
 
-> Note: UPF source or binary is not released as part of the OpenNESS.
+>**NOTE**: The UPF source or binary is not released as part of OpenNESS.
+<!-- Suggestion: create a section called “Purpose” and place the below content in Purpose -->
+This document provides the required steps to deploy UPF on the OpenNESS platform. 4G/LTE or 5G UPF can run as network functions on the Edge node in a virtualized environment.  The reference [Dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/Dockerfile) and [5g-upf.yaml](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/5g-upf.yaml) provide details on how to deploy UPF as a Container Networking function (CNF) in a K8s pod on OpenNESS edge node using OpenNESS Enhanced Platform Awareness (EPA) features.
 
-This document aims to provide the steps involved in deploying UPF on the OpenNESS platform. 4G/LTE or 5G User Plane Functions (UPF) can run as network functions on Edge node in a virtualized environment.  The reference [Dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/Dockerfile) and [5g-upf.yaml](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/5g-upf.yaml) provide refrence on how to deploy UPF as a Container Networking function (CNF) in a K8s pod on OpenNESS edge node using OpenNESS Enhanced Platform Awareness (EPA) features.
+These scripts are validated through a reference UPF solution (implementation is based on Vector Packet Processing (VPP)) that is not part of the OpenNESS release.
 
-These scripts are validated through a reference UPF solution (implementation based Vector Packet Processing (VPP)), is not part of OpenNESS release.
-
-> Note: AF and NEF dockerfile and pod specification can be found here
+>**NOTE**: The AF and NEF Dockerfile and pod specification can be found here:
 > - AF - [dockerfile](https://github.com/otcshare/epcforedge/blob/master/ngc/build/networkedge/af/Dockerfile). [Pod Specification](https://github.com/otcshare/epcforedge/blob/master/ngc/scripts/networkedge/ngctest/podAF.yaml)
 > - NEF - [dockerfile](https://github.com/otcshare/epcforedge/blob/master/ngc/build/networkedge/nef/Dockerfile). [Pod Specification](https://github.com/otcshare/epcforedge/blob/master/ngc/scripts/networkedge/ngctest/podNEF.yaml)
 > - OAM - [dockerfile](https://github.com/otcshare/epcforedge/blob/master/ngc/build/networkedge/oam/Dockerfile). [Pod Specification](https://github.com/otcshare/epcforedge/blob/master/ngc/scripts/networkedge/ngctest/podOAM.yaml)
 
 # How to build
 
-1. To keep the build and deploy process simple for reference, docker build and image are stored on the Edge node itself.
+1. To keep the build and deploy process straightforward, the Docker\* build and image are stored on the Edge node.
 
     ```bash
     ne-node# cd <5g-upf-binary-package>
     ```
 
-2. Copy the docker files to the node and build the docker image. Reference docker files and helm-chart for deploying the upf is available at [edgeapps_upf_docker](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF) and [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf) respectively
+2. Copy the Docker files to the node and build the Docker image. Reference Docker files and the helm-chart for deploying the UPF is available at [edgeapps_upf_docker](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF) and [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf) respectively
 
     ```bash
     ne-node# ./build_image.sh
@@ -66,26 +69,27 @@ These scripts are validated through a reference UPF solution (implementation bas
     upf-cnf     1.0                 e0ce467c13d0        15 hours ago        490MB
     ```
 
-# UPF configure
+# UPF configuration
+<!-- Helm chart or helm-chart? -->
+To keep the bring up setup simple, the UPF configuration can be provided through the helm-charts. A reference helm-chart is available at  [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
 
-To keep the bring-up setup simple and to the point, UPF configuration can be provided through the helm-charts.A reference helm-chart is available at  [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
+Below is a list of minimal configuration parameters for VPP-based applications such as UPF.
 
-Below are the list of minimal configuration parameters that one can think of for a VPP based applications like UPF.
-
-## Platform specific information
+## Platform-specific information
+<!-- Huge pages or hugepages? -->
 
 - SR-IOV PCIe interface(s) bus address
 - CPU core dedicated for UPF workloads
 - Amount of Huge pages
 
-## UPF application specific information
+## UPF application-specific information
  
- - N3, N4, N6 and N9 Interface IP addresses
+ - N3, N4, N6, and N9 Interface IP addresses
 
 # How to start
-
-1. Ensure all the EPA microservice and Enhancements (part of OpenNESS play book) are deployed `kubectl get po --all-namespaces`.
-Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are alive on controller and the node. Additionally on the node the **interface service** pod should be alive.
+<!-- author to determine appropriate use of capitalization for nouns (is there a reason?) and to be consistent throughout the document in use of capitalization for nouns (for example, Enhancements and Branching) -->
+<!-- Author to determine if code below aligns with inclusive language. See the use of “master” and “worker”. Update code if appropriate to control plane / node.  -->
+1. Ensure that all EPA microservices and Enhancements (part of OpenNESS playbook) are deployed `kubectl get po --all-namespaces`. Also, ensure that `multus`, `sriov-cni`, and `sriov-device-plugin` pods are alive on the controller and node. The `interface service` pod should also be alive on the node.
 
     ```bash
     ne-controller# kubectl get po --all-namespaces
@@ -120,8 +124,8 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
     openness      syslog-master-894hs                       1/1     Running   0          7d19h
     openness      syslog-ng-n7zfm                           1/1     Running   16         7d19h
     ```
-
-2. Make sure that the VF to the mentioned interface on node host is created. You should see a new interface type “Ethernet Virtual Function“. In the below example for the configuration where 2 VF's(Virtual Functions Interfaces) have been requested for 1 PF (Physical functional interface), the output shows for the PF "af:00.0" the corresponding two VF's are "af:0a.0" and "af:0a.1"
+<!-- confirm acronyms below. Virtual Functions Interfaces (VFIs)? Same for PF. -->
+2. Make sure that the VF to the mentioned interface on node host is created. You should see a new interface type, “Ethernet Virtual Function“. In the below example, for the configuration where 2 VFs (Virtual Functions Interfaces) have been requested for 1 PF (Physical functional interface), the output shows that for PF "af:00.0" the corresponding two VF's are "af:0a.0" and "af:0a.1".
 
     ```bash
     ne-node# lspci | grep Eth
@@ -131,7 +135,7 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
     af:0a.1 Ethernet controller: Intel Corporation Ethernet Virtual Function 700 Series (rev 02)
     ```
 
-3. Enable the vfio-pci/igb-uio driver on the node. The below example shows enabling of the igb_uio driver
+3. Enable the vfio-pci/igb-uio driver on the node. The below example shows the enabling of the `igb_uio` driver:
 
     ```bash
     ne-node# /opt/dpdk-18.11.6/usertools/dpdk-devbind.py -b igb_uio 0000:af:0a.0
@@ -147,7 +151,7 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
     0000:af:0a.1 'Ethernet Virtual Function 700 Series 154c' if=enp175s10f1 drv=i40evf unused=igb_uio,vfio-pci
     ```
 
-4. Check the configmaps has the resource name as intel_sriov_dpdk along with the devices and drivers. In example below the devices **154c** and the driver **igb_uio** are part of the configmaps. If the device and driver are not present in the configmap they need to be added.
+4. Check that ConfigMaps has the resource name as `intel_sriov_dpdk` along with the devices and drivers. In the example below, the devices `154c` and the driver `igb_uio` are part of ConfigMaps. If the device and driver are not present in the ConfigMap, they need to be added.
 
     ```bash
     ne-controller# kubectl get configmaps -n kube-system | grep sriov
@@ -186,7 +190,7 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
     Events:  <none>
     ```
 
-5. Check and change the network attachment from sriov_netdevice to sriov_dpdk
+5. Check and change the network attachment from `sriov_netdevice` to `sriov_dpdk`:
 
     ```bash
     ne-controller# kubectl get network-attachment-definitions
@@ -256,13 +260,13 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
       Events:    <none>
     ```
 
-6. Restart the pod sriov-device-plugin for modifications in configMap and network attachments to take effect. Delete the existing device-plugin pod of **ne-node** and it will restart automatically in about 20 seconds
+6. Restart the pod `sriov-device-plugin` for modifications in ConfigMap and network attachments to take effect. Delete the existing device-plugin pod of **ne-node** and it will restart automatically in about 20 seconds:
 
     ```bash
     ne-controller# kubectl delete pod -n kube-system <sriov-release-kube-sriov-device-plugin-xxx>
     ```
 
-7. Check for the network attachment, you should see intel_sriov_dpdk with 1 allocated VF
+7. Check for the network attachment, you should see `intel_sriov_dpdk` with 1 allocated VF.
 
     ```bash
     ne-controller# kubectl get node ne-node -o json | jq '.status.allocatable' | grep sriov
@@ -271,24 +275,24 @@ Make sure that **multus**, **sriov-cni** and **sriov-device-plugin** pods are al
     ```
 
 ## Deploy UPF POD from OpenNESS controller
-
-In this reference validation, UPF will be deployed using helm charts. Reference helm chart for upf is available at [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
+<!-- helm-chart or helm chart or Helm chart. Author to be consistent in use -->
+In this reference validation, UPF will be deployed using helm charts. The reference helm chart for UPF is available at [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
 
 helm install \<pod-name\> \<path to the upf helm chart\> \<list of configuration values\>
 
-Here's an example
+Here is an example:
 
   ```bash
   ne-controller# helm install upf-cnf ./upf/ --set image.repository=upf-cnf --set node.name=ne-node --set node.path=/root/upf --set upf.vf_if_name=VirtualFunctionEthernetaf/a/0 --set upf.pci_bus_addr=0000:af:0a.1 --set upf.uio_driver=igb_uio --set upf.huge_memory=6G --set upf.main_core=2 --set upf.worker_cores="3\,4" --set upf.pfcp_thread.cores=5 --set upf.pfcp_thread.count=2 --set upf.n3_addr=192.179.120.180/24  --set upf.n4_addr=192.179.120.180 --set upf.n6_addr=192.179.120.180/24 --set upf.n6_gw_addr=192.168.1.180 --set hugePageSize=hugepages-1Gi --set hugePageAmount=4Gi
   ```
-
-which configures the following information
+<!-- Suggestion: give this table a name and description. The following table contains information for… -->
+This configures the following information:
 
 | Parameter                                    | Description                                                                      |
 | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| image.repository=upf-cnf                     | Image repository to upf-cnf i.e. local image on the node                         |
-| node.name=ne-node                            | Node on which the upf to be deployed                                             |
-| node.path=/root/upf                          | Location on the node where the upf binary is available                           |
+| image.repository=upf-cnf                     | Image repository to upf-cnf, i.e., local image on the node                         |
+| node.name=ne-node                            | Node on which the UPF is to be deployed                                             |
+| node.path=/root/upf                          | Location on the node where the UPF binary is available                           |
 | upf.vf_if_name=VirtualFunctionEthernetaf/a/0 | VF interface name                                                                |
 | hugePageSize=hugepages-1Gi                   | Hugepage size                                                                    |
 | hugePageAmount=4Gi                           | Amount of hugepages to be reserved for the pod                                   |
@@ -306,10 +310,10 @@ which configures the following information
  
 
 ## To start UPF
+<!-- POD or pod? Or Pod? Be consistent in use. POD would be an acronym not a noun -->
+In this reference validation, the UPF application will be started manually after the UPF POD is deployed.
 
-In this reference validation, UPF application will be started manually after UPF POD deployed successfully.
-
-1. Verify UPF pod is up and running `kubectl get po`
+1. Verify that the UPF pod is up and running `kubectl get po`:
 
     ```bash
     ne-controller# kubectl get po
@@ -317,9 +321,9 @@ In this reference validation, UPF application will be started manually after UPF
     upf-cnf          1/1     Running   0          6d19h
     ```
 
-2. Exec into  UPF pod and start the UPF
+2. Exec into the UPF pod and start the UPF:
 
-    Note: The command **groupadd vpp** needs to be given only for the first execution.
+    >**NOTE**: The command `groupadd vpp` needs to be given only for the first execution.
 
     ```bash
     ne-controller# kubectl exec -it upf-cnf -- /bin/bash
@@ -329,23 +333,23 @@ In this reference validation, UPF application will be started manually after UPF
 
 ## Uninstall UPF POD from OpenNESS controller
 
-In this reference validation, UPF can be deleted/uninstalled using the upf helm chart
+In this reference validation, UPF can be deleted/uninstalled using the UPF helm chart.
 
-1. Get the helm chart release name for the upf
+1. Get the helm chart release name for the UPF:
 
     ```bash
     ne-controller# helm list | grep upf
     upf-cnf         default         1               2020-06-16 12:37:53.40562176 +0530 IST  deployed        upf-0.1.0               0.1.0
     ```
 
-2. Uninstall the upf-cnf helm chart
+2. Uninstall the `upf-cnf` helm chart:
 
     ```bash
     ne-controller# helm uninstall upf-cnf
     release "upf-cnf" uninstalled
     ```
 
-3. List of pods should not show the upf pod now
+3. The list of pods should not show the UPF pod now.
 
     ```bash
     ne-controller# kubectl get po | grep upf
