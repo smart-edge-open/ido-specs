@@ -62,15 +62,18 @@ group Traffic Influence - Notification(UP_PATH_CHANGE) flow
     user --> AF: Success 2xx
     end
 
-    user -> AF : /af/v1/policy-authorization/app-sessions/{appSessionId} PATCH
-    AF -> 5GC : /npcf-policyauthorization/v1/app-sessions/{appSessionId} PATCH
+    user -> AF : /af/v1/subscriptions/{subscriptionId} PUT
+    AF -> NEF : /3gpp-traffic-influence/v1/{afId}/subscriptions/{subscriptionId} PUT
+    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
 
-    5GC --> AF : 200 OK or 204 No Content : app-session information \ ERROR 
-    AF --> user : 200 OK or 204 No Content : app-session information\ ERROR 
+    5GC --> NEF : 200 OK or 204 No Content : subscription information \ ERROR 
+    NEF --> AF : 200 OK or 204 No Content : subscription information\ ERROR
+    AF --> user : 200 OK or 204 No Content : subscription information\ ERROR 
     
-    5GC -> AF: /af/v1/policy-authorization/smfnotify POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
-
-    AF -> 5GC: 204 No Content
+    5GC -> NEF: /3gpp-traffic-influence/v1/notification/upf POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
+    NEF -> 5GC: 204 No Content
+    NEF -> AF: /af/v1/notifications POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
+    AF -> NEF: 204 No Content
     group Variant Websocket
     AF --> user: Afnotification (UP_PATH_CHANGE)\n
     end
