@@ -216,13 +216,13 @@ AF provides a framework to receive notifications from 5GC and send these to the 
 
 #### 5GC Notifications
 
-The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from 5GC.
+The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently Policy Authorization Notification and Traffic Influence Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from 5GC.
 There are two delivery mechanisms for such notifications:
 
 * The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications to the notification URI through POST request
 * The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
 
-For a given Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+For a given Policy Authorization/Traffic Influence request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
 
 ### Network Exposure Function
 
