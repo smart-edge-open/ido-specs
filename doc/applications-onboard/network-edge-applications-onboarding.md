@@ -44,7 +44,7 @@ Users must provide the application to be deployed on the OpenNESS platform for N
 
 > **Note**: The Docker registry setup is out of scope for this document. If users already have a docker container image file and would like to copy it to the node manually, they can use the `docker load` command to add the image. The success of using a pre-built Docker image depends on the application dependencies that users must know. 
 
-The OpenNESS [edgeapps](https://github.com/otcshare/edgeapps) repository provides images for OpenNESS supported applications. Please pull the repository to your Edge Node to build the images.  
+The OpenNESS [edgeapps](https://github.com/otcshare/edgeapps) repository provides images for OpenNESS supported applications. Pull the repository to your Edge Node to build the images.  
 
 This document explains the build and deployment of two applications: 
 1. Sample application: a simple “Hello, World!” reference application for OpenNESS 
