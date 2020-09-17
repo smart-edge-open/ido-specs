@@ -51,7 +51,7 @@ group Traffic Influence - Notification(UP_PATH_CHANGE) flow
     end
     5GC -> NEF: /3gpp-traffic-influence/v1/notification/upf POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
     NEF -> 5GC: 204 No Content
-    NEF -> AF: /af/v1/notifications POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
+    NEF -> AF: /af/v1/notifications POST\Nnef_TrafficInfluence_Notify\n(UP_PATH_CHANGE)
     AF -> NEF: 204 No Content
     group Variant Websocket
     AF --> user: Afnotification (UP_PATH_CHANGE)\n
@@ -72,7 +72,7 @@ group Traffic Influence - Notification(UP_PATH_CHANGE) flow
     
     5GC -> NEF: /3gpp-traffic-influence/v1/notification/upf POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
     NEF -> 5GC: 204 No Content
-    NEF -> AF: /af/v1/notifications POST\nNsmf_EventExposure_Notify\n(UP_PATH_CHANGE)
+    NEF -> AF: /af/v1/notifications POST\Nnef_TrafficInfluence_Notify\n(UP_PATH_CHANGE)
     AF -> NEF: 204 No Content
     group Variant Websocket
     AF --> user: Afnotification (UP_PATH_CHANGE)\n
