@@ -158,25 +158,25 @@ The following steps are processed during the Docker registry deployment on the O
 * Share public key and client.cert on trusted Node and Ansible build host location
   /etc/docker/certs.d/<Kubernetes_Master_IP: port>
 * After the Docker registry deploys, the Node and Ansible host can access the private Docker registry.
-* The IP address of the Docker registry will be: "Kubernetes_Master_IP"
+* The IP address of the Docker registry will be: "Kubernetes_Control_Plane_IP"
 * The port number of the Docker registry will be: 5000
 
 ### Docker registry image push
 Use the Docker tag to create an alias of the image with the fully qualified path to your Docker registry after the tag successfully pushes the image to the Docker registry.
 
  ```ini
-  docker tag nginx:latest Kubernetes_Master_IP:5000/nginx:latest
-  docker push Kubernetes_Master_IP:5000/nginx:latest
+  docker tag nginx:latest Kubernetes_Control_Plane_IP:5000/nginx:latest
+  docker push Kubernetes_Control_Plane_IP:5000/nginx:latest
    ```
 Now image the tag with the fully qualified path to your private registry. You can push the image to the registry using the Docker push command.
 
 ### Docker registry image pull
-Use the Docker pull command to pull the image from Docker registry:
+Use the `docker pull` command to pull the image from Docker registry:
 
  ```ini
   docker pull Kubernetes_Master_IP:5000/nginx:latest
    ```
->**NOTE**: <Kubernetes_Master_IP> should be replaced as per our docker registry IP address.
+>**NOTE**: <Kubernetes_Control_Plane_IP> should be replaced as per our docker registry IP address.
 
 
 ## Kubernetes cluster networking plugins (Network Edge)
@@ -235,7 +235,7 @@ To add a non-default CNI, the following edits must be carried out:
 To add an additional interface from secondary CNIs, annotation is required.
 Below is an example pod yaml file for a scenario with `kube-ovn` as a primary CNI along with `calico` and `flannel` as additional CNIs.
 Multus\* will create an interface named `calico` using the network attachment definition `openness-calico` and interface `flannel` using the network attachment definition `openness-flannel`.
->**NOTE**: Additional annotations such as `openness-calico@calico` are required only if the CNI is secondary. If the CNI is primary, the interface will be added automatically by Multus.
+>**NOTE**: Additional annotations such as `openness-calico@calico` are required only if the CNI is secondary. If the CNI is primary, the interface will be added automatically by Multus\*.
 
 ```yaml
 apiVersion: v1
