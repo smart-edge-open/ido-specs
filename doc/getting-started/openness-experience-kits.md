@@ -187,8 +187,8 @@ kubeovn_dpdk_lcore_mask: "0x2"   # DPDK lcore mask
 
 ## Adding new CNI plugins for Kubernetes (Network Edge)
 
-* Role that handles CNI deployment must be placed in thr `roles/kubernetes/cni/` directory (e.g., `roles/kubernetes/cni/kube-ovn/`).
-* Subroles for control plane and node (if needed) should be placed in `controlplane/` and `node/` directories (e.g., `roles/kubernetes/cni/kube-ovn/{controlplane,node}`).
+* The role that handles CNI deployment must be placed in the `roles/kubernetes/cni/` directory (e.g., `roles/kubernetes/cni/kube-ovn/`).
+* Subroles for control plane and node (if needed) should be placed in the `controlplane/` and `node/` directories (e.g., `roles/kubernetes/cni/kube-ovn/{controlplane,node}`).
 * If there is a part of common command for both control plane and node, additional sub-roles can be created: `common` (e.g., `roles/kubernetes/cni/sriov/common`).<br>
 >**NOTE**: The automatic inclusion of the `common` role should be handled by Ansible mechanisms (e.g., usage of meta's `dependencies` or `include_role` module)
 * Name of the main role must be added to the `available_kubernetes_cnis` variable in `roles/kubernetes/cni/defaults/main.yml`.
