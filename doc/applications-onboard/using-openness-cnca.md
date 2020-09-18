@@ -37,8 +37,8 @@ Copyright (c) 2019-2020 Intel Corporation
 
 ## Configuring in Network Edge mode
 
-For Network Edge mode, CNCA provides a kubectl plugin to configure the 4G/LTE Core network. Kubernetes\* adopts plugins concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes eco-system. The plugin performs remote callouts against LTE CUPS Operation Administration and Maintenance (OAM) agent.
-<!-- Define the acronym LTE CUPS. -->
+For Network Edge mode, CNCA provides a kubectl plugin to configure the 4G/LTE Core network. Kubernetes\* adopts plugins concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes eco-system. The plugin performs remote callouts against LTE Control and User Plane Separation (LTE CUPS) Operation Administration and Maintenance (OAM) agent.
+
 Available management with `kube-cnca` against LTE CUPS OAM agent are:
 1. Creation of LTE CUPS userplanes
 2. Deletion of LTE CUPS userplanes
