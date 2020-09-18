@@ -53,7 +53,7 @@ kubectl cnca apply -f <config.yml>
 ```
 
 When the userplane is created successfully, the `apply` command returns the userplane identifier `<userplane-id>`, which should be used in further correspondence with LTE CUPS OAM agent concerning this particular userplane. It is the responsibility of the user to retain the `<userplane-id>` as `kube-cnca` is a stateless function.
-<!-- is a stateless function? --> 
+
 >**NOTE**: All active userplanes can be retrieved from AF through the command `kubectl cnca get userplanes`.
 
 To retrieve an existing userplane with a known userplane ID, use the following command:
