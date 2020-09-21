@@ -49,6 +49,7 @@ Copyright (c) 2019 Intel Corporation
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
     - [6. Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+    - [7. Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)
   
 # Introduction
 
@@ -216,13 +217,15 @@ AF provides a framework to receive notifications from 5GC and send these to the 
 
 #### 5GC Notifications
 
-The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from 5GC.
+The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently, Policy Authorization Notification for DNAI Change(UP_PATH_CHANGE) and Traffic Influence Notification for DNAI Change(UP_PATH_CHANGE) are supported but the framework can be extended for any events coming from 5GC.
 There are two delivery mechanisms for such notifications:
 
 * The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications to the notification URI through POST request
 * The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
 
-For a given Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+For a given Policy Authorization, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+
+For a given Traffic Influence, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)
 
 ### Network Exposure Function
 
@@ -270,8 +273,8 @@ The AF and NEF micro-services supports the OAuth2 with grant type as "client_cre
 
 | Traffic Influence API                          | Method | Functionality                                                                                                                      |
 | ---------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af) |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)     |
+| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change) |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)     |
 | {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                 |
 | {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af) |
 
@@ -522,5 +525,9 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 ### 6. Policy Authorization Notification for UP_PATH_CHANGE
 
 ![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Policy_Authorization_Notification.png)
+
+### 7. Traffic Influence Notification for UP_PATH_CHANGE
+
+![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Traffic_Influence_Notification.png)
  
 
