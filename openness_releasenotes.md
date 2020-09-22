@@ -293,7 +293,7 @@ This document provides high-level system features, issues, and limitations infor
   
 # Hardware and Software Compatibility
 OpenNESS Edge Node has been tested using the following hardware specification:
-<!-- do you mean Supermicro the company? -->
+
 ## Intel® Xeon® D Processor
    - Supermicro\* 3U form factor chassis server, product SKU code: 835TQ-R920B
    - Motherboard type: [X11SDV-16C-TP8F](https://www.supermicro.com/products/motherboard/Xeon/D/X11SDV-16C-TP8F.cfm)
