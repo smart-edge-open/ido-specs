@@ -2,8 +2,7 @@
 SPDX-License-Identifier: Apache-2.0       
 Copyright (c) 2020 Intel Corporation
 ```
-
-<!-- does this document have title? -->
+# Helm support in OpenNESS
 
 - [Introduction](#introduction)
 - [Architecture](#architecture)
@@ -11,17 +10,17 @@ Copyright (c) 2020 Intel Corporation
 - [Helm Charts](#helm-charts)
 - [References](#references)
 
-# Introduction
+## Introduction
 Helm is a package manager for Kubernetes\*. It allows developers and operators to easily package, configure, and deploy applications and services onto Kubernetes clusters. For details refer to the [Helm Website](https://helm.sh). With OpenNESS, Helm is used to extend the [OpenNESS Experience Kits](https://github.com/otcshare/openness-experience-kits) Ansible\* playbooks to deploy Kubernetes packages. Helm adds considerable flexibility. It enables users to upgrade an existing installation without requiring a re-install. It provides the option to selectively deploy individual microservices if a full installation of OpenNESS is not needed. And it provides a standard process to deploy different applications or network functions. This document aims to familiarize the user with Helm and provide instructions on how to use the specific Helm charts available for OpenNESS. 
 
-# Architecture
+## Architecture
 The below figure shows the architecture for the OpenNESS Helm in this document.
 ![OpenNESS Helm](openness-helm-images/openness-helm-arch.png)
 
 _Figure - Helm Architecture in OpenNESS_
 
 
-# Helm Installation
+## Helm Installation
 Helm 3 is used for OpenNESS. The installation is automatically conducted by the [OpenNESS Experience Kits](https://github.com/otcshare/openness-experience-kits) Ansible playbooks as below:
    ```yaml
    - role: kubernetes/helm
@@ -31,7 +30,7 @@ To check whether helm is installed successfully, run the following command on th
    $ helm version
    version.BuildInfo{Version:"v3.1.2", GitCommit:"d878d4d45863e42fd5cff6743294a11d28a9abce", GitTreeState:"clean", GoVersion:"go1.13.8"}
    ```
-# Helm Charts   
+## Helm Charts   
 OpenNESS provides the following helm charts: 
 - EPA, Telemetry, and k8s plugins: 
   - CMK, NFD, FPGA Config, SRIOV, VPU, and GPU Device Plugins
@@ -91,7 +90,7 @@ To see the values that took effect for a specific release (for example, `nfd-rel
 To customize values and upgrade, users can modify the `values.yaml` file for the helm charts and use `helm upgrade`. Refer to the [Helm CLI Commands List](https://helm.sh/docs/helm/) for details.
 
 
-# References
+## References
 - [Helm Website](https://helm.sh)
 - [Container Experience Kits](https://github.com/intel/container-experience-kits)
 - [Helm Github Repo](https://github.com/helm/charts)
