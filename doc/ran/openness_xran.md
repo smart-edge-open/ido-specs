@@ -91,7 +91,7 @@ The flow chart below shows an example of using FD and RSS in the pipeline to ach
 ## DPDK support
 Special Admin Queue (AQ) commands have been added to the Intel® Ethernet Controller X710 firmware version 6 to assist new profile addition/removal to/from the hardware, and to retrieve information about the profiles currently registered on the NIC. The new AQ commands can update NIC configuration tables or read/retrieve their content. DPDK started supporting the DDP feature by providing software calls to the AQ commands gradually through versions 17.05, 17.08, and 17.11. Since then, DPDK provides full support for working with DDP profiles and enables the recognition of protocols not known to DPDK flows (rte_flows). Currently, DPDK APIs can be used to load/remove profiles and retrieve a list of registered profiles and their descriptions. DPDK “testpmd” application deploys RTE APIs to manipulate the DDP profiles and uses them to configure/enhance packet filtering on the NIC.
 
-More information on Intel® Ethernet Controller X710 flexible pipeline can be found in the provided references. 
+More information on Intel® Ethernet Controller X710 flexible pipeline can be found in the [here] (https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xl710-10-40-controller-datasheet.pdf). 
 <!-- provide a link to “provided references” -->
 # O-RAN Specification for vRAN Front Haul
 According to the O-RAN Alliance Fronthaul specification, the physical layer of the 5GNR vRAN network is divided into two functional units: O-RU and O-DU. The functional split of the eNG/gNB functions aims to keep the O-RU simple. O-RAN selected two possible options for the split called 7-2x: Category A (lower split) and Category B (upper split). The difference between the two split categories refers to precoding placement. In category A, precoding is done on the O-DU side. In Category B, it is done on O-RU. The O-RAN Alliance specifies the packet formats for the data flows over the 5GNR O-RAN Front Haul. 
@@ -339,7 +339,7 @@ To meet the xRAN library requirement, in a scenario with O-DU and O-RU running o
 
 1. ptp4l
 
-This tool handles all PTP traffic on the NIC port provided for synchronization and updates the node’s NIC PHC. It also determines the Primary Clock to be used by the node and tracks the status of the synchronization between the primary and secondary node. It observes the offset between the primary and the secondary nodes’ PHC and changes the secpndary node PHC's frequency to minimize the offset.
+This tool handles all PTP traffic on the NIC port provided for synchronization and updates the node’s NIC PHC. It also determines the primary clock to be used by the node and tracks the status of the synchronization between the primary and secondary node. It observes the offset between the primary and the secondary nodes’ PHC and changes the secondary node PHC's frequency to minimize the offset.
 
 2. phc2sys
 
