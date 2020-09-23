@@ -44,7 +44,7 @@ Recent and incoming telecommunication standards for Radio Access Network (RAN) t
 The focus of this white paper is to show how OpenNESS facilitates the deployment of 5GNR FlexRAN Front Haul functional units based on O-RAN specifications at the Network Edge. It also demonstrates how OpenNESS may assist in exploiting the capabilities of Intel X700 family NIC to address the challenges related to 5G RAN evolution including fast-growing user traffic and the move towards the Edge Cloud.
 <!-- verify the product “Intel X700 family NIC”. I cannot find in namesdb.intel.com -->
 <!--  Improve the first sentence below. Strange wording. -->
-This document describes the functionality brought by Intel due to Intel® Ethernet Controller X710 new capability known as Dynamic Device Personalization (DDP) and outlines the way it can be utilized on the OpenNESS platforms. DDP technology has been previously implemented and tested within LTE FlexRAN L1 and proven to reduce network latency and the number of CPU cycles used for packet processing, leading to the increase of the overall network throughput. Choosing DDP is a promising option for removing the network bottleneck related to packet filtering and realizing stringent latency and throughput requirements imposed onto 5G networks. Tests performed with Intel FlexRAN using LTE Front Haul interface based on Ferry Bridge (FB), the codename of a technology from Intel, and incorporating the DDP capability of Intel® Ethernet Controller X710 showed up to 34% reduction in CPU cycles used for packet processing.  Whereas tests performed on Intel’s Multi-access Edge Computing (MEC) solution demonstrated a nearly 60% reduction in network latency. These findings are already described in an incoming white paper “Dynamic Device Personalization: Intel Ethernet Controller 700 Series - RadioFH Profile Application Note”. Shifting towards DDP for increased performance is also a promising option for the Network Edge. Such deployment has already been tested on Kubernetes\* architecture and described [here](https://builders.intel.com/docs/networkbuilders/intel-ethernet-controller-700-series-dynamic-device-personalization-support-for-cnf-with-kubernetes-technology-guide.pdf). 
+This document describes the Intel® Ethernet Controller X710 new capability known as Dynamic Device Personalization (DDP). It provides the steps for utilizing this feature on the OpenNESS platforms. DDP technology has been previously implemented and tested within LTE FlexRAN L1 and proven to reduce network latency and the number of CPU cycles used for packet processing, leading to the increase of the overall network throughput. Choosing DDP is a promising option for removing the network bottleneck related to packet filtering and realizing stringent latency and throughput requirements imposed onto 5G networks. Tests performed with Intel FlexRAN using LTE Front Haul interface based on Ferry Bridge (FB), the codename of a technology from Intel, and incorporating the DDP capability of Intel® Ethernet Controller X710 showed up to 34% reduction in CPU cycles used for packet processing.  Whereas tests performed on Intel’s Multi-access Edge Computing (MEC) solution demonstrated a nearly 60% reduction in network latency. These findings are already described in an incoming white paper “Dynamic Device Personalization: Intel Ethernet Controller 700 Series - RadioFH Profile Application Note”. Shifting towards DDP for increased performance is also a promising option for the Network Edge. Such deployment has already been tested on Kubernetes\* architecture and described [here](https://builders.intel.com/docs/networkbuilders/intel-ethernet-controller-700-series-dynamic-device-personalization-support-for-cnf-with-kubernetes-technology-guide.pdf). 
 <!--  Provide a link to th paper referenced above “Dynamic Device… Application Note” -->
 
 # Dynamic Device Personalization
@@ -211,7 +211,7 @@ Flexible Radio Access Network is part of Intel proof of concept which demonstrat
 5GNR FlexRAN 5GNR provides reference implementation of the control plane (C-plane) and user plane (U-plane) as well as synchronization plane (S-Plane) functionality according to O-RAN Front Haul specification. In this 5G NR vRAN deployment communication between O-RAN  Distributed Unit (O-DU) and O-RAN Radio Unit (O-RU) happens over the PHY functional split. The details of the communication have been included in the new standard for Front Haul proposed by the O-RAN Alliance.
 According to the standard, messages between the two units travel over the Ethernet connection and adhere to eCPRI data transport protocol. This new O-RAN defined Front Haul functionality has been implemented in FlexRAN and encapsulated in a stand alone library called "xRAN Library". 
 
-In the 5GNR O-RAN scenario by FlexRAN, the xRAN library defines how the data between the two units is exchanged over a DPDK Ethernet port. From the hardware perspective, two networking ports are used for the communication in the Front Haul network as well as to receive PTP synchronization.  Time for the xRAN protocol is obtained from system time, where the system timer is synchronized to GPS time via PTP protocol using the Linux PHP package. Linux PTP package is used to synchronize the connected NICs to the PTP GM.
+In the 5GNR O-RAN scenario by FlexRAN, the xRAN library defines how the data between the two units is exchanged over a DPDK Ethernet port. From the hardware perspective, two networking ports are used for the communication in the Front Haul network as well as to receive PTP synchronization.  Time for the xRAN protocol is obtained from system time, where the system timer is synchronized to GPS time via PTP protocol using the Linux PHP package. Linux PTP package is used to synchronize the connected NICs to the PTP primary clock.
 From the software perspective, the xRAN library is the core of the O-RAN FH implementation in FlexRAN. It is built on top of DPDK, that provides the interface to the Ethernet port. 5GNR reference PHY (L1) uses the xRAN library to access the interface to O-RU. The interface between the library and PHY is defined to communicate TTI event, symbol time, C-plane information as well as IQ sample data.
 
 As of 5GNR FlexRAN release 20.04, the following data flows between O-DU and O-RU are supported:
@@ -271,7 +271,7 @@ From the start of the process, the application (O-DU) sends DL packets for the U
 
 ## Precision Time Protocol Synchronization
 <!-- author to determine if Grandmaster Clock needs to change to “Control Plane Master Clock” -->
-Precision Time Protocol based on 1588 IEEE specification uses control plane-node architecture for time synchronization between machines connected through ETH. Grandmaster Clock (control plane) is a reference clock for the other nodes that adapt their clocks to the control plane. Using Physical Hardware Clock called PHC (NIC's own clock) from the Grandmaster Clock, the precision timestamp packets sent from the GM's NIC port can be served for other connected network nodes so nodes adjust their PHC to the control plane following the IEEE 1588 specification.
+Precision Time Protocol based on 1588 IEEE specification uses primary-secondary architecture for time synchronization between machines connected through ETH. The primary clock is a reference clock for the secondary nodes that adapt their clocks to the primary node's clock. Using Physical Hardware Clock called PHC (NIC's own clock) from the primary clock, the precision timestamp packets sent from the Primary Node NIC port can be served for other connected network nodes so nodes adjust their PHC to the primary clock following the IEEE 1588 specification.
 For the best precision, PTP uses hardware timestamping to read current time just a moment before the packet is sent to minimize the delays added by the Kernel for processing the packet. In the case of software timestamping, the time is read at the application stage, giving a much larger difference between the time of packet timestamping and its transmission.
 
 The following image shows the difference between software and hardware time stamping:
@@ -339,13 +339,13 @@ To meet the xRAN library requirement, in a scenario with O-DU and O-RU running o
 
 1. ptp4l
 
-This tool handles all PTP traffic on the NIC port provided for synchronization and updates the node’s NIC PHC. It also determines the Grandmaster Clock to be used by the node and tracks the status of the synchronization between the GM and node. It observes the offset between the GM and the node’s PHC and changes the PHC's frequency to minimize the offset.
+This tool handles all PTP traffic on the NIC port provided for synchronization and updates the node’s NIC PHC. It also determines the Primary Clock to be used by the node and tracks the status of the synchronization between the primary and secondary node. It observes the offset between the primary and the secondary nodes’ PHC and changes the secpndary node PHC's frequency to minimize the offset.
 
 2. phc2sys
 
-The PHC clock is independent of the system clock. Synchronizing only PHC does not make the system clock the same as the control plane. The xRAN library requires the use of the system clock to determine a common point in time on two machines (O-DU and RU) to start transmission at the same moment and keep time frames defined by ORAN Fronthaul specification. The phc2sys application keeps the system clock updated to PHC. It makes it possible to use POSIX timers as a time reference in the xRAN application.
+The PHC clock is independent of the system clock. Synchronizing only PHC does not make the system clock the same as the primary clock. The xRAN library requires the use of the system clock to determine a common point in time on two machines (O-DU and RU) to start transmission at the same moment and keep time frames defined by ORAN Fronthaul specification. The phc2sys application keeps the system clock updated to PHC. It makes it possible to use POSIX timers as a time reference in the xRAN application.
 
->**NOTE**: The `linuxptp` package also includes PTP Management Client (PMC). It sends PTP management messages to PTP nodes and can be used by the user to verify the synchronization status from a particular node (control plane or node). Use this command to check the node's current role in the PTP cluster and verify that it is synchronized. The `portState` variable on a node should be "NODE".
+>**NOTE**: The `linuxptp` package also includes PTP Management Client (PMC). It sends PTP management messages to PTP nodes and can be used by the user to verify the synchronization status from a particular node (primary or secondary). Use this command to check the node's current role in the PTP cluster and verify that it is synchronized.
 <!-- author to determine how to update code to align with inclusive language guide. SLAVE -->
 Example:
 
@@ -384,12 +384,12 @@ Deployment of O-DU and O-RU applications on separate K8s nodes will be enabled i
 
 The two supported by xRAN sample app configurations are as follows:
 
-1. O-DU acts as PTP GM clock and O-RU acts as PTP node and is synchronized to the O-DU clock:
+1. O-DU acts as PTP primary clock and O-RU acts as PTP secondary clock and is synchronized to the O-DU clock:
 
 ![PTP configuration C1](openness_xran_images/xran_img23.png)
 
 
-2. O-DU and O-RU are synchronized to a GM available in the network:
+2. O-DU and O-RU are synchronized to another primary clock available in the network:
 
 ![PTP configuration C2](openness_xran_images/xran_img24.png)
     
@@ -445,7 +445,7 @@ Detailed instructions on configuring SRIOV for OpenNESS can be found [here](http
 
 3. Modify SRIOV ConfigMap
 
-Modify SRIOV ConfigMap. In the file `roles/kubernetes/cni/sriov/master/files/sriov/templates/configMap.yml`, amend the “drivers” entry for SRIOV resource “intel_sriov_dpdk” adding “vfio-pci”. The output should look as below:
+Modify SRIOV ConfigMap. In the file `roles/kubernetes/cni/sriov/controlplane/files/sriov/templates/configMap.yml`, amend the “drivers” entry for SRIOV resource “intel_sriov_dpdk” adding “vfio-pci”. The output should look as below:
 
 ```yaml
         {
@@ -503,8 +503,8 @@ For node "node01", modify file `host_vars/node01.yml`
 
 1. For PTP Configuration 1 [see](#xran-sample-app-deployment-in-openness)
 
-- For a node to act as a PTP Control Plane (O-DU), provide:
-    - interface used to connect to the GM (ptp_port_gm) and the interface used to connect to the PTP node or O-RU (ptp_port):
+- For a node to act as a PTP primary clock (O-DU) to the node running O-RU, provide:
+    - interface used to connect to its primary clock (ptp_port_gm) and the interface used to connect to the PTP secondary node running O-RU (ptp_port):
 
 Example:
 
@@ -666,7 +666,7 @@ The output should show that four devices have been found:
 ```
 
 ### Build xRAN Sample App
-Building the xRAN application and supporting software libraries and tools is beyond the scope of this document. Detailed instructions are provided in the documentation related to xRAN Front Haul version 20.04.
+Building the xRAN application and supporting software libraries and tools is beyond the scope of this document. Detailed instructions are provided in the documentation related to [O-RAN Front Haul Sample Application] (https://docs.o-ran-sc.org/projects/o-ran-sc-o-du-phy/en/latest/Setup-Configuration_fh.html#a-4-install-and-configure-sample-application).
 <!-- provide a link to the documentation reference above -->
 To build the xRAN sample app as of version 20.04, the following versions of the software are required:
 - icc version 19.0.3.206 (gcc version 4.8.5 compatibility)
@@ -727,7 +727,7 @@ The `xran-sample-app` Docker\* image can be built with the provided run.sh scrip
 
 ### Deploy xRAN App Pods with Helm
 <!-- author to determine necessary changes to code. Change master/slave to control plane/node terms. -->
-The edgeapp repository provides an xRAN Helm Chart to build and start the O-DU and O-RU pods and facilitating configMaps on one node.
+The edgeapp repository provides Helm charts to deploy the sample xRAN O-DU and O-RU applications on two seperate pods deployed on a single node.
 <!-- improve sentence above -->
 
 To deploy the xRAN applications on the pods with the default configuration, run:
