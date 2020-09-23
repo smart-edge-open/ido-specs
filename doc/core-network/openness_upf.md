@@ -10,9 +10,9 @@ Copyright (c) 2020 Intel Corporation
   - [Platform-specific information](#platform-specific-information)
   - [UPF application-specific information](#upf-application-specific-information)
 - [How to start](#how-to-start)
-  - [Deploy UPF POD from OpenNESS controller](#deploy-upf-pod-from-openness-controller)
+  - [Deploy UPF pod from OpenNESS controller](#deploy-upf-pod-from-openness-controller)
   - [To start UPF](#to-start-upf)
-  - [Uninstall UPF POD from OpenNESS controller](#uninstall-upf-pod-from-openness-controller)
+  - [Uninstall UPF pod from OpenNESS controller](#uninstall-upf-pod-from-openness-controller)
 
 # Introduction
 
@@ -273,7 +273,7 @@ Below is a list of minimal configuration parameters for VPP-based applications s
       "intel.com/intel_sriov_netdevice": "1",
     ```
 
-## Deploy UPF POD from OpenNESS controller
+## Deploy UPF pod from OpenNESS controller
 
 In this reference validation, UPF will be deployed using Helm charts. The reference Helm chart for UPF is available at [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
 
@@ -309,8 +309,8 @@ This configures the following information:
  
 
 ## To start UPF
-<!-- POD or pod? Or Pod? Be consistent in use. POD would be an acronym not a noun -->
-In this reference validation, the UPF application will be started manually after the UPF POD is deployed.
+
+In this reference validation, the UPF application will be started manually after the UPF pod is deployed.
 
 1. Verify that the UPF pod is up and running `kubectl get po`:
 
@@ -330,7 +330,7 @@ In this reference validation, the UPF application will be started manually after
     upf-cnf# ./run_upf.sh
     ```
 
-## Uninstall UPF POD from OpenNESS controller
+## Uninstall UPF pod from OpenNESS controller
 
 In this reference validation, UPF can be deleted/uninstalled using the UPF Helm chart.
 
