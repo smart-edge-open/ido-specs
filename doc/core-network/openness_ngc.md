@@ -89,14 +89,14 @@ As discussed in the ETSI White paper "MEC in 5G Networks" [ETSI_2018a], a new se
 ### Edge deployment scenarios in 5G
 
 The following section outlines the various deployment scenarios in 5G:
-<!-- Why edge-applications with a hyphen (-)? The Base Station? A Base Station? -->
-1. The edge node hosts the edge-applications and is co-located with Base Station and UPF:
+
+1. The edge node hosts the edge applications and is co-located with the Base Station and UPF:
 ![RAN,UPF and MEC co-located at Edge](ngc-images/5g_edge_deployment_scenario1.png)
 <!-- the local UPF? A UPF? Needs an article but not sure which one is appropriate here. -->
-2. The edge node hosts the edge-applications and is co-located with local UPF:
+2. The edge node hosts the edge applications and is co-located with local UPF:
 ![UPF and MEC co-located at Edge](ngc-images/5g_edge_deployment_scenario2.png)
 
-3. The edge node hosts the edge-applications and is co-located at Regional-Office:
+3. The edge node hosts the edge applications and is co-located at Regional-Office:
 ![UPF and MEC co-located at Regional Office](ngc-images/5g_edge_deployment_scenario3.png)
 
 There may be other edge deployment scenarios in addition to those highlighted above but they are not the focus of this document. 
@@ -357,13 +357,13 @@ The below picture shows multiple data paths that are supported in OpenNESS integ
 
 Each data path/scenario is represented by a colored line, which is described below.
 
-All the UEs attached from Base Station gNB1 are assigned to UPF1 based on location (TAC) configuration. UEs that are attached from gNB2 are assigned to UPF1 or UPF2 based on TAC, DNN configuration while assigning UPF.
+All the UEs attached from the Base Station gNB1 are assigned to UPF1 based on location (TAC) configuration. UEs that are attached from gNB2 are assigned to UPF1 or UPF2 based on TAC, DNN configuration while assigning UPF.
 
 **Green data-path**: UE application traffic that reaches UPF1 is routed to the OpenNESS edge node through the N6 interface. Traffic is served by applications deployed at the Edge node.
 
 **Orange data-path**: UE application traffic that reaches UPF1 but non-edge traffic will be routed towards the cloud through another N6 interface.
 
-**Blue data-path**: UE attached to a Base Station (gNB2) but assigned to UPF1. UE application traffic that reaches UPF1 is routed towards the edge node through the N6 interface.
+**Blue data-path**: UE attached to the Base Station (gNB2) but assigned to UPF1. UE application traffic that reaches UPF1 is routed towards the edge node through the N6 interface.
 
 **Red data-path**: UE attached to a gNB2 but assigned to UPF2. UE application traffic reaches UPF2 is routed towards the cloud through its N6 interface.
 
