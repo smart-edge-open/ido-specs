@@ -333,16 +333,16 @@ In this reference validation, the UPF application will be started manually after
 
 ## Uninstall UPF POD from OpenNESS controller
 
-In this reference validation, UPF can be deleted/uninstalled using the UPF helm chart.
+In this reference validation, UPF can be deleted/uninstalled using the UPF Helm chart.
 
-1. Get the helm chart release name for the UPF:
+1. Get the Helm chart release name for the UPF:
 
     ```bash
     ne-controller# helm list | grep upf
     upf-cnf         default         1               2020-06-16 12:37:53.40562176 +0530 IST  deployed        upf-0.1.0               0.1.0
     ```
 
-2. Uninstall the `upf-cnf` helm chart:
+2. Uninstall the `upf-cnf` Helm chart:
 
     ```bash
     ne-controller# helm uninstall upf-cnf
