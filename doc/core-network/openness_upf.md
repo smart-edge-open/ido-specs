@@ -76,11 +76,10 @@ To keep the bring up setup simple, the UPF configuration can be provided through
 Below is a list of minimal configuration parameters for VPP-based applications such as UPF.
 
 ## Platform-specific information
-<!-- Huge pages or hugepages? -->
 
 - SR-IOV PCIe interface(s) bus address
 - CPU core dedicated for UPF workloads
-- Amount of Huge pages
+- Amount of hugepages
 
 ## UPF application-specific information
  
