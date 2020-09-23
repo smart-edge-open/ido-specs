@@ -559,8 +559,9 @@ Check the `/proc/cmd` output. It should look similar to:
 
 ### Configure Interfaces
 
-<!-- Confusing combinations “configuration, installs”. Author to check below sentence. -->
-OpenNESS with SRIOV enabled should be configured to create two VFs per PF provided to the host configuration, installs DPDK under `/opt/dpdk-19.11` and loads `vfio-pci` driver. Additionally, each of the VFs need to be manually bound to the `vfio-pci` driver using the following command:
+At this stage, OpenNESS with enabled SRIOV should be deployed. It is also expected that Intel DPDK version 19.11 is installed on the node, and `vfio-pci` driver is loaded.
+Next, the VFs need to be manually bound to the `vfio-pci` driver using the following command:
+
 
 ```
     $RTE_SDK/usertools/dpdk-devbind.py --bind=vfio_pci <vf_address>
