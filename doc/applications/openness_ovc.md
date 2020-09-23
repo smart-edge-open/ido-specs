@@ -106,7 +106,7 @@ The deployment script is also rewritten to separate the launch of the services i
 
 ## Open Visual Cloud and OpenNESS Integration as cloud-native
 
-Integrating the [cloud-native Smart City application](https://github.com/OpenVisualCloud/Smart-City-Sample/blob/master/deployment/kubernetes/README.md) with OpenNESS was a seamless process due to the OpenNESS adoption of Kubernetes standard features (Namespaces, Services, DaemonSets, and Network Policies). In one step, the Smart City application is deployed on the OpenNESS setup based on the reference deployment on vanilla Kubernetes. Details about onboarding the cloud-native Smart City application with OpenNESS is covered in the [application onboarding guide](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-smart-city-sample-application).
+Integrating the [cloud-native Smart City application](https://github.com/OpenVisualCloud/Smart-City-Sample/blob/master/deployment/kubernetes/README.md) with OpenNESS was a seamless process due to the OpenNESS adoption of Kubernetes standard features (Namespaces, Services, DaemonSets, and Network Policies). In one step, the Smart City application is deployed on the OpenNESS setup based on the reference deployment on vanilla Kubernetes. Details about onboarding the cloud-native Smart City application with OpenNESS is covered in the [application onboarding guide](../applications-onboard/network-edge-applications-onboarding.md#onboarding-smart-city-sample-application).
 
 ## Conclusion
 
