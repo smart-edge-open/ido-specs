@@ -60,7 +60,7 @@ These scripts are validated through a reference UPF solution (implementation is 
     ne-node# cd <5g-upf-binary-package>
     ```
 
-2. Copy the Docker files to the node and build the Docker image. Reference Docker files and the helm-chart for deploying the UPF is available at [edgeapps_upf_docker](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF) and [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf) respectively
+2. Copy the Docker files to the node and build the Docker image. Reference Docker files and the Helm chart for deploying the UPF is available at [edgeapps_upf_docker](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF) and [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf) respectively
 
     ```bash
     ne-node# ./build_image.sh
@@ -70,8 +70,8 @@ These scripts are validated through a reference UPF solution (implementation is 
     ```
 
 # UPF configuration
-<!-- Helm chart or helm-chart? -->
-To keep the bring up setup simple, the UPF configuration can be provided through the helm-charts. A reference helm-chart is available at  [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
+
+To keep the bring up setup simple, the UPF configuration can be provided through the Helm charts. A reference Helm chart is available at  [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
 
 Below is a list of minimal configuration parameters for VPP-based applications such as UPF.
 
@@ -275,8 +275,8 @@ Below is a list of minimal configuration parameters for VPP-based applications s
     ```
 
 ## Deploy UPF POD from OpenNESS controller
-<!-- helm-chart or helm chart or Helm chart. Author to be consistent in use -->
-In this reference validation, UPF will be deployed using helm charts. The reference helm chart for UPF is available at [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
+
+In this reference validation, UPF will be deployed using Helm charts. The reference Helm chart for UPF is available at [edgeapps_upf_helmchart](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/charts/upf)
 
 helm install \<pod-name\> \<path to the upf helm chart\> \<list of configuration values\>
 
