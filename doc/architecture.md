@@ -42,10 +42,8 @@ OpenNESS simplifies edge platform development and deployment:
 
 OpenNESS provides three easy steps to achieve deployment:
 1. Acquire hardware that meets the requirements
-2. Meet the prerequisites and use the *Getting Started Guide* for deployment
-3. Use “Application Onboarding” for applications and Cloud-native Network Functions (CNFs)
-
-<!-- Confirm CNF acronym. Need hyperlinks for Getting Started Guide and Application Onboarding? -->
+2. Meet the prerequisites and use the [Getting Started Guide](https://github.com/otcshare/specs/blob/master/doc/getting-started/openness-experience-kits.md) for deployment
+3. Use [Application Onboarding](https://github.com/otcshare/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md) for applications and Cloud-native Network Functions (CNFs)
 
 ![](arch-images/start.png)
 
@@ -73,7 +71,7 @@ Before reviewing the detailed architecture overview of OpenNESS, take a look at 
 The OpenNESS solution is built on top of Kubernetes, which is a production-grade container orchestration environment. A typical OpenNESS-based deployment consists of an **OpenNESS Kubernetes Control Plane Node** and an **OpenNESS Edge Node**.
 
 ![](arch-images/openness_overview.png)
-<!-- Fix images to use inclusive language. control plane / node -->
+
 **OpenNESS Kubernetes Control Plane Node**: This node consists of microservices and Kubernetes extensions, enhancements, and optimizations that provide the functionality to configure one or more OpenNESS Edge Nodes and the application services that run on those nodes (Application Pod Placement, Configuration of Core Network, etc). 
 
 **OpenNESS Edge Node**: This node consists of microservices and Kubernetes extensions, enhancements, and optimizations that are needed for edge application and network function deployments. It also consists of APIs that are often used for the discovery of application services. 
@@ -106,10 +104,7 @@ The following are the high-level features of the OpenNESS Kubernetes node micros
  
 The OpenNESS Network functions are the key 4G and 5G functions that enable edge cloud deployment. OpenNESS provides these key reference network functions and the configuration agent in the Intel Distribution of OpenNESS.  
 
-The OpenNESS solution validates the functionality and performance of key software development kits used for applications and network functions at the edge. This spans across edge applications that use Media SDK, AI/ML SDK, Math SDKs, etc. and network functions that use DPDK, Intel® Performance Primitives, Math SDK, OpenMP\*, OpenCL\*, etc.
-
-<!-- Verify the following items: Media SDK, AI/ML SDK, Math SDKs, etc. -->
-<!-- Math SDK? Do you mean Intel® Math Kernel Library (Intel® MKL)? -->
+The OpenNESS solution validates the functionality and performance of key software development kits used for applications and network functions at the edge. This spans across edge applications that use Intel® Media SDK, OpenVINO™, Intel® Math Kernel Library (Intel® MKL), etc. and network functions that use Data Plane Development Kit (DPDK), Intel® Performance Primitives, Intel® MKL, OpenMP\*, OpenCL\*, etc.
 
 ## Microservices, Kubernetes Extensions, and Enhancements  
 
@@ -122,16 +117,12 @@ EPA features include:
 * HugePages support
 * Non-uniform memory access (NUMA) topology awareness
 * CPU pinning
-* Integration with OVS-DPDK
+* Integration of OVS with DPDK
 * Support for I/O Pass-through via SR-IOV
 * HDDL support
 * FPGA resource allocation support, and many others
 
-<!-- OVS-DPDK? Open vSwitch* (OvS) with Data Plane Development Kit (DPDK)? -->
-
-Why should users consider using EPA? To achieve optimal performance and efficiency characteristics, EPA extensions to Data Models, Orchestrators, and VIMs facilitates the automation of an advanced selection of capabilities and tuning parameters during the deployment of NFV solutions. EPA also enables service providers to offer differentiating and/or revenue-generating services that require leveraging specific hardware features.
-
-<!-- Improve the following sentence: “Why should users consider using EPA? To achieve optimal performance and efficiency characteristics, EPA extensions to Data Models, Orchestrators, and VIMs facilitates the automation of an advanced selection of capabilities and tuning parameters during the deployment of NFV solutions.” -->
+Why should users consider using EPA? To achieve optimal performance and efficiency characteristics. EPA extensions facilitate the automation of an advanced selection of capabilities and tuning parameters during the deployment of cloud-native solutions. EPA also enables service providers to offer differentiating and/or revenue-generating services that require leveraging specific hardware features.
 
 OpenNESS provides a complete solution for users to integrate key EPA features needed for applications (CDN, AI inference, transcoding, gaming, etc.) and CNFs (RAN DU, CU, and Core) to work optimally for edge deployments.
 
@@ -208,8 +199,7 @@ OpenNESS supports a rich set of reference and commercial real-world edge service
 The following is a subset of supported edge applications: 
 - <b>Smart city App</b>: This end-to-end sample app implements aspects of smart city sensing, analytics, and management, utilizing CPU or VCA.
 - <b>CDN Transcode and Content Delivery App</b>: The CDN Transcode sample app is an Open Visual Cloud software stack with all required open-source ingredients integrated to provide an out-of-the-box CDN media transcode service, including live streaming and video on demand. It provides a Docker-based software development environment for developers to easily build specific applications.
-- <b>Edge Insights</b>: The Edge Insights application is designed to enable secure ingestion, processing, storage and management of data, and near real-time (~10mS), event-driven control, across a diverse set of industrial protocols. 
-<!-- For “near real-time (~10mS)”, do you mean milliseconds (ms)? -->
+- <b>Edge Insights</b>: The Edge Insights application is designed to enable secure ingestion, processing, storage and management of data, and near real-time (~10ms), event-driven control, across a diverse set of industrial protocols. 
 
 The following is a subset of supported reference network functions:  
 - <b>gNodeB or eNodeB</b>: 5G or 4G base station implementation on Intel architecture based on Intel’s FlexRAN.
@@ -222,7 +212,6 @@ The following is a subset of supported reference network functions:
 The OpenNESS Experience Kit is an Ansible\* playbook that acts as a single interface for users to deploy OpenNESS. The kit organizes all of the above microservices, Kubernetes extensions, enhancements, and optimizations under easy to deploy node types called <b>flavors</b>, implemented as Ansible roles.
 
 For example, a user deploying a network edge at a cell site can choose the Radio Access Network (RAN) flavor to deploy a node with all the microservices, Kubernetes extensions, enhancements, and optimizations required for a RAN node. 
-<!-- Radio Access Network (RAN)? Confirm. -->
 
 ### Minimal flavor  
 This flavor supports the installation of the minimal set of components from OpenNESS and, it is typically used as a starting point for creating a custom node. 
@@ -255,10 +244,6 @@ This flavor supports the installation of an OpenNESS Kubernetes cluster on a Mic
 CERA from Intel provides foundational recipes that converge IT as well as OT and NT workloads on various on-premise and network edge platforms. 
 
 In future OpenNESS releases, various CERA flavors will be available. Each of these recipes would include combinations of other OpenNESS flavors (e.g., RAN + UPF + Apps)
-
-In future OpenNESS releases, various CERA flavor may be available. 
-
-<!-- duplicate sentence… flavors will be vs. may be? -->
 
 ## Other References
 - [3GPP_23401]	3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; General Packet Radio Service (GPRS) enhancements for Evolved Universal Terrestrial Radio Access Network  (E-UTRAN) access.     
