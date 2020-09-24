@@ -108,6 +108,7 @@ Figure 2 depicts the first, most decoupled model in which multiple SGW-Us are as
 Figure 2 - Deployment Model 1: Separate S-GW, Co-located P-GW, and Edge Platform
 <!-- bare-metal what? Bare-metal server -->
 <!-- Clarification needed - Where is this mentioned in the document -->
+<!-- Response: search for "bare metal" -->
 In the second deployment model, shown in Figure 3, the PGW-U is integrated into an edge infrastructure. This model implies that the PGW-U function runs as a bare metal, virtual machine, or container implementation in the same host or rack as an edge node. The number of hops through the network for user plane traffic is reduced because it is now possible for the PGW-U function to be orchestrated by the same virtualization manager as the edge platform. However, to realize this economy, the control plane should expose an API by which the edge platform can configure it (e.g., by setting the forwarding, QoS, and DNS rules required by the SGW-U).
 
 ![3GPP CUPS model 2](epc-images/openness_epc2.png)
@@ -127,6 +128,7 @@ An implementation of the third deployment model was created to demonstrate the a
 The interacting functions in this architecture are the EPC Control Plane and the OpenNESS Controller.
 <!-- Fix sentence below. Confusing.  -->
 <!-- Clarification needed - Which part is confusing -->
+<!-- Response: the entire sentence. -->
 The EPC Control Plane is a reference implementation of a 3GPP control plane, and exposes an API, the Core Network Configuration API (CNCA), through which network configuration operations can be performed. Invocations of the API result in setting appropriate configuration rules in the LTE access network.
 
 The OpenNESS Controller is a reference implementation that maintains a representation of requested UE traffic steering configuration, and issues configuration commands via the new API developed as a part of this integration (the CNCA API).
