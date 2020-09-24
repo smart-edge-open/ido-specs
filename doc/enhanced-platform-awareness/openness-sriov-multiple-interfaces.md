@@ -17,15 +17,15 @@ Copyright (c) 2019-2020 Intel Corporation
 - [Reference](#reference)
 
 ## Overview
-<!-- Author to have 1) a reason for and 2) consistency in using the capitalization of nouns. Please confer with your colleagues about which nouns you want to capitalize (Applications). Also, Pod vs. POD. -->
-Edge deployments consist of both Network Functions and Applications. Cloud-native solutions such as Kubernetes\* typically expose only one interface to the Application or Network function PODs. These interfaces are typically bridged interfaces. This means that Network Functions like Base station or Core network User plane functions and Applications such as CDN are limited by the default interface.
+
+Edge deployments consist of both network functions and applications. Cloud-native solutions such as Kubernetes\* typically expose only one interface to the application or network function pods. These interfaces are typically bridged interfaces. This means that network functions like Base station or Core network User plane functions and applications such as CDN are limited by the default interface.
 To address this, two key networking features must be enabled:
-1) Enable a Kubernetes like orchestration environment to provision more than one interface to the application and Network function PODs.
-2) Enable the allocation of dedicated hardware interfaces to application and Network Function PODs.
+1) Enable a Kubernetes like orchestration environment to provision more than one interface to the application and network function pods.
+2) Enable the allocation of dedicated hardware interfaces to application and network function pods.
 
 ### Overview of Multus
 
-To enable multiple interface support in PODs, OpenNESS Network Edge uses the Multus\* container network interface. Multus CNI is a container network interface (CNI) plugin for Kubernetes that enables the attachment of multiple network interfaces to pods. Typically, in Kubernetes, each pod only has one network interface (apart from a loopback). With Multus, you can create a multi-homed pod that has multiple interfaces. To accomplish this, Multus acts as a “meta-plugin”, a CNI plugin that can call multiple other CNI plugins. The Multus CNI follows the Kubernetes Network Custom Resource Definition De-facto Standard to provide a standardized method by which to specify the configurations for additional network interfaces. This standard is put forward by the Kubernetes Network Plumbing Working Group.
+To enable multiple interface support in pods, OpenNESS Network Edge uses the Multus\* container network interface. Multus CNI is a container network interface (CNI) plugin for Kubernetes that enables the attachment of multiple network interfaces to pods. Typically, in Kubernetes, each pod only has one network interface (apart from a loopback). With Multus, you can create a multi-homed pod that has multiple interfaces. To accomplish this, Multus acts as a “meta-plugin”, a CNI plugin that can call multiple other CNI plugins. The Multus CNI follows the Kubernetes Network Custom Resource Definition De-facto Standard to provide a standardized method by which to specify the configurations for additional network interfaces. This standard is put forward by the Kubernetes Network Plumbing Working Group.
 
 The figure below illustrates the network interfaces attached to a pod, as provisioned by the Multus CNI. The diagram shows the pod with three interfaces: eth0, net0, and net1. eth0 connects to the Kubernetes cluster network to connect with the Kubernetes server/services (kubernetes api-server, kubelet, etc.). net0 and net1 are additional network attachments and they connect to other networks by using other CNI plugins (e.g., vlan/vxlan/ptp).
 
@@ -35,7 +35,7 @@ _Figure - Multus Overview_
 
 ### Overview of SR-IOV CNI
 
-The Single Root I/O Virtualization (SR-IOV) feature provides the ability to partition a single physical PCI resource into virtual PCI functions that can be allocated to application and network function PODs. To enable SR-IOV device resource allocation and CNI, OpenNESS Network Edge uses the SR-IOV CNI and SR-IOV Device Plugin. The SR-IOV CNI plugin enables the Kubernetes pod to be attached directly to an SR-IOV virtual function (VF) using the standard SR-IOV VF driver in the container host’s kernel.
+The Single Root I/O Virtualization (SR-IOV) feature provides the ability to partition a single physical PCI resource into virtual PCI functions that can be allocated to application and network function pods. To enable SR-IOV device resource allocation and CNI, OpenNESS Network Edge uses the SR-IOV CNI and SR-IOV Device Plugin. The SR-IOV CNI plugin enables the Kubernetes pod to be attached directly to an SR-IOV virtual function (VF) using the standard SR-IOV VF driver in the container host’s kernel.
 
 ![SR-IOV CNI](multussriov-images/sriov-cni.png)
 
@@ -43,7 +43,7 @@ _Figure - SR-IOV CNI_
 
 ### Overview of SR-IOV Device Plugin
 
-The Intel SR-IOV Network device plugin discovers and exposes SR-IOV network resources as consumable extended resources in Kubernetes. This works with SR-IOV VFs in both Kernel drivers and DPDK drivers. When a VF is attached with a kernel driver, the SR-IOV CNI plugin can be used to configure this VF in the Pod. When using the DPDK driver, a VNF application configures this VF as required.
+The Intel SR-IOV Network device plugin discovers and exposes SR-IOV network resources as consumable extended resources in Kubernetes. This works with SR-IOV VFs in both Kernel drivers and DPDK drivers. When a VF is attached with a kernel driver, the SR-IOV CNI plugin can be used to configure this VF in the pod. When using the DPDK driver, a VNF application configures this VF as required.
 
 
 ![SR-IOV Device plugin](multussriov-images/sriov-dp.png)
@@ -65,7 +65,7 @@ Multus CNI is deployed in OpenNESS using a Helm chart. The Helm chart is availab
 
 [Custom resource definition](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-resources) (CRD) is used to define an additional network that can be used by Multus.
 
-1. The following example creates a `NetworkAttachmentDefinition` that can be used to provide an additional macvlan interface to a POD:
+1. The following example creates a `NetworkAttachmentDefinition` that can be used to provide an additional macvlan interface to a pod:
 ```bash
 cat <<EOF | kubectl create -f -
 apiVersion: "k8s.cni.cncf.io/v1"
@@ -139,7 +139,7 @@ For technical reasons, each node must be configured separately. Copy the example
 
 Also, each node must be added to the Ansible inventory file `inventory.ini`.
 
-For example, providing `host_vars/node01/10-open.yml` with the following command will enable 4 VFs for network interface (PF) `ens787f0` and 8 VFs for network interface `ens787f1` of `node1`.
+For example, providing `host_vars/node01/10-open.yml` with the following options will enable 4 VFs for network interface (PF) `ens787f0` and 8 VFs for network interface `ens787f1` of `node1`.
 
 ```yaml
 sriov:
@@ -175,7 +175,7 @@ spec:
 
 >**NOTE**: Users can create a network with a different CRD as needed.
 
-1. To create a POD with an attached SR-IOV device, add the network annotation to the POD definition and `request` access to the SR-IOV capable device (`intel.com/intel_sriov_netdevice`):
+1. To create a pod with an attached SR-IOV device, add the network annotation to the pod definition and `request` access to the SR-IOV capable device (`intel.com/intel_sriov_netdevice`):
    ```yaml
    apiVersion: v1
    kind: Pod
