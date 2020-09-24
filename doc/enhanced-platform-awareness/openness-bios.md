@@ -22,12 +22,12 @@ To get optimal performance, when this application is deployed by the Resource Or
 
 OpenNESS provides a reference implementation demonstrating how to configure low-level platform settings such as BIOS and firmware, and it provides the capability to check if they are configured as per a required profile. To implement this feature, OpenNESS uses the Intel® System Configuration Utility. The Intel® System Configuration Utility (Syscfg) is a command-line utility that can be used to save and restore BIOS and firmware settings to a file or to set and display individual settings.
 <!-- Author to verify the product name “Intel® System Configuration Utility”. I cannot find it in namesdb.intel.com -->
->**NOTE**: The Intel® System Configuration Utility is only supported on certain server platforms from Intel. Refer to the Intel® System Configuration Utility user guide for the supported server products.
-<!-- author to provide link to user guide reference above. Again, verify the product name “Intel® System Configuration Utility” throughout this document. -->
+>**NOTE**: The Intel® System Configuration Utility is only supported on certain server platforms from Intel. Refer to the [Intel® System Configuration Utility user guide](https://www.intel.com/content/dam/support/us/en/documents/server-products/server-boards/intel-syscfg-userguide-v1-03.pdf) for the supported server products.
+
 >**NOTE**: The Intel® System Configuration Utility is not intended for and should not be used on any non-Intel server products.
 
 The OpenNESS Network Edge implementation goes a step further and provides an automated process using Kubernetes\* to save and restore BIOS and firmware settings. To do this, the Intel® System Configuration Utility is packaged as a pod and deployed as a Kubernetes job that uses ConfigMap. This ConfigMap provides a mount point that has the BIOS and firmware profile that needs to be used for the worker node. A platform reboot is required for the BIOS and firmware configuration to be applied. To enable this, the BIOS and firmware job is deployed as a privileged pod.
-<!-- is ConfigMap a third-party trademark? -->
+
  ![BIOS and Firmware configuration on OpenNESS](biosfw-images/openness_biosfw.png)
 
  _Figure - BIOS and Firmware configuration on OpenNESS_
@@ -38,7 +38,7 @@ BIOS and firmware configuration features are wrapped in a kubectl plugin.
 Knowledge of Intel SYSCFG utility is required for usage.
 <!-- Author to be consistent in use of “Syscfg” -->
 Intel SYSCFG must be manually downloaded by the user after accepting the license.
-<!-- Provide download location? -->
+[Download the utility here](https://downloadcenter.intel.com/download/29693/Save-and-Restore-System-Configuration-Utility-SYSCFG).
 
 ### Setup
 <!-- BIOSFW? Not previously defined. -->
