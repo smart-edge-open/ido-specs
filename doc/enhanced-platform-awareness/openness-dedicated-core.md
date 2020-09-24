@@ -11,8 +11,7 @@ Copyright (c) 2019-2020 Intel Corporation
 - [Reference](#reference)
 
 ## Overview
-<!-- confusing second sentence. Fix. -->
-Multi-core, commercial, off-the-shelf platforms are typical in any cloud or cloud-native deployment. Parallel processing on multiple cores helps achieve better density. On a multi-core platform, one challenge for applications and network functions that are latency and throughput density is deterministic compute. It is important to achieve deterministic compute that can allocate dedicated resources. Dedicated resource allocation avoids interference with other applications (noisy neighbor). When deploying on a cloud-native platform, applications are deployed as PODs. And providing required information to the container orchestrator on dedicated CPU cores is key. CPU manager allows provisioning of a POD to dedicated cores.
+Multi-core, commercial, off-the-shelf platforms are typical in any cloud or cloud-native deployment. Running processes in parallel on multiple cores helps achieve a better density of processes per platform. On a multi-core platform, one challenge for applications and network functions that are latency and throughput dependent is deterministic compute. It is important to achieve deterministic compute that can allocate dedicated resources. Dedicated resource allocation avoids interference with other applications (noisy neighbor). When deploying on a cloud-native platform, applications are deployed as PODs. And providing required information to the container orchestrator on dedicated CPU cores is key. CPU manager allows provisioning of a POD to dedicated cores.
 
 ![CPU Manager - CMK ](cmk-images/cmk1.png)
 
