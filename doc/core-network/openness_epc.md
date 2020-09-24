@@ -26,8 +26,8 @@ Copyright (c) 2019 Intel Corporation
 
 ## Abstract
 <!-- improve the second sentence. Long and confusing. The whole abstract can be improved. -->
-<!-- Mouli to check -->
-An important requirement for edge computing architectures is to minimize the distance between an edge platform and an end user while maintaining deployment flexibility for the edge platform. A recent architectural enhancement to the Long-Term Evolution (LTE) architecture, the Control and User Plane Separation (CUPS) approach, in which the control and user plane aspects of Serving and PDN Gateways are separated into separate components, provides an effective means of achieving this goal. This was tested via the integration of a commercial CUPS-based EPC with an edge platform based on the Open Network Edge Services Software (OpenNESS) platform. The interfaces required to create the integration are described, and future implementation strategies for user plane selection and traffic steering to target edge applications are described.
+<!-- Fixed, please check -->
+One of the primary requirement for edge computing is allocation of edge computing resources for end users along with maintaining application services deployment flexibility for edge platform. An architecture enhancements in Long-Term Evolution (LTE) standards for Control and User Plane Separtion (CUPS) provides an effective means of achieving these goals. CUPS approach has been proven for edge deployemnts with commericial EPC solution partners on the Open Network Edge Services Software (OpenNESS) platform.  The interfaces reqired for CUPS integration and further implementation strategies for user plane selection and traffic steering towards edge applications are discussed.
 
 ## Introduction
 <!-- Provide links to referenced white papers -->
@@ -79,9 +79,9 @@ OpenNESS is an open-source edge computing platform that enables Service Provider
 
 OpenNESS is access network agnostic, as it provides an architecture that interoperates with LTE, 5G, WiFi\*, and wired networks. OpenNESS provides APIs that allow network orchestrators and edge computing controllers to configure routing policies uniformly.
 
-Because it is an open-source platform, OpenNESS enables operators, Independant Software Vendors(ISVs), and OSVs to innovate with new technologies and services. Field trials may be run with platforms implemented via OpenNESS, or functionality from the OpenNESS platform may be imported into existing third-party products. Thus, OpenNESS is an attractive platform for investigating approaches to integration with a CUPS-based network. Refer to [OpenNESS_2019] for more information on the OpenNESS platform.
+Because it is an open-source platform, OpenNESS enables operators, Independant Software Vendors(ISVs), and OSVs to innovate with new technologies and services. Field trials may be run with platforms implemented via OpenNESS, or functionality from the OpenNESS platform may be imported into existing third-party products. Thus, OpenNESS is an attractive platform for investigating approaches to integration with a CUPS-based network. Refer to [OpenNESS documentation](https://www.openness.org/docs/doc/architecture) for more information on the OpenNESS platform.
 <!-- provide a hyperlink to ref within the text. [OpenNESS_2019] -->
-<!-- Mouli to check -->
+<!-- Fixed -->
 Figure 1 shows the architecture of the OpenNESS platform. It consists of:
 
 - a Controller through which external orchestrators act on the system and which is used to manage edge platforms
@@ -233,9 +233,9 @@ Figure 12 - User Plane Routing of Unauthenticated Traffic - UE to Internet
 
 ### Non-Edge Application Traffic
 
-Figure 13 depicts this test. This is another default case where the UE matches no rules for an edge application and is treated as a "vanilla" session that happens to be routed through the edge node EPC.
+Figure 13 depicts this test. This is another default case where the UE matches no rules for an edge application and is treated as any other regular session that happens to be routed through the edge node EPC.
 <!-- how are you defining “vanilla” here? -->
-<!-- Mouli to check -->
+<!-- Fixed, please check -->
 - The UE connects to a different User plane function because its location and/or APN configurations are different and are not in the Edge service location.
 - The Subscriber’s application data, therefore, uses a different UPF to reach the PDN.
 
@@ -245,9 +245,9 @@ Figure 13 - User Plane Routing of non-Application Traffic - UE to Internet
 
 ## Summary
 
-This white paper describes an investigation of how an edge platform can be integrated with an LTE access network that supports CUPS. Such an integration is important for achieving the performance goals of an edge platform. In a reference implementation illustrating this integration, an EPC was modified by exposing an additional Core Network Configuration Agent API, through which an edge node Controller can configure the EPC. By doing this, a central control point (the Edge Controller) can coordinate the deployment of an edge application and the traffic rules steering traffic from a UE to that application.
+This white paper describes an investigation of how an edge platform can be integrated in a LTE access network that supports CUPS. Such an integration is a key factor for achieving the performance goals of an edge platform. During the validation for illustrating this integration, EPC control plane was modified  to interact with Core Network Configuration Agent (CNCA) APIs from OpenNESS, through which an edge controller can configure the EPC. By doing this, a central control point (the Edge Controller) can coordinate the deployment of an edge application and the rules for steering UE data traffic to a specific edge application.
 <!-- what reference implementation? Can you be specific and link back to the section you described this ref implementation in? -->
-<!-- Mouli to check -->
+<!-- Fixed, please check -->
 Further validation of this architecture will be carried out with commercial EPC partners.
 
 ## References
