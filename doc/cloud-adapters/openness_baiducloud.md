@@ -43,8 +43,8 @@ Figure 1. Integration Architecture for OpenEdge on OpenNESS
 
 - OpenEdge can play as two types of Apps
   - **Producer**: provides a service to other apps on the Edge Platform (need a control path between OpenEdge and OpenNESS for EAA interaction).
-  - **Consumer**: consumes end-user traffic and optionally can get services from producer apps on the same edge platform. If need to get services from other edge apps, it needs to use a control path to authenticate and register with OpenNESS.
-<!-- if what need to get services? -->
+  - **Consumer**: consumes end-user traffic and optionally can get services from producer apps on the same edge platform. If the Consumer needs to get services from other edge apps, they need to use a control path to authenticate and register with OpenNESS.
+  
  >**NOTE**: In the application note, OpenEdge is treated as a pure consumer application and does not need to get service from other edge apps. Thus, in the integration architecture diagram, there is no control path.
 
 ## Run OpenEdge on OpenNESS 
@@ -92,7 +92,6 @@ setup_baidu_openedge
 └── defaults.yml
 ```
 
-<!-- in the order…? Complete the sentence. -->
 There are three main scripts: `01_setup.sh`, `02_build.sh`, and `03_deploy.sh`. The scripts need to be executed as the root user in the order
 from the local console on the OpenNESS server or remotely via SSH. The other scripts will be called by the three main scripts for the setup.
 - The folder - `mqtt` contains MQTT IOT device simulators for end-to-end testing so that they should be executed from device machines.
@@ -294,13 +293,13 @@ Figure 2. End to End Example Diagram.
 
 This is an end-to-end example demo for MQTT traffic. This could be an IoT industrial application. 
 It consists of the following elements and related IoT data processing:
-<!-- What “can use MQTT”? -->
-- Two MQTT devices as publisher and subscriber. Can use MQTT client software to simulate two MQTT IoT devices.
+
+- Two MQTT devices as publisher and subscriber. The MQTT client software is used to simuate two MQTT IoT devices.
 
 - OpenNESS Controller: performs management and policy configuration. 
   For this example, the controller will configure traffic rules for routing MQTT IOT traffic to Baidu OpenEdge via OpenNESS.
-<!-- Improve the below sentence “In the example…”. Confusing -->
-- Baidu OpenEdge: In the example provided as part of OpenNESS Baidu OpenEdge app is deployed as a pure consumer app without consuming any services from other producer application on the edge node. Hence, the Baidu OpenEdge app does not need to call EAA APIs. The app will handle data traffic from/to MQTT devices via the OpenNESS dataplane.
+- Baidu OpenEdge: In the example provided, the OpenNESS Baidu OpenEdge app is deployed as a pure Consumer app which does not consume any services from producer applications on the edge node. Hence, the Baidu OpenEdge app does not need to call EAA APIs. The app will handle data traffic from/to MQTT devices via the OpenNESS dataplane.
+
 >**NOTE**: Implementing EAA APIs in the Baidu OpenEdge application will further enhance the capability of the Baidu OpenEdge based application as they can consume services, such as location and radio network information, from the Edge Node. 
 
 - IOT MQTT Data plane processing:
@@ -341,8 +340,7 @@ Data path is:
 ```docker
 Device#1 publisher -> OpenNESS -> OpenEdge -> OpenNESS -> Deivce#2 Subscriber.
 ```
-<!-- “the two devices's machines…” confusing. Improve. -->
-Run commands separately on the two devices's machines:
+Run commands separately on each device machine:
 
 ```docker
 python3.6 openedge_pub.py -e [openedge_address] -c clientA -u test -s hahaha -t t
@@ -365,15 +363,15 @@ The data path is:
 ```docker
 Device#1 publisher -> OpenNESS -> OpenEdge -> IoTHub -> Deivce#2 Subscriber.
 ```
-<!-- “the two devices's machines…” confusing. Improve. -->
-Run commands separately on the two devices's machines:
+Run commands separately on each device machine:
 
 ```docker
 python3.6 openedge_sub.py -e [iothub_address] -c clientA -u [iothub_username] -s [iothub_password] -t t/topic
 python3.6 openedge_pub.py -e [openedge_address] -c clientB -u test -s hahaha -t t
 ```
-<!-- The note below is confusing. Improve. -->
->**NOTE**: iothub_address, iothub_username, and iothub_password will be got when registering user for Baidu IoTHub .
+
+>**NOTE**: The iothub_address, iothub_username, and iothub_password will be assigned when registering user for Baidu IoTHub.
+
 
 Expected result on the subscriber:
 
