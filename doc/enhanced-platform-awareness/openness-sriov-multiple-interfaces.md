@@ -140,7 +140,7 @@ Due to the technical reasons, each node has to be configured separately. Copy th
 
 Please also remember, that each node must be added to Ansible inventory file `inventory.ini`.
 
-For example providing `host_vars/node01/10-open.yml` with:
+For example providing `host_vars/node01/10-open.yml` (for Single Node deployment create and edit `host_vars/<CONTROLLER_NAME>/20-enhanced.yml`) with:
 
 ```yaml
 sriov:
