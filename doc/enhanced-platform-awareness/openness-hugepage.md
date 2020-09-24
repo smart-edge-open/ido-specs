@@ -13,8 +13,8 @@ Copyright (c) 2019-2020 Intel Corporation
 
 ## Overview
 
-Memory is allocated to application processes in terms of pages and by default, 4K pages are supported. For applications dealing with larger datasets, using 4K pages may lead to performance degradation and overhead because of TLB misses. To address this, modern CPUs support HugePages which are typically 2M and 1G. This helps avoid TLB miss overhead and therefore improves performance.
-<!-- define TLB. Also, decide on a consistent use of Hugepages. HugePages? -->
+Memory is allocated to application processes in terms of pages and by default, 4K pages are supported. For applications dealing with larger datasets, using 4K pages may lead to performance degradation and overhead because of translation lookaside buffer (TLB) misses. To address this, modern CPUs support HugePages which are typically 2M and 1G. This helps avoid TLB miss overhead and therefore improves performance.
+
 Both applications and network functions can improve performance using HugePages. Huge page support, added to Kubernetes\* v1.8, enables the discovery, scheduling, and allocation of huge pages as a native, first-class resource. This support addresses low latency and deterministic memory access requirements.
 
 ## Details of HugePage support on OpenNESS
