@@ -110,13 +110,13 @@ As discussed in the ETSI White paper "MEC in 5G Networks" [ETSI_2018a] (https://
 
 The following section outlines the various deployment scenarios in 5G:
 
-1. The edge node hosts the edge applications and is co-located with the Base Station and UPF:
+1. The edge node hosts the edge applications and is co-located with the Base Station and the UPF:
 ![RAN,UPF and MEC co-located at Edge](ngc-images/5g_edge_deployment_scenario1.png)
 <!-- the local UPF? A UPF? Needs an article but not sure which one is appropriate here. -->
 <!-- Clarification needed - Where is local UPF mentioned-->
 <!-- local UPF is not mentioned before, this is the first place it is mentioned -->
 <!-- FIXED. Please check and close -->
-2. The edge node hosts the edge applications and is co-located with a local UPF:
+2. The edge node hosts the edge applications and is co-located with the UPF:
 ![UPF and MEC co-located at Edge](ngc-images/5g_edge_deployment_scenario2.png)
 
 3. The edge node hosts the edge applications and is co-located at Regional-Office:
@@ -136,9 +136,9 @@ The standard also defines a set of procedures in the Application Function (AF) t
 
 # OpenNESS integration with 5G systems
 
-As a reference software solution kit, OpenNESS addresses some of the key challenges in the 5G edge deployment scenarios referred to above through the Application Function (AF) microservice and REST-based APIs. This document will focus on explaining these components in OpenNESS, how they interact with each other, the supported REST-based API endpoints to interact with the 5G NGC solution, the APIs for the end-users to integrate with orchestration and/or solutions.
+As a reference software solution kit, OpenNESS addresses some of the key challenges in the 5G edge deployment scenarios referred to above through the Application Function (AF) microservice and REST-based APIs. The rest of the sections will focus on explaining about the components in OpenNESS, how they interact with each other,  supported REST-based APIs (to interact with the 5G NGC solution), and end-user APIs  (to integrate with orchestration and/or solutions).
 <!-- the sentence above can be improved. Confusing. Also, why is this document’s focus listed here?? -->
-<!-- Mouli to check -->
+<!-- FIXED -- Please check -->
 ## OpenNESS scope
 
 In the context of 5G edge deployments, OpenNESS interacts with 5G NGC through the AF Network Function microservice as defined in the 3GPP standard SBI interface. Additionally, OpenNESS proposes a reference REST-based API endpoint (OAM interface) to configure the 5G Control Plane elements with the information about UPF deployed at the edge nodes. In most cases, 5G NGC solutions may have this configuration path implemented. In the scope of OpenNESS integration with the 5G Core, the OAM interface is a point of discussion based on the existing 5G core interface.  
@@ -168,10 +168,12 @@ The key challenges for Edge deployments in 5G networks have been outlined in the
 <!-- The paragraph below needs to be improved. Not sure how to fix it… Confusing. -->
 <!-- TRIED TO FIX, please check and close -->
 <!-- Mouli to check -->
+<!-- Mouli: FIXED, Check: Re-written the below paragraph as a second bullet. Only one of bullet should present -->
 
 - The 5G standard exposes multiple REST-based APIs defined through Network Exposure Function [3GPP TS 23.502-f30 Sec. 5.2.6] for the AF to configure: the traffic flow rules to identify the application traffic, ie. Packet Flow Descriptor (PFD) operations create/modify/delete and traffic influencing subscription APIs for steering application traffic towards edge node N6 interfaces and more. OpenNESS supported AF functionality will support these APIs in multiple phases, starting with traffic influencing subscription APIs in OpenNESS Rel 19.12.
+- The 5G standard exposes REST based APIs for an external Application Functions (AF) to define the traffic flows and steer them towards edge services ie., Packet Flow Descriptor APIs, Traffic influencing subscription APIs, etc.. .  Application Function in OpenNESS will support those APIs in mulitple phases.
 
-3. **DNS service**
+1. **DNS service**
 
 - For UE traffic to reach applications deployed at the edge, the DNS plays a major role. Resolving the DNS entry for applications running on Edge is always a topic for discussion with multiple options available and the choice is always influenced by the required deployment scenario. 
 
@@ -188,12 +190,13 @@ The key challenges for Edge deployments in 5G networks have been outlined in the
 <!-- since the introduction of 4G/LTE?? Implementers? Is “customers” a better word choice?? -->
 <!-- Improve the entire paragraph below. Confusing. -->
 <!-- Mouli to check -->
+<!-- Mouli: fixed, please check -->
 
-- How to support UE mobility in Edge scenarios is an important question for implementers since 4G/LTE timelines. Thus, the 3GPP 5G standard has addressed this question during the functional requirements stage and continuous enhancements have been made in defining the spec with enhanced Notification procedures and defining Session and Service Continuity modes (SSC mode) etc. to leave enough opportunity for solution developers to achieve mobility. However, mobility in edge applications requires support in the end to end path, i.e.:
+- How to support UE mobility in Edge scenarios is an important question for operators since 4G/LTE timelines. Thus, the 3GPP 5G standard has captured it during the functional requirements stage while defing the spec with enhanced features like Notification procedures, Session and Service Continuity (SSC) modes, etc.. to leave enough opopertunity for operators and Edge solution developers to achieve Edge Key Performance Indicators (KPIs) for end users during mobility. However, mobility in edge applications requires support in the end to end path, i.e.:
     - The 5G core has to notify the UE mobility events towards MEC platforms.
-    - The MEC platforms should have the capability to register for notifications and act accordingly to re-configure the traffic influence subscription rules towards a new UPF, if applicable.
-    - Application servers running on the Edge node should also be capable of application context transfer from one edge node to another running similar application instances.
-    - UE applications should also be aware of and honor the application context switch when they are assigned to a new UPF during mobility.
+    - The MEC platforms should have the capability to register for notifications and act accordingly to re-configure the traffic influence subscription rules towards serving UPF, if applicable.
+    - Application on the Edge node are capable of application context transfer from one edge node to another running similar application instances.
+    - UE applications should also be aware of and honor the application context switch for an unintereputed service.
   
   Technical challenges aside, as Edge services are mostly location-based, the visualization of mobility might not be applicable in all edge deployment scenarios.
 <!-- location-based what? The above sentence is confusing and appears to be an incomplete thought. Fix. -->
