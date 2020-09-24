@@ -95,9 +95,11 @@ Below is a list of minimal configuration parameters for VPP-based applications s
 
 # How to start
 <!-- author to determine appropriate use of capitalization for nouns (is there a reason?) and to be consistent throughout the document in use of capitalization for nouns (for example, Enhancements and Branching) -->
-<!-- Clarificaiton needed: Could you please list the observations>
+<!-- Clarificaiton needed: Could you please list the observations -->
+<!-- Response: For example, Edge Cloud. There is a similar comment above. -->
 <!-- Author to determine if code below aligns with inclusive language. See the use of “master” and “worker”. Update code if appropriate to control plane / node.  -->
 <!-- Clarificaiton needed:words master below are part of github url and code cannot be changed now -->
+<!-- Response: work with Julie Spratt on this. -->
 1. Ensure that all EPA microservices and Enhancements (part of OpenNESS playbook) are deployed `kubectl get po --all-namespaces`. Also, ensure that `multus`, `sriov-cni`, and `sriov-device-plugin` pods are alive on the controller and node. The `interface service` pod should also be alive on the node.
 
     ```bash
