@@ -31,8 +31,7 @@ The diagram below shows FlexRAN DU (Real-time L1 and L2) deployed on the OpenNES
 
 This document aims to provide the steps involved in deploying FlexRAN 5G (gNb) on the OpenNESS platform. 
 
->**NOTE**: This document covers both FlexRAN 4G and 5G. All the steps mentioned in this document use 5G for reference. Refer to the FlexRAN 4G document for minor updates needed to build, deploy, and test FlexRAN 4G. 
-<!-- provide a link to the document referenced above -->
+>**NOTE**: This document covers both FlexRAN 4G and 5G. All the steps mentioned in this document use 5G for reference. Refer to the [FlexRAN 4G Reference Solution L1 User Guide #570228](https://cdrdv2.intel.com/v1/dl/getContent/570228) for minor updates needed to build, deploy, and test FlexRAN 4G. 
 
 # Building the FlexRAN image 
 
