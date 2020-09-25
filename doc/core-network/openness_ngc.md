@@ -49,6 +49,7 @@ Copyright (c) 2019 Intel Corporation
     - [4. OAM interface for edge service registration](#4-oam-interface-for-edge-service-registration)
     - [5. The OAuth2 flow between AF and NEF](#5-the-oauth2-flow-between-af-and-nef)
     - [6. Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+    - [7. Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)
   
 # Introduction
 
@@ -72,7 +73,7 @@ The 5G system architecture specified by the 3GPP standard [3GPP_23501] has been 
 
 The picture below depicts the 3GPP 5G Core networking components connected to each other in Service Based Interface (SBI) architecture.
 
-![5G System Architecture](ngc-images/5g_system_architecture.png "3GPP TS 23.501 Rel15.3 Sec 4.2.3 : 5G System Architecure")
+![5G System Architecture](ngc-images/5g_system_architecture.png)
 
 3GPP TS 23.501 Rel15.3 Sec 4.2.3 : 5G System Architecture
 
@@ -216,13 +217,15 @@ AF provides a framework to receive notifications from 5GC and send these to the 
 
 #### 5GC Notifications
 
-The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently only Policy Authorization Notification for DNAI change(UP_PATH_CHANGE) is supported but the framework can be extended for any events coming from 5GC.
+The external services/consumer can subscribe for 5GC events using AF NB APIs. Currently, Policy Authorization Notification for DNAI Change(UP_PATH_CHANGE) and Traffic Influence Notification for DNAI Change(UP_PATH_CHANGE) are supported but the framework can be extended for any events coming from 5GC.
 There are two delivery mechanisms for such notifications:
 
 * The consumer provides a notificationURI in the AF NB API where it wants to receive the notifications. This URI can be HTTP/HTTPS. AF is the client in this case and would send the notifications to the notification URI through POST request
 * The consumer requests for websocket delivery in the AF NB API to which AF responds with websocketURI. Consumer uses this URI to establish the connection. The notifications are delivered over the websocket connection. 
 
-For a given Policy Authorization request, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+For a given Policy Authorization, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Policy Authorization Notification for UP_PATH_CHANGE](#6-policy-authorization-notification-for-up_path_change)
+
+For a given Traffic Influence, consumer can choose either HTTP(s)/Websockets delivery but not both. The flow is described in - [Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)
 
 ### Network Exposure Function
 
@@ -249,7 +252,7 @@ OAM agent functionality is another component which should be part of 5G Core sol
 
 ### Core Network Configuration Agent
 
-Core Network Configuration Agent (CNCA) is a micro service that provides an interface for end users of OpenNESS controller to interact with 5G Core network solution.  CNCA provides a web based UI and CLI (kube-ctl plugin) interface to interact with the AF and OAM services.
+Core Network Configuration Agent (CNCA) is a micro service that provides an interface for end users of OpenNESS controller to interact with 5G Core network solution.  CNCA provides a CLI (kube-ctl plugin) interface to interact with the AF and OAM services.
 
 ### Security between OpenNESS 5GC micro-services
 
@@ -270,8 +273,8 @@ The AF and NEF micro-services supports the OAuth2 with grant type as "client_cre
 
 | Traffic Influence API                          | Method | Functionality                                                                                                                      |
 | ---------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af) |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)     |
+| {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change) |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)     |
 | {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                 |
 | {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af) |
 
@@ -389,7 +392,7 @@ Along with discussing the supported features in OpenNESS for 5G integration also
 -	[3GPP_29244]TS 29.244 Interface between the Control Plane and the User Plane of EPC Nodes.
 -	[3GPP_23501]3GPP TS 23.501 V15.3.0, “3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; System Architecture for the 5G System; Stage 2 (Release 15)”
 - [3GPP_23502]3GPP TS 23.502 v15.3.0, "Procedures for 5G Systems; Stage2 (Release 15)"
-- [3GPP_29122]: 3GPP TS 29.122 V15.3.0, "T8 reference point of Northbound APIs (Release 15)"
+- [3GPP_29122]3GPP TS 29.122 V15.3.0, "T8 reference point of Northbound APIs (Release 15)"
 - [3GPP_29512]3GPP TS 29.512 V15.3.0, "5G System; Session Management Policy Control Service; Stage3; (Release 15)"
 - [3GPP_29522]3GPP TS 29.522 V15.3.0, "5G System; Network Exposure Function Northbound APIs; Stage 3; (Release 15)"
 -	[3GPP_CUPS]"Control and User Plane Separation of EPC Nodes (CUPS)", https://www.3gpp.org/cups 
@@ -522,5 +525,9 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 ### 6. Policy Authorization Notification for UP_PATH_CHANGE
 
 ![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Policy_Authorization_Notification.png)
+
+### 7. Traffic Influence Notification for UP_PATH_CHANGE
+
+![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Traffic_Influence_Notification.png)
  
 
