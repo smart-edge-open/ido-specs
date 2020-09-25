@@ -294,12 +294,12 @@ The AF and NEF microservices support the OAuth2 with grant type as "client_crede
 
 ### Traffic Influence Subscription
 
-| Traffic Influence API                          | Method | Functionality                                                                                                                      |
-| ---------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Traffic Influence API                          | Method | Functionality                                                                                                                                                                                                                                       |
+| ---------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | {apiroot}/af/v1/subscriptions                  | POST   | [Addition of traffic influencing rules subscription through AF](#11-addition-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change) |
 | {apiroot}/af/v1/subscriptions/{subscriptionId} | PUT    | [Update of traffic influencing rules subscription through AF](#12-update-of-traffic-influencing-rules-subscription-through-af)<br><br>[Traffic Influence Notification for UP_PATH_CHANGE](#7-traffic-influence-notification-for-up_path_change)     |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                 |
-| {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af) |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | GET    | [Get traffic influencing rules subscription through AF](#13-get-traffic-influencing-rules-subscription-through-af)                                                                                                                                  |
+| {apiroot}/af/v1/subscriptions/{subscriptionId} | DELETE | [Deletion of traffic influencing rules subscription through AF](#14-deletion-of-traffic-influencing-rules-subscription-through-af)                                                                                                                  |
 
 ### PFD Management
 
@@ -567,4 +567,3 @@ Detailed information about the OAM reference API endpoints can be found at 5G OA
 ### 7. Traffic Influence Notification for UP_PATH_CHANGE
 
 ![UP_PATH_CHANGE Notifications Flow](ngc-images/AF_Traffic_Influence_Notification.png)
- 
