@@ -7,6 +7,7 @@ Copyright (c) 2020 Intel Corporation
 This document introduces the supported deployment flavors that are deployable through OpenNESS Experience Kits (OEKs.
 - [Minimal Flavor](#minimal-flavor)
 - [FlexRAN Flavor](#flexran-flavor)
+- [Service Mesh Flavor](#service-mesh-flavor)
 - [Media Analytics Flavor](#media-analytics-flavor)
 - [Media Analytics Flavor with VCAC-A](#media-analytics-flavor-with-vcac-a)
 - [CDN Transcode Flavor](#cdn-transcode-flavor)
@@ -49,6 +50,39 @@ This deployment flavor enables the following ingredients:
 * Topology Manager
 * RMD operator
 
+## Service Mesh Flavor
+The pre-defined *service-mesh* deployment flavor installs the OpenNESS service mesh that is based on [Istio](https://istio.io/).
+
+Steps to install this flavor are as follows:
+1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Run OEK deployment script:
+    ```shell
+    $ deploy_ne.sh -f service-mesh
+    ```
+
+This deployment flavor enables the following ingredients:
+* Node Feature Discovery
+* The default Kubernetes CNI: `kube-ovn`
+* Istio service mesh
+* Kiali management console
+* Telemetry
+
+> **NOTE:** Kiali management console username & password can be changed by editing the variables `istio_kiali_username` & `istio_kiali_password`.
+
+Following parameters in the flavor/all.yaml can be customize for Istio deployment:
+
+```
+# Istio deployment profile possible values: default, demo, minimal, remote
+istio_deployment_profile: "default"
+
+# Kiali 
+istio_kiali_username: "admin"
+istio_kiali_password: "admin"
+istio_kiali_nodeport: 30001
+```
+
+> **NOTE:** If creating a customized flavor, the Istio service mesh installation can be included in the Ansible playbook by setting the flag `ne_istio_enable: true` in the flavor file.
+
 ## Media Analytics Flavor
 The pre-defined *media-analytics* deployment flavor provisions an optimized system configuration for media analytics workloads on Intel® Xeon® platforms. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
 
@@ -59,6 +93,9 @@ The following are steps to install this flavor:
     $ deploy_ne.sh -f media-analytics
     ```
 
+> **NOTE:** The video analytics services integrates with the OpenNESS service mesh when the flag `ne_istio_enable: true` is set.
+> **NOTE:** Kiali management console username & password can be changed by editing the variables `istio_kiali_username` & `istio_kiali_password`.
+
 This deployment flavor enables the following ingredients:
 * Node feature discovery
 * VPU and GPU device plugins
@@ -66,6 +103,8 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `kube-ovn`
 * Video analytics services
 * Telemetry
+* Istio service mesh - conditional
+* Kiali management console - conditional
 
 ## Media Analytics Flavor with VCAC-A
 The pre-defined *media-analytics-vca* deployment flavor provisions an optimized system configuration for media analytics workloads leveraging Visual Cloud Accelerator Card – Analytics (VCAC-A) acceleration. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
@@ -142,9 +181,12 @@ This deployment flavor enables the following ingredients:
 - The default Kubernetes CNI: kube-ovn
 - Telemetry
 - OpenNESS 5G Microservices
-  - OAM (Operation, Administration, Maintenance) and AF (Application Function) on the OpenNESS Controller/K8S Control Plane.
-  - Reference NEF (Network Exposure Function) and CNTF (Core Network Test Function) on the OpenNESS Edge Nodes/K8S Node.
-> **NOTE**: For a real deployment with the 5G Core Network Functions, the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
+- OAM(Operation, Administration, Maintenance) and AF(Application Function) on the OpenNESS Controller/K8S Master.
+- Reference NEF(Network Exposure Function) and CNTF(Core Network Test Function) on the OpenNESS Edge Nodes/K8S Node.
+
+> **NOTE:** For a real deployment with the 5G Core Network Functions the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
+
+> **NOTE:** Istio service mesh is enabled by default in the `core-cplane` deployment flavor. To deploy 5G CNFs without Istio, the flag `ne_istio_enable` in `flavors/core-cplane/all.yml` must be set to `false`.
 
 ## Core User Plane Flavor
 
