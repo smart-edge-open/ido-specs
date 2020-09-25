@@ -107,7 +107,7 @@ Support for VM deployment on OpenNESS for Network Edge is available and enabled 
 
 ### Application on-boarding
 
-Refer to the [network-edge-applications-onboarding](https://github.com/open-ness/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md) document for instructions on how to deploy edge applications for OpenNESS Network Edge.
+Refer to the [network-edge-applications-onboarding](https://github.com/open-ness/specs/blob/master/doc/plications-onboard/network-edge-applications-onboarding.md) document for instructions on how to deploy edge applications for OpenNESS Network Edge.
 
 ### Single-node Network Edge cluster
 
@@ -146,7 +146,7 @@ Docker registry is a storage and distribution system for Docker Images. On the O
 Ansible "docker_registry" roles created on openness-experience-kits. For deploying a Docker registry on Kubernetes, control plane node roles are enabled on the openness-experience-kits "network_edge.yml" file.
 
  ```ini
-  role: docker_registry/master
+  role: docker_registry/controlplane
   role: docker_registry/node
    ```
 The following steps are processed during the Docker registry deployment on the OpenNESS setup.

@@ -222,7 +222,7 @@ The following are basic prechecks that are currently executed:
   * Check if the requested CNI is available (check if some CNI is requested that isn't present in the `available_kubernetes_cnis` list).
 * CNI roles should be as self-contained as possible (unless necessary, CNI-specific tasks should not be present in `kubernetes/{controlplane,node,common}` or `openness/network_edge/{controlplane,node}`).
 * If the CNI needs a custom OpenNESS service (e.g., Interface Service in case of `kube-ovn`), it can be added to the `openness/network_edge/{controlplane,node}`.<br>
-  Preferably, such tasks would be contained in a separate task file (e.g., `roles/openness/network_edge/master/tasks/kube-ovn.yml`) and executed only if the CNI is requested. For example:
+  Preferably, such tasks would be contained in a separate task file (e.g., `roles/openness/controlplane/tasks/kube-ovn.yml`) and executed only if the CNI is requested. For example:
   ```yaml
   - name: deploy interface service for kube-ovn
     include_tasks: kube-ovn.yml
