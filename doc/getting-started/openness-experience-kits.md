@@ -23,7 +23,7 @@ Copyright (c) 2019 Intel Corporation
 
 ## Purpose
 
-OpenNESS Experience Kits repository contains set of Ansible playbooks for easy setup of OpenNESS in **Network Edge** and **On-Premise** modes.
+OpenNESS Experience Kits repository contains set of Ansible playbooks for easy setup of OpenNESS in **Network Edge** mode.
 
 ## OpenNESS setup playbooks
 
