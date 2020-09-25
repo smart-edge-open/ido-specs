@@ -20,11 +20,7 @@ Copyright (c) 2020 Intel Corporation
 # Introduction
 
 The User Plane Function (UPF) is the evolution of the Control and User Plane Separation (CUPS), which is part of the 3GPP Release 14 in Evolved Packet Core (EPC). CUPS allows the Packet data network Gateway (PGW) to be split into PGW - Control Plane Function (PGW-C) and PGW - User Plane Function (PGW-U). By doing this, PGW-U can be distributed and used for Edge Cloud deployment.
-<!-- Rel.14? -->
-<!-- Author to address the use of capitalization of nouns throughout document (some examples: Edge Cloud, PDU Session, Data Network, Branching). Author to determine if there is a reason for the capitalization and then use those capitalized nouns consistently in document.  -->
-<!-- Provide link to specification referenced below. -->
-<!-- Define acronyms on first use in list below and rest of document (examples: PDU, RAT, SMF). -->
-<!-- FIXED all the above please check and close -->
+
 Defined in 3GPP technical specification [23.501](<https://www.3gpp.org/DynaReport/23501.htm>), the UPF provides:
 
 - Anchor point for Intra/Inter Radio Access Technology(RAT) mobility (when applicable).
@@ -46,8 +42,7 @@ As part of the end-to-end integration of the Edge cloud deployment using OpenNES
 ![UPF and NGC Control plane deployed on OpenNESS](openness-core.png)
 
 >**NOTE**: The UPF source or binary is not released as part of OpenNESS.
-<!-- Suggestion: create a section called “Purpose” and place the below content in Purpose -->
-<!-- FIXED please check and close -->
+
 # Purpose
 
 This document provides the required steps to deploy UPF on the OpenNESS platform. 4G/(Long Term Evolution network)LTE or 5G UPF can run as network functions on the Edge node in a virtualized environment.  The reference [Dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/Dockerfile) and [5g-upf.yaml](https://github.com/otcshare/edgeapps/blob/master/network-functions/core-network/5G/UPF/5g-upf.yaml) provide details on how to deploy UPF as a Container Networking function (CNF) in a K8s pod on OpenNESS edge node using OpenNESS Enhanced Platform Awareness (EPA) features.
@@ -94,12 +89,7 @@ Below is a list of minimal configuration parameters for VPP-based applications s
 - N3, N4, N6, and N9 Interface IP addresses
 
 # How to start
-<!-- author to determine appropriate use of capitalization for nouns (is there a reason?) and to be consistent throughout the document in use of capitalization for nouns (for example, Enhancements and Branching) -->
-<!-- Clarificaiton needed: Could you please list the observations -->
-<!-- Response: For example, Edge Cloud. There is a similar comment above. -->
-<!-- Author to determine if code below aligns with inclusive language. See the use of “master” and “worker”. Update code if appropriate to control plane / node.  -->
-<!-- Clarificaiton needed:words master below are part of github url and code cannot be changed now -->
-<!-- Response: work with Julie Spratt on this. -->
+
 1. Ensure that all EPA microservices and Enhancements (part of OpenNESS playbook) are deployed `kubectl get po --all-namespaces`. Also, ensure that `multus`, `sriov-cni`, and `sriov-device-plugin` pods are alive on the controller and node. The `interface service` pod should also be alive on the node.
 
     ```bash
@@ -135,8 +125,7 @@ Below is a list of minimal configuration parameters for VPP-based applications s
     openness      syslog-master-894hs                       1/1     Running   0          7d19h
     openness      syslog-ng-n7zfm                           1/1     Running   16         7d19h
     ```
-<!-- confirm acronyms below. Virtual Functions Interfaces (VFIs)? Same for PF. -->
-<!-- FIXED please check and close -->
+
 2. Make sure that the Virutal Function(VF) interfaces to the mentioned interface on node host is created. You should see a new interface type, “Ethernet Virtual Function“. In the below example, for the configuration where 2 VFs  have been requested for 1 Physical Functional(PF) interface, the output shows that for PF "af:00.0" the corresponding two VF's are "af:0a.0" and "af:0a.1".
 
     ```bash
@@ -297,9 +286,6 @@ Here is an example:
   ```bash
   ne-controller# helm install upf-cnf ./upf/ --set image.repository=upf-cnf --set node.name=ne-node --set node.path=/root/upf --set upf.vf_if_name=VirtualFunctionEthernetaf/a/0 --set upf.pci_bus_addr=0000:af:0a.1 --set upf.uio_driver=igb_uio --set upf.huge_memory=6G --set upf.main_core=2 --set upf.worker_cores="3\,4" --set upf.pfcp_thread.cores=5 --set upf.pfcp_thread.count=2 --set upf.n3_addr=192.179.120.180/24  --set upf.n4_addr=192.179.120.180 --set upf.n6_addr=192.179.120.180/24 --set upf.n6_gw_addr=192.168.1.180 --set hugePageSize=hugepages-1Gi --set hugePageAmount=4Gi
   ```
-
-<!-- Suggestion: give this table a name and description. The following table contains information for… -->
-<!-- FIXED, please check and close. Not aware of how to provide table name in md files -->
 
 The following table describes the helm parameters using the above example.
 
