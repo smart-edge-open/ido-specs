@@ -297,8 +297,10 @@ Here is an example:
   ```bash
   ne-controller# helm install upf-cnf ./upf/ --set image.repository=upf-cnf --set node.name=ne-node --set node.path=/root/upf --set upf.vf_if_name=VirtualFunctionEthernetaf/a/0 --set upf.pci_bus_addr=0000:af:0a.1 --set upf.uio_driver=igb_uio --set upf.huge_memory=6G --set upf.main_core=2 --set upf.worker_cores="3\,4" --set upf.pfcp_thread.cores=5 --set upf.pfcp_thread.count=2 --set upf.n3_addr=192.179.120.180/24  --set upf.n4_addr=192.179.120.180 --set upf.n6_addr=192.179.120.180/24 --set upf.n6_gw_addr=192.168.1.180 --set hugePageSize=hugepages-1Gi --set hugePageAmount=4Gi
   ```
+
 <!-- Suggestion: give this table a name and description. The following table contains information for… -->
-< -- FIXED, please check and close. Not aware of how to provide table name in md files -- >
+<!-- FIXED, please check and close. Not aware of how to provide table name in md files -->
+
 The following table describes the helm parameters using the above example.
 
 | Parameter                                    | Description                                                                      |

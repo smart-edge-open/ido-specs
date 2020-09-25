@@ -27,12 +27,12 @@ Copyright (c) 2019 Intel Corporation
 ## Abstract
 <!-- improve the second sentence. Long and confusing. The whole abstract can be improved. -->
 <!-- Fixed, please check -->
-One of the primary requirement for edge computing is allocation of edge computing resources for end users along with maintaining application services deployment flexibility for edge platform. An architecture enhancements in Long-Term Evolution (LTE) standards for Control and User Plane Separtion (CUPS) provides an effective means of achieving these goals. CUPS approach has been proven for edge deployemnts with commericial EPC solution partners on the Open Network Edge Services Software (OpenNESS) platform.  The interfaces reqired for CUPS integration and further implementation strategies for user plane selection and traffic steering towards edge applications are discussed.
+One of the primary requirement for edge computing is allocation of edge computing resources for end users along with maintaining application services deployment flexibility for edge platform. An architecture enhancements in Long-Term Evolution (LTE) standards for Control and User Plane Separtion (CUPS) provides an effective means of achieving these goals. CUPS approach has been proven for edge deployemnts with commericial EPC solution partners on the Open Network Edge Services Software (OpenNESS) platform.  The interfaces required for CUPS integration and further implementation strategies for user plane selection and traffic steering towards edge applications are discussed in this paper.
 
 ## Introduction
 <!-- Provide links to referenced white papers -->
 <!-- FIXED, please check and close -->
-Edge platforms were not considered during the initial release of the LTE network architecture by 3rd Generation Partnership Project (3GPP). The development of edge computing platforms, where computing resources are located in an access network close to an end user, was therefore an "add-on" solution. The leading standard addressing edge computing, the ETSI Multi-access Edge Computing (MEC) standard [ETSI_2016], does not specify the networking aspects of edge computing. However, they have published white papers (e.g., [ETSI_2018](<https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf>), [ETSI_2018a](<https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp28_mec_in_5G_FINAL.pdf>)) that suggest various approaches. Deployment of edge computing in the LTE environment remains network operator-dependent.
+Edge platforms were not considered during the initial release of the LTE network architecture by 3rd Generation Partnership Project (3GPP). The development of edge computing platforms, where computing resources are located in an access network close to an end user, was therefore an "add-on" solution. The leading standard addressing edge computing, the ETSI Multi-access Edge Computing (MEC) standard [ETSI_2016](<https://www.etsi.org/deliver/etsi_gs/MEC/001_099/003/01.01.01_60/gs_MEC003v010101p.pdf>), does not specify the networking aspects of edge computing. However, they have published white papers (e.g., [ETSI_2018](<https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp24_MEC_deployment_in_4G_5G_FINAL.pdf>), [ETSI_2018a](<https://www.etsi.org/images/files/ETSIWhitePapers/etsi_wp28_mec_in_5G_FINAL.pdf>)) that suggest various approaches. Deployment of edge computing in the LTE environment remains network operator-dependent.
 
 The standards for 5G networks (e.g., [3GPP 23.501](<https://www.3gpp.org/DynaReport/23501.htm>) provide a new set of functional enablers for the integration of edge compute platforms into the network. However, since LTE will be deployed for years to come, providing edge computing in LTE remains important. This is the focus of the present white paper.
 <!-- author to define acronyms on first use -->
@@ -70,7 +70,8 @@ The 3GPP standard describes multiple ways to select SGW-U and PGW-U during the U
 <!-- FIXED, please check and close -->
 ## Integration with Edge Platform
 <!-- Provide hyperlink to the specific section referenced below. -->
-The previous section of this white paper described the networking environment in which an edge platform must be integrated. In this section, an integration with the OpenNESS edge computing platform is described.
+<!-- FIXED, please check and close -->
+The [previous section](#4G-LTE-CUPS-architectural-aspects) of this white paper described the networking environment in which an edge platform must be integrated. In this section, an integration with the OpenNESS edge computing platform is described.
 <!-- actual integration? As opposed to fictional? -->
 <!-- FIXED, please check and close -->
 ### Open Network Edge Services Software (OpenNESS)
@@ -81,7 +82,7 @@ OpenNESS is access network agnostic, as it provides an architecture that interop
 
 Because it is an open-source platform, OpenNESS enables operators, Independant Software Vendors(ISVs), and OSVs to innovate with new technologies and services. Field trials may be run with platforms implemented via OpenNESS, or functionality from the OpenNESS platform may be imported into existing third-party products. Thus, OpenNESS is an attractive platform for investigating approaches to integration with a CUPS-based network. Refer to [OpenNESS documentation](https://www.openness.org/docs/doc/architecture) for more information on the OpenNESS platform.
 <!-- provide a hyperlink to ref within the text. [OpenNESS_2019] -->
-<!-- Fixed -->
+<!-- FIXED, please check and close -->
 Figure 1 shows the architecture of the OpenNESS platform. It consists of:
 
 - a Controller through which external orchestrators act on the system and which is used to manage edge platforms
@@ -91,7 +92,7 @@ In general, many edge nodes are associated with a Controller. To accomplish perf
 
 The functional elements of the OpenNESS platform interact with each other via service interfaces. Of these, certain interfaces, such as those that interact with the access network or with edge applications, are exposed as OpenAPI (i.e., RESTful) APIs.
 
-Refer to [OpenNESS_2019] for a details of the architecture and the service interfaces.
+Refer to [OpenNESS documentation](https://www.openness.org/docs/doc/architecture) for a details of the architecture and the service interfaces.
 
 ![OpenNESS Architecture overview](epc-images/Openness_highlevel.png)
 Figure 1 - Open Network Edge Services Software (OpenNESS) Architecture
@@ -107,16 +108,15 @@ Figure 2 depicts the first, most decoupled model in which multiple SGW-Us are as
 ![3GPP CUPS model 1](epc-images/openness_epc1.png)
 Figure 2 - Deployment Model 1: Separate S-GW, Co-located P-GW, and Edge Platform
 <!-- bare-metal what? Bare-metal server -->
-<!-- Clarification needed - Where is this mentioned in the document -->
-<!-- Response: search for "bare metal" -->
-In the second deployment model, shown in Figure 3, the PGW-U is integrated into an edge infrastructure. This model implies that the PGW-U function runs as a bare metal, virtual machine, or container implementation in the same host or rack as an edge node. The number of hops through the network for user plane traffic is reduced because it is now possible for the PGW-U function to be orchestrated by the same virtualization manager as the edge platform. However, to realize this economy, the control plane should expose an API by which the edge platform can configure it (e.g., by setting the forwarding, QoS, and DNS rules required by the SGW-U).
+<!-- FIXED, please check and close -->
+In the second deployment model, shown in Figure 3, the PGW-U is integrated into an edge infrastructure. This model implies that the PGW-U function runs as a bare metal server, a virutal machine(VM), or container implementation in the same host or rack as an edge node. The number of hops through the network for user plane traffic is reduced because it is now possible for the PGW-U function to be orchestrated by the same virtualization manager as the edge platform. However, to realize this economy, the control plane should expose an API by which the edge platform can configure it (e.g., by setting the forwarding, QoS, and DNS rules required by the SGW-U).
 
 ![3GPP CUPS model 2](epc-images/openness_epc2.png)
 Figure 3 - Deployment Model 2: Combined S-GW, P-GW, Separate Edge Platform
 
-In the third deployment model, shown in Figure 4, the SGW-U and PGW-U functions are integrated into the same platform as the edge node. This model looks like a single user plane gateway that also executes edge applications, which reduces latency and operational costs. The user plane functions may run in bare metal, a VM, or containers managed by the edge platform virtualization manager. The control plane functions should expose an API by which the edge platform can configure it, as in the case of the second model.
+In the third deployment model, shown in Figure 4, the SGW-U and PGW-U functions are integrated into the same platform as the edge node. This model looks like a single user plane gateway that also executes edge applications, which reduces latency and operational costs. The user plane functions may run in bare metal server, a VM, or containers managed by the edge platform virtualization manager. The control plane functions should expose an API by which the edge platform can configure it, as in the case of the second model.
 <!-- bare-metal what? Bare-metal server -->
-<!-- Clarification needed - Where is this mentioned in the document -->
+<!-- FIXED, please check and close -->
 
 ![3GPP CUPS model 3](epc-images/openness_epc3.png)
 Figure 4 - Combined S-GW, P-GW, Co-located with Edge Platform
@@ -127,9 +127,8 @@ An implementation of the third deployment model was created to demonstrate the a
 
 The interacting functions in this architecture are the EPC Control Plane and the OpenNESS Controller.
 <!-- Fix sentence below. Confusing.  -->
-<!-- Clarification needed - Which part is confusing -->
-<!-- Response: the entire sentence. -->
-The EPC Control Plane is a reference implementation of a 3GPP control plane, and exposes an API, the Core Network Configuration API (CNCA), through which network configuration operations can be performed. Invocations of the API result in setting appropriate configuration rules in the LTE access network.
+<!-- FIXED, please check and close -->
+The EPC Control Plane is a reference implementation of a 3GPP control plane. It exposes APIs for performing network configuration operations which can by used by the Core Network Configuration API (CNCA). Invocations of the EPC Control API's result in setting appropriate configuration rules in the LTE access network.
 
 The OpenNESS Controller is a reference implementation that maintains a representation of requested UE traffic steering configuration, and issues configuration commands via the new API developed as a part of this integration (the CNCA API).
 
