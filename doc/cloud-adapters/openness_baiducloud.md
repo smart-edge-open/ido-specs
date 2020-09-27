@@ -387,8 +387,7 @@ The data path is:
 ```docker
 Device#1 publisher -> OpenNESS -> OpenEdge -> OpenNESS -> Deivce#1 Subscriber.
 ```
-<!-- One machine? First? Machine #1? -->
-Run the following command on the one machine (here, you only need device \#1 to play as publisher and subscriber):
+Run the following command on first device machine (here, the device will play as publisher and subscriber):
 
 ```docker
 python3.6 measure_rtt_openedge.py -e [openedge_address] -c clientRTT -u test -s hahaha -t t -b t/topic
@@ -412,8 +411,7 @@ The data path is:
 ```docker
 Device#1 publisher -> OpenNESS -> OpenEdge -> IoTHub -> Deivce#1 Subscriber.
 ```
-<!-- One machine? Why \#1?-->
-Run the command on the one machine (here, you only need device \#1 to play as publisher and subscriber):
+Run the following command on first device machine (here, the device will play as publisher and subscriber):
 
 ```docker
 python3.6 measure_rtt_iothub.py -e [iothub_address] -c clientA -u [iothub_username] -s [iothub_password] -t rtt -b rtt
