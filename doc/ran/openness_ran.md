@@ -195,7 +195,7 @@ PTP requires a few kernel configuration options to be enabled:
 - CONFIG_PTP_1588_CLOCK
 
 ## Primary clock
-This is an optional step if you already have a control plane. The below steps explain how to set up a Linux system to behave like ptp GM. 
+This is an optional step if you already have a primary clock. The below steps explain how to set up a Linux system to behave like ptp GM. 
 
 On the primary clock side, take a look at the `/etc/sysconfig/ptp4l` file. It is the `ptp4l` daemon configuration file where starting options will be provided. Its content should look like this:
 ```shell 
@@ -203,7 +203,7 @@ OPTIONS=”-f /etc/ptp4l.conf -i <if_name>”
 ```
 `<if_name>` is the interface name used for time stamping and `/etc/ptp4l.conf` is a configuration file for the `ptp4l` instance.
 
-To determine if a primary clock PTP protocol is using BMC algorithm, and it is not obvious which clock will be chosen as control plane. However, users can set the timer that is preferable to be the primary clock. It can be changed in `/etc/ptp4l.conf`. Set `priority1 property` to `127`.
+To determine if a primary clock PTP protocol is using BMC algorithm, and it is not obvious which clock will be chosen as primary clock. However, users can set the timer that is preferable to be the primary clock. It can be changed in `/etc/ptp4l.conf`. Set `priority1 property` to `127`.
 
 After that start ptp4l service.
 
