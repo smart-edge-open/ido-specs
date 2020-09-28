@@ -12,8 +12,8 @@ Copyright (c) 2020 Intel Corporation
 - [Deploying and Running the FlexRAN pod](#deploying-and-running-the-flexran-pod)
 - [Setting up 1588 - PTP based Time synchronization](#setting-up-1588---ptp-based-time-synchronization)
   - [Setting up PTP](#setting-up-ptp)
-  - [Control plane clock](#control-plane-clock)
-  - [Node clock](#node-clock)
+  - [Primary clock](#primary-clock)
+  - [Secondary clock](#secondary-clock)
 - [BIOS configuration](#bios-configuration)
 - [References](#references)
 
@@ -81,8 +81,8 @@ The following example reflects the Docker image [expected by Helm chart](https:/
    docker push <docker_registry_ip_address>:<port>/intel/flexran5g:3.10.0-1062.12.1.rt56
    ```
 
-By the end of step 7, the FlexRAN Docker image is created and available in the Docker registry. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel PACN3000 FPGA. Please refer to the document [Using FPGA in OpenNESS: Programming, Resource Allocation, and Configuration](https://github.com/open-ness/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md) for details on setting up Intel PACN3000 vRAN FPGA. 
-<!-- author to confirm the product names “Intel PACN3000 FPGA” and “Intel PACN3000 vRAN FPGA”. I can’t find PACN in the names database. -->
+By the end of step 7, the FlexRAN Docker image is created and available in the Docker registry. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000. Please refer to the document [Using FPGA in OpenNESS: Programming, Resource Allocation, and Configuration](https://github.com/open-ness/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md) for details on setting up Intel® FPGA PAC N3000 with  vRAN FPGA image.
+
 # FlexRAN hardware platform configuration 
 ## BIOS 
 FlexRAN on Intel® microarchitecture code name Skylake and Cascade Lake technology from Intel requires a BIOS configuration that disables C-state and enables Config TDP level-2. Refer to the [BIOS configuration](#bios-configuration) section in this document. 
@@ -164,9 +164,8 @@ This section provides an overview of setting up PTP-based time synchronization i
 
 >**NOTE**: The PTP-based time synchronization method described here is applicable only for containers. For VMs, methods based on Virtual PTP need to be applied and this is not covered in this document.  
 
-## Setting up PTP 
-<!-- author to determine if grandmaster should be renamed to “grand control plane”. Per guidance to use control plane / mode in place of master / slave, I used control plane only. Also, the author needs to verify use of capitalization throughout the document (e.g., Hardware Time Stamps). -->
-In the environment that needs to be synchronized, install the linuxptp package, which provides ptp4l and phc2sys applications. The PTP setup needs the control plane clock and node clock setup. The node clock will be synchronized to the control plane clock. At first, the control plane clock will be configured. A supported NIC is required to use Hardware Time Stamps. To check if NIC is supporting Hardware Time Stamps, run the ethtool and a similar output should appear:
+## Setting up PTP
+In the environment that needs to be synchronized, install the linuxptp package, which provides ptp4l and phc2sys applications. The PTP setup needs the primary clock and secondary clock setup. The secondary clock will be synchronized to the primary clock. At first, the primary clock will be configured. A supported NIC is required to use Hardware Time Stamps. To check if NIC is supporting Hardware Time Stamps, run the ethtool and a similar output should appear:
 ```shell 
 # ethtool -T eno4
 Time stamping parameters for eno4:
@@ -188,23 +187,23 @@ Hardware Receive Filter Modes:
         ptpv2-event           (HWTSTAMP_FILTER_PTP_V2_EVENT)
 ```
 
-The time in containers is the same as on the host machine, and so it is enough to synchronize the host to the control plane clock.   
+The time in containers is the same as on the host machine, and so it is enough to synchronize the host to the primary clock.
 
 PTP requires a few kernel configuration options to be enabled:
 - CONFIG_PPS
 - CONFIG_NETWORK_PHY_TIMESTAMPING
 - CONFIG_PTP_1588_CLOCK
 
-## Control plane clock
+## Primary clock
 This is an optional step if you already have a control plane. The below steps explain how to set up a Linux system to behave like ptp GM. 
 
-On the control plane clock side, take a look at the `/etc/sysconfig/ptp4l` file. It is the `ptp4l` daemon configuration file where starting options will be provided. Its content should look like this:
+On the primary clock side, take a look at the `/etc/sysconfig/ptp4l` file. It is the `ptp4l` daemon configuration file where starting options will be provided. Its content should look like this:
 ```shell 
 OPTIONS=”-f /etc/ptp4l.conf -i <if_name>”
 ```
 `<if_name>` is the interface name used for time stamping and `/etc/ptp4l.conf` is a configuration file for the `ptp4l` instance.
 
-To determine if a control plane clock PTP protocol is using BMC algorithm, and it is not obvious which clock will be chosen as control plane. However, users can set the timer that is preferable to be the control plane clock. It can be changed in `/etc/ptp4l.conf`. Set `priority1 property` to `127`.
+To determine if a primary clock PTP protocol is using BMC algorithm, and it is not obvious which clock will be chosen as control plane. However, users can set the timer that is preferable to be the primary clock. It can be changed in `/etc/ptp4l.conf`. Set `priority1 property` to `127`.
 
 After that start ptp4l service.
 
@@ -212,7 +211,7 @@ After that start ptp4l service.
 service ptp4l start
 ```
 
-Output from the service can be checked at `/var/log/messages`, and for control plane clock, it should be like this:
+Output from the service can be checked at `/var/log/messages`, and for primary clock, it should be like this:
 
 ```shell 
 Mar 16 17:08:57 localhost ptp4l: ptp4l[23627.304]: selected /dev/ptp2 as PTP clock
@@ -252,8 +251,8 @@ phc2sys[3656460.970]: sys offset       -29 s2 freq  -22909 delay   1548
 phc2sys[3656461.971]: sys offset       -25 s2 freq  -22913 delay   1549         
 ``` 
 
-## Node clock
-The node clock configuration will be the same as the control plane clock except for `phc2sys` options and priority1 property for `ptp4l`. For node clock priority1 property in `/etc/ptp4l.conf` should stay with default value (128). Run `ptp4l` service. To keep the system time synchronized to PHC time, change `phc2sys` options in `/etc/sysconfig/phc2sys` using the following command:
+## Secondary clock
+The secondary clock configuration will be the same as the primary clock except for `phc2sys` options and priority1 property for `ptp4l`. For secondary clock priority1 property in `/etc/ptp4l.conf` should stay with default value (128). Run `ptp4l` service. To keep the system time synchronized to PHC time, change `phc2sys` options in `/etc/sysconfig/phc2sys` using the following command:
 
 ```shell 
 OPTIONS=”phc2sys -s <if_name> -w"
