@@ -25,7 +25,8 @@ This document provides high-level system features, issues, and limitations infor
 4. OpenNESS - 19.12
 5. OpenNESS - 20.03
 6. OpenNESS - 20.06
-   
+7. OpenNESS - 20.09
+    
 # Features for Release 
 1. <b>OpenNESS - 19.06 </b>
    - Edge Cloud Deployment options  
@@ -214,6 +215,23 @@ This document provides high-level system features, issues, and limitations infor
    - Early Access support for Resource Management Daemon (RMD) 
      - RMD for cache allocation to the application Pods 
    - Ability to deploy OpenNESS Master and Node on the same platform  
+6. <b>OpenNESS – 20.09</b>
+   - Native On-premises mode
+      - Following from the previous release decision of pausing Native on-premises Development the code has been move to a dedicated repository “native-on-prem”
+      - Kubernetes based solution will now support both Network and on-premises Edge
+    - Service Mesh support
+      - Basic support for Service Mesh using istio within an OpenNESS cluster
+      - Application of Service Mesh openness 5G and Media analytics - A dedicated network for service to service communications
+    - EAA Update 
+      - EAA microservices has been updated to be more cloud-native friendly 
+    - 5G Core AF and NEF
+      - User-Plane Path Change event notifications from AF received over N33 I/f [Traffic Influence updates from SMF received through NEF]
+      - AF/NEF/OAM Configuration and Certificate updates through Configmaps.
+      - AF and OAM API’s access authorization through Istio Gateway.
+      - Envoy Sidecar Proxy for all the 5G microservices(AF/NEF/OAM/CNTF) which enables support for telemetry(Request/Response Statistics), certificates management, http 2.0 protocol configuration(with/without TLS)
+      - Core-cplane flavor is enabled with Istio
+    - CERA Near Edge release
+      - Core network and Application reference architecture
 
 # Changes to Existing Features
  - **OpenNESS 19.06** There are no unsupported or discontinued features relevant to this release.
@@ -227,6 +245,8 @@ This document provides high-level system features, issues, and limitations infor
    - Support for HDDL-R only restricted to non-real-time or non-customized CentOS 7.6 default kernel. 
  - **OpenNESS 20.06**  
    - Offline install for Native mode OnPremises has be deprecated 
+ - **OpenNESS 20.09**  
+   - Native on-premises is now located in a dedicated repository with no further feature updates from previous release.
 
 # Fixed Issues
 - **OpenNESS 19.06** There are no non-Intel issues relevant to this release.
@@ -247,6 +267,9 @@ This document provides high-level system features, issues, and limitations infor
   - Modular playbooks  
 - **OpenNESS 20.06** 
   - Optimized the Kubernetes-based deployment by supporting multiple Flavors 
+- **OpenNESS 20.09** 
+  - Further optimized the Kubernetes based deployment by supporting multiple Flavors 
+  - cAdvisor occasional failure issue is resolved 
 
 # Known Issues and Limitations
 - **OpenNESS 19.06** There are no issues relevant to this release.
@@ -273,12 +296,13 @@ This document provides high-level system features, issues, and limitations infor
   - Network edge installation takes 1.5hrs because of docker image build for OVS-DPDK
   - OpenNESS controller allows management NICs to be in the pool of configuration, which might allow configuration by mistake and thereby disconnect the node from master
   - When using the SRIOV EPA feature added in 20.03 with OVNCNI, the container cannot access the CNI port. This is due to the SRIOV port being set by changing the network used by the container from default to a custom network, This overwrites the OVNCNI network setting configured prior to this to enable the container to work with OVNCNI. Another issue with the SRIOV, is that this also overwrites the network configuration with the EAA and edgedns, agents, which prevents the SRIOV enabled container from communicating with the agents.
-
   - Cannot remove Edge Node from Controller when its offline and traffic policy is configured or app is deployed. 
   - Legacy OnPremises - Traffic rule creation: cannot parse filled and cleared fields
   - There is an issue with using CDI when uploading VM images when CMK is enabled due to missing CMK taint toleration. The CDI upload pod does not get deployed and the `virtctl` plugin command times out waiting for the action to complete. A workaround for the issue is to invoke the CDI upload command, edit the taint toleration for the CDI upload to tolerate CMK, update the pod, create the PV, and let the pod run to completion.
   - There is a known issue with cAdvisor which in certain scenarios occasionally fails to expose the metrics for the Prometheus endpoint. See the following GitHub\* link: https://github.com/google/cadvisor/issues/2537 
-
+- **OpenNESS 20.09** 
+  - Pod which uses hugepage get stuck in terminating state on deletion. This is a known issue on Kubernetes 1.18.x and is planned to be fixed in 1.19.x
+  - Calico TBD
     
 # Release Content
 - **OpenNESS 19.06** OpenNESS Edge node, OpenNESS Controller, Common, Spec, and OpenNESS Applications. 
@@ -288,7 +312,10 @@ This document provides high-level system features, issues, and limitations infor
 - **OpenNESS 20.03** OpenNESS Edge node, OpenNESS Controller, Common, Spec, OpenNESS Applications, and Experience kit. 
 - **OpenNESS 20.06** 
   - Open Source: Edge node, Controller, Epcforedge, Common, Spec, Applications, and Experience kit. 
-  - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec, and IDO Experience kit. 
+  - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec, and IDO Experience kit.
+- **OpenNESS 20.09** 
+  - Open Source: Edge node, Controller, Epcforedge, Common, Spec, Applications and Experience kit. 
+  - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec and IDO Experience kit.> Note: Application repo common to Open Source and IDO 
   >**NOTE**: Application repo common to Open Source and IDO
   
 # Hardware and Software Compatibility
@@ -334,6 +361,7 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 | Other card       | 2x PCIe Riser cards                                           |
 | HDDL-R           | [Mouser Mustang-V100](https://www.mouser.ie/datasheet/2/763/Mustang-V100_brochure-1526472.pdf)                                                 |
 | VCAC-A           | [VCAC-A Accelerator for Media Analytics](https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/media-analytics-vcac-a-accelerator-card-by-celestica-datasheet.pdf)                                                 |
+| PAC-N3000        | [Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 ](https://www.intel.com/content/www/us/en/programmable/products/boards_and_kits/dev-kits/altera/intel-fpga-pac-n3000/overview.html)                  |
 
 # Supported Operating Systems
 > OpenNESS was tested on CentOS Linux release 7.6.1810 (Core) : Note: OpenNESS is tested with CentOS 7.6 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
