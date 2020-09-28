@@ -1,5 +1,8 @@
+```text
 SPDX-License-Identifier: Apache-2.0     
-Copyright © 2020 Intel Corporation
+Copyright (c) 2020 Intel Corporation
+```
+<!-- omit in toc -->
 # O-RAN Front Haul Sample Application in OpenNESS 
 - [Introduction](#introduction)
 - [Dynamic Device Personalization](#dynamic-device-personalization)
@@ -407,7 +410,7 @@ Before starting the deployment script, OpenNESS should be configured according t
 Additional configuration steps are provided below.
 
 ### Setting up SRIOV 
-1. Modify the `group_vars/all.yml` file as follows:
+1. Modify the `group_vars/all/10-default.yml` file as follows:
 
 ```yaml
     kubernetes_cnis:
@@ -417,6 +420,10 @@ Additional configuration steps are provided below.
 
 ```yaml
     ne_nfd_enable: True
+```
+
+```yaml
+   kubeovn_dpdk: false
 ```
 
 2. Modify `host_vars/<node_name>.yml`. Provide the physical addresses of the connected interface to be used by the xRAN sample application and the number of VFs to be created on each of the connected physical ports. Each port needs to have 2 VFs. The SRIOV setting should look similar to:
@@ -548,19 +555,7 @@ Check the `/proc/cmd` output. It should look similar to:
 
 ### Configure Interfaces
 
-At this stage, OpenNESS with enabled SRIOV should be deployed. It is also expected that DPDK version 19.11 is installed on the node, and `vfio-pci` driver is loaded.
-Next, the VFs need to be manually bound to the `vfio-pci` driver using the following command:
-
-
-```
-    $RTE_SDK/usertools/dpdk-devbind.py --bind=vfio_pci <vf_address>
-```
-
-Example:
-
-```shell
-    /opt/dpdk-19.11/usertools/dpdk-devbind.py --bind=vfio_pci 0000:86:0a.1
-```
+At this stage, OpenNESS with enabled SRIOV should be deployed. It is also expected that DPDK version 19.11 is installed on the node, and `vfio-pci` driver is loaded according to instructions given [here](https://cdrdv2.intel.com/v1/dl/getContent/611268).
 
 Use the following commands to assign the following MAC addresses to the VFs, specifying the physical address of the PFs provided to the SRIOV configuration.
 
@@ -590,6 +585,19 @@ The output from the “ip link” command should display interfaces that look si
         link/ether 3c:fd:fe:ce:24:f1 brd ff:ff:ff:ff:ff:ff
         vf 0 MAC 00:11:22:33:44:55, vlan 2, spoof checking on, link-state auto, trust off
         vf 1 MAC 00:11:22:33:44:55, vlan 1, spoof checking on, link-state auto, trust off
+```
+
+Next, the VFs need to be manually bound to the `vfio-pci` driver using the following command:
+
+
+```
+    $RTE_SDK/usertools/dpdk-devbind.py --bind=vfio_pci <vf_address>
+```
+
+Example:
+
+```shell
+    /opt/dpdk-19.11/usertools/dpdk-devbind.py --bind=vfio_pci 0000:86:0a.1
 ```
 
 Restart the SRIOV device plugin pods from the K8s control plane.
