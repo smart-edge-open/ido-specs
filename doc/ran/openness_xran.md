@@ -1,6 +1,5 @@
 SPDX-License-Identifier: Apache-2.0     
 Copyright © 2020 Intel Corporation
-<!-- Does this white paper have a title? -->
 # O-RAN Front Haul Sample Application in OpenNESS 
 - [Introduction](#introduction)
 - [Dynamic Device Personalization](#dynamic-device-personalization)
@@ -42,16 +41,11 @@ Copyright © 2020 Intel Corporation
 Recent and incoming telecommunication standards for Radio Access Network (RAN) tend to introduce open network interfaces that are expected to become adopted by broad numbers of RAN vendors and operators. Networks based on common standards are thought to be more inclined to innovations. Thus, standardization committees aim to support the global industry vision and encourage emerging multi-vendor, interoperable, and innovative virtualized RAN (vRAN) to enable vRAN shift to the Cloud and exploit the opportunities the Cloud has to offer—scalability, efficiency, cost reduction, and more. Flexible Radio Access Network (FlexRAN), which is part of proof-of-concept work at Intel, demonstrates vRAN deployment on Intel® architecture. It follows the most recent RAN standards and deploys innovative software and hardware solutions proposed by Intel to refine the baseband L1 functionality. Recently, 5GNR FlexRAN has started supporting the open Front Haul\* interface standard introduced by the O-RAN Alliance\* [here](https://www.o-ran.org/specifications). 
 
 The focus of this white paper is to show how OpenNESS facilitates the deployment of 5GNR FlexRAN Front Haul functional units based on O-RAN specifications at the Network Edge. It also demonstrates how OpenNESS may assist in exploiting the capabilities of the X700 family NICs to address the challenges related to 5G RAN evolution including fast-growing user traffic and the move towards the Edge Cloud.
-<!-- verify the product “Intel X700 family NIC”. I cannot find in namesdb.intel.com -->
-<!--  Improve the first sentence below. Strange wording. -->
 This document describes the Intel® Ethernet Controller X710 new capability known as Dynamic Device Personalization (DDP). It provides the steps for utilizing this feature on the OpenNESS platforms. DDP technology has been previously implemented and tested within LTE FlexRAN L1 and proven to reduce network latency and the number of CPU cycles used for packet processing, leading to the increase of the overall network throughput. Choosing DDP is a promising option for removing the network bottleneck related to packet filtering and realizing stringent latency and throughput requirements imposed onto 5G networks. Tests performed with FlexRAN using LTE Front Haul interface based on Ferry Bridge (FB), the codename of a technology from Intel, and incorporating the DDP capability of Intel® Ethernet Controller X710 showed up to 34% reduction in CPU cycles used for packet processing.  Whereas tests performed on Multi-access Edge Computing (MEC) solution demonstrated a nearly 60% reduction in network latency. These findings are already described in an incoming white paper “Dynamic Device Personalization: Intel Ethernet Controller 700 Series - RadioFH Profile Application Note”. Shifting towards DDP for increased performance is also a promising option for the Network Edge. Such deployment has already been tested on Kubernetes\* architecture and described [here](https://builders.intel.com/docs/networkbuilders/intel-ethernet-controller-700-series-dynamic-device-personalization-support-for-cnf-with-kubernetes-technology-guide.pdf). 
-<!--  Provide a link to th paper referenced above “Dynamic Device… Application Note” -->
 
 # Dynamic Device Personalization
-<!-- Do you mean, “Intel® Ethernet Controller X550” instead of Intel x550 NIC? Confirm other uses of Intel products. Confirm Intel X710 NIC. Confirm Intel 700 Series NICs. -->
 In contrast to the Intel® Ethernet Controller X550 static pipeline, the packet processing pipeline built into Intel® Ethernet Controller X710 is programmable. It can be customized to achieve different packet filtering on separate NICs to meet the requirements of a variety of customers, or it is possible to enable different protocols and classification types (new protocols/filters ) for separate network segments. As a result, 64 unique classification configurations are possible on Intel 700 Series NICs. Intel NIC XL710 supports up to 64 PCTYPEs and up to 192 PTYPEs. However, only 21 PCTYPEs and a few PTYPEs are defined in the default profile. The configuration options are limited because of the limited resources on the hardware itself. Each PCTYPE needs its own filters’ configuration space. Enabling new configurations by overwriting the existing PCTYPES can be achieved through a firmware update. However, DDP capability provides a means to replace the original device configuration profile in run time using a DDP profile. A DDP profile is a binary file that loads new PTYPEs and PCTYPEs into the hardware configuration space. Then, each new PCTYPE needs to be mapped to an unused DPDK flow type. The original profile is saved and may be restored on the device in runtime as well. Some packets may be lost during the profiles switching.
 During the processing of incoming traffic, the NIC's internal parser, filters, and switch are used to perform on-NIC packet classification and steer the traffic to specific queues from where the software application can take them over for further processing defined per queue.
-<!-- again, confirm that all product names are correct and approved (I don’t see many instances in the names database) in this doc and use them consistently. -->
 To classify new packet types (xRAN) and protocols (eCPRI) on the Intel® Ethernet Controller X710 pipeline, they must be enabled on the NIC through device reconfiguration. Normally, this requires a firmware upgrade involving a cold restart of the server. But with DDP, new packet classification types can be added in runtime, and there is no need for a firmware upgrade requiring machine power off. Intel® Ethernet Controller X710 fully supports DDP since Firmware Version 6.0.
 
 ## X710 Flexible Pipeline
@@ -62,7 +56,6 @@ The flexible pipeline added onto the XL710 NIC consists of four main functional 
 * classifier filter: Flow Director (FD) and Hash Filter (Receive Side Scaling (RSS)
 
 Before the buffered packet gets to the filters block, its headers are parsed, and specific header fields are extracted into a Field Vector (a metadata buffer that is attached to the packet). The parser detects the packet type (PTYPE), which is saved to the RX descriptor and defines the packet classification type (PCTYPE). Some fields from the Field Vector are used in the next functional block for switching the packet to the proper PF or VF. If FD and hash filters such as RSS are enabled for the pipeline, they are used to select the packet’s destination queue within the PF/VF it had been switched to. The information stored in the Field Vector fields is used by the filters to steer packet destination queues to where the host expects them.
-<!-- Determine the correct form of product name and correct each instance withing this doc. Intel® Ethernet xxxx Controller? Or Intel® Ethernet Controller xxx xxxx -->
 The Intel® Ethernet Controller X710 provides programs with advanced classification and traffic steering functionality due to the following features of its pipeline:
 - Multiple queues are available per virtual function (VF) / physical function (PF).
    - 1536 queue pairs in the device, 16 queues per VF and 128 VFs – 384 Virtual Station Interfaces (VSIs) in total
@@ -92,7 +85,6 @@ The flow chart below shows an example of using FD and RSS in the pipeline to ach
 Special Admin Queue (AQ) commands have been added to the Intel® Ethernet Controller X710 firmware version 6 to assist new profile addition/removal to/from the hardware, and to retrieve information about the profiles currently registered on the NIC. The new AQ commands can update NIC configuration tables or read/retrieve their content. DPDK started supporting the DDP feature by providing software calls to the AQ commands gradually through versions 17.05, 17.08, and 17.11. Since then, DPDK provides full support for working with DDP profiles and enables the recognition of protocols not known to DPDK flows (rte_flows). Currently, DPDK APIs can be used to load/remove profiles and retrieve a list of registered profiles and their descriptions. DPDK “testpmd” application deploys RTE APIs to manipulate the DDP profiles and uses them to configure/enhance packet filtering on the NIC.
 
 More information on Intel® Ethernet Controller X710 flexible pipeline can be found in the [here] (https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xl710-10-40-controller-datasheet.pdf). 
-<!-- provide a link to “provided references” -->
 # O-RAN Specification for vRAN Front Haul
 According to the O-RAN Alliance Fronthaul specification, the physical layer of the 5GNR vRAN network is divided into two functional units: O-RU and O-DU. The functional split of the eNG/gNB functions aims to keep the O-RU simple. O-RAN selected two possible options for the split called 7-2x: Category A (lower split) and Category B (upper split). The difference between the two split categories refers to precoding placement. In category A, precoding is done on the O-DU side. In Category B, it is done on O-RU. The O-RAN Alliance specifies the packet formats for the data flows over the 5GNR O-RAN Front Haul. 
 
@@ -207,7 +199,6 @@ Wireless network consists of two major components: the Core Network owned by the
 ## 5GNR FlexRAN PHY
 
 Flexible Radio Access Network is part of Intel proof of concept which demonstrates flexible 4G and 5G platform powered by Intel® architecture for virtualized RAN deployment that runs in a distributed Cloud environment. Flexran provides 4G and 5GNR baseband PHY reference design - L1, which is integrated  with third party L2 and L3 to complete the base station pipeline. FlexRAN demonstrates optimized baseband PHY functionality that achieves high-density baseband pooling in virtualized and distributed Cloud deployments.  Solutions deployed by FlexRAN provide a smart indoor coverage and next generation Front Haul architecture for 4G and 5G device connectivity, operator services, user applications and developer tools. FlexRAN deployment in the Cloud has been proven to be latency and energy efficient. More on FlexRAN deployment in the Cloud with use of OpenNESS toolkit is available [here](./openness_ran.md)
-<!-- author to determine is the change from master-slave to control plane-node conflicts with other terminology such as control plane (C-plane). Author to resolve any conflicts. -->
 5GNR FlexRAN 5GNR provides reference implementation of the control plane (C-plane) and user plane (U-plane) as well as synchronization plane (S-Plane) functionality according to O-RAN Front Haul specification. In this 5G NR vRAN deployment communication between O-RAN  Distributed Unit (O-DU) and O-RAN Radio Unit (O-RU) happens over the PHY functional split. The details of the communication have been included in the new standard for Front Haul proposed by the O-RAN Alliance.
 According to the standard, messages between the two units travel over the Ethernet connection and adhere to eCPRI data transport protocol. This new O-RAN defined Front Haul functionality has been implemented in FlexRAN and encapsulated in a stand alone library called "xRAN Library". 
 
@@ -270,7 +261,6 @@ The sample application can act as O-DU or simplified simulation of O-RU dependin
 From the start of the process, the application (O-DU) sends DL packets for the U-plane and C-plane and receives U-plane UL packets. Synchronization of O-DU and O-RU sides is achieved via IEEE 1588. 
 
 ## Precision Time Protocol Synchronization
-<!-- author to determine if Grandmaster Clock needs to change to “Control Plane Master Clock” -->
 Precision Time Protocol based on 1588 IEEE specification uses primary-secondary architecture for time synchronization between machines connected through ETH. The primary clock is a reference clock for the secondary nodes that adapt their clocks to the primary node's clock. Using Physical Hardware Clock called PHC (NIC's own clock) from the primary clock, the precision timestamp packets sent from the Primary Node NIC port can be served for other connected network nodes so nodes adjust their PHC to the primary clock following the IEEE 1588 specification.
 For the best precision, PTP uses hardware timestamping to read current time just a moment before the packet is sent to minimize the delays added by the Kernel for processing the packet. In the case of software timestamping, the time is read at the application stage, giving a much larger difference between the time of packet timestamping and its transmission.
 
@@ -346,7 +336,6 @@ This tool handles all PTP traffic on the NIC port provided for synchronization a
 The PHC clock is independent of the system clock. Synchronizing only PHC does not make the system clock the same as the primary clock. The xRAN library requires the use of the system clock to determine a common point in time on two machines (O-DU and RU) to start transmission at the same moment and keep time frames defined by ORAN Fronthaul specification. The phc2sys application keeps the system clock updated to PHC. It makes it possible to use POSIX timers as a time reference in the xRAN application.
 
 >**NOTE**: The `linuxptp` package also includes PTP Management Client (PMC). It sends PTP management messages to PTP nodes and can be used by the user to verify the synchronization status from a particular node (primary or secondary). Use this command to check the node's current role in the PTP cluster and verify that it is synchronized.
-<!-- author to determine how to update code to align with inclusive language guide. SLAVE -->
 Example:
 
 ```shell
@@ -667,7 +656,6 @@ The output should show that four devices have been found:
 
 ### Build xRAN Sample App
 Building the xRAN application and supporting software libraries and tools is beyond the scope of this document. Detailed instructions are provided in the documentation related to [O-RAN Front Haul Sample Application] (https://docs.o-ran-sc.org/projects/o-ran-sc-o-du-phy/en/latest/Setup-Configuration_fh.html#a-4-install-and-configure-sample-application).
-<!-- provide a link to the documentation reference above -->
 To build the xRAN sample app as of version 20.04, the following versions of the software are required:
 - icc version 19.0.3.206 (gcc version 4.8.5 compatibility)
 - [140 driver v2.10.19.82](https://downloadcenter.intel.com/download/24769/Non-Volatile-Memory-NVM-Update-Utility-for-Intel-Ethernet-Network-Adapter-700-Series)
@@ -726,9 +714,7 @@ The `xran-sample-app` Docker\* image can be built with the provided run.sh scrip
 ```
 
 ### Deploy xRAN App Pods with Helm
-<!-- author to determine necessary changes to code. Change master/slave to control plane/node terms. -->
 The edgeapp repository provides Helm charts to deploy the sample xRAN O-DU and O-RU applications on two seperate pods deployed on a single node.
-<!-- improve sentence above -->
 
 To deploy the xRAN applications on the pods with the default configuration, run:
 
