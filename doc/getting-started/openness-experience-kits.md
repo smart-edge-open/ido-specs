@@ -23,11 +23,9 @@ Copyright (c) 2019 Intel Corporation
 
 ## Purpose
 
-The OpenNESS Experience Kit (OEK) repository contains a set of Ansible\* playbooks for the easy setup of OpenNESS in **Network Edge** and **On-Premise** modes.
+The OpenNESS Experience Kit (OEK) repository contains a set of Ansible\* playbooks for the easy setup of OpenNESS in **Network Edge** mode.
 
 ## OpenNESS setup playbooks
-
-
 
 ## Customizing kernel, grub parameters, and tuned profile & variables per host
 
