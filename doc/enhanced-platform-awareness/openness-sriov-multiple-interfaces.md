@@ -139,7 +139,7 @@ For technical reasons, each node must be configured separately. Copy the example
 
 Also, each node must be added to the Ansible inventory file `inventory.ini`.
 
-For example, providing `host_vars/node01/10-open.yml` with the following options will enable 4 VFs for network interface (PF) `ens787f0` and 8 VFs for network interface `ens787f1` of `node1`.
+For example providing `host_vars/node01/10-open.yml` (for Single Node deployment create and edit `host_vars/<CONTROLLER_NAME>/20-enhanced.yml`) with:
 
 ```yaml
 sriov:

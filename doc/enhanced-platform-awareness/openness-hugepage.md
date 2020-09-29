@@ -33,9 +33,11 @@ By default, these variables have values:
 Find below a guide on changing these values. Customizations must be made before OpenNESS deployment.
 
 Variables for hugepage customization can be placed in several files:
-* `group_vars/controller_group/10-open.yml` and `group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes in every mode
-* `host_vars/<inventory_host_name>.yml` will only affect the `<inventory_host_name>` host present in `inventory.ini` (in all modes)
-* Hugepages can be also specified for mode and machine type, (e.g., hugepages for On-Premises Edge Node can be set in `network_edge.yml` in a play for Edge Nodes:
+
+* `group_vars/controller_group/10-open.yml` and `group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes respectively in every mode
+* `host_vars/<inventory_host_name>.yml` will only affect `<inventory_host_name>` host present in `inventory.ini` (in all modes)
+* Hugepages can be also specified for mode and machine type, e.g. hugepages for NetworkEdge Edge Node can be set in `network_edge.yml` in a play for Edge Nodes:
+
   ```yaml
   # network_edge.yml
 
