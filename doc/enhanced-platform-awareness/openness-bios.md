@@ -21,7 +21,7 @@ Example: an AI Inference application that uses an accelerator such as an FPGA.
 To get optimal performance, when this application is deployed by the Resource Orchestrator, it is recommended to place the application on the same node and CPU Socket to which the accelerator is attached. To ensure this, NUMA, PCIe memory-mapped IO, and cache configurations need to be optimally configured. Similarly, for a network function like a base station or core network instruction set, cache and hyperthreading play an important role in the performance and density.
 
 OpenNESS provides a reference implementation demonstrating how to configure low-level platform settings such as BIOS and firmware, and it provides the capability to check if they are configured as per a required profile. To implement this feature, OpenNESS uses the Intel® System Configuration Utility. The Intel® System Configuration Utility (Syscfg) is a command-line utility that can be used to save and restore BIOS and firmware settings to a file or to set and display individual settings.
-<!-- Author to verify the product name “Intel® System Configuration Utility”. I cannot find it in namesdb.intel.com -->
+
 >**NOTE**: The Intel® System Configuration Utility is only supported on certain server platforms from Intel. Refer to the [Intel® System Configuration Utility user guide](https://www.intel.com/content/dam/support/us/en/documents/server-products/server-boards/intel-syscfg-userguide-v1-03.pdf) for the supported server products.
 
 >**NOTE**: The Intel® System Configuration Utility is not intended for and should not be used on any non-Intel server products.
@@ -36,12 +36,10 @@ The OpenNESS Network Edge implementation goes a step further and provides an aut
 
 BIOS and firmware configuration features are wrapped in a kubectl plugin.
 Knowledge of Intel SYSCFG utility is required for usage.
-<!-- Author to be consistent in use of “Syscfg” -->
 Intel SYSCFG must be manually downloaded by the user after accepting the license.
 [Download the utility here](https://downloadcenter.intel.com/download/29693/Save-and-Restore-System-Configuration-Utility-SYSCFG).
 
 ### Setup
-<!-- BIOSFW? Not previously defined. -->
 To enable BIOSFW, perform the following steps:
 1. The SYSCFG package must be downloaded and stored inside OpenNESS Experience Kits' `biosfw/` directory as a `syscfg_package.zip`:
 `x-openness-experience-kits/biosfw/syscfg_package.zip`

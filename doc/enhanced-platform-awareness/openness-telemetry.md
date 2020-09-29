@@ -68,7 +68,7 @@ Prometheus is an open-source, community-driven toolkit for systems monitoring an
 - support for dashboards and graphs
 
 The main idea behind Prometheus is that it defines a unified metrics data format that can be hosted as part of any application that incorporates a simple web server. The data can be then scraped (downloaded) and processed by Prometheus using a simple HTTP/HTTPS connection.
-<!-- Author to have a reason for and be consistent in their use of capitalizing nouns (Deployment, Controller, etc.). --> 
+
 In OpenNESS, Prometheus is deployed as a K8s Deployment with a single pod/replica on the Edge Controller node. It is configured out of the box to scrape all other telemetry endpoints/collectors enabled in OpenNESS and gather data from them. Prometheus is enabled in the OEK by default with the `telemetry/prometheus` role.
 
 #### Usage
@@ -175,7 +175,7 @@ Your search came up with the following results:
 
 Intel® FPGA Accelerator Packaging Utility
 Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 telemetry is now available from OpenNESS (power and temperature telemetry). In OpenNESS, the CollectD pod is deployed as a K8s `Daemonset` on every available Edge Node, and it is deployed as a privileged container.
-<!-- what is Intel PMU? Confirm the product name. Also, the passage above (Search results, enter your search term…) looks strange. Please review.  -->
+
 #### Plugins
 
 There are four distinct sets of plugins (flavors) enabled for CollectD deployment that can be used depending on the use-case/workload being deployed on OpenNESS. `Common` is the default flavor in OpenNESS. The flavors available are: `common`, `corenetwork`, `flexran`, and `smartcity`. Below is a table specifying which CollectD plugins are enabled for each flavor.
@@ -214,7 +214,7 @@ As part of the OpenNESS release, only the support for collecting metrics and exp
 -	The collector exposes all the available data received from multiple agents on an endpoint which is being scraped by Prometheus. 
 
 OpenCensus exporter/receiver is used in the default OpenNESS configuration for agent and collector to collect metrics from an application. A sample application pod generating random numbers, aggregating those numbers and exposing the metrics, and containing a reference side-car OpenTelemetry agent is available in the Edge Apps repository.
-<!-- Provide location of Edge Apps repo? Provide command in Usage section too? -->
+
 #### Usage
 
 1. Pull the Edge Apps repository.

@@ -7,8 +7,8 @@ Copyright (c) 2019-2020 Intel Corporation
 - [Overview](#overview)
 - [Details of HugePage support on OpenNESS](#details-of-hugepage-support-on-openness)
   - [Examples](#examples)
-    - [Changing size and amount of the HugePages for both controller and nodes](#changing-size-and-amount-of-the-hugepages-for-both-controller-and-nodes)
-    - [Customizing HugePages for specific machine](#customizing-hugepages-for-specific-machine)
+    - [Changing size and amount of the hugepages for both controller and nodes](#changing-size-and-amount-of-the-hugepages-for-both-controller-and-nodes)
+    - [Customizing hugepages for specific machine](#customizing-hugepages-for-specific-machine)
 - [Reference](#reference)
 
 ## Overview
@@ -36,7 +36,6 @@ Variables for hugepage customization can be placed in several files:
 * `group_vars/controller_group/10-open.yml` and `group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes in every mode
 * `host_vars/<inventory_host_name>.yml` will only affect the `<inventory_host_name>` host present in `inventory.ini` (in all modes)
 * Hugepages can be also specified for mode and machine type, (e.g., hugepages for On-Premises Edge Node can be set in `network_edge.yml` in a play for Edge Nodes:
-<!-- in a play for Edge Nodes? -->
   ```yaml
   # network_edge.yml
 
@@ -45,10 +44,9 @@ Variables for hugepage customization can be placed in several files:
       hugepage_amount: "5000"
   ```
   >**NOTE**: Due to Ansible’s\* variable precedence, configuring hugepages in `network_edge.yml` is not recommended because it overrides customization in `group_vars` and `host_vars`.
-<!-- what exactly is summarized? This refers to what? The note? -->
-This is summarized in the following table:
+The usage is summarized in the following table:
 
-| File                                          | Network Edge | On Premises |            Edge Controller             |                     Edge Node                     |                                     Comment                                     |
+| File                                          | Network Edge | Native On Premises |            Edge Controller             |                     Edge Node                     |                                     Comment                                     |
 | --------------------------------------------- | :----------: | :---------: | :------------------------------------: | :-----------------------------------------------: | :-----------------------------------------------------------------------------: |
 | `group_vars/controller_group/10-open.yml`     |     yes      |     yes     |                  yes                   |                                                   |                                                                                 |
 | `group_vars/edgenode_group/10-open.yml`       |     yes      |     yes     |                                        |                 yes - every node                  |                                                                                 |

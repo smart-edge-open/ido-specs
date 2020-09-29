@@ -14,6 +14,12 @@ Copyright (c) 2020 Intel Corporation
   - [Memory Bandwidth Allocation (MBA)](#memory-bandwidth-allocation-mba)
 - [OpenNESS RDT support](#openness-rdt-support)
 - [Usage](#usage)
+- [Example setup for running the benchmarks](#example-setup-for-running-the-benchmarks)
+  - [Pod1 on coreA](#pod1-on-corea)
+  - [Pod2 on coreB](#pod2-on-coreb)
+  - [RMD workload](#rmd-workload)
+  - [Start monitoring the cache usage with the PQOS tool](#start-monitoring-the-cache-usage-with-the-pqos-tool)
+  - [Starting the stress-ng command on the prepared pods](#starting-the-stress-ng-command-on-the-prepared-pods)
 - [Links](#links)
 
 
@@ -153,7 +159,6 @@ Status:
       Status:     Successful
 Events:           <none>
 ```
-<!-- What is PQOS tool? Define it. -->
 ### Start monitoring the cache usage with the PQOS tool
 ```bash
 # Install - once off

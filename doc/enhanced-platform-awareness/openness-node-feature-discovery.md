@@ -11,9 +11,9 @@ Copyright (c) 2019 Intel Corporation
 - [Reference](#reference)
 
 ## Overview of NFD and Edge usecase
-<!-- confusing first sentence. Fix. -->
+
 Commercial, off-the-shelf (COTS) platforms used for edge deployment come with many features that enable workloads to take advantage of, to provide better performance, and to meet the SLA. When such COTS platforms are deployed in a cluster as part of a cloud-native deployment, it becomes important to detect the hardware and software features on all nodes that are part of that cluster. It should also be noted that some of the nodes might have special accelerator hardware (FPGA, GPU, Non-Volatile Memory Express (NVMe)\*, etc.).
-<!-- CDN? -->
+
 Consider an edge application such as CDN that needs to be deployed in the cloud-native edge cloud. It is favorable for a container orchestrator like Kubernetes\* to detect the nodes that have CDN-friendly hardware and software features (NVMe, media extensions, etc.).
 
 Next, consider a Container Network Function (CNF) such as 5G gNb that implements L1 5G NR base station. It is favorable for the container orchestrator like Kubernetes to detect nodes that have hardware and software features—FPGA acceleration for Forward Error Correction (FEC), advanced vector instructions to implement math functions, real-time kernel, etc.
@@ -29,12 +29,11 @@ _Figure - Sample NFD Features_
 At its core, NFD detects hardware features available on each node in a Kubernetes cluster and advertises those features using node labels.
 
 NFD consists of two software components:
-<!-- author to resolve any conflicts from changing master/slave language below. Fix the picture with master/slave terms. -->
-1) `nfd-control-plane` is responsible for labeling Kubernetes node objects.
-2) `nfd-node` detects features and communicates them to the nfd-control-plane. One instance of nfd-node should be run on each node of the cluster.
+1) nfd-master is responsible for labeling Kubernetes node objects
+2) nfd-worker detects features and communicates them to the nfd-master. One instance of nfd-worker should be run on each node of the cluster
 
 The figure below illustrates how the CDN application will be deployed on the correct platform when NFD is utilized, where the required key hardware like NVMe and the AVX instruction set support is available.
-<!-- AVX? Define. -->
+
 ![CDN app deployment with NFD Features](nfd-images/nfd0.png)
 
 _Figure - CDN app deployment with NFD Features_
@@ -44,7 +43,7 @@ _Figure - CDN app deployment with NFD Features_
 > AVX CPUID Features: Intel® Advanced Vector Extensions 512 (Intel® AVX-512)
 
 > UEFI Secure Boot: Boot Firmware verification and authorization of OS Loader/Kernel components
-<!-- author to be consistent and have a reason for capitalizing nouns. Confirm and fix as needed. -->
+
 ## Details
 
 ### Node Feature Discovery support in OpenNESS Network Edge
@@ -99,7 +98,7 @@ Example output :
   "node-role.kubernetes.io/worker": "worker"
 }
 ```
-<!-- depoying pod time? Also, author to confer with colleagues and be consistent in use of “pod”. POD v. pod. -->
+
 To specify which features should be available by the node at deploying pod time, the `nodeSelector` field should be defined in the pod `.yaml` file. Example pod `yaml` file:
 
 ```yaml

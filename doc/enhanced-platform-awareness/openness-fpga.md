@@ -5,9 +5,9 @@ Copyright (c) 2019-2020 Intel Corporation
 <!-- omit in toc -->
 # Using FPGA in OpenNESS: Programming, Resource Allocation, and Configuration
 - [Overview](#overview)
-- [Intel® FPGA PAC N3000 FlexRAN host interface overview](#intelr-fpga-pac-n3000-flexran-host-interface-overview)
-- [Intel® FPGA PAC N3000 orchestration and deployment with Kubernetes for FlexRAN](#intelr-fpga-pac-n3000-orchestration-and-deployment-with-kubernetes-for-flexran)
-- [Intel® FPGA PAC N3000 remote system update flow in OpenNESS Network edge Kubernetes](#intelr-fpga-pac-n3000-remote-system-update-flow-in-openness-network-edge-kubernetes)
+- [Intel(R) FPGA PAC N3000 FlexRAN host interface overview](#intelr-fpga-pac-n3000-flexran-host-interface-overview)
+- [Intel(R) FPGA PAC N3000 orchestration and deployment with Kubernetes\* for FlexRAN](#intelr-fpga-pac-n3000-orchestration-and-deployment-with-kubernetes-for-flexran)
+- [Intel(R) FPGA PAC N3000 remote system update flow in OpenNESS Network edge Kubernetes](#intelr-fpga-pac-n3000-remote-system-update-flow-in-openness-network-edge-kubernetes)
 - [Using an FPGA on OpenNESS](#using-an-fpga-on-openness)
   - [FPGA (FEC) Ansible installation for OpenNESS Network Edge](#fpga-fec-ansible-installation-for-openness-network-edge)
     - [OpenNESS Experience Kit](#openness-experience-kit)
@@ -33,7 +33,6 @@ This document explains how the FPGA resource can be used on the Open Network Edg
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
 FlexRAN is a reference layer 1 pipeline of 4G eNb and 5G gNb on Intel® architecture. The FlexRAN reference pipeline consists of an L1 pipeline, optimized L1 processing modules, BBU pooling framework, cloud and cloud-native deployment support, and accelerator support for hardware offload. Intel® FPGA PAC N3000 card is used by FlexRAN to offload FEC (Forward Error Correction) for 4G and 5G as well as IO for fronthaul and midhaul.
-<!-- Are you using fronthaul and midhaul as nouns? -->
 
 ## Intel(R) FPGA PAC N3000 FlexRAN host interface overview
 The Intel® FPGA PAC N3000 card used in the FlexRAN solution exposes the following physical functions to the CPU host:
@@ -46,10 +45,9 @@ The Intel® FPGA PAC N3000 card used in the FlexRAN solution exposes the followi
 ![PAC N3000 Host interface overview](fpga-images/openness-fpga1.png)
 
 _Figure - PAC N3000 Host interface_
-<!-- POD v. pod? Author to make consistent use of this term throughout this document. -->
 ## Intel(R) FPGA PAC N3000 orchestration and deployment with Kubernetes\* for FlexRAN
 FlexRAN is a low-latency network function that implements the FEC. FlexRAN uses both FEC and Ethernet resources from the FPGA using POD resource allocation and the Kubernetes\* device plugin framework. Kubernetes provides a device plugin framework that is used to advertise system hardware resources to the Kubelet. Instead of customizing the code for Kubernetes (K8s) itself, vendors can implement a device plugin that can be deployed either manually or as a DaemonSet. The targeted devices include GPUs, high-performance NICs, FPGAs, InfiniBand\* adapters, and other similar computing resources that may require vendor-specific initialization and setup.
-<!-- author to confirm FlexRAN product name -->
+
 ![Intel PAC N3000 Orchestration and deployment with OpenNESS Network Edge for FlexRAN](fpga-images/openness-fpga2.png)
 
 _Figure - Intel PAC N3000 Orchestration and deployment with OpenNESS Network Edge for FlexRAN_
@@ -62,7 +60,6 @@ A Remote System Update (RSU) of the FPGA is enabled through the Open Programmabl
 _Figure - OpenNESS Network Edge Intel® FPGA PAC N3000 RSU and resource allocation_
 
 ## Using an FPGA on OpenNESS
-<!-- hyperlink to those “further sections” in this document -->
 Further sections provide instructions on how to use all three FPGA features: programming, configuration, and accessing from an application on the OpenNESS Network Edge.
 
 When the Intel® FPGA PAC N3000 is programmed with a vRAN 5G image, it exposes the Single Root I/O Virtualization (SRIOV) Virtual Function (VF) devices which can be used to accelerate the FEC in the vRAN workload. To take advantage of this functionality for a cloud-native deployment, the PF (Physical Function) of the device must be bound to the DPDK IGB_UIO userspace driver to create several VFs (Virtual Functions). Once the VFs are created, they must also be bound to a DPDK userspace driver to allocate them to specific K8s pods running the vRAN workload.
@@ -81,8 +78,7 @@ It is assumed that the FPGA is always used with the OpenNESS Network Edge, paire
 To run the OpenNESS package with FPGA (FEC) functionality, the feature needs to be enabled on both Edge Controller and Edge Node.
 
 #### OpenNESS Experience Kit
-<!-- to enable what? -->
-To enable from OEK, change the variable `ne_opae_fpga_enable` in `group_vars/all/10-default.yml` to `true`:
+To enable FPGA support from OEK, change the variable `ne_opae_fpga_enable` in `group_vars/all/10-default.yml` to `true`:
 ```yaml
 # group_vars/all/10-default.yml
 ne_opae_fpga_enable: true
@@ -330,7 +326,6 @@ kubectl describe node <worker_node_host_name>
 ```
 
 ### Verifying Application POD access and usage of FPGA on OpenNESS Network Edge
-<!-- fix the sentence below. Confusing. -->
 To verify the functionality of all the sub-features are working together (SRIOV binding - K8s device plugin - BBDEV config) and functionality of the FPGA (FEC) VF inside a non-root pod, build a Docker image and run a simple validation application for the device.
 
 The automation of the Docker image build is available from the Edge Apps package. The image must be built on the same node that it is meant to be deployed or a server with the same configuration as the node that will run the workload. This is due to the Kernel dependencies of DPDK during the application build.

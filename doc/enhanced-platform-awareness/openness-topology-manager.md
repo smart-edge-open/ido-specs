@@ -13,7 +13,7 @@ Copyright (c) 2019 Intel Corporation
 ## Overview
 
 Multi-core and Multi-Socket commercial, off-the-shelf (COTS) systems are widely used for the deployment of application and network functions. COTS systems provide a variety of IO and memory features. In order to achieve determinism and high performance, mechanisms like CPU isolation, IO device locality, and socket memory allocation are critical. Cloud-native stacks such as Kubernetes\* are beginning to leverage resources such as CPU, hugepages, and I/O, but are agnostic to the Non-Uniform Memory Access (NUMA) alignment of these. Non-optimal, topology-aware NUMA resource allocation can severely impact the performance of latency-sensitive workloads.
-<!-- The author to determine the appropriateness of capitalizing nouns and author is responsible for consistent use in this document. For example, Topology manager. -->
+
 To address this requirement, OpenNESS uses the Topology manager. The topology manager is now supported by Kubernetes. Topology Manager is a solution that permits k8s components (e.g., CPU Manager and Device Manager) to coordinate the resources allocated to a workload. 
 
 ### Edge use case
@@ -33,7 +33,7 @@ Topology Manager is a Kubelet component that aims to co-ordinate the set of comp
 ## Details - Topology manager support in OpenNESS
 
 Topology Manager is enabled by default with a `best-effort` policy. You can change the settings before OpenNESS installation by editing the `group_vars/all/10-default.yml` file:
-<!-- author to determine if the use of “worker” aligns with inclusive language. See the code below. -->
+
 ```yaml
 ### Kubernetes Topology Manager configuration (for worker)
 # CPU settings
@@ -73,7 +73,7 @@ spec:
           cpu: "8"
           memory: "500Mi"
 ```
-<!-- fix the below sentence. Confusing. -->
+
 Then apply it with `kubectl apply`. You can check in the kubelet's logs on you node (`journalctl -xeu kubelet`), that Topology Manager obtained all the info about preferred affinity and deployed the Pod accordingly. The logs should be similar to the one below.
 
 ```

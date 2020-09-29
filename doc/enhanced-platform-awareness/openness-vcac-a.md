@@ -13,18 +13,17 @@ Copyright (c) 2020 Intel Corporation
 - [Telemetry Support](#telemetry-support)
 - [Media-Analytics-VCA Flavor](#media-analytics-vca-flavor)
 - [References](#references)
-<!-- Author to confirm “Iris® Pro” as an Intel product name. I cannot find it in namesdb.intel.com. Determine correct product and use. Also, Intel® Core™ i3? Determine correct product name for Intel i3-7100U.  -->
+
 ## Overview
 The Visual Cloud Accelerator Card - Analytics (VCAC-A) equips 2nd Generation Intel® Xeon® processor- based platforms with Iris® Pro Graphics and Intel® Movidius™ VPUs to enhance video codec, computer vision, and inference capabilities. Comprised of one Intel i3-7100U CPU and 12 Intel® Movidius™ VPUs, this PCIe add-in card delivers competent stream inference capability and outstanding total cost of ownership. Provisioning the network edge with VCAC-A acceleration through the OpenNESS Experience Kits (OEK) enables dense and performant media analytics and transcoding pipelines.
 
 ## Architecture
-<!-- The second to last sentence in the paragraph below is confusing. Fix. -->
 
-Equipped with a CPU, the VCAC-A card is installed with a standalone operating system that is separate from the host server. Thus, the VCAC-A card can be topologically regarded as a standalone "worker node" with VPU/GPU capabilities. The VCAC-A card is connected to the host Intel® Xeon® platform over a PCIe\* non-transparent bridge (NTB) – over a virtual ethernet network `172.32.x.1/24`. The host kernel must be patched to enable the virtual Ethernet over PCIe.
-<!-- Author to fix code to align with inclusive language. master / slave to control plane / node. Determine if the term “worker” is associated with master. Appropriately rename. -->
+Equipped with a CPU, the VCAC-A card is installed with a standalone operating system that is separate from the host server. Thus, the VCAC-A card can be topologically regarded as a standalone "node" with VPU/GPU capabilities. The VCAC-A card is connected to the host Intel® Xeon® platform over a PCIe\* non-transparent bridge (NTB) – over a virtual ethernet network `172.32.x.1/24`. The host kernel must be patched to enable the virtual Ethernet over PCIe.
+
 > **Terminology** 
-> * *Edge worker node* and *VCA host* are used interchangeably throughout this document to represent the physical node where the VCAC-A cards are connected to.
-> * *VCA node* represents the worker node in the OpenNESS cluster. The VCAC-A card is the incarnation of the VCA node.
+> * *Edge node* and *VCA host* are used interchangeably throughout this document to represent the physical node where the VCAC-A cards are connected to.
+> * *VCA node* represents the  node in the OpenNESS cluster. The VCAC-A card is the incarnation of the VCA node.
 > * The full acronym *VCAC-A* is loosely used when talking about the PCIe card.
 
 The VCAC-A installation involves a [two-stage build](https://github.com/OpenVisualCloud/VCAC-SW-Analytics/):
@@ -165,7 +164,7 @@ _Figure - Using VCAC-A Telemetry with OpenNESS_
 2. `GStreamer pipeline` Pods get scheduled on VCA node (VCA pool A in the given example) based on the reported metrics.
 3. `Media Analytics Applications` get scheduled on VCA pool A according to their Pod specs and can consume the services produced by the `GStreamer pipeline` Pods.
 4. Now that the VPU device usage became 60, when the `OpenVINO` application turns up, it gets scheduled on VCA pool B in fulfillment of the policy.
-<!-- Number 4. above is confusing. Improve. -->
+
 ## Media-Analytics-VCA Flavor
 The pre-defined OpenNESS flavor *media-analytics-vca* is provided to provision an optimized system configuration for media analytics workloads leveraging VCAC-A acceleration. This flavor is applied through the OEK playbook as described in the [OpenNESS Flavors](../flavors) document and encompasses the VCAC-A installation.
 
