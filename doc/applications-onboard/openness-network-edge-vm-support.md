@@ -132,14 +132,14 @@ The KubeVirt role responsible for bringing up KubeVirt components is enabled by 
 
 ## VM deployment
 Provided below are sample deployment instructions for different types of VMs.
-Please use sample `.yaml` specification files provided in the OpenNESS Edge Controller repository, [edgecontroller/kubevirt/examples/](https://github.com/otcshare/edgecontroller/tree/master/kubevirt/examples), to deploy the workloads. Some of the files require modification to suit the environment they will be deployed in. Specific instructions on modifications are provided in the following steps:
+Please use sample `.yaml` specification files provided in the OpenNESS Edge Controller directory, [edgenode/edgecontroller/kubevirt/examples/](https://github.com/otcshare/edgenode/edgecontroller/tree/master/kubevirt/examples), to deploy the workloads. Some of the files require modification to suit the environment they will be deployed in. Specific instructions on modifications are provided in the following steps:
 
 ### Stateless VM deployment
 To deploy a sample stateless VM with containerDisk storage:
 
   1. Deploy the VM:
       ```shell
-      [root@controller ~]# kubectl create -f /opt/edgecontroller/kubevirt/examples/statelessVM.yaml
+      [root@controller ~]# kubectl create -f /opt/edgenode/edgecontroller/kubevirt/examples/statelessVM.yaml
       ```
   2. Start the VM:
       ```shell
@@ -168,7 +168,7 @@ To deploy a sample stateful VM with persistent storage and additionally use a Ge
 
       - Edit the sample yaml with the hostname of the worker node:
          ```yaml
-         # /opt/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
+         # /opt/edgenode/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
          # For both kv-pv0 and kv-pv1, enter the correct hostname:
          - key: kubernetes.io/hostname
                   operator: In
@@ -177,7 +177,7 @@ To deploy a sample stateful VM with persistent storage and additionally use a Ge
          ```
       - Create the PV:
          ```shell
-         [root@controller ~]# kubectl create -f /opt/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
+         [root@controller ~]# kubectl create -f /opt/edgenode/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
          ```
       - Check that PV is created:
          ```shell
@@ -230,7 +230,7 @@ To deploy a sample stateful VM with persistent storage and additionally use a Ge
       ```
   8. Edit the .yaml file for the VM with the updated public key:
       ```yaml
-          # /opt/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
+          # /opt/edgenode/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
           users:
                 - name: root
                   password: root
@@ -240,7 +240,7 @@ To deploy a sample stateful VM with persistent storage and additionally use a Ge
       ```
   9.  Deploy the VM:
       ```shell
-      [root@controller ~]# kubectl create -f /opt/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
+      [root@controller ~]# kubectl create -f /opt/edgenode/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
       ```
   10. Start the VM:
       ```shell
@@ -290,7 +290,7 @@ To deploy a VM requesting SRIOV VF of NIC:
      ```
   4. Deploy the VM requesting the SRIOV device (if a smaller amount is available on the platform, adjust the number of HugePages required in the .yaml file):
      ```shell
-      [root@controller ~]# kubectl create -f /opt/edgecontroller/kubevirt/examples/sriovVM.yaml
+      [root@controller ~]# kubectl create -f /opt/edgenode/edgecontroller/kubevirt/examples/sriovVM.yaml
       ```
   5. Start the VM:
      ```shell
@@ -396,7 +396,7 @@ kubectl apply -f cdiUploadCentosDvToleration.yaml
 
 sleep 5
 
-kubectl create -f /opt/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
+kubectl create -f /opt/edgenode/edgecontroller/kubevirt/examples/persistentLocalVolume.yaml
 ```
 
 ## Useful Commands and Troubleshooting
@@ -427,9 +427,9 @@ Check that the IP address of the `cdi-upload-proxy` is correct and that the Netw
    ```
 
 2. Cannot SSH to stateful VM with Cloud Generic Image due to the public key being denied.
-Confirm that the public key provided in `/opt/edgecontroller/kubevirt/examples/cloudGenericVM.yaml` is valid and in a correct format. Example of a correct format:
+Confirm that the public key provided in `/opt/edgenode/edgecontroller/kubevirt/examples/cloudGenericVM.yaml` is valid and in a correct format. Example of a correct format:
    ```yaml
-   # /opt/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
+   # /opt/edgenode/edgecontroller/kubevirt/examples/cloudGenericVM.yaml
    users:
          - name: root
            password: root
