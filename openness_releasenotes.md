@@ -302,7 +302,7 @@ This document provides high-level system features, issues, and limitations infor
   - There is a known issue with cAdvisor which in certain scenarios occasionally fails to expose the metrics for the Prometheus endpoint. See the following GitHub\* link: https://github.com/google/cadvisor/issues/2537 
 - **OpenNESS 20.09** 
   - Pod which uses hugepage get stuck in terminating state on deletion. This is a known issue on Kubernetes 1.18.x and is planned to be fixed in 1.19.x
-  - Calico TBD
+  - Calico cannot be used as secondary CNI with Multus in OpenNESS. It will work only as primary CNI. Calico must be the only network provider in each cluster. We do not currently support migrating a cluster with another network provider to use Calico networking. https://docs.projectcalico.org/getting-started/kubernetes/requirements
     
 # Release Content
 - **OpenNESS 19.06** OpenNESS Edge node, OpenNESS Controller, Common, Spec, and OpenNESS Applications. 
@@ -367,4 +367,4 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 > OpenNESS was tested on CentOS Linux release 7.6.1810 (Core) : Note: OpenNESS is tested with CentOS 7.6 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
 
 # Packages Version
-Package: telemetry, cadvisor 0.36.0, grafana  7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, tas 0., golang 1.14.2, docker 19.03., kubernetes 1.18.4, dpdk 18.11.6, ovs 2.11.1, ovn 2.12.0, helm 3.0, kubeovn 1.0.1, flannel 0.12.0, calico 3.14.0 , multus 3.4.1, sriov cni 2.3, nfd 0.5.0, cmk v1.4.1
+Package: telemetry, cadvisor 0.36.0, grafana  7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, tas 0., golang 1.14.2, docker 19.03.12, kubernetes 1.18.4, dpdk 18.11.6, ovs 2.12.0, ovn 2.12.0, helm 3.0, kubeovn 1.0.1, flannel 0.12.0, calico 3.14.0 , multus 3.6, sriov cni 2.3, nfd 0.6.0, cmk   v1.4.1 TAS we build from specific commit “a13708825e854da919c6fdf05d50753113d04831” 
