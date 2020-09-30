@@ -117,7 +117,7 @@ The following are steps to install this flavor:
     silpixa00400194
     ```
 
-    > **NOTE:** The VCA host name should *only* placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group. 
+    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group. 
 
 3. Run the OEK deployment script:
     ```shell
@@ -186,6 +186,10 @@ This deployment flavor enables the following ingredients:
 - OpenNESS 5G Microservices
 - OAM(Operation, Administration, Maintenance) and AF(Application Function) on the OpenNESS Controller/K8S Master.
 - Reference NEF(Network Exposure Function) and CNTF(Core Network Test Function) on the OpenNESS Edge Nodes/K8S Node.
+- Istio service mesh
+- Kiali management console
+
+> **NOTE:** It is an expectation that the `core-cplane` deployment flavor is done for a setup consisting of *at least one* OpenNESS edge node, i.e: the `inventory.ini` must contain at least one host name under the `edgenode_group` section.
 
 > **NOTE:** For a real deployment with the 5G Core Network Functions the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
 
