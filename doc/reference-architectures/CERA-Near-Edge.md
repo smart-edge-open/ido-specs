@@ -43,7 +43,7 @@ Cloud native edge platforms based on CERA offer a new value proposition to enter
 #OpenNESS Converged Edge Reference Architectures 
 Converged Edge Reference Architectures manifest themselves as a collection of Ansible playbook, Helm charts and scripts which acts a single interface for users to deploy OpenNESS and optionally network functions and edge applications. The Reference Architecture organizes all the relevant OpenNESS microservices, Kubernetes extensions, enhancements and optimizations under easy to deploy solutions.
 
-The Converged Edge Reference Architectures are categorized into the different edge network locations, each network location has its own unique set of HW and SW requirements that are implemented in the reference architecture. As described in the [architecture.md](https://github.com/otcshare/x-specs/blob/master/doc/architecture.md) the below diagram shows the different network locations.
+The Converged Edge Reference Architectures are categorized into the different edge network locations, each network location has its own unique set of HW and SW requirements that are implemented in the reference architecture. As described in the [architecture.md](https://github.com/open-ness/ido-specs/blob/master/doc/architecture.md) the below diagram shows the different network locations.
 
 ![](cera-near-edge-images/network_locations.png)
 
@@ -68,7 +68,7 @@ The CERA Near edge deployment can be designed in several ways but the biggest de
 In order to support the most flexibility the first CERA Near Edge implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (UPF) and Applications at the same time. This is also useful for demonstration purposes as the Near Edge deployment can be scaled down to a single server reducing HW and cost associated with setup. 
 
 ###CERA Near Edge OpenNESS Configuration 
-CERA Near edge is a combination of the existing OpenNESS Reference Architecture [CERA NGC](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md#core-control-plane-flavor), [CERA UPF](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md#core-user-plane-flavor), [CERA Apps](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md#minimal-flavor). CERA Near edge takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA Near edge also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
+CERA Near edge is a combination of the existing OpenNESS Reference Architecture [CERA NGC](https://github.com/open-ness/ido-specs/blob/master/doc/flavors.md#core-control-plane-flavor), [CERA UPF](https://github.com/open-ness/ido-specs/blob/master/doc/flavors.md#core-user-plane-flavor), [CERA Apps](https://github.com/open-ness/ido-specs/blob/master/doc/flavors.md#minimal-flavor). CERA Near edge takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA Near edge also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
 
 ![](cera-near-edge-images/cera-near-edge-arch.png)
 
@@ -246,9 +246,9 @@ More information: [BIOS and Firmware Configuration on OpenNESS Platform](https:/
     ```
     > NOTE: Replace TARGET_IP with the actual IP address of the target machine.
 
-2. Clone `ido-converged-edge-experience-kits` repo from `github.com/otcshare` using git token.
+2. Clone `ido-converged-edge-experience-kits` repo from `github.com/open-ness` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:otcshare/ido-converged-edge-experience-kits.git
+    git clone --recursive GIT_TOKEN@github.com:open-ness/ido-converged-edge-experience-kits.git
     ```
     > NOTE: Replace GIT_TOKEN with your git token.
 
@@ -457,7 +457,7 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 ### Deployment
 ### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine. There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
+To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
 
 ### Settings
 Following variables need to be defined in `/host_vars/cera_5g_ne.yml`
@@ -489,7 +489,7 @@ The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. 
 ### Deployment
 ### Prerequisites
 
-To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine. There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
+To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
 
 ### Settings
 
@@ -703,7 +703,7 @@ Deployment of EIS is completely automated, so there is no need to set or configu
 # provide EIS release package archive absolute path
 eis_release_package_path: ""
 ```
-For more details about `eis-experience-kit` check [README.md](https://github.com/otcshare/edgeapps/blob/master/applications/eis-experience-kit/README.md)
+For more details about `eis-experience-kit` check [README.md](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/README.md)
 
 #Conclusion
 CERA Near Edge deployment provide a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the Near Edge Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
