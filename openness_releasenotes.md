@@ -230,8 +230,12 @@ This document provides high-level system features, issues, and limitations infor
       - AF and OAM API’s access authorization through Istio Gateway.
       - Envoy Sidecar Proxy for all the 5G microservices(AF/NEF/OAM/CNTF) which enables support for telemetry(Request/Response Statistics), certificates management, http 2.0 protocol configuration(with/without TLS)
       - Core-cplane flavor is enabled with Istio
-    - CERA Near Edge release
+    - Edge Insights Application (update)
+      - Industrial Edge Insights Software update to version 2.3. 
+      - Experience Kit now supports multiple detection video’s – Safety equipment detection, PCB default detection and also supports external video streams. 
+    - CERA Near Edge 
       - Core network and Application reference architecture
+      - CERA provides reference integration of OpenNESS, Network function 5G UPF (Not part of the release), OpenVINO with EIS application.  
 
 # Changes to Existing Features
  - **OpenNESS 19.06** There are no unsupported or discontinued features relevant to this release.
@@ -303,6 +307,7 @@ This document provides high-level system features, issues, and limitations infor
 - **OpenNESS 20.09** 
   - Pod which uses hugepage get stuck in terminating state on deletion. This is a known issue on Kubernetes 1.18.x and is planned to be fixed in 1.19.x
   - Calico cannot be used as secondary CNI with Multus in OpenNESS. It will work only as primary CNI. Calico must be the only network provider in each cluster. We do not currently support migrating a cluster with another network provider to use Calico networking. https://docs.projectcalico.org/getting-started/kubernetes/requirements
+  - collectd Cache telemetry using RDT does not work when RMD is enabled because of resource conflict. Workaround is to disable collectd RDT plugin when using RMD - this by default is implemented globally. With this workaround customers will be able to allocate the Cache but not use Cache related telemetry. In case where RMD is not being enabled customers who desire RDT telemetry can re-enable collectd RDT.
     
 # Release Content
 - **OpenNESS 19.06** OpenNESS Edge node, OpenNESS Controller, Common, Spec, and OpenNESS Applications. 
