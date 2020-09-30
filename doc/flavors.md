@@ -212,4 +212,4 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 8G for the nodes
 
-> **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF)
+> **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
