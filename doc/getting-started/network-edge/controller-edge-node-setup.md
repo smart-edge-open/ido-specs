@@ -142,7 +142,7 @@ To deploy Network Edge in a single-node cluster scenario, follow the steps below
 Docker registry is a storage and distribution system for Docker Images. On the OpenNESS environment, Docker registry service is deployed as a pod on Control plane Node. Docker registry authentication enabled with self-signed certificates as well as all node and control plane nodes will have access to the Docker registry.
 
 ### Deploy Docker registry
-<!-- Author to update code to match with Intel inclusive language. control plane / node -->
+
 Ansible "docker_registry" roles created on openness-experience-kits. For deploying a Docker registry on Kubernetes, control plane node roles are enabled on the openness-experience-kits "network_edge.yml" file.
 
  ```ini
@@ -156,7 +156,7 @@ The following steps are processed during the Docker registry deployment on the O
 * Generate client.key and client.csr on the node
 * Authenticate client.csr for server access.
 * Share public key and client.cert on trusted Node and Ansible build host location
-  /etc/docker/certs.d/<Kubernetes_Master_IP: port>
+  /etc/docker/certs.d/<Kubernetes_Control_Plane_IP: port>
 * After the Docker registry deploys, the Node and Ansible host can access the private Docker registry.
 * The IP address of the Docker registry will be: "Kubernetes_Control_Plane_IP"
 * The port number of the Docker registry will be: 5000
@@ -174,7 +174,7 @@ Now image the tag with the fully qualified path to your private registry. You ca
 Use the `docker pull` command to pull the image from Docker registry:
 
  ```ini
-  docker pull Kubernetes_Master_IP:5000/nginx:latest
+  docker pull Kubernetes_Control_Plane_IP:5000/nginx:latest
    ```
 >**NOTE**: <Kubernetes_Control_Plane_IP> should be replaced as per our docker registry IP address.
 
