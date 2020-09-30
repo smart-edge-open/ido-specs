@@ -54,17 +54,17 @@ Following files sepcify the CIDR for CNIs and interfaces. These are the IP addre
 
 ```yaml
 flavors/media-analytics-vca/all.yml:19:vca_cidr: "172.32.1.0/12"
-group_vars/all/10-default.yml:90:calico_cidr: "10.243.0.0/16"
-group_vars/all/10-default.yml:93:flannel_cidr: "10.244.0.0/16"
-group_vars/all/10-default.yml:96:weavenet_cidr: "10.32.0.0/12"
-group_vars/all/10-default.yml:99:kubeovn_cidr: "10.16.0.0/16,100.64.0.0/16,10.96.0.0/12"
-roles/kubernetes/cni/kubeovn/master/templates/crd_local.yml.j2:13:  cidrBlock: "192.168.{{ loop.index0 + 1 }}.0/24"
+group_vars/all/10-open.yml:90:calico_cidr: "10.243.0.0/16"
+group_vars/all/10-open.yml:93:flannel_cidr: "10.244.0.0/16"
+group_vars/all/10-open.yml:96:weavenet_cidr: "10.32.0.0/12"
+group_vars/all/10-open.yml:99:kubeovn_cidr: "10.16.0.0/16,100.64.0.0/16,10.96.0.0/12"
+roles/kubernetes/cni/kubeovn/controlplane/templates/crd_local.yml.j2:13:  cidrBlock: "192.168.{{ loop.index0 + 1 }}.0/24"
 ```
 
 The 192.168.x.y is used for SRIOV and interface service IP address allocation in Kube-ovn CNI. So it is not allowed for the server IP address, which conflicting with this range.
 Completely avoid the range of address defined as per the netmask as it may conflict in routing rules.
 
-Eg. If the server/host IP address is required to use 192.168.x.y while this range by default used for SRIOV interfaces in OpenNESS. The IP address range for cidrBlock in roles/kubernetes/cni/kubeovn/master/templates/crd_local.yml.j2 file  can be changed to 192.167.{{ loop.index0 + 1 }}.0/24 to use some other IP segment for SRIOV interfaces.
+Eg. If the server/host IP address is required to use 192.168.x.y while this range by default used for SRIOV interfaces in OpenNESS. The IP address range for cidrBlock in roles/kubernetes/cni/kubeovn/controlplane/templates/crd_local.yml.j2 file  can be changed to 192.167.{{ loop.index0 + 1 }}.0/24 to use some other IP segment for SRIOV interfaces.
 
 
 ### Default values
