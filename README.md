@@ -80,6 +80,10 @@ Below is the complete list of OpenNESS solution documentation
      * [<b>openness_awsgreengrass.md</b>: Deploying single or multiple instance of Amazon Greengrass IoT gateway on OpenNESS edge cloud as an edge application](https://github.com/otcshare/x-specs/blob/master/doc/cloud-adapters/openness_awsgreengrass.md)
      * [<b>openness_baiducloud.md</b>: Deploying single or multiple instance of Baidu IoT gateway on OpenNESS edge cloud as an edge application](https://github.com/otcshare/x-specs/blob/master/doc/cloud-adapters/openness_baiducloud.md)
 
+## Reference Architectures
+
+* [<b>CERA-Near-Edge.md</b>: Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md)
+
 ## API and Schema 
 
 * [<b>Edge Application API: EAA</b>](https://www.openness.org/api-documentation/?api=eaa)
