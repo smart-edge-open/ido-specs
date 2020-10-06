@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2020 Intel Corporation
+
+title: "Reference Architectures"
+path: /reference-architectures/
+order: 9
+section:
+  - title: Converged Edge Reference Architecture Near Edge
+    path: /doc/CERA-Near-Edge
+    meta_title: Converged Edge Reference Architecture Near Edge
+    meta_description: Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
