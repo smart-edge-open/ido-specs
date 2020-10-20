@@ -7,6 +7,7 @@ Copyright (c) 2020 Intel Corporation
 Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
 
 - [Introduction](#introduction)
+- [OpenNESS Converged Edge Reference Architectures](#openness-converged-edge-reference-architectures)
 - [CERA Near Edge](#cera-near-edge)
   - [CERA Near Edge Experience Kit](#cera-near-edge-experience-kit)
     - [CERA Near Edge OpenNESS Configuration](#cera-near-edge-openness-configuration)
@@ -76,7 +77,7 @@ Edge computing use cases's including artificial intelligence (AI), wireless and 
 
 Cloud native edge platforms based on CERA offer a new value proposition to enterprise vertical market segments, such as smart city, transportation, industrial, and media (see Figure 2) by enabling new video and analytics use cases and delivering improvements in key performance indicators (KPIs) such as reduced latency, back haul savings, data privacy and reliability.
 
-#OpenNESS Converged Edge Reference Architectures 
+## OpenNESS Converged Edge Reference Architectures 
 Converged Edge Reference Architectures manifest themselves as a collection of Ansible playbook, Helm charts and scripts which acts a single interface for users to deploy OpenNESS and optionally network functions and edge applications. The Reference Architecture organizes all the relevant OpenNESS microservices, Kubernetes extensions, enhancements and optimizations under easy to deploy solutions.
 
 The Converged Edge Reference Architectures are categorized into the different edge network locations, each network location has its own unique set of HW and SW requirements that are implemented in the reference architecture. As described in the [OpenNESS Architecture](../architecture.md) the below diagram shows the different network locations.
