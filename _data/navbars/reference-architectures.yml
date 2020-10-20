@@ -6,6 +6,6 @@ path: /reference-architectures/
 order: 9
 section:
   - title: Converged Edge Reference Architecture Near Edge
-    path: /doc/CERA-Near-Edge
+    path: /doc/reference-architectures/CERA-Near-Edge
     meta_title: Converged Edge Reference Architecture Near Edge
     meta_description: Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
