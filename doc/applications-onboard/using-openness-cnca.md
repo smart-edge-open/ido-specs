@@ -44,7 +44,7 @@ Available management with `kube-cnca` against LTE CUPS OAM agent are:
 2. Deletion of LTE CUPS userplanes
 3. Updating (patching) LTE CUPS userplanes
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md).
+The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md).
 In the following sections, a detailed explanation with examples is provided about the CNCA management.
 
 Creation of the LTE CUPS userplane is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration) section. Use the `apply` command to post a userplane creation request onto Application Function (AF):
@@ -138,9 +138,8 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
   - Creates docker images for AF, NEF, OAM, and CNTF microservices and adds them into the Docker\* registry at **\<controller ip:port\>**.
   - Installs the helm charts for AF, NEF, OAM, and CNTF using the images from the Docker registry
   - Copies the helm charts for AF, NEF, OAM, and CNTF into the location **/opt/openness-helm-charts/**
-<!-- Fix sentence “On successful start… finish the thought.” -->
 
-- On successful start of AF, NEF, OAM, and CNTF PODs. Status of PODs, Deployments, ConfigMaps, Services, images, and helm charts can be verified using the following commands:
+- On successful AF, NEF, OAM, and CNTF PODs should start. Status of PODs, Deployments, ConfigMaps, Services, images, and helm charts can be verified using the following commands:
 
     ```shell
    - kubectl get pods -n ngc
