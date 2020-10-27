@@ -12,14 +12,14 @@ Copyright (c) 2019-2020 Intel Corporation
 - [Userspace (DPDK) bridge](#userspace-dpdk-bridge)
 - [HugePages (DPDK)](#hugepages-dpdk)
 - [Examples](#examples)
-  - [Getting information about node interfaces](#getting-information-about-node-interfaces)
-  - [Attaching kernel interfaces](#attaching-kernel-interfaces)
-  - [Attaching DPDK interfaces](#attaching-dpdk-interfaces)
-  - [Detaching interfaces](#detaching-interfaces)
+	- [Getting information about node interfaces](#getting-information-about-node-interfaces)
+	- [Attaching kernel interfaces](#attaching-kernel-interfaces)
+	- [Attaching DPDK interfaces](#attaching-dpdk-interfaces)
+	- [Detaching interfaces](#detaching-interfaces)
 
 ## Overview
 
-Interface service is an application running in the Kubernetes\* pod on each node of the OpenNESS Kubernetes cluster. It allows users to attach additional network interfaces of the node host to the provided OVS bridge, enabling external traffic scenarios for applications deployed in the Kubernetes\* pods. Services on each node can be controlled from the control plane using kubectl plugin.
+Interface service is an application running in the Kubernetes\* pod on each node of the OpenNESS Kubernetes cluster. It allows users to attach additional network interfaces of the node to the provided OVS bridge, enabling external traffic scenarios for applications deployed in the Kubernetes\* pods. Services on each node can be controlled from the control plane using kubectl plugin.
 
 Interface service can attach both kernel and user space (DPDK) network interfaces to the appropriate OVS bridges.
 
@@ -128,7 +128,7 @@ kubeovn_dpdk_hugepages: "2Gi" # This is overall amount of hugepags available to 
 
 ### Getting information about node interfaces
 ```shell
-[root@master1 ~] kubectl interfaceservice get node1
+[root@controlplane1 ~] kubectl interfaceservice get node1
 
 Kernel interfaces:
 	0000:02:00.0  |  00:1e:67:d2:f2:06  |  detached
@@ -147,7 +147,7 @@ DPDK interfaces:
 
 ### Attaching kernel interfaces
 ```shell
-[root@master1 ~] kubectl interfaceservice attach node1 0000:07:00.2,0000:99:00.9,0000:07:00.3,00:123:123 br-local kernel
+[root@controlplane1 ~] kubectl interfaceservice attach node1 0000:07:00.2,0000:99:00.9,0000:07:00.3,00:123:123 br-local kernel
 Invalid PCI address: 00:123:123. Skipping...
 Interface: 0000:99:00.9 not found. Skipping...
 Interface: 0000:07:00.2 successfully attached
@@ -169,14 +169,14 @@ kubectl interfaceservice attach node1 0000:07:00.2 bridge-name
 
 >**NOTE**: The device to be attached to DPDK bridge should initially use kernel-space driver and should be not be attached to any bridges.
 ```shell
-[root@master1 ~] kubectl interfaceservice attach node1 0000:07:00.2,0000:07:00.3 br-userspace dpdk
+[root@controlplane1 ~] kubectl interfaceservice attach node1 0000:07:00.2,0000:07:00.3 br-userspace dpdk
 Interface: 0000:07:00.2 successfully attached
 Interface: 0000:07:00.3 successfully attached
 ```
 
 ### Detaching interfaces
 ```shell
-[root@master1 ~] kubectl interfaceservice detach node1 0000:07:00.2,0000:07:00.3
+[root@controlplane1 ~] kubectl interfaceservice detach node1 0000:07:00.2,0000:07:00.3
 Interface: 0000:07:00.2 successfully detached
 Interface: 0000:07:00.3 successfully detached
 ```

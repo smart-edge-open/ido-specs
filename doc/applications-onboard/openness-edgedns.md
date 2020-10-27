@@ -20,7 +20,7 @@ _Figure - DNS support on OpenNESS overview_
 
 >**NOTE**: Secondary DNS service is out of the scope of OpenNESS and is only used for DNS forwarding.
 
-EdgeDNS is a functionality to provide the Domain Name System (DNS) Server with a possibility to be controlled by its CLI. EdgeDNS Server listens for requests from a client's CLI. After receiving a CLI request, a function handling the request adds or removes the RULE inside of the EdgeDNS database. EdgeDNS supports only type A records for Set/Delete Fully Qualified Domain Names (FQDN) and the current forwarder is set to 8.8.8.8 (set in docker-compose.yml and openness.yaml). Network Edge mode provides EdgeDNS as a service, which is an application running in a K8s pod on each node of the OpenNESS K8s cluster. It allows users to add and remove DNS entries of the worker host directly from K8s control plane node using kubectl plugin.
+EdgeDNS is a functionality to provide the Domain Name System (DNS) Server with a possibility to be controlled by its CLI. EdgeDNS Server listens for requests from a client's CLI. After receiving a CLI request, a function handling the request adds or removes the RULE inside of the EdgeDNS database. EdgeDNS supports only type A records for Set/Delete Fully Qualified Domain Names (FQDN) and the current forwarder is set to 8.8.8.8 (set in docker-compose.yml and openness.yaml). Network Edge mode provides EdgeDNS as a service, which is an application running in a K8s pod on each node of the OpenNESS K8s cluster. It allows users to add and remove DNS entries of the node host directly from K8s control plane node using kubectl plugin.
 
 ## Usage
 
