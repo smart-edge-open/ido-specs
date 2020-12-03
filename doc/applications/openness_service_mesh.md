@@ -411,9 +411,9 @@ To access NGC function API’s (AF and OAM), the client request to the server us
 
 ```shell
 $ kubectl create secret generic ngc-credential -n istio-system \
-      --from-file=tls.key=/etc/openness/certs/ngc/server-key.pem \
-      --from-file=tls.crt=/etc/openness/certs/ngc/server-cert.pem \
-      --from-file=ca.crt=/etc/openness/certs/ngc/root-ca-cert.pem
+      --from-file=tls.key=/opt/openness/certs/ngc/server-key.pem \
+      --from-file=tls.crt=/opt/openness/certs/ngc/server-cert.pem \
+      --from-file=ca.crt=/opt/openness/certs/ngc/root-ca-cert.pem
 ```
 
 The `root-ca-cert.pem` is used to validate client certificates while the `server-cert.pem` and `server-key.pem` are used for providing server authentication and encryption. This below policy creates istio gateway with mutual TLS while using the `ngc-credential` secret created above.
