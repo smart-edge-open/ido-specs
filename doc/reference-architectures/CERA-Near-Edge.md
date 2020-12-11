@@ -357,6 +357,7 @@ Example:
     sriov:
       network_interfaces: {eno1: 5, eno2: 2}
     ```
+    > NOTE: On various platform interfaces can have different name. For e.g `eth1` instead of `eno1`. Please verify interface name before deployment and do right changes.
 
 8. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running following command:
     ```shell
