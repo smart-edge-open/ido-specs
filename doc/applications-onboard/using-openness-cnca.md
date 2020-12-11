@@ -4,6 +4,7 @@ Copyright (c) 2019-2020 Intel Corporation
 ```
 <!-- omit in toc -->
 # Core Network Configuration Agent (CNCA)
+
 - [4G/LTE Core Configuration using CNCA](#4glte-core-configuration-using-cnca)
   - [Configuring in Network Edge mode](#configuring-in-network-edge-mode)
     - [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration)
@@ -40,6 +41,7 @@ Copyright (c) 2019-2020 Intel Corporation
 For Network Edge mode, CNCA provides a kubectl plugin to configure the 4G/LTE Core network. Kubernetes\* adopts plugins concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes eco-system. The plugin performs remote callouts against LTE Control and User Plane Separation (LTE CUPS) Operation Administration and Maintenance (OAM) agent.
 
 Available management with `kube-cnca` against LTE CUPS OAM agent are:
+
 1. Creation of LTE CUPS userplanes
 2. Deletion of LTE CUPS userplanes
 3. Updating (patching) LTE CUPS userplanes
@@ -48,6 +50,7 @@ The `kube-cnca` plugin is installed automatically on the control plane during th
 In the following sections, a detailed explanation with examples is provided about the CNCA management.
 
 Creation of the LTE CUPS userplane is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration) section. Use the `apply` command to post a userplane creation request onto Application Function (AF):
+
 ```shell
 kubectl cnca apply -f <config.yml>
 ```
@@ -57,21 +60,25 @@ When the userplane is created successfully, the `apply` command returns the user
 >**NOTE**: All active userplanes can be retrieved from AF through the command `kubectl cnca get userplanes`.
 
 To retrieve an existing userplane with a known userplane ID, use the following command:
+
 ```shell
 kubectl cnca get userplane <userplane-id>
 ```
 
 To retrieve all active userplanes at LTE CUPS OAM agent, use the following command:
+
 ```shell
 kubectl cnca get userplanes
 ```
 
 To modify an active userplane, use the `patch` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca patch <userplane-id> -f <config.yml>
 ```
 
 To delete an active userplane, use the `delete` command:
+
 ```shell
 kubectl cnca delete userplane <userplane-id>
 ```
@@ -299,16 +306,19 @@ Modifying the OAM configuration. Follow the same steps as above (as done for AF)
 - Open the file `/opt/openness/helm-charts/oam/templates/configmapOAM.yaml` and modify the parameters.
 - Save and exit.
 - Now restart the OAM POD using the command:
-```
+
+```shell
 helm upgrade  oam /opt/openness/helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image
 ```
+
 - A successful restart of the OAM with the updated config can be observed through OAM container logs. Run the following command to get OAM logs:
 `kubectl logs -f oam-659b5db5b5-l26q8 --namespace=ngc`
 
-Modifying the oauth2 configuration. Complete the following steps: 
+Modifying the oauth2 configuration. Complete the following steps:
 
 - Open the file `/opt/openness/configs/ngc/oauth2.json` and modify the parameters.
 - Save and exit.
+
 1. Delete the CNTF, AF, and NEF PODs using helm:
 
     ```shell
@@ -319,11 +329,13 @@ Modifying the oauth2 configuration. Complete the following steps:
     helm uninstall cntf
     release "af" uninstalled
     ```
+
 2. Update the ConfigMap associated with oauth2.json:
 
     ```shell
     kubectl create configmap oauth2-cm --from-file /opt/openness/configs/ngc/oauth2.json -n ngc -o yaml --dry-run=client | kubectl replace -f -
     ```
+
 3. Restart NEF, CNTF, and AF PODs using the following commands:
 
     ```shell
@@ -331,7 +343,8 @@ Modifying the oauth2 configuration. Complete the following steps:
     helm install  af /opt/openness/helm-charts/af --set image.repository=<controller-ip>:5000/af-image
     helm install  cntf /opt/openness/helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
     ```
-Modifying the certificates. Complete the following steps: 
+
+Modifying the certificates. Complete the following steps:
 
 - Update the certificates present in the directory `/opt/openness/certs/ngc/`.
 
@@ -347,17 +360,20 @@ Modifying the certificates. Complete the following steps:
     helm uninstall oam
     release "oam" uninstalled
     ```
+
 2. Update the ConfigMap associated with the certificates directory:
 
     ```shell
     kubectl create configmap certs-cm --from-file /opt/openness/certs/ngc/ -n ngc -o yaml --dry-run=client | kubectl replace -f -
     ```
+
 3. Check certs-cm present in available ConfigMaps list:
 
     ```shell
     kubectl get cm -n ngc
     ```  
-3. Restart NEF, CNTF, AF, and OAM PODs using the following commands:
+
+4. Restart NEF, CNTF, AF, and OAM PODs using the following commands:
 
     ```shell
     helm install  nef /opt/openness/helm-charts/nef --set image.repository=<controller-ip>:5000/nef-image
@@ -365,6 +381,7 @@ Modifying the certificates. Complete the following steps:
     helm install  cntf /opt/openness/helm-charts/cntf --set image.repository=<controller-ip>:5000/cntf-image
     helm install  oam /opt/openness/helm-charts/oam --set image.repository=<controller-ip>:5000/oam-image
     ```
+
 ### Configuring in Network Edge mode
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
@@ -379,15 +396,17 @@ The `kube-cnca` plugin is installed automatically on the control plane node duri
 
 Supported operations through `kube-cnca` plugin:
 
-  * Registration of edge service info for UPF with a 5G Core through OAM interface (co-located with Edge-Node)
-  * Un-registration of edge service info
+- Registration of edge service info for UPF with a 5G Core through OAM interface (co-located with Edge-Node)
+- Un-registration of edge service info
 
 To register the AF service through the NGC OAM function, run:
+
 ```shell
 kubectl cnca register --dnai=<DNAI> --dnn=<DNN> --tac=<TAC> --priDns=<pri-DNS> --secDns=<sec-DNS> --upfIp=<UPF-IP> --snssai=<SNSSAI>
 ```
 
 The following parameters MUST be provided to the command:
+
 1. Data Network Access Identifier (DNAI)
 2. Data Network Name (DNN)
 3. Primary DNS (priDns)
@@ -398,6 +417,7 @@ The following parameters MUST be provided to the command:
 Upon successful registration, subscriptions can be instantiated over the NGC AF. The `af-service-id` is returned by the `register` command to be used in further correspondence with NGC OAM and AF functions.
 
 Un-registration of the AF service can be performed with the following command:
+
 ```shell
 kubectl cnca unregister <af-service-id>
 ```
@@ -406,34 +426,39 @@ kubectl cnca unregister <af-service-id>
 
 Supported operations through `kube-cnca` plugin:
 
-  * Creation of traffic influence subscriptions through the AF microservice to steer application traffic towards edge-node
-  * Deletion of subscriptions
-  * Updating (patching) subscriptions
-  * get or get-all subscriptions
+- Creation of traffic influence subscriptions through the AF microservice to steer application traffic towards edge-node
+- Deletion of subscriptions
+- Updating (patching) subscriptions
+- get or get-all subscriptions
 
 Creation of the AF subscription is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in the [Sample YAML NGC AF subscription configuration](#sample-yaml-ngc-af-subscription-configuration) section. Use the `apply` command to post a subscription creation request onto AF:
+
 ```shell
 kubectl cnca apply -f <config.yml>
 ```
 
-When the subscription is successfully created, the `apply` command will return the subscription URL that includes a subscription identifier at the end of the string. Only this subscription identifier `<subscription-id>` should be used in further correspondence with AF concerning this particular subscription. For example, https://localhost:8060/3gpp-traffic-influence/v1/1/subscriptions/11111  and subscription-id is 11111. It is the responsibility of the user to retain the `<subscription-id>` as `kube-cnca` is a stateless function.
+When the subscription is successfully created, the `apply` command will return the subscription URL that includes a subscription identifier at the end of the string. Only this subscription identifier `<subscription-id>` should be used in further correspondence with AF concerning this particular subscription. For example, <https://localhost:8060/3gpp-traffic-influence/v1/1/subscriptions/11111>  and subscription-id is 11111. It is the responsibility of the user to retain the `<subscription-id>` as `kube-cnca` is a stateless function.
 
 To retrieve an existing subscription with a known subscription ID, use the following command:
+
 ```shell
 kubectl cnca get subscription <subscription-id>
 ```
 
 To retrieve all active subscriptions at AF, execute this command:
+
 ```shell
 kubectl cnca get subscriptions
 ```
 
 To modify an active subscription, use the `patch` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca patch <subscription-id> -f <config.yml>
 ```
 
 To delete an active subscription, use the `delete` command:
+
 ```shell
 kubectl cnca delete subscription <subscription-id>
 ```
@@ -447,82 +472,85 @@ apiVersion: v1
 kind: ngc
 policy:
   afServiceId: 'afService001'
-  afAppId: app001
-  afTransId: ''
+  afAppId: 'afApp01'
+  afTransId: 'afTrans01'
   appReloInd: false
-  dnn: edgeLocation001
+  dnn: 'edgeLocation001'
   snssai:
     sst: 0
-    sd: default
-  anyUeInd: false
+    sd: 'default'
   gpsi: ''
-  ipv4Addr: 127.0.0.1
+  ipv4Addr: '127.0.0.1'
   ipv6Addr: ''
   macAddr: ''
   requestTestNotification: true
-  websockNotifConfig:
-    websocketUri: ''
-    requestWebsocketUri: true
   trafficRoutes:
-  - dnai: edgeLocation001
+  - dnai: 'edgeLocation001'
     routeInfo:
       ipv4Addr: ''
       ipv6Addr: ''
-    routeProfId: default
+    routeProfId: 'default'
 ```
 
 #### Packet Flow Description operations with 5G Core (through AF interface)
 
 Supported operations through the `kube-cnca` plugin:
 
-  * Creation of packet flow description (PFD) transactions through the AF microservice to perform accurate detection of application traffic for UPF in 5G Core
-  * Deletion of transactions and applications within a transaction
-  * Updating (patching) transactions and applications within a transaction
-  * Get or get all transactions.
-  * Get a specific application within a transaction
+- Creation of packet flow description (PFD) transactions through the AF microservice to perform accurate detection of application traffic for UPF in 5G Core
+- Deletion of transactions and applications within a transaction
+- Updating (patching) transactions and applications within a transaction
+- Get or get all transactions.
+- Get a specific application within a transaction
 
 Creation of the AF PFD transaction is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in the [Sample YAML NGC AF transaction configuration](#sample-yaml-ngc-af-transaction-configuration) section. Use the `apply` command as below to post a PFD transaction creation request onto AF:
+
 ```shell
 kubectl cnca pfd apply -f <config.yml>
 ```
 
-When the PFD transaction is successfully created, the `apply` command will return the transaction URL, which includes a transaction identifier at the end of the string. Only this transaction identifier `<transaction-id>` should be used in further correspondence with AF concerning this particular transaction. For example, https://localhost:8050/af/v1/pfd/transactions/10000  and transaction-id is 10000. It is the responsibility of the user to retain the `<transaction-id>` as `kube-cnca` is a stateless function.
+When the PFD transaction is successfully created, the `apply` command will return the transaction URL, which includes a transaction identifier at the end of the string. Only this transaction identifier `<transaction-id>` should be used in further correspondence with AF concerning this particular transaction. For example, <https://localhost:8050/af/v1/pfd/transactions/10000>  and transaction-id is 10000. It is the responsibility of the user to retain the `<transaction-id>` as `kube-cnca` is a stateless function.
 
 To retrieve an existing PFD transaction with a known transaction ID, use the following command:
+
 ```shell
 kubectl cnca pfd get transaction <transaction-id>
 ```
 
 To retrieve all active PFD transactions at AF, run:
+
 ```shell
 kubectl cnca pfd get transactions
 ```
 
 To modify an active PFD transaction, use the `patch` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca pfd patch transaction <transaction-id> -f <config.yml>
 ```
 
 To delete an active PFD transaction, use the `delete` command:
+
 ```shell
 kubectl cnca pfd delete transaction <transaction-id>
 ```
 
 To retrieve an existing application within a PFD  transaction with a known application ID and transaction ID, use:
+
 ```shell
 kubectl cnca pfd get transaction <transaction-id> application <application-id>
 ```
 
 To modify an application within an active PFD transaction, use the `patch` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca pfd patch transaction <transaction-id> application <application-id> -f <config.yml>
 ```
 
 To delete an application within an active PFD transaction, use the `delete` command:
+
 ```shell
 kubectl cnca pfd delete transaction <transaction-id> application <application-id>
 ```
-
 
 ##### Sample YAML NGC AF PFD transaction configuration
 
@@ -588,13 +616,14 @@ policy:
 
 Supported operations through `kube-cnca` plugin:
 
-  * Creation of Policy Authorization - Application session context through the AF microservice.
-  * Deletion of application session context.
-  * Updating (patching) application session context.
-  * Get application session context.
-  * Update or delete Event Notification within an application session context.
+- Creation of Policy Authorization - Application session context through the AF microservice.
+- Deletion of application session context.
+- Updating (patching) application session context.
+- Get application session context.
+- Update or delete Event Notification within an application session context.
 
 Creation of the Policy Authorization Application session context is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in the [Sample YAML NGC AF transaction configuration](#sample-yaml-ngc-af-policy-authorization-configuration) section. Use the `apply` command as shown below to post an application session context creation request onto AF:
+
 ```shell
 kubectl cnca policy-authorization apply -f <config.yml>
 ```
@@ -602,26 +631,31 @@ kubectl cnca policy-authorization apply -f <config.yml>
 When the application session context is successfully created, the `apply` command will return the application session context ID (appSessionId). Only `<appSessionId>` should be used in further correspondence with AF concerning this particular application session context. It is the responsibility of the user to retain the `<appSessionId>` as `kube-cnca` is a stateless function.
 
 To retrieve an existing AppSession Session Context with a known appSessionId, use:
+
 ```shell
 kubectl cnca policy-authorization get <appSessionId>
 ```
 
 To modify an active Application Session Context, use the `patch` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca policy-authorization patch <appSessionId> -f <config.yml>
 ```
 
 To delete an active Application Session Context, use the `delete` command as below:
+
 ```shell
 kubectl cnca policy-authorization delete <appSessionId>
 ```
 
 To add/modify Event Notification of active Application Session Context, use the `subscribe` command and provide a YAML file with the subset of the configuration to be modified:
+
 ```shell
 kubectl cnca policy-authorization subscribe <appSessionId> -f <config.yml>
 ```
 
 To unsubscribe from Event Notification of active Application Session Context, use the `unsubscribe` command:
+
 ```shell
 kubectl cnca policy-authorization unsubscribe <appSessionId>
 ```
@@ -850,6 +884,7 @@ This sections describes the parameters that are used in the Packet flow descript
 >**NOTE**: One of the attributes of flowDescriptions, URls, and domainName is mandatory.
 
 ## Policy Authorization Application Session Context description
+
 This section describes the parameters that are used in the AppSessionContextReqData part of Policy Authorization POST request. Groups mentioned as mandatory must be provided; in the absence of the Mandatory parameters, a 400 response is returned.
 
 | Attribute name | Mandatory   | Description                                                                                                                                                                                                                |
