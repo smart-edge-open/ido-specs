@@ -14,6 +14,7 @@ This document introduces the supported deployment flavors that are deployable th
 - [CDN Caching Flavor](#cdn-caching-flavor)
 - [Core Control Plane Flavor](#core-control-plane-flavor)
 - [Core User Plane Flavor](#core-user-plane-flavor)
+- [Non3gpp Access Flavor](#non3gpp-access-flavor)
 
 ## Minimal Flavor
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
@@ -215,3 +216,26 @@ This deployment flavor enables the following ingredients:
 - HugePages of size 1Gi and the amount of HugePages as 8G for the nodes
 
 > **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
+
+
+## Non3gpp Access Flavor
+
+The pre-defined Non3pp Access flavor provisions the minimal set of configurations for a 5G Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
+
+The following are steps to install this flavor:
+
+1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+
+2. Run the x-OEK deployment script:
+
+   ```bash
+   $ ido-openness-experience-kits# deploy_ne.sh -f non3gpp-access
+   ```
+
+This deployment flavor enables the following ingredients:
+
+- Node feature discovery
+- Kubernetes CNI: calico and SRIOV.
+- Kubernetes Device Plugin
+- Telemetry
+- HugePages of size 1Gi and the amount of HugePages as 10G for the nodes
