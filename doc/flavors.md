@@ -15,6 +15,8 @@ This document introduces the supported deployment flavors that are deployable th
 - [Core Control Plane Flavor](#core-control-plane-flavor)
 - [Core User Plane Flavor](#core-user-plane-flavor)
 - [Non3gpp Access Flavor](#non3gpp-access-flavor)
+- [CERA Near Edge Flavor](#cera-near-edge-flavor)
+- [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
 
 ## Minimal Flavor
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
@@ -217,7 +219,6 @@ This deployment flavor enables the following ingredients:
 
 > **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
 
-
 ## Non3gpp Access Flavor
 
 The pre-defined Non3pp Access flavor provisions the minimal set of configurations for a 5G Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
@@ -239,3 +240,53 @@ This deployment flavor enables the following ingredients:
 - Kubernetes Device Plugin
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 10G for the nodes
+
+## CERA Near Edge Flavor
+
+The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
+
+The following are steps to install this flavor:
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
+
+2. Run the x-OEK for CERA deployment script:
+   ```shell
+   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
+   ```
+
+This deployment flavor enables the following ingredients:
+
+- Kubernetes CNI: kube-ovn and SRIOV.
+- SR-IOV support for kube-virt
+- Virtual Functions
+- CPU Manager for Kubernetes (CMK) with 16 exclusive cores and 1 core in shared pool.
+- Kubernetes Device Plugin
+- BIOSFW feature
+- Telemetry
+- HugePages of size 1Gi and the amount of HugePages as 8G for the nodes
+- RMD operator
+
+## CERA 5G On-Prem Flavor
+
+The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for On Premises deployments on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
+
+The following are steps to install this flavor:
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
+
+2. Run the x-OEK for CERA deployment script:
+   ```shell
+   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
+
+This deployment flavor enables the following ingredients:
+
+- Kubernetes CNI: Calico and SRIOV.
+- SRIOV device plugin with FPGA configuration
+- Virtual Functions
+- FPGA remote system update through OPAE
+- FPGA configuration
+- RT Kernel
+- Topology Manager
+- Kubernetes Device Plugin
+- BIOSFW feature
+- Telemetry
+- HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
+- RMD operator
