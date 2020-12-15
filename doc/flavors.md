@@ -14,7 +14,7 @@ This document introduces the supported deployment flavors that are deployable th
 - [CDN Caching Flavor](#cdn-caching-flavor)
 - [Core Control Plane Flavor](#core-control-plane-flavor)
 - [Core User Plane Flavor](#core-user-plane-flavor)
-- [Non3gpp Access Flavor](#non3gpp-access-flavor)
+- [Untrusted Non3gpp Access Flavor](#untrusted-non3gpp-access-flavor)
 - [CERA Near Edge Flavor](#cera-near-edge-flavor)
 - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
 
@@ -33,7 +33,7 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `kube-ovn`
 * Telemetry
 
-## FlexRAN Flavor 
+## FlexRAN Flavor
 The pre-defined *flexran* deployment flavor provisions an optimized system configuration for vRAN workloads on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
@@ -78,7 +78,7 @@ Following parameters in the flavor/all.yaml can be customize for Istio deploymen
 # Istio deployment profile possible values: default, demo, minimal, remote
 istio_deployment_profile: "default"
 
-# Kiali 
+# Kiali
 istio_kiali_username: "admin"
 istio_kiali_password: "{{ lookup('password', '/dev/null length=16') }}"
 istio_kiali_nodeport: 30001
@@ -118,7 +118,7 @@ The following are steps to install this flavor:
     silpixa00400194
     ```
 
-    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group. 
+    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group.
 
 3. Run the OEK deployment script:
     ```shell
@@ -136,7 +136,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CDN Transcode Flavor
-The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms. 
+The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
@@ -151,7 +151,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CDN Caching Flavor
-The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms. 
+The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
@@ -168,7 +168,7 @@ This deployment flavor enables the following ingredients:
 
 ## Core Control Plane Flavor
 
-The pre-defined Core Control Plane flavor provisions the minimal set of configurations for 5G Control Plane Network Functions on Intel® Xeon® platforms. 
+The pre-defined Core Control Plane flavor provisions the minimal set of configurations for 5G Control Plane Network Functions on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 
@@ -219,9 +219,9 @@ This deployment flavor enables the following ingredients:
 
 > **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
 
-## Non3gpp Access Flavor
+## Untrusted Non3gpp Access Flavor
 
-The pre-defined Non3pp Access flavor provisions the minimal set of configurations for a 5G Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
+The pre-defined Untrusted Non3pp Access flavor provisions the minimal set of configurations for a 5G Untrusted Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 
@@ -230,7 +230,7 @@ The following are steps to install this flavor:
 2. Run the x-OEK deployment script:
 
    ```bash
-   $ ido-openness-experience-kits# deploy_ne.sh -f non3gpp-access
+   $ ido-openness-experience-kits# deploy_ne.sh -f untrusted-non3pp-access
    ```
 
 This deployment flavor enables the following ingredients:
