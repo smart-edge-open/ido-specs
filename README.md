@@ -35,37 +35,41 @@ Below is the complete list of OpenNESS solution documentation
    * [<b>openness-eaa.md</b>: Edge Application Agent: Description of Edge Application APIs and Edge Application Authentication APIs](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/openness-eaa.md)
 
 ## Radio Access Network (RAN)
-* [<b>ran</b>: Folder containing details of 4G and 5G RAN deployment support](https://github.com/otcshare/x-specs/tree/master/doc/ran)
-   * [<b>openness_ran.md</b>: Whitepaper detailing the 4G and 5G RAN deployment support on OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/ran/openness_ran.md)
+* [<b>ran</b>: Folder containing details of 4G and 5G RAN deployment support](https://github.com/otcshare/x-specs/tree/master/doc/reference-architectures/ran)
+   * [<b>openness_ran.md</b>: Whitepaper detailing the 4G and 5G RAN deployment support on OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_ran.md)
+   * [<b>openness_xran.md</b>: Whitepaper detailing O-RAN Sample Application deployment support on OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_xran.md)
 
 
 ## Core Network - 4G and 5G  
 
-* [<b>core-network</b>: Folder containing details of 4G CUPS and 5G edge cloud deployment support](https://github.com/otcshare/x-specs/tree/master/doc/core-network)
-   * [<b>openness_epc.md</b>: Whitepaper detailing the 4G CUPS support for Edge cloud deployment in OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_epc.md)
-   * [<b>openness_5g_nsa.md</b>: Whitepaper detailing the 5G NSA Edge Cloud deployment support in OpenNESS for Network Edge](./doc/core-network/openness_5g_nsa.md)
-   * [<b>openness_ngc.md</b>: Whitepaper detailing the 5G SA Edge Cloud deployment support in OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_ngc.md)   
-   * [<b>openness_upf.md</b>: Whitepaper detailing the UPF, AF, NEF deployment support on OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/core-network/openness_upf.md)
+* [<b>core-network</b>: Folder containing details of 4G CUPS and 5G edge cloud deployment support](https://github.com/otcshare/x-specs/tree/master/doc/reference-architectures/core-network)
+   * [<b>openness_epc.md</b>: Whitepaper detailing the 4G CUPS support for Edge cloud deployment in OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_epc.md)
+   * [<b>openness_5g_nsa.md</b>: Whitepaper detailing the 5G NSA Edge Cloud deployment support in OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_5g_nsa.md)
+   * [<b>openness_ngc.md</b>: Whitepaper detailing the 5G SA Edge Cloud deployment support in OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_ngc.md)
+   * [<b>openness_upf.md</b>: Whitepaper detailing the UPF, AF, NEF deployment support on OpenNESS for Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_upf.md)
 
 ## Enhanced Platform Awareness 
 
-* [<b>enhanced-platform-awareness</b>: Folder containing individual Silicon and Software EPA that are features that are supported in OpenNESS Network Edge](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness)
-   * [<b>openness-hugepage.md</b>: Hugepages support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-hugepage.md)
-   * [<b>openness-node-feature-discovery.md</b>: Edge Node hardware and software feature discovery support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md)
-   * [<b>openness-sriov-multiple-interfaces.md</b>: Dedicated Physical Network interface allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md)
-   * [<b>openness-dedicated-core.md</b>: Dedicated CPU core allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-dedicated-core.md)
-   * [<b>openness-bios.md</b>: Edge platform BIOS and Firmware and configuration support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-bios.md)
-   * [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-fpga.md)
-   * [<b>openness_hddl.md</b>: Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness_hddl.md)
-   * [<b>openness-topology-manager.md</b>: Resource Locality awareness support through Topology manager in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-topology-manager.md)
+* [<b>enhanced-platform-awareness</b>: Folder containing individual Silicon and Software EPA that are features that are supported in OpenNESS Network Edge](https://github.com/otcshare/x-specs/tree/master/doc/building-blocks/enhanced-platform-awareness)
+   * [<b>openness-hugepage.md</b>: Hugepages support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-hugepage.md)
+   * [<b>openness-node-feature-discovery.md</b>: Edge Node hardware and software feature discovery support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md)
+   * [<b>openness-sriov-multiple-interfaces.md</b>: Dedicated Physical Network interface allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md)
+   * [<b>openness-dedicated-core.md</b>: Dedicated CPU core allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-dedicated-core.md)
+   * [<b>openness-bios.md</b>: Edge platform BIOS and Firmware and configuration support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-bios.md)
+   * [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+   * [<b>openness_hddl.md</b>: Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness_hddl.md)
+   * [<b>openness-topology-manager.md</b>: Resource Locality awareness support through Topology manager in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-topology-manager.md)
+   * [<b>openness-vca.md</b>: Visual Compute Accelerator Card - Analytics (VCAC-A)](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-vcac-a.md)
+   * [<b>openness-kubernetes-dashboard.md</b>: Kubernetes Dashboard in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-kubernetes-dashboard.md)
+   * [<b>openness-rmd.md</b>: Cache Allocation using Resource Management Daemon(RMD) in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-rmd.md)
+   * [<b>openness-telemetry</b>: Telemetry Support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md)
 
 ## Dataplane
 
-* [<b>dataplane</b>: Folder containing Dataplane and inter-app infrastructure support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/dataplane)
-   * [<b>openness-interapp.md</b>: InterApp Communication support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/dataplane/openness-interapp.md)
-   * [<b>openness-ovn.md</b>: OpenNESS Support for OVS as dataplane with OVN](https://github.com/otcshare/x-specs/blob/master/doc/dataplane/openness-ovn.md)
-   * [<b>openness-nts.md</b>: Dataplane support for Edge Cloud between ENB and EPC (S1-U) Deployment](https://github.com/otcshare/x-specs/blob/master/doc/dataplane/openness-nts.md)
-   * [<b>openness-userspace-cni.md</b>: Userspace CNI - Container Network Interface Kubernetes plugin](https://github.com/otcshare/x-specs/blob/master/doc/dataplane/openness-userspace-cni.md)
+* [<b>dataplane</b>: Folder containing Dataplane and inter-app infrastructure support in OpenNESS](https://github.com/otcshare/x-specs/tree/master/doc/building-blocks/dataplane)
+   * [<b>openness-interapp.md</b>: InterApp Communication support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/dataplane/openness-interapp.md)
+   * [<b>openness-ovn.md</b>: OpenNESS Support for OVS as dataplane with OVN](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/dataplane/openness-ovn.md)
+   * [<b>openness-userspace-cni.md</b>: Userspace CNI - Container Network Interface Kubernetes plugin](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/dataplane/openness-userspace-cni.md)
 
 ## Edge Applications 
 
