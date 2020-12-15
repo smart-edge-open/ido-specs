@@ -30,7 +30,8 @@ Copyright © 2019 Intel Corporation
   - [Resource Consumption](#resource-consumption)
     - [Methodology](#methodology)
     - [Results](#results)
-
+- [References](#References)
+- [Acronyms](#acronyms)
 
 ## Introduction
 With the growth of global organizations, there has come a rise in the need for connecting branch offices distributed across the world. As the organization applications have been moving from the corporate data centers to the cloud/on-premise edge, their branches require secure and reliable, low latency, and affordable links to access them. One way is to achieve it via leveraging the public Internet (WAN) and enabling secure links that move data across WAN to private edge locations where destined edge applications are running.
@@ -246,19 +247,16 @@ There have been three types of tests performed in the lab environment to verify 
 
 #### Scenario 1
 
-In this scenario, there are two UEs connected to two separate edges which are connected to one common hub. It shows the traffic flow from one UE to the other UE via the hub. Currently, it is just a basic connectivity function without SFC.
+In this scenario, two UEs are connected to two separate edge nodes which are connected to one common hub. It's aim is to showcase that the basic connectivity accross the edge clusters can be achieved with use of SD-WAN. The scenario proves that based on this connectivity traffic can be sent between the edge clusters. To prove it, the traffic flow is initiated on one UE and received on the other UE.  
 
-For this scenario, OpenNESS is deployed on both edges and the hub. On each edge and hub, we set up an SD-WAN controller and CNF. Then we set up an IPsec tunnel between the edge and the hub. Each CNF is connected to two provider networks. The CNFs on Edge1 and Edge to use provider network n2 to connect to UEs outside the Edge, and provider network n3 to connect the HUB in another Edge location. Currently, the UE connects to the CNF directly without the switch. In the picture below, UE1 is in the same network(NET1) as Edge1 port. It is considered a private network. In order to access the other UE, its UE IP is mapped to the interface IP of Edge node's CNF, (such as P1 of UE1 map to n3 of CNF on edge1. This can be considered as a floating IP address, and we can re-map this IP to any UE.
+For this scenario, OpenNESS is deployed on both edges and the hub. On each edge and hub, SD-WAN controller and CNF are set up. Then CRs are used to configre the CNF and set up IPsec tunnels between the edge and the hub and to configure rules on the WAN interfaces connecting edges with the hub. Each CNF is connected to two provider networks. The CNFs on Edge 1 and Edge 2 use provider network n2 to connect to UEs outside the Edge, and the provider network n3 to connect the hub in another edge location. Currently, the UE connects to the CNF directly without the switch. In the picture below, UE1 is in the same network(NET1) as Edge1 port. It is considered a private network.
+This scenario verifies that sample traffic can be sent from the UE connected to Edge2 to another UE connected to Edge1 over secure WAN links connecting Edge1 and Edge2 to a hub. To demonstrate this connectivity, traffic from the Iperf-client application running on Edge2 UE is sent towards Edge1 UE running the Iperf server application.
 
-On Edge1 we also set up an OpenVINO app, currently, it only does local benchmarking. In this way, this scenario integrates scenario 3 described below.
-
-The goal for this scenario is to verify if sample traffic can be sent from a UE connected to Edge2 to another UE connected to Edge1 over secure WAN links connecting Edge1 and Edge2 to a Hub. The Hub is in another Edge location. To demonstrate this use case traffic from the Iperf client running on Edge2 UE is sent towards Edge1 UE running the Iperf server. 
+Edge1  node also deploys an OpenVINO app and in this way, this scenario integrates scenario 3 described below.
 
 ![OpenNESS SD-WAN Scenario 1 ](sdwan-images/e2e-scenario1.png)
 
-
 More detailed description of this E2E test is provided under the link in the OpenNESS documentation for this SD-WAN [scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md) 
-
 
 #### Scenario 2
 This scenario demonstrates a simple OpenNESS SD-WAN use case that involves only one single node cluster that deploys SD-WAN CNF and an application pod running Iperf client. CNF pod and Iperf-client pod are attached to one virtual OVN network using n3 and n0 interfaces respectively. CNF has configured a provider network on interface n2 that is attached to a physical interface on the Edge node to work as a bridge to connect the external network. This scenario demonstrates that after a  proper configuration of the CNF the traffic sent from the application pod uses SD-WAN CNF as proxy and arrives at the User Equipment (UE) in the external network.  The E2E traffic from the Iperf3 client application running on the application pod deployed on the Edge node travels to the external UE via 10G NIC port. The UE runs the Iperf3 server application. The OpenNESS cluster consisting of the Edge Node server has is deployed with SD-WAN-edge flavor. The Iperf client traffic is expected to pass through the SDWAN cnf and the attached provider network interface to reach the Iperf server listening on the UE.
@@ -269,15 +267,14 @@ Detailed description of the scenarion can be found in this SD-WAN scenario [docu
 
 
 #### Scenario 3
-This scenario demonstrated execution of sample OpenVINO benchmark application deployed on the OpenNESS edge platform equipped with an HDDL accelerator card. It reflects the use case where high performance OpenVINO application is executed on OpenNESS single node cluster deployed with sdewan-edge flavor. The flavor enables HDDL plugin to provide the OpenNESS platform with support for workload acceleration through HDDL card available on the Edge node. More information on the OpenVINO sample application is provided under the following links:
+This scenario demonstrated execution of sample OpenVINO benchmark application deployed on the OpenNESS edge platform equipped with an HDDL accelerator card. It reflects the use case where high performance OpenVINO application is executed on OpenNESS single node cluster, deployed with CERA sdwan-edge flavor. The CERA flavor enables HDDL plugin to provide the OpenNESS platform with support for workload acceleration through HDDL card inserted on the node. More information on the OpenVINO sample application is provided under the following links:
 
-  - OpenVINO Sample Application White Paper
+  - [OpenVINO Sample Application White Paper](https://github.com/otcshare/specs/blob/master/doc/applications/openness_openvino.md)
 
-  - OpenVINO Sample Application Onboarding Guide - Network Edge
+  - [OpenVINO Sample Application Onboarding](https://github.com/otcshare/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-openvino-application)
 
-  - OpenVINO Sample Application Onboarding Guide - On-premises
 
-Detailed description of the scenarion can be found in this SD-WAN scenario [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
+Detailed description of this scenarion is available in OpenNESS [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
 
 ![OpenNESS SD-WAN Scenario 3 ](sdwan-images/e2e-scenario3.png)
 
@@ -300,11 +297,36 @@ To measure disk usage command “free -h” was used.
 
 | Option                 | Resource      | Edge               | Hub                                  |
 | ---------------------- | ------------- | ------------------ | ------------------------------------ |
-| without traffic        | CPU           | 339m (0.339 CPU)   |  327m (0.327 CPU)                    |
+| Without traffic        | CPU           | 339m (0.339 CPU)   |  327m (0.327 CPU)                    |
 |                        | RAM           | 2050Mi (2.05G)     |  2162Mi (2.162G)                     |
 |                        | Disk          | 3.1G               |  3.1G                                |
-| with traffic           | CPU           | 382m(0.382 CPU)    |  404m(0.404 CPU)                     |
+| With Iperf traffic     | CPU           | 382m(0.382 CPU)    |  404m(0.404 CPU)                     |
 |                        | RAM           | 2071Mi(2.071G)     |  2186Mi(2.186G)                      |
 |                        | Disk          | 3.1G               |  3.1                                 |
 
+## References
+[ICN SDEWAN documentation](https://wiki.akraino.org/display/AK/ICN+-+SDEWAN)
+[ovn4nfv k8s plugin documentation](https://github.com/opnfv/ovn4nfv-k8s-plugin)
+[Service Function Chaining (SFC) Setup](https://github.com/opnfv/ovn4nfv-k8s-plugin/blob/master/demo/sfc-setup/README.md)
+[Utilizing a Service Mesh for Edge Services in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/applications/openness_service_mesh.md)
+[Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness_hddl.md)
+[Node Feature Discovery support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md)
+[OpenVINO™ Sample Application in OpenNESS](https://github.com/otcshare/x-specs/blob/78d7797cbe0a21ade2fdc61625c2416d8430df23/doc/applications/openness_openvino.md)
+
+## Acronyms
+
+|             |                                                               |
+|-------------|---------------------------------------------------------------|
+| API         | Application Programming Interface                             |
+| CNF         | Cloud-native Network Function                                 |
+| DNAT        | Destination Network Address Translation                       |
+| HDDL        | High Density Deep Learning                                    |
+| IP          | Internet Protocol                                             |
+| NAT         | Network Address Translation                                   |
+| NFD         | Network Feature Discovery                                     |
+| SM          | Service Mesh                                                  |
+| SD-WAN      | Software-Defined Wide Area Network                            |
+| SNAT        | Source Network Address Translation                            |
+| TCP         | Transmission Control Protocol                                 |
+| uCPE        | Universal Customer Premise Equipment                          |
 
