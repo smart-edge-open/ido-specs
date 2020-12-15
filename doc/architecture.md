@@ -220,8 +220,6 @@ OpenNESS supports leading SDKs for edge services (applications) and network func
 - <b>Intel IPP</b>: Intel® Integrated Performance Primitives (Intel® IPP) is an extensive library of ready-to-use, domain-specific functions that are highly optimized for diverse Intel® architectures.
 - <b>Intel® MKL</b>: Intel® Math Kernel Library (Intel® MKL) optimizes code with minimal effort for future generations of Intel® processors. It is compatible with your choice of compilers, languages, operating systems, and linking and threading models.
 
-
-
 ## Converged Edge Reference Architecture 
 
 Converged Edge Reference Architecture (CERA) is a set of pre-integrated & readily deployable HW/SW Reference Architectures powered by OpenNESS to significantly accelerate Edge Platform development. 
@@ -236,21 +234,21 @@ This flavor supports the installation of the minimal set of components from Open
 
 ### CERA Access Edge Flavor 
 
-This flavor typically refers to RAN Distributed Unit (DU) and Centralized Unit (CU) 4G/5G nodes deployed on the access edge. In some cases, DU may be integrated into the radio. The example RAN deployment flavor uses FlexRAN as a reference DU. 
+This flavor typically refers to RAN Distributed Unit (O-DU) and Centralized Unit (O-CU) 4G/5G nodes deployed on the access edge. In some cases, DU may be integrated into the radio. The example RAN deployment flavor uses FlexRAN as a reference DU. 
 
 Link: [CERA Access Edge Overview](reference-architectures/ran/openness_ran.md)
 
 ### CERA Near Edge Flavor
 
-Available in Intel Distribution of OpenNESS
+CERA Near Edge Flavor provides reference for edge deployments at aggregation points, mini central office and presents a scalable solution across the near edge network scaling from a single edge node to a multi cluster deployment services many edge nodes. The reference solution will used for deployments for example involving edge node with Core User plane function and Applications an services. 
 
 ### CERA SD-WAN Edge Flavor
 
-Available in Intel Distribution of OpenNESS
+CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs Applications, Services and SD-WAN CNF. AI/ML application and services are targeted in this flavor with support for Hardware offload for inferencing. 
 
 ### CERA SD-WAN Hub Flavor
 
-Available in Intel Distribution of OpenNESS
+CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs SD-WAN CNF. 
 
 ### CERA Media Analytics Flavor with VCAC-A
 
@@ -270,15 +268,15 @@ CERA for CDN transcode flavor provides key OpenNESS Kubernetes enhancements for 
 
 ### CERA Core Control Plane Flavor
 
-Available in Intel Distribution of OpenNESS
+CERA for Core Control Plane Flavor provides key OpenNESS Kubernetes enhancements for core network control plane network functions. 
 
-### CERA Core User Plane Flavor 
+### CERA Core User Plane Flavor
 
-Available in Intel Distribution of OpenNESS
+CERA for Core User Plane Flavor provides key OpenNESS Kubernetes enhancements for high performance Computing and Networking using SR-IOV for reference core network user plane network functions. 
 
 ### CERA for Untrusted Non-3GPP Access Flavor 
 
-Available in Intel Distribution of OpenNESS
+CERA for Untrusted Non-3GPP Access Flavor provides key OpenNESS Kubernetes enhancements for high performance Computing and Networking using SR-IOV for reference Untrusted Non-3GPP Access as defined by 3GPP Release 15. 
 
 ## Reference Edge Apps and Network Functions  
 
