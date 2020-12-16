@@ -29,7 +29,6 @@ Copyright (c) 2019-2020 Intel Corporation
   - [CERA Access Edge Flavor](#cera-access-edge-flavor)
   - [CERA Near Edge Flavor](#cera-near-edge-flavor)
   - [CERA On Prem Edge and Private Wireless](#cera-on-prem-edge-and-private-wireless)
-  - [CERA 5G On Premise](#cera-5g-on-premise)
   - [CERA SD-WAN Edge Flavor](#cera-sd-wan-edge-flavor)
   - [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
   - [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
@@ -253,12 +252,6 @@ Link: [CERA Near Edge Overview](https://github.com/otcshare/x-specs/blob/master/
 CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. 
 
 Link: [CERA On Prem Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
-
-### CERA 5G On Premise
-
-CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge.
-
-Link: [CERA 5G On Premise](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
 
 ### CERA SD-WAN Edge Flavor
 
