@@ -16,10 +16,14 @@ Copyright (c) 2020 Intel Corporation
   - [CERA Near Edge Flavor](#cera-near-edge-flavor)
   - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
   - [Reference Service Mesh](#reference-service-mesh)
+  - [Central Orchestrator Flavor](#central-orchestrator-flavor)
 
 # OpenNESS Deployment Flavors
+
 This document introduces the supported deployment flavors that are deployable through OpenNESS Experience Kits (OEKs.
+
 ## CERA Minimal Flavor
+
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
 
 The following are steps to install this flavor:
@@ -36,6 +40,7 @@ This deployment flavor enables the following ingredients:
 
 
 ## CERA Access Edge Flavor
+
 The pre-defined *flexran* deployment flavor provisions an optimized system configuration for vRAN workloads on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
@@ -54,7 +59,9 @@ This deployment flavor enables the following ingredients:
 * RT Kernel
 * Topology Manager
 * RMD operator
+
 ## CERA Media Analytics Flavor
+
 The pre-defined *media-analytics* deployment flavor provisions an optimized system configuration for media analytics workloads on Intel® Xeon® platforms. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
 
 The following are steps to install this flavor:
@@ -76,6 +83,7 @@ This deployment flavor enables the following ingredients:
 * Kiali management console - conditional
 
 ## CERA Media Analytics Flavor with VCAC-A
+
 The pre-defined *media-analytics-vca* deployment flavor provisions an optimized system configuration for media analytics workloads leveraging Visual Cloud Accelerator Card – Analytics (VCAC-A) acceleration. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
 
 The following are steps to install this flavor:
@@ -104,6 +112,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CERA CDN Transcode Flavor
+
 The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
@@ -119,6 +128,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CERA CDN Caching Flavor
+
 The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
@@ -295,3 +305,21 @@ istio_kiali_nodeport: 30001
 ```
 
 > **NOTE:** If creating a customized flavor, the Istio service mesh installation can be included in the Ansible playbook by setting the flag `ne_istio_enable: true` in the flavor file.
+
+## Central Orchestrator Flavor
+
+Central Orchestrator Flavor is used to deploy EMCO.  
+
+The pre-defined *orchestration* deployment flavor provisions an optimized system configuration for emco (central orchestrator) workloads on Intel Xeon servers. It also provisions a set of central orchestrator services for [edge, multiple clusters orchestration](building-blocks/emco/openness-emco.md).
+
+Steps to install this flavor are as follows:
+1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Run OEK deployment script:
+    ```shell
+    $ deploy_ne.sh -f central_orchestrator
+    ```
+
+This deployment flavor enables the following ingredients:
+* Harbor Registry
+* The default Kubernetes CNI: `kube-ovn`
+* EMCO services
