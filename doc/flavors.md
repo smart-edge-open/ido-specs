@@ -4,18 +4,7 @@ Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
 
-- [OpenNESS Deployment Flavors](#openness-deployment-flavors)
-  - [CERA Minimal Flavor](#cera-minimal-flavor)
-  - [CERA Access Edge Flavor](#cera-access-edge-flavor)
-  - [CERA Media Analytics Flavor](#cera-media-analytics-flavor)
-  - [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
-  - [CERA CDN Transcode Flavor](#cera-cdn-transcode-flavor)
-  - [CERA CDN Caching Flavor](#cera-cdn-caching-flavor)
-  - [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
-  - [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
-  - [CERA Untrusted Non3gpp Access Flavor](#cera-untrusted-non3gpp-access-flavor)
-  - [CERA Near Edge Flavor](#cera-near-edge-flavor)
-  - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
+[TOC]
 
 # OpenNESS Deployment Flavors
 This document introduces the supported deployment flavors that are deployable through OpenNESS Experience Kits (OEKs.
@@ -243,6 +232,7 @@ The following are steps to install this flavor:
 2. Run the x-OEK for CERA deployment script:
    ```shell
    $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
+   ```
 
 This deployment flavor enables the following ingredients:
 
