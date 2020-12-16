@@ -103,9 +103,9 @@ This section provides of an overview of the various OpenNESS Building Blocks, ex
 
 This building block represents a set of microservices that enables steering of traffic from various access networks to and from edge apps and services. 
 
-- **Application Function (AF):** is a microservice in the OpenNESS Kubernetes Control Plane that supports Traffic Influencing Subscription, Packet Flow Description Management functionality, and Policy Authorization to help steer the Edge-specific traffic in UPF towards the applications deployed on the OpenNESS edge node. AF is developed as per the Rel.15 3gpp specifications. AF is only available in the Intel Distribution of OpenNESS.  
-- **Network Exposure Function (NEF)**: is a microservice used for validation of AF functionality in OpenNESS before integrating with the 5G Core.  The functionality is limited and in line with the AF functional scope. It includes a reference implementation for Traffic influence and PFD management. NEF is developed as per the Rel.15 3gpp specifications. NEF is only available in the Intel Distribution of OpenNESS. 
-- **Core Network Configuration Agent (CNCA)**: is a microservice that provides an interface for orchestrators that interact with OpenNESS Kubernetes Control Plane to interact with the 5G Core network solution. CNCA provides a CLI (kube-ctl plugin) interface to interact with the AF and OAM services. CNCA is only available in the Intel Distribution of OpenNESS.
+- **Application Function (AF):** is a microservice in the OpenNESS Kubernetes Control Plane that supports Traffic Influencing Subscription, Packet Flow Description Management functionality, and Policy Authorization to help steer the Edge-specific traffic in UPF towards the applications deployed on the OpenNESS edge node. AF is developed as per the Rel.15 3gpp specifications.  
+- **Network Exposure Function (NEF)**: is a microservice used for validation of AF functionality in OpenNESS before integrating with the 5G Core.  The functionality is limited and in line with the AF functional scope. It includes a reference implementation for Traffic influence and PFD management. NEF is developed as per the Rel.15 3gpp specifications.  
+- **Core Network Configuration Agent (CNCA)**: is a microservice that provides an interface for orchestrators that interact with OpenNESS Kubernetes Control Plane to interact with the 5G Core network solution. CNCA provides a CLI (kube-ctl plugin) interface to interact with the AF and OAM services. 
 - **Edge Application Agent (EAA)**: Edge application APIs are implemented by the EAA. Edge application APIs are important APIs for edge application developers. EAA APIs provide APIs for service discovery, subscription, and update notification. EAA APIs are based on ETSI MEC- MEC11 MP1 APIs specifications.
 - **Edge Interface Service**: This service is an application that runs in a Kubernetes pod on each node of the OpenNESS Kubernetes cluster. It allows attachment of additional network interfaces of the node host to provide an OVS bridge, enabling external traffic scenarios for applications deployed in Kubernetes pods. Services on each node can be controlled from the Control Plane using a kubectl plugin. This interface service can attach both kernel and userspace (DPDK) network interfaces to OVS bridges of a suitable type.
 - **DNS Service**: Supports DNS resolution and forwarding services for the application deployed on edge computing. The DNS server is implemented based on the DNS library in Go. DNS service supports resolving DNS requests from user equipment (UE) and applications on the edge cloud.  
@@ -284,7 +284,13 @@ CERA for Core Control Plane Flavor provides key OpenNESS Kubernetes enhancements
 
 ### CERA Core User Plane Flavor
 
-CERA for Core User Plane Flavor provides key OpenNESS Kubernetes enhancements for high performance Computing and Networking using SR-IOV for reference core network user plane network functions. 
+CERA for Core User Plane Flavor provides key OpenNESS Kubernetes enhancements for high performance Computing and Networking using SR-IOV for reference core network user plane network functions.
+
+Link: [CERA Core User Plane](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_upf.md) 
+
+Link: [5G Non Standalone deployment](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_5g_nsa.md)
+
+Link: [5G Standalone deployment](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_ngc.md)
 
 ### CERA for Untrusted Non-3GPP Access Flavor 
 
