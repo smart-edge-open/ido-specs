@@ -7,24 +7,24 @@ Copyright (c) 2020 Intel Corporation
 Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
 
 - [CERA 5G On Prem](#cera-5g-on-prem)
-  - [CERA On Prem Experience Kit](#cera-near-edge-experience-kit)
-    - [CERA On Prem OpenNESS Configuration](#cera-near-edge-openness-configuration)
-    - [CERA On Prem Deployment Architecture](#cera-near-edge-deployment-architecture)
-    - [CERA On Prem Experience Kit Deployments](#cera-near-edge-experience-kit-deployments)
-  - [Edge service applications supported on CERA On Prem](#edge-service-applications-supported-on-cera-near-edge)
+  - [CERA On Prem Experience Kit](#cera-on-prem-experience-kit)
+    - [CERA On Prem OpenNESS Configuration](#cera-on-Prem-openness-configuration)
+    - [CERA On Prem Deployment Architecture](#cera-on-prem-deployment-architecture)
+    - [CERA On Prem Experience Kit Deployments](#cera-on-prem-experience-kit-deployments)
+  - [Edge service applications supported on CERA On Prem](#edge-service-applications-supported-on-cera-on-prem)
     - [OpenVINO](#openvino)
     - [Edge Insights Software](#edge-insights-software)
-  - [CERA On Prem hardware platform](#cera-near-edge-hardware-platform)
+  - [CERA On Prem hardware platform](#cera-on-prem-hardware-platform)
     - [Hardware acceleration](#hardware-acceleration)
   - [Data Flow](#data-flow)
-  - [CERA On Prem OpenNESS deployment](#cera-near-edge-openness-deployment)
+  - [CERA On Prem OpenNESS deployment](#cera-on-prem-openness-deployment)
     - [Setting up target platform before deployment](#setting-up-target-platform-before-deployment)
   - [BIOS Setup](#bios-setup)
     - [Manual setup](#manual-setup)
-    - [Setup through the CERA deployment](#setup-through-the-cera-deployment)
+    - [Setup through CERA deployment](#setup-through-cera-deployment)
   - [Setting up machine with Ansible](#setting-up-machine-with-ansible)
     - [Steps to be performed on the machine, where the Ansible playbook is going to be run](#steps-to-be-performed-on-the-machine-where-the-ansible-playbook-is-going-to-be-run)
-  - [CERA On Prem Experience Kit Deployment](#cera-near-edge-experience-kit-deployment)
+  - [CERA On Prem Experience Kit Deployment](#cera-on-prem-experience-kit-deployment)
 - [5G Core Components](#5g-core-components)
   - [dUPF](#dupf)
     - [Overview](#overview)
@@ -73,14 +73,14 @@ Reference architecture combines wireless and high performance compute for IoT, A
 - [Acronyms](#acronyms)
 
 ## CERA 5G On Prem
-CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. The assumed 3GPP deployment architecture is based on below figure from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) will be deployed on the CERA On Prem. 
+CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. The assumed 3GPP deployment architecture is based on the figure below from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) are deployed on the CERA On Prem. 
 
 ![3GPP Network](cera-on-prem-images/3gpp_on_prem.png)
 
 > Figure 1 - 3GPP Network
 
 ### CERA On Prem Experience Kit
-In order to support the most flexibility the first CERA On Prem implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (gNB, UPF) and Applications at the same time. This is also useful for demonstration purposes as the On Prem deployment can be scaled down to a single server reducing HW and cost associated with setup. 
+To provide maximum flexibility, the first CERA On Prem implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (gNB, UPF) and Applications at the same time. This is also useful for demonstration purposes as the On Prem deployment can be scaled down to a single server reducing HW and cost associated with setup. 
 
 #### CERA On Prem OpenNESS Configuration 
 CERA On Prem is a combination of the existing OpenNESS Reference Architecture [CERA NGC](../flavors.md#core-control-plane-flavor), [CERA UPF](../flavors.md#core-user-plane-flavor), [CERA Apps](../flavors.md#minimal-flavor). CERA On Prem takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA On Prem also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
@@ -95,20 +95,20 @@ CERA On Prem is a combination of the existing OpenNESS Reference Architecture [C
 
 > Figure 3 - CERA On Prem Deployment
 
-The CERA On Prem architecture support a single platform (Xeon® SP and Xeon-D) that hosts both the Edge Node and the Kubernetes Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads like UPF network function, it is recommended to use single root input/output (SR-IOV) pass through of the physical function (PF) or the virtual function (VF) as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another as there is a direct path of communication required between the UPF and the Data plane this becomes an option. It should be noted the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications. Similarly gNB DU and CU interfaces N2 and N4 are separated. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
+The CERA On Prem architecture supports a single platform (Xeon® SP and Xeon-D) that hosts both the Edge Node and the Kubernetes* Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads like UPF network function, it is recommended to use single root input/output (SR-IOV) pass through the physical function (PF) or the virtual function (VF), as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another, as there is a direct path of communication required between the UPF and the Data plane, this becomes an option. It should be noted that the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario, it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case, there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications, similarly gNB DU and CU interfaces N2 and N4 are separated. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
 
 The applications are deployed on the same edge node as the UPF and gNB.
 
-The use of Intel® Resource Director Technology (Intel® RDT) ensures the cache allocation and memory bandwidth are optimized for the workloads on running on the platform.
+The use of Intel® Resource Director Technology (Intel® RDT) ensures that the cache allocation and memory bandwidth are optimized for the workloads on running on the platform.
 
 Intel® Speed Select Technology (Intel® SST) can be used to further enhance the performance of the platform.
 
 The following EPA features are supported in OpenNESS
 
-- <b>High-Density Deep Learning (HDDL)</b>: Software that enables OpenVINO-based AI apps to run on Intel® Movidius Vision Processing Units (VPUs). It consists of the following components:
+- <b>High-Density Deep Learning (HDDL)</b>: Software that enables OpenVINO™-based AI apps to run on Intel® Movidius Vision Processing Units (VPUs). It consists of the following components:
   - HDDL device plugin for K8s
   - HDDL service for scheduling jobs on VPUs
-- <b>Visual Compute Acceleration - Analytics (VCAC-A)</b>: Software that enables OpenVINO-based AI apps and media apps to run on Intel® Visual Compute Accelerator Cards (Intel® VCA Cards). It is composed of the following components: 
+- <b>Visual Compute Acceleration - Analytics (VCAC-A)</b>: Software that enables OpenVINO™-based AI apps and media apps to run on Intel® Visual Compute Accelerator Cards (Intel® VCA Cards). It is composed of the following components: 
   - VPU device plugin for K8s
   - HDDL service for scheduling jobs on VPU
   - GPU device plugin for K8s
@@ -117,26 +117,26 @@ The following EPA features are supported in OpenNESS
   - SR-IOV device plugin for FPGA/eASIC
   - Dynamic Device Profile for Network Interface Cards (NIC)
 - <b>Resource Management Daemon (RMD)</b>: RMD uses Intel® Resource Director Technology (Intel® RDT) to implement cache allocation and memory bandwidth allocation to the application pods. This is a key technology for achieving resource isolation and determinism on a cloud-native platform. 
-- <b>Node Feature Discovery (NFD)</b>: Software that enables node feature discovery for Kubernetes. It detects hardware features available on each node in a Kubernetes cluster and advertises those features using node labels. 
+- <b>Node Feature Discovery (NFD)</b>: Software that enables node feature discovery for Kubernetes*. It detects hardware features available on each node in a Kubernetes* cluster and advertises those features using node labels. 
 - <b>Topology Manager</b>: This component allows users to align their CPU and peripheral device allocations by NUMA node.
 - <b>Kubevirt</b>: Provides support for running legacy applications in VM mode and the allocation of SR-IOV ethernet interfaces to VMs. 
 - <b>Precision Time Protocol (PTP)</b>: Uses primary-secondary architecture for time synchronization between machines connected through ETH. The primary clock is a reference clock for the secondary nodes that adapt their clocks to the primary node's clock. GMC can be used to precisely set primary clock.
 
 #### CERA On Prem Experience Kit Deployments
-The CERA On Prem experience kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposed. Note the Access network and UE are not configured as part of the CERA On Prem Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® rep for more information. 
+The CERA On Prem experience kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposes. Note that the Access network and UE are not configured as part of the CERA On Prem Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® representative for more information. 
 
 ![CERA Experience Kit](cera-on-prem-images/cera-full-setup.png)
 
 > Figure 4 - CERA Experience Kit
 
-### Edge service applications supported on CERA On Prem
+### Edge Service Applications Supported on CERA On Prem
 The CERA architectural paradigm enables convergence of edge services and applications across different market segments. This is demonstrated by taking diverse workloads native to different segments and successfully integrating within a common platform. The reference considers workloads segments across the following applications:
 
-Security: Capture of video and facilitating facial recognition to identified bona fide individuals to determine access to a security perimeter
+Security: Capture of video and facilitating facial recognition to identified bonafide individuals to determine access to a security perimeter.
 
 Smart city: Capture of live camera streams to monitor and measure both pedestrian and vehicle movement within a zone.
 
-Industrial: Monitoring of the manufacturing quality of an industrial line, the capture of video streams focused on manufactured devices on an assembly line and the real-time removal of identified defect parts
+Industrial: Monitoring of the manufacturing quality of an industrial line, the capture of video streams focuses on manufactured devices on an assembly line and the real-time removal of identified defect parts.
 
 While these use cases are addressing completely different market segments, they all have similar requirements:
 
@@ -150,33 +150,33 @@ Video processing is inherently compute intensive and, in most cases, especially 
 
 Therefore, pre-trained models, performing numerical precision conversions, offloading to video accelerators, heterogeneous processing and asynchronous execution across multiple types of processors all of which increase video throughput are extremely vital in edge video processing. However these requirements can significantly complicate software development, requiring expertise that is rare in engineering teams and increasing the time-to-market.
 
-#### OpenVINO
-The Intel® Distribution of OpenVINO toolkit helps developers and data scientists speed up computer vision workloads, streamline deep learning inference and deployments, and enable easy, heterogeneous execution across Intel® architecture platforms from edge to cloud. It helps to unleash deep learning inference using a common API, streamlining deep learning inference and deployment using standard or custom layers without the overhead of frameworks.
+#### OpenVINO™
+The Intel® Distribution of OpenVINO™ toolkit helps developers and data scientists speed up computer vision workloads, streamline deep learning inference and deployments, and enable easy, heterogeneous execution across Intel® architecture platforms from edge to cloud. It helps to unleash deep learning inference using a common API, streamlining deep learning inference and deployment using standard or custom layers without the overhead of frameworks.
 
 #### Edge Insights Software
-Intel's Edge Insights for Industrial offers a validated solution to easily integrate customers' data, devices, and processes in manufacturing applications, which helps enable near-real-time intelligence at the edge, greater operational efficiency, and security in factories.
-Intel's Edge Insights for Industrial takes advantage of modern microservices architecture. This approach helps OEMs, device manufacturers, and solution providers integrate data from sensor networks, operational sources, external providers, and industrial systems more rapidly. The modular, product-validated software enables the extraction of machine data at the edge. It also allows that data to be communicated securely across protocols and operating systems managed cohesively, and analyzed quickly.
-Allowing machines to communicate interchangeably across different protocols and operating systems eases the process of data ingestion, analysis, storage, and management. Doing so also helps industrial companies build powerful analytics and machine learning models easily and generate actionable predictive insights at the edge.
-Edge computing software deployments occupy a middle layer between the operating system and applications built upon it. Intel's Edge Insights for Industrial is created and optimized for Intel® architecture-based platforms and validated for underlying operating systems. Its capability supports multiple edge-critical Intel® hardware components like CPUs, FPGAs, accelerators, and Intel® Movidius Vision Processing Unit (VPU). Also, its modular architecture offers OEMs, solution providers, and ISVs the flexibility to pick and choose the features and capabilities they wish to include or expand upon for customized solutions. As a result, they can bring solutions to market fast and accelerate customer deployments.
+Intel® Edge Insights for Industrial offers a validated solution to easily integrate customers' data, devices, and processes in manufacturing applications, which helps enable near-real-time intelligence at the edge, greater operational efficiency, and security in factories.
+Intel® Edge Insights for Industrial takes advantage of modern microservices architecture. This approach helps OEMs, device manufacturers, and solution providers integrate data from sensor networks, operational sources, external providers, and industrial systems more rapidly. The modular, product-validated software enables the extraction of machine data at the edge. It also allows that data to be communicated securely across protocols and operating systems managed cohesively, and analyzed quickly.
+Allowing machines to communicate interchangeably across different protocols and operating systems eases the process of data ingestion, analysis, storage, and management. Doing so, also helps industrial companies build powerful analytics and machine learning models easily and generate actionable predictive insights at the edge.
+Edge computing software deployments occupy a middle layer between the operating system and applications built upon it. Intel® Edge Insights for Industrial is created and optimized for Intel® architecture-based platforms and validated for underlying operating systems. It's capability supports multiple edge-critical Intel® hardware components like CPUs, FPGAs, accelerators, and Intel® Movidius Vision Processing Unit (VPU). Also, its modular architecture offers OEMs, solution providers, and ISVs the flexibility to pick and choose the features and capabilities that they wish to include or expand upon for customized solutions. As a result, they can bring solutions to market fast and accelerate customer deployments.
 
-For more about the supported EIS demos support see [EIS whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
+For more information on the supported EIS demos support, see [EIS whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
 
-### CERA On Prem hardware platform
+### CERA On Prem Hardware Platform
 CERA 5G On Prem is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Dedicated platform is [Single socket SP SYS-E403-9P-FN2T](https://www.supermicro.com/en/products/system/Box_PC/SYS-E403-9P-FN2T.cfm)
 
 
-#### Hardware acceleration
-Based on deployment scenario and capacity requirements, there is the option to utilize hardware accelerators on the platform to increase performance of certain workloads. Hardware accelerators can be assigned to the relevant container on the platform through the OpenNESS Controller, enabling modular deployments to meet the desired use case.
+#### Hardware Acceleration
+Based on deployment scenario and capacity requirements, there is option to utilize hardware accelerators on the platform to increase performance of certain workloads. Hardware accelerators can be assigned to the relevant container on the platform through the OpenNESS Controller, enabling modular deployments to meet the desired use case.
 
-<b>AI acceleration</b>  
-Video inference is done using the OpenVINO toolkit to accelerate the inference processing to identify people, vehicles or other items as needed. This is already optimized for software implementation and can be easily changed to utilize hardware acceleration if it is available on the platform.
+<b>AI Acceleration</b>  
+Video inference is done using the OpenVINO™ toolkit to accelerate the inference processing to identify people, vehicles or other items, as required. This is already optimized for software implementation and can be easily changed to utilize hardware acceleration if it is available on the platform.
 
 <b>Intel® Movidius Myriad X Vision</b>  
 Intel® Movidius Myriad X Vision Processing Unit (VPU) can be added to a server to provide a dedicated neural compute engine for accelerating deep learning inferencing at the edge. To take advantage of the performance of the neural compute engine, Intel® has developed the high-density deep learning (HDDL) inference engine plugin for inference of neural networks.
 
-In the current example when the HDDL is enabled on the platform, the OpenVINO toolkit sample application reduces its CPU requirements from two cores to a single core. 
+In the current example when the HDDL is enabled on the platform, the OpenVINO™ toolkit sample application reduces its CPU requirements from two cores to a single core. 
 
-Note in future releases additional media analytics services will be enabled e.g VCAC-A card see for more info [OpenNESS VA Services](../applications/openness_va_services.md) 
+Note, in future releases additional media analytics services will be enabled e.g VCAC-A card, for more information refer to [OpenNESS VA Services](../applications/openness_va_services.md) 
 
 <b>Intel® FPGA PAC N3000</b>  
 The Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) plays a key role in accelerating certain types of workloads, which in turn increases the overall compute capacity of a commercial, off-the-shelf platform. FPGA benefits include:
@@ -187,17 +187,17 @@ The Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) plays a key r
 
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
-For more references see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
 
 <b>Intel® QAT</b>  
 The Intel® QuickAssist Adapter provides customers with a scalable, flexible, and extendable way to offer Intel® QuickAssist Technology (Intel® QAT) crypto acceleration and compression capabilities to their existing product lines. Intel® QuickAssist Technology (Intel® QAT) provides hardware acceleration to assist with the performance demands of securing and routing Internet traffic and other workloads, such as compression and wireless 4G LTE and 5G gnb algorithm offload, thereby reserving processor cycles for application and control processing.
 
 
-### CERA On Prem OpenNESS deployment
+### CERA On Prem OpenNESS Deployment
 
-#### Setting up target platform before deployment
+#### Setting up Target Platform Before Deployment
 
-Steps to be performed on the target machine before deployment
+Perform the following steps on the target machine before deployment:
 
 1. Ensure that, the target machine gets IP address automatically on boot every time.  
 Example command:  
@@ -216,20 +216,20 @@ There are two possibilities to change BIOS settings. The most important paramete
 * Enable Intel® Virtualization Technology for Directed I/O
 * Enable SR-IOV Support
 
-#### Manual setup
+#### Manual Setup
 Reboot platform, go to the BIOS setup during server boot process and set correct options.
 
-#### Setup through the CERA deployment
+#### Setup through CERA Deployment
 Due to platform requirements and hardware limitations it's not possible to set or validate BIOS settings during automatic deployment. All BIOS settings must be set manually.
 
-### Setting up machine with Ansible
+### Setting up Machine with Ansible
 
 #### Steps to be performed on the machine, where the Ansible playbook is going to be run
 
 1. Copy SSH key from machine, where the Ansible playbook is going to be run, to the target machine. Example commands:
     > NOTE: Generate ssh key if is not present on the machine: `ssh-keygen -t rsa` (Press enter key to apply default values)
 
-    Do it for each target machine
+    Do it for each target machine.
     ```shell
     ssh-copy-id root@TARGET_IP
     ```
@@ -273,7 +273,7 @@ Example:
     ```yaml
     git_repo_token: "your git token"
     ```
-    Proxy if is required.
+    Proxy if it is required.
     ```yaml
     # Setup proxy on the machine - required if the Internet is accessible via proxy
     proxy_enable: true
@@ -350,11 +350,11 @@ Example:
     ptp_port_cidr: "24"
     ```
 
-9. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running following command:
+9. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running the following command:
     ```shell
     ./deploy_openness_for_cera.sh 
     ```
-    It might take few hours.
+    Note: This might take few hours.
 
 10. After successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory.ini`, change IP address to `CERA 5G CN` server.
     ```ini
@@ -379,10 +379,10 @@ Example:
     ssh-keygen -t rsa
     # Press enter key to apply default values
     ```
-12. Now full setup is ready for CERA deployment.
+12. The full setup is now ready for CERA deployment.
 
 ### CERA On Premise Experience Kit Deployment
-For CERA deployment some prerequisites have to be fulfilled. 
+The following prerequisites should be met for CERA deployment.
 
 1. CentOS should use kernel and have no newer kernels installed:
     *  `3.10.0-1127.19.1.rt56.1116.el7.x86_64` on Near Edge server.
@@ -518,10 +518,10 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 
 ##### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly, it is required to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ##### Settings
-Following variables need to be defined in `cera_config.yaml`
+The following variables need to be defined in `cera_config.yaml`
 ```yaml
 n3_pci_bus_address: "" - PCI bus address of VF, which is used for N3 interface by dUPF
 n4_n9_pci_bus_address: "" - PCI bus address of VF, which is used for N4 and N9 interface by dUPF
@@ -545,11 +545,11 @@ The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. 
 #### Deployment
 ##### Prerequisites
 
-To deploy `UPF` correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_cn). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy `UPF` correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_cn). There is a script on the  `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ##### Settings
 
-Following variables need to be defined in the `cera_config.yaml`
+The following variables need to be defined in the `cera_config.yaml`
 ```yaml
 PCI_bus_address_N4_N9: "" - PCI bus address of VF, which is used for N4 and N9 interface by UPF
 PCI_bus_address_N6: "" - PCI bus address of VF, which is used for N6 interface by UPF
@@ -572,7 +572,7 @@ The CERA `AMF-SMF` component is deployed on `CERA 5G Core Network (cera_5g_cn)` 
 #### Deployment
 ##### Prerequisites
 
-To deploy `AMF-SMF` correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_cn). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/AMF-SMF` repo provided by CERA, which builds the image automatically.
+To deploy `AMF-SMF` correctly, it is required to provide a Docker image to Docker Repository on target machine(cera_5g_cn). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/AMF-SMF` repository provided by CERA, which builds the image automatically.
 
 ##### Settings
 
@@ -606,7 +606,7 @@ Deployment of Local-DN is completely automated, so there is no need to set or co
 ### OpenVINO
 
 #### Settings
-In the `cera_config.yaml` file can be chosen which application should be built and deploy. Set a proper value for the deploy_app variable.
+In the `cera_config.yaml` file can be chosen for which application should be built and deployed. Set a proper value for the deploy_app variable.
 ```yaml
 deploy_app: "" - Type openvino if OpenVINO demo should be launched.
 ```
@@ -626,7 +626,7 @@ kubectl -n openvino get pods -o wide
 Immediately after creating, the ov-openvino pod will wait for input streaming. If streaming is not available, ov-openvino pod will restart after some time. After this restart, this pod will wait for streaming again.
 
 #### Streaming
-Video to OpenVINO pod should be streamed to IP `192.168.1.101` and port `5000`. Make sure that the pod with OpenVINO is visible from yours streaming machine. In the simplest case, the video can be streamed from the same machine where pod with OpenVINO is available.
+Video to OpenVINO™ pod should be streamed to IP `192.168.1.101` and port `5000`. Make sure that the pod with OpenVINO™ is visible from your streaming machine. In the simplest case, the video can be streamed from the same machine where pod with OpenVINO™ is available.
 
 Output will be saved to the `saved_video/ov-output.mjpeg` file (`save_video` variable in the `host_vars/cera_5g_ne.yml` should be set to `"enable"` and should be not changed).
 
@@ -646,10 +646,10 @@ Where:
     wget https://storage.googleapis.com/coverr-main/zip/Rainy_Street.zip
     ```
 
-The OpenVINO demo, saves its output to saved_video/ov-output.mjpeg file on the cera_5g_cn machine.
+The OpenVINO™ demo, saves its output to saved_video/ov-output.mjpeg file on the cera_5g_cn machine.
 
-- To stop the OpenVINO demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
-- To start the OpenVINO demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
+- To stop the OpenVINO™ demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
+- To start the OpenVINO™ demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
 
 ### EIS
 Deployment of EIS is completely automated, so there is no need to set or configure anything except providing release package archive.
@@ -668,11 +668,11 @@ For more details about `eis-experience-kit` check [README.md](https://github.com
 #### Deployment
 #### Prerequisites
 
-To deploy `gNodeB` correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/ran/5G/gnb` repo provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card.
+To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card.
 
 #### Settings
 
-Following variables need to be defined in `cera_config.yaml`
+The following variables need to be defined in `cera_config.yaml`
 ```yaml
 ## gNodeB related config
 # Fronthaul require two VFs
@@ -806,7 +806,7 @@ Important settings:
 - Slave only: FALSE
 
 ## Conclusion
-CERA On Prem deployment provide a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the On Prem Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
+CERA On Prem deployment provides a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the On Prem Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
 
 ## Learn more
 * [Building on NFVI foundation from Core to Cloud to Edge with Intel® Architecture](https://networkbuilders.intel.com/social-hub/video/building-on-nfvi-foundation-from-core-to-cloud-to-edge-with-intel-architecture)
@@ -822,24 +822,24 @@ CERA On Prem deployment provide a reference implementation on how to use OpenNES
 | CERA        | Converged Edge Reference Architecture                         |
 | CN          | Core Network                                                  |
 | CNF         | Container Network Function                                    |
-| CommSPs     | Communications service providers                              |
+| CommSPs     | Communications Service Providers                              |
 | DPDK        | Data Plane Developer Kit                                      |
 | eNB         | e-NodeB                                                       |
 | EPA         | Enhance Platform Awareness                                    |
 | EPC         | Extended Packet Core                                          |
-| FPGA        | Field programmable gate array                                 |
+| FPGA        | Field Programmable Gate Array                                 |
 | GMC         | Grand Master Clock                                            |
 | IPSEC       | Internet Protocol Security                                    |
-| MEC         | Multi-access edge computing                                   |
+| MEC         | Multi-Access Edge Computing                                   |
 | OpenNESS    | Open Network Edge Services Software                           |
-| OpenVINO    | Open visual inference and neural network optimization         |
+| OpenVINO    | Open Visual Inference and Neural Network Optimization         |
 | OpenVX      | Open Vision Acceleration                                      |
 | OVS         | Open Virtual Switch                                           |
-| PF          | Physical function                                             |
+| PF          | Physical Function                                             |
 | RAN         | Radio Access Network                                          |
 | PTP         | Precision Time Protocol                                       |
-| SD-WAN      | Software defined wide area network                            |
-| uCPE        | Universal customer premises equipment                         |
+| SD-WAN      | Software Defined Wide Area Network                            |
+| uCPE        | Universal Customer Premises Equipment                         |
 | UE          | User Equipment                                                |
 | VF          | Virtual function                                              |
 | VM          | Virtual Machine                                               |
