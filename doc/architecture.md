@@ -4,46 +4,46 @@ Copyright (c) 2019-2020 Intel Corporation
 ```
 
 <!-- omit in toc -->
-
 # OpenNESS Architecture and Solution Overview
 
-- [OpenNESS Architecture and Solution Overview](#openness-architecture-and-solution-overview)
-  - [Architecture Overview](#architecture-overview)
-    - [Logical](#logical)
-    - [Architecture](#architecture)
-      - [OpenNESS Kubernetes Control Plane](#openness-kubernetes-control-plane)
-      - [OpenNESS Edge Node](#openness-edge-node)
-  - [Building Blocks, Kubernetes Extensions, and Enhancements](#building-blocks-kubernetes-extensions-and-enhancements)
-    - [Multi-Access Networking](#multi-access-networking)
-    - [Edge Multi-Cluster Orchestration](#edge-multi-cluster-orchestration)
-    - [Resource Management](#resource-management)
-      - [Resource Identification](#resource-identification)
-      - [Resource Allocation](#resource-allocation)
-      - [Resource Monitoring](#resource-monitoring)
-    - [Accelerators](#accelerators)
-    - [Dataplane/Container Network Interfaces](#dataplanecontainer-network-interfaces)
-    - [Edge Aware Service Mesh](#edge-aware-service-mesh)
-    - [Telemetry and Monitoring](#telemetry-and-monitoring)
-    - [Edge Services](#edge-services)
-    - [Software Development Kits](#software-development-kits)
-  - [Converged Edge Reference Architecture](#converged-edge-reference-architecture)
-    - [CERA Minimal Flavor](#cera-minimal-flavor)
-    - [CERA Access Edge Flavor](#cera-access-edge-flavor)
-    - [CERA Near Edge Flavor](#cera-near-edge-flavor)
-    - [CERA SD-WAN Edge Flavor](#cera-sd-wan-edge-flavor)
-    - [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
-    - [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
-    - [CERA Media Analytics Flavor](#cera-media-analytics-flavor)
-    - [CERA CDN Transcode Flavor](#cera-cdn-transcode-flavor)
-    - [CERA CDN Caching Flavor](#cera-cdn-caching-flavor)
-    - [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
-    - [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
-    - [CERA for Untrusted Non-3GPP Access Flavor](#cera-for-untrusted-non-3gpp-access-flavor)
-  - [Reference Edge Apps and Network Functions](#reference-edge-apps-and-network-functions)
-  - [OpenNESS Optimized Commercial Applications](#openness-optimized-commercial-applications)
-    - [OpenNESS DevKit for Microsoft Azure](#openness-devkit-for-microsoft-azure)
-  - [Other References](#other-references)
-  - [List of Abbreviations](#list-of-abbreviations)
+- [Architecture Overview](#architecture-overview)
+  - [Logical](#logical)
+  - [Architecture](#architecture)
+    - [OpenNESS Kubernetes Control Plane](#openness-kubernetes-control-plane)
+    - [OpenNESS Edge Node](#openness-edge-node)
+- [Building Blocks, Kubernetes Extensions, and Enhancements](#building-blocks-kubernetes-extensions-and-enhancements)
+  - [Multi-Access Networking](#multi-access-networking)
+  - [Edge Multi-Cluster Orchestration](#edge-multi-cluster-orchestration)
+  - [Resource Management](#resource-management)
+    - [Resource Identification](#resource-identification)
+    - [Resource Allocation](#resource-allocation)
+    - [Resource Monitoring](#resource-monitoring)
+  - [Accelerators](#accelerators)
+  - [Dataplane/Container Network Interfaces](#dataplanecontainer-network-interfaces)
+  - [Edge Aware Service Mesh](#edge-aware-service-mesh)
+  - [Telemetry and Monitoring](#telemetry-and-monitoring)
+  - [Edge Services](#edge-services)
+  - [Software Development Kits](#software-development-kits)
+- [Converged Edge Reference Architecture](#converged-edge-reference-architecture)
+  - [CERA Minimal Flavor](#cera-minimal-flavor)
+  - [CERA Access Edge Flavor](#cera-access-edge-flavor)
+  - [CERA Near Edge Flavor](#cera-near-edge-flavor)
+  - [CERA On Prem Edge and Private Wireless](#cera-on-prem-edge-and-private-wireless)
+  - [CERA 5G On Premise](#cera-5g-on-premise)
+  - [CERA SD-WAN Edge Flavor](#cera-sd-wan-edge-flavor)
+  - [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
+  - [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
+  - [CERA Media Analytics Flavor](#cera-media-analytics-flavor)
+  - [CERA CDN Transcode Flavor](#cera-cdn-transcode-flavor)
+  - [CERA CDN Caching Flavor](#cera-cdn-caching-flavor)
+  - [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
+  - [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
+  - [CERA for Untrusted Non-3GPP Access Flavor](#cera-for-untrusted-non-3gpp-access-flavor)
+- [Reference Edge Apps and Network Functions](#reference-edge-apps-and-network-functions)
+- [OpenNESS Optimized Commercial Applications](#openness-optimized-commercial-applications)
+  - [OpenNESS DevKit for Microsoft Azure](#openness-devkit-for-microsoft-azure)
+- [Other References](#other-references)
+- [List of Abbreviations](#list-of-abbreviations)
 
 
 ## Architecture Overview 
@@ -253,6 +253,12 @@ Link: [CERA Near Edge Overview](https://github.com/otcshare/x-specs/blob/master/
 CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. 
 
 Link: [CERA On Prem Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
+
+### CERA 5G On Premise
+
+CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge.
+
+Link: [CERA 5G On Premise](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
 
 ### CERA SD-WAN Edge Flavor
 
