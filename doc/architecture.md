@@ -236,11 +236,21 @@ This flavor supports the installation of the minimal set of components from Open
 
 This flavor typically refers to RAN Distributed Unit (O-DU) and Centralized Unit (O-CU) 4G/5G nodes deployed on the access edge. In some cases, DU may be integrated into the radio. The example RAN deployment flavor uses FlexRAN as a reference DU. 
 
-Link: [CERA Access Edge Overview](reference-architectures/ran/openness_ran.md)
+Link: [CERA Access Edge Overview](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_ran.md)
+
+Link: [ORAN Fronthaul](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_xran.md) 
 
 ### CERA Near Edge Flavor
 
 CERA Near Edge Flavor provides reference for edge deployments at aggregation points, mini central office and presents a scalable solution across the near edge network scaling from a single edge node to a multi cluster deployment services many edge nodes. The reference solution will used for deployments for example involving edge node with Core User plane function and Applications an services. 
+
+Link: [CERA Near Edge Overview](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md)
+
+### CERA On Prem Edge and Private Wireless
+
+CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. 
+
+Link: [CERA On Prem Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
 
 ### CERA SD-WAN Edge Flavor
 
@@ -249,6 +259,8 @@ CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancem
 ### CERA SD-WAN Hub Flavor
 
 CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs SD-WAN CNF. 
+
+Link: [CERA SD-WAN](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/openness_sdwan.md)
 
 ### CERA Media Analytics Flavor with VCAC-A
 
