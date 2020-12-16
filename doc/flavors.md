@@ -14,7 +14,9 @@ This document introduces the supported deployment flavors that are deployable th
 - [CDN Caching Flavor](#cdn-caching-flavor)
 - [Core Control Plane Flavor](#core-control-plane-flavor)
 - [Core User Plane Flavor](#core-user-plane-flavor)
-- [Non3gpp Access Flavor](#non3gpp-access-flavor)
+- [Untrusted Non3gpp Access Flavor](#untrusted-non3gpp-access-flavor)
+- [CERA Near Edge Flavor](#cera-near-edge-flavor)
+- [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
 
 ## Minimal Flavor
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
@@ -31,7 +33,7 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `kube-ovn`
 * Telemetry
 
-## FlexRAN Flavor 
+## FlexRAN Flavor
 The pre-defined *flexran* deployment flavor provisions an optimized system configuration for vRAN workloads on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
@@ -76,7 +78,7 @@ Following parameters in the flavor/all.yaml can be customize for Istio deploymen
 # Istio deployment profile possible values: default, demo, minimal, remote
 istio_deployment_profile: "default"
 
-# Kiali 
+# Kiali
 istio_kiali_username: "admin"
 istio_kiali_password: "{{ lookup('password', '/dev/null length=16') }}"
 istio_kiali_nodeport: 30001
@@ -116,7 +118,7 @@ The following are steps to install this flavor:
     silpixa00400194
     ```
 
-    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group. 
+    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group.
 
 3. Run the OEK deployment script:
     ```shell
@@ -134,7 +136,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CDN Transcode Flavor
-The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms. 
+The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
@@ -149,7 +151,7 @@ This deployment flavor enables the following ingredients:
 * Telemetry
 
 ## CDN Caching Flavor
-The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms. 
+The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
@@ -166,7 +168,7 @@ This deployment flavor enables the following ingredients:
 
 ## Core Control Plane Flavor
 
-The pre-defined Core Control Plane flavor provisions the minimal set of configurations for 5G Control Plane Network Functions on Intel® Xeon® platforms. 
+The pre-defined Core Control Plane flavor provisions the minimal set of configurations for 5G Control Plane Network Functions on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 
@@ -217,10 +219,9 @@ This deployment flavor enables the following ingredients:
 
 > **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
 
+## Untrusted Non3gpp Access Flavor
 
-## Non3gpp Access Flavor
-
-The pre-defined Non3pp Access flavor provisions the minimal set of configurations for a 5G Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
+The pre-defined Untrusted Non3pp Access flavor provisions the minimal set of configurations for a 5G Untrusted Non3gpp Access Network Functions like Non3GPP Interworking Function(N3IWF) on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
 
@@ -229,7 +230,7 @@ The following are steps to install this flavor:
 2. Run the x-OEK deployment script:
 
    ```bash
-   $ ido-openness-experience-kits# deploy_ne.sh -f non3gpp-access
+   $ ido-openness-experience-kits# deploy_ne.sh -f untrusted-non3pp-access
    ```
 
 This deployment flavor enables the following ingredients:
@@ -239,3 +240,53 @@ This deployment flavor enables the following ingredients:
 - Kubernetes Device Plugin
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 10G for the nodes
+
+## CERA Near Edge Flavor
+
+The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
+
+The following are steps to install this flavor:
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
+
+2. Run the x-OEK for CERA deployment script:
+   ```shell
+   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
+   ```
+
+This deployment flavor enables the following ingredients:
+
+- Kubernetes CNI: kube-ovn and SRIOV.
+- SR-IOV support for kube-virt
+- Virtual Functions
+- CPU Manager for Kubernetes (CMK) with 16 exclusive cores and 1 core in shared pool.
+- Kubernetes Device Plugin
+- BIOSFW feature
+- Telemetry
+- HugePages of size 1Gi and the amount of HugePages as 8G for the nodes
+- RMD operator
+
+## CERA 5G On-Prem Flavor
+
+The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for On Premises deployments on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
+
+The following are steps to install this flavor:
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
+
+2. Run the x-OEK for CERA deployment script:
+   ```shell
+   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
+
+This deployment flavor enables the following ingredients:
+
+- Kubernetes CNI: Calico and SRIOV.
+- SRIOV device plugin with FPGA configuration
+- Virtual Functions
+- FPGA remote system update through OPAE
+- FPGA configuration
+- RT Kernel
+- Topology Manager
+- Kubernetes Device Plugin
+- BIOSFW feature
+- Telemetry
+- HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
+- RMD operator
