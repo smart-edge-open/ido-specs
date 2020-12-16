@@ -204,6 +204,8 @@ Hardware Telemetry support:
 
 OpenNESS also supports a reference application of using telemetry to take actions using Kubernetes APIs. This reference is provided to the Telemetry Aware Scheduler project. 
 
+Link: [Telemetry](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md)
+
 ### Edge Services 
 
 These building blocks are included as part of System pods.
