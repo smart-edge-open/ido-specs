@@ -3,28 +3,28 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
-# Converged Edge Reference Architecture On Premises Edge
-Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
+# Converged Edge Reference Architecture 5G On Premises Edge
+The Converged Edge Reference Architectures (CERA) are a set of pre-integrated HW/SW reference architectures based on OpenNESS to accelerate the development of edge platforms and architectures. This document describes the CERA 5G On Premises Edge, which combines wireless networking and high performance compute for IoT, AI, video and other services.
 
 - [CERA 5G On Prem](#cera-5g-on-prem)
-  - [CERA On Prem Experience Kit](#cera-on-prem-experience-kit)
-    - [CERA On Prem OpenNESS Configuration](#cera-on-Prem-openness-configuration)
-    - [CERA On Prem Deployment Architecture](#cera-on-prem-deployment-architecture)
-    - [CERA On Prem Experience Kit Deployments](#cera-on-prem-experience-kit-deployments)
-  - [Edge service applications supported on CERA On Prem](#edge-service-applications-supported-on-cera-on-prem)
+  - [CERA 5G On Prem Experience Kit](#cera-on-prem-experience-kit)
+    - [CERA 5G On Prem OpenNESS Configuration](#cera-on-Prem-openness-configuration)
+    - [CERA 5G On Prem Deployment Architecture](#cera-on-prem-deployment-architecture)
+    - [CERA 5G On Prem Experience Kit Deployments](#cera-on-prem-experience-kit-deployments)
+  - [Edge service applications supported on CERA 5G On Prem](#edge-service-applications-supported-on-cera-on-prem)
     - [OpenVINO](#openvino)
     - [Edge Insights Software](#edge-insights-software)
-  - [CERA On Prem hardware platform](#cera-on-prem-hardware-platform)
+  - [CERA 5G On Prem hardware platform](#cera-on-prem-hardware-platform)
     - [Hardware acceleration](#hardware-acceleration)
   - [Data Flow](#data-flow)
-  - [CERA On Prem OpenNESS deployment](#cera-on-prem-openness-deployment)
+  - [CERA 5G On Prem OpenNESS deployment](#cera-on-prem-openness-deployment)
     - [Setting up target platform before deployment](#setting-up-target-platform-before-deployment)
   - [BIOS Setup](#bios-setup)
     - [Manual setup](#manual-setup)
     - [Setup through CERA deployment](#setup-through-cera-deployment)
   - [Setting up machine with Ansible](#setting-up-machine-with-ansible)
     - [Steps to be performed on the machine, where the Ansible playbook is going to be run](#steps-to-be-performed-on-the-machine-where-the-ansible-playbook-is-going-to-be-run)
-  - [CERA On Prem Experience Kit Deployment](#cera-on-prem-experience-kit-deployment)
+  - [CERA 5G On Prem Experience Kit Deployment](#cera-on-prem-experience-kit-deployment)
 - [5G Core Components](#5g-core-components)
   - [dUPF](#dupf)
     - [Overview](#overview)
@@ -73,29 +73,29 @@ Reference architecture combines wireless and high performance compute for IoT, A
 - [Acronyms](#acronyms)
 
 ## CERA 5G On Prem
-CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. The assumed 3GPP deployment architecture is based on the figure below from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) are deployed on the CERA On Prem. 
+CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises Edge. The assumed 3GPP deployment architecture is based on the figure below from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) are deployed on the CERA 5G On Prem. 
 
 ![3GPP Network](cera-on-prem-images/3gpp_on_prem.png)
 
 > Figure 1 - 3GPP Network
 
-### CERA On Prem Experience Kit
-To provide maximum flexibility, the first CERA On Prem implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (gNB, UPF) and Applications at the same time. This is also useful for demonstration purposes as the On Prem deployment can be scaled down to a single server reducing HW and cost associated with setup. 
+### CERA 5G On Prem Experience Kit
+The CERA 5G On Prem implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (gNB, UPF) and Applications at the same time. This allows the deployment on small uCPE and pole mounted form factors.
 
-#### CERA On Prem OpenNESS Configuration 
-CERA On Prem is a combination of the existing OpenNESS Reference Architecture [CERA NGC](../flavors.md#core-control-plane-flavor), [CERA UPF](../flavors.md#core-user-plane-flavor), [CERA Apps](../flavors.md#minimal-flavor). CERA On Prem takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA On Prem also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
+#### CERA 5G On Prem OpenNESS Configuration 
+CERA 5G On Prem is a combination of the existing OpenNESS Building Blocks required to run 5G gNB, UPF, Applications and their associated HW Accelerators. CERA 5G On Prem also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS Building Blocks. 
 
-![CERA On Prem Architecture](cera-on-prem-images/cera-on-prem-arch.png)
+![CERA 5G On Prem Architecture](cera-on-prem-images/cera-on-prem-arch.png)
 
-> Figure 2 - CERA On Prem Architecture
+> Figure 2 - CERA 5G On Prem Architecture
 
-#### CERA On Prem Deployment Architecture
+#### CERA 5G On Prem Deployment Architecture
 
-![CERA On Prem Deployment](cera-on-prem-images/cera_deployment.png)
+![CERA 5G On Prem Deployment](cera-on-prem-images/cera_deployment.png)
 
-> Figure 3 - CERA On Prem Deployment
+> Figure 3 - CERA 5G On Prem Deployment
 
-The CERA On Prem architecture supports a single platform (Xeon® SP and Xeon-D) that hosts both the Edge Node and the Kubernetes* Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads like UPF network function, it is recommended to use single root input/output (SR-IOV) pass through the physical function (PF) or the virtual function (VF), as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another, as there is a direct path of communication required between the UPF and the Data plane, this becomes an option. It should be noted that the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario, it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case, there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications, similarly gNB DU and CU interfaces N2 and N4 are separated. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
+The CERA 5G On Prem architecture supports a single platform (Xeon® SP and Xeon-D) that hosts both the Edge Node and the Kubernetes* Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads such as UPF network function, it is recommended to use single root input/output (SR-IOV) pass-through the physical function (PF) or the virtual function (VF), as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another, as there is a direct path of communication required between the UPF and the Data plane, this becomes an option. It should be noted that the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario, it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case, there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications, similarly gNB DU and CU interfaces N2 and N4 are separated. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
 
 The applications are deployed on the same edge node as the UPF and gNB.
 
@@ -103,15 +103,11 @@ The use of Intel® Resource Director Technology (Intel® RDT) ensures that the c
 
 Intel® Speed Select Technology (Intel® SST) can be used to further enhance the performance of the platform.
 
-The following EPA features are supported in OpenNESS
+The following Building Blocks are supported in OpenNESS
 
 - <b>High-Density Deep Learning (HDDL)</b>: Software that enables OpenVINO™-based AI apps to run on Intel® Movidius Vision Processing Units (VPUs). It consists of the following components:
   - HDDL device plugin for K8s
   - HDDL service for scheduling jobs on VPUs
-- <b>Visual Compute Acceleration - Analytics (VCAC-A)</b>: Software that enables OpenVINO™-based AI apps and media apps to run on Intel® Visual Compute Accelerator Cards (Intel® VCA Cards). It is composed of the following components: 
-  - VPU device plugin for K8s
-  - HDDL service for scheduling jobs on VPU
-  - GPU device plugin for K8s
 - <b>FPGA/eASIC/NIC</b>: Software that enables AI inferencing for applications, high-performance and low-latency packet pre-processing on network cards, and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC). It consists of: 
   - FPGA device plugin for inferencing
   - SR-IOV device plugin for FPGA/eASIC
@@ -120,21 +116,21 @@ The following EPA features are supported in OpenNESS
 - <b>Node Feature Discovery (NFD)</b>: Software that enables node feature discovery for Kubernetes*. It detects hardware features available on each node in a Kubernetes* cluster and advertises those features using node labels. 
 - <b>Topology Manager</b>: This component allows users to align their CPU and peripheral device allocations by NUMA node.
 - <b>Kubevirt</b>: Provides support for running legacy applications in VM mode and the allocation of SR-IOV ethernet interfaces to VMs. 
-- <b>Precision Time Protocol (PTP)</b>: Uses primary-secondary architecture for time synchronization between machines connected through ETH. The primary clock is a reference clock for the secondary nodes that adapt their clocks to the primary node's clock. GMC can be used to precisely set primary clock.
+- <b>Precision Time Protocol (PTP)</b>: Uses primary-secondary architecture for time synchronization between machines connected through ETH. The primary clock is a reference clock for the secondary nodes that adapt their clocks to the primary node's clock. Grand Master Clock (GMC) can be used to precisely set primary clock.
 
-#### CERA On Prem Experience Kit Deployments
-The CERA On Prem experience kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposes. Note that the Access network and UE are not configured as part of the CERA On Prem Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® representative for more information. 
+#### CERA 5G On Prem Experience Kit Deployments
+The CERA 5G On Prem experience kits deploys both the 5G On Premises cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposes. Note that the Access network and UE are not configured as part of the CERA 5G On Prem Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® representative for more information. 
 
 ![CERA Experience Kit](cera-on-prem-images/cera-full-setup.png)
 
 > Figure 4 - CERA Experience Kit
 
-### Edge Service Applications Supported on CERA On Prem
+### Edge Service Applications Supported on CERA 5G On Prem
 The CERA architectural paradigm enables convergence of edge services and applications across different market segments. This is demonstrated by taking diverse workloads native to different segments and successfully integrating within a common platform. The reference considers workloads segments across the following applications:
 
 Security: Capture of video and facilitating facial recognition to identified bonafide individuals to determine access to a security perimeter.
 
-Smart city: Capture of live camera streams to monitor and measure both pedestrian and vehicle movement within a zone.
+Smart city: Capture of live camera streams to monitor and measure pedestrian and vehicle movement within a zone.
 
 Industrial: Monitoring of the manufacturing quality of an industrial line, the capture of video streams focuses on manufactured devices on an assembly line and the real-time removal of identified defect parts.
 
@@ -161,7 +157,7 @@ Edge computing software deployments occupy a middle layer between the operating 
 
 For more information on the supported EIS demos support, see [EIS whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
 
-### CERA On Prem Hardware Platform
+### CERA 5G On Prem Hardware Platform
 CERA 5G On Prem is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Dedicated platform is [Single socket SP SYS-E403-9P-FN2T](https://www.supermicro.com/en/products/system/Box_PC/SYS-E403-9P-FN2T.cfm)
 
 
@@ -193,7 +189,7 @@ For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource al
 The Intel® QuickAssist Adapter provides customers with a scalable, flexible, and extendable way to offer Intel® QuickAssist Technology (Intel® QAT) crypto acceleration and compression capabilities to their existing product lines. Intel® QuickAssist Technology (Intel® QAT) provides hardware acceleration to assist with the performance demands of securing and routing Internet traffic and other workloads, such as compression and wireless 4G LTE and 5G gnb algorithm offload, thereby reserving processor cycles for application and control processing.
 
 
-### CERA On Prem OpenNESS Deployment
+### CERA 5G On Prem OpenNESS Deployment
 
 #### Setting up Target Platform Before Deployment
 
@@ -210,17 +206,11 @@ Example command:
 3. Reboot the target machine.
 
 ### BIOS Setup
-There are two possibilities to change BIOS settings. The most important parameters to be set are:
+The BIOS settings on the edge node must be properly set in order for the OpenNESS building blocks to function correctly. They may be set either during deployment of the reference architecture, or manually. The settings that must be set are:
 * Enable Intel® Hyper-Threading Technology
 * Enable Intel® Virtualization Technology
 * Enable Intel® Virtualization Technology for Directed I/O
 * Enable SR-IOV Support
-
-#### Manual Setup
-Reboot platform, go to the BIOS setup during server boot process and set correct options.
-
-#### Setup through CERA Deployment
-Due to platform requirements and hardware limitations it's not possible to set or validate BIOS settings during automatic deployment. All BIOS settings must be set manually.
 
 ### Setting up Machine with Ansible
 
@@ -381,7 +371,7 @@ Example:
     ```
 12. The full setup is now ready for CERA deployment.
 
-### CERA On Premise Experience Kit Deployment
+### CERA 5G On Premise Experience Kit Deployment
 The following prerequisites should be met for CERA deployment.
 
 1. CentOS should use kernel and have no newer kernels installed:
@@ -806,7 +796,7 @@ Important settings:
 - Slave only: FALSE
 
 ## Conclusion
-CERA On Prem deployment provides a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the On Prem Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
+CERA 5G On Prem deployment provides a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the On Prem Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
 
 ## Learn more
 * [Building on NFVI foundation from Core to Cloud to Edge with Intel® Architecture](https://networkbuilders.intel.com/social-hub/video/building-on-nfvi-foundation-from-core-to-cloud-to-edge-with-intel-architecture)
