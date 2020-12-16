@@ -102,6 +102,9 @@ In order to use Certificate Requester the following Kubernetes entities needs to
          labels:
            app: service
        spec:
+         securityContext:
+           runAsUser: 1000
+           runAsGroup: 3000
          serviceAccountName: service-acc
          initContainers:
            - name: alpine
@@ -109,6 +112,9 @@ In order to use Certificate Requester the following Kubernetes entities needs to
              command: ["/bin/sh"]
              args: ["-c", "cp /root/ca-certrequester/cert.pem /root/certs/root.pem"]
              imagePullPolicy: IfNotPresent
+             securityContext:
+               runAsUser: 0
+               runAsGroup: 0
              resources:
                requests:
                  cpu: "0.1"
@@ -122,9 +128,8 @@ In order to use Certificate Requester the following Kubernetes entities needs to
                  mountPath: /root/certs
            - name: certrequester
              image: certrequester:1.0
-             imagePullPolicy: Never
              args: ["--cfg", "/home/certrequester/config/certrequest.json"]
-             imagePullPolicy: IfNotPresent
+             imagePullPolicy: Never
              resources:
                requests:
                  cpu: "0.1"

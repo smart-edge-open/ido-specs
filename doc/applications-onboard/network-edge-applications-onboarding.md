@@ -208,6 +208,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          labels:
            app: producer
        spec:
+         securityContext:
+           runAsUser: 1000
+           runAsGroup: 3000
          serviceAccountName: producer
          initContainers:
            - name: alpine
@@ -215,6 +218,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
              command: ["/bin/sh"]
              args: ["-c", "cp /root/ca-certrequester/cert.pem /root/certs/root.pem"]
              imagePullPolicy: IfNotPresent
+             securityContext:
+               runAsUser: 0
+               runAsGroup: 0
              resources:
                requests:
                  cpu: "0.1"
@@ -228,9 +234,8 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
                  mountPath: /root/certs
            - name: certrequester
              image: certrequester:1.0
-             imagePullPolicy: Never
              args: ["--cfg", "/home/certrequester/config/certrequest.json"]
-             imagePullPolicy: IfNotPresent
+             imagePullPolicy: Never
              resources:
                requests:
                  cpu: "0.1"
@@ -350,6 +355,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          labels:
            app: consumer
        spec:
+         securityContext:
+           runAsUser: 1000
+           runAsGroup: 3000
          serviceAccountName: consumer
          initContainers:
            - name: alpine
@@ -357,6 +365,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
              command: ["/bin/sh"]
              args: ["-c", "cp /root/ca-certrequester/cert.pem /root/certs/root.pem"]
              imagePullPolicy: IfNotPresent
+             securityContext:
+               runAsUser: 0
+               runAsGroup: 0
              resources:
                requests:
                  cpu: "0.1"
@@ -370,9 +381,8 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
                  mountPath: /root/certs
            - name: certrequester
              image: certrequester:1.0
-             imagePullPolicy: Never
              args: ["--cfg", "/home/certrequester/config/certrequest.json"]
-             imagePullPolicy: IfNotPresent
+             imagePullPolicy: Never
              resources:
                requests:
                  cpu: "0.1"
