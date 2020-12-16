@@ -147,14 +147,14 @@ Link: [Enhanced Platform Awareness: Documents covering Accelerators and Resource
 
 OpenNESS supports the following accelerator microservices.
 
-- <b>High-Density Deep Learning (HDDL)</b>: Software that enables OpenVINO™-based AI apps to run on Intel® Movidius™ Vision Processing Units (VPUs). It consists of the following components:
+- **High-Density Deep Learning (HDDL)**: Software that enables OpenVINO™-based AI apps to run on Intel® Movidius™ Vision Processing Units (VPUs). It consists of the following components:
   - HDDL device plugin for K8s
   - HDDL service for scheduling jobs on VPUs
-- <b>Visual Compute Acceleration - Analytics (VCAC-A)</b>: Software that enables OpenVINO™-based AI apps and media apps to run on Intel® Visual Compute Accelerator Cards (Intel® VCA Cards). It is composed of the following components: 
+- **Visual Compute Acceleration - Analytics (VCAC-A)**: Software that enables OpenVINO™-based AI apps and media apps to run on Intel® Visual Compute Accelerator Cards (Intel® VCA Cards). It is composed of the following components: 
   - VPU device plugin for K8s
   - HDDL service for scheduling jobs on VPU
   - GPU device plugin for K8s
-- <b>FPGA/eASIC/NIC</b>: Software that enables AI inferencing for applications, high-performance and low-latency packet pre-processing on network cards, and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC). It consists of: 
+- **FPGA/eASIC/NIC**: Software that enables AI inferencing for applications, high-performance and low-latency packet pre-processing on network cards, and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC). It consists of: 
   - FPGA device plugin for inferencing
   - SR-IOV device plugin for FPGA/eASIC
   - Dynamic Device Profile for Network Interface Cards (NIC) 
@@ -170,13 +170,13 @@ Container networking support in OpenNESS addresses the following:
 
 OpenNESS supports the following CNIs:
 
-- <b>SRIOV CNI</b>: works with the SR-IOV device plugin for VF allocation for a container. 
-- <b>User Space CNI</b>: designed to implement userspace networking (as opposed to kernel space networking). 
-- <b>Bond CNI</b>: provides a method for aggregating multiple network interfaces into a single logical "bonded" interface.
-- <b>Multus CNI</b>: enables attaching multiple network interfaces to pods in Kubernetes.
-- <b>Weave CNI</b>: creates a virtual network that connects Docker containers across multiple hosts and enables their automatic discovery.  
-- <b>Kube-OVN CNI</b>: integrates the OVN-based network virtualization with Kubernetes. It offers an advanced container network fabric for enterprises with the most functions and the easiest operation.
-- <b>Calico CNI/eBPF</b>: supports applications with higher performance using eBPF and IPv4/IPv6 dual-stack
+- **SRIOV CNI**: works with the SR-IOV device plugin for VF allocation for a container. 
+- **User Space CNI**: designed to implement userspace networking (as opposed to kernel space networking). 
+- **Bond CNI**: provides a method for aggregating multiple network interfaces into a single logical "bonded" interface.
+- **Multus CNI**: enables attaching multiple network interfaces to pods in Kubernetes.
+- **Weave CNI**: creates a virtual network that connects Docker containers across multiple hosts and enables their automatic discovery.  
+- **Kube-OVN CNI**: integrates the OVN-based network virtualization with Kubernetes. It offers an advanced container network fabric for enterprises with the most functions and the easiest operation.
+- **Calico CNI/eBPF**: supports applications with higher performance using eBPF and IPv4/IPv6 dual-stack
 
 Link: [Dataplane and CNI](https://github.com/otcshare/specs/tree/master/doc/building-blocks/dataplane)
 
@@ -192,9 +192,9 @@ Edge builders need a comprehensive telemetry framework that combines application
 
 Industry-leading, cloud-native telemetry and monitoring frameworks are supported on OpenNESS:
 
-- <b>Prometheus\* and Grafana\*</b>: This is a cloud-native, industry-standard framework that provides a monitoring system and time series database. 
-- <b>Telegraf</b> This is a cloud-native, industry-standard agent for collecting, processing, aggregating, and writing metrics.
-- <b>Open Telemetry </b>: Open Consensus, Open Tracing - CNCF project that provides the libraries, agents, and other components that you need to capture telemetry from your services so that you can better observe, manage, and debug them.
+- **Prometheus\* and Grafana\***: This is a cloud-native, industry-standard framework that provides a monitoring system and time series database. 
+- **Telegraf** This is a cloud-native, industry-standard agent for collecting, processing, aggregating, and writing metrics.
+- **Open Telemetry**: Open Consensus, Open Tracing - CNCF project that provides the libraries, agents, and other components that you need to capture telemetry from your services so that you can better observe, manage, and debug them.
 
 Hardware Telemetry support: 
 
@@ -210,23 +210,23 @@ Link: [Telemetry](https://github.com/otcshare/x-specs/blob/master/doc/building-b
 
 These building blocks are included as part of System pods.
 
-- <b>Video Transcode Service</b>: An application microservice that exposes a REST API for transcoding on CPU or GPU.
+- **Video Analytics Service**: An application microservice that exposes a REST API for transcoding on CPU or GPU.
 
 ### Software Development Kits 
 
 OpenNESS supports leading SDKs for edge services (applications) and network function development. As part of the development of OpenNESS, applications developed using these SDKs are optimized to provide optimal performance. This ensures that when customers develop applications using these SDKs, they can achieve optimal performance. 
 
-- <b> OpenVINO™ SDK </b>: The OpenVINO™ toolkit is composed of a variety of tools from Intel that work together to provide a complete computer vision pipeline solution that is optimized on Intel® architecture. This article will focus on the Intel® Media SDK component of the toolkit. The Intel Media SDK is a high-level API for specific video processing operations: decode, process, and encode. It supports H.265, H.264, MPEG-2, and more codecs. Video processing can be used to resize, scale, de-interlace, color conversion, de-noise, sharpen, and more. The Intel Media SDK works in the background to leverage hardware acceleration on Intel® architecture with optimized software fallback for each hardware platform. Thus, developers do not need to change the code from platform to platform and can focus more on the application itself rather than on hardware optimization.
-- <b> Intel Media SDK </b>: SDK used for developing video applications with state-of-the-art libraries, tools, and samples. They are all accessible via a single API that enables hardware acceleration for fast video transcoding, image processing, and media workflows. The two main paths for application developers to access GPU media processing capabilities are Intel® Media SDK and Intel® SDK for OpenCL™ applications.
-- <b>DPDK</b>: Data Plane Development Kit (DPDK) consists of libraries to accelerate packet-processing workloads that run on a wide variety of CPU architectures.
-- <b>Intel IPP</b>: Intel® Integrated Performance Primitives (Intel® IPP) is an extensive library of ready-to-use, domain-specific functions that are highly optimized for diverse Intel® architectures.
-- <b>Intel® MKL</b>: Intel® Math Kernel Library (Intel® MKL) optimizes code with minimal effort for future generations of Intel® processors. It is compatible with your choice of compilers, languages, operating systems, and linking and threading models.
+- **OpenVINO™ SDK**: The OpenVINO™ toolkit is composed of a variety of tools from Intel that work together to provide a complete computer vision pipeline solution that is optimized on Intel® architecture. This article will focus on the Intel® Media SDK component of the toolkit. The Intel Media SDK is a high-level API for specific video processing operations: decode, process, and encode. It supports H.265, H.264, MPEG-2, and more codecs. Video processing can be used to resize, scale, de-interlace, color conversion, de-noise, sharpen, and more. The Intel Media SDK works in the background to leverage hardware acceleration on Intel® architecture with optimized software fallback for each hardware platform. Thus, developers do not need to change the code from platform to platform and can focus more on the application itself rather than on hardware optimization.
+- **Intel Media SDK**: SDK used for developing video applications with state-of-the-art libraries, tools, and samples. They are all accessible via a single API that enables hardware acceleration for fast video transcoding, image processing, and media workflows. The two main paths for application developers to access GPU media processing capabilities are Intel® Media SDK and Intel® SDK for OpenCL™ applications.
+- **DPDK**: Data Plane Development Kit (DPDK) consists of libraries to accelerate packet-processing workloads that run on a wide variety of CPU architectures.
+- **Intel IPP**: Intel® Integrated Performance Primitives (Intel® IPP) is an extensive library of ready-to-use, domain-specific functions that are highly optimized for diverse Intel® architectures.
+- **Intel® MKL**: Intel® Math Kernel Library (Intel® MKL) optimizes code with minimal effort for future generations of Intel® processors. It is compatible with your choice of compilers, languages, operating systems, and linking and threading models.
 
 ## Converged Edge Reference Architecture 
 
 Converged Edge Reference Architecture (CERA) is a set of pre-integrated & readily deployable HW/SW Reference Architectures powered by OpenNESS to significantly accelerate Edge Platform development. 
 
-OpenNESS includes an Ansible\* playbook that acts as a single interface for users to deploy various types of CERAs. The playbook organizes all of the above microservices, Kubernetes extensions, enhancements, and optimizations under easy to deploy node types called <b>flavors</b>, implemented as Ansible roles.
+OpenNESS includes an Ansible\* playbook that acts as a single interface for users to deploy various types of CERAs. The playbook organizes all of the above microservices, Kubernetes extensions, enhancements, and optimizations under easy to deploy node types called **flavors**, implemented as Ansible roles.
 
 For example, a user deploying a network edge at a cell site can choose the Access Edge flavor to deploy a node with all the microservices, Kubernetes extensions, enhancements, and optimizations required for a RAN node. 
 
@@ -310,13 +310,13 @@ OpenNESS supports a rich set of reference and commercial real-world edge service
 
 The following is a subset of supported edge applications: 
 
-- <b>Smart city App</b>: This end-to-end sample app implements aspects of smart city sensing, analytics, and management, utilizing CPU or VCA.
-- <b>CDN Transcode and Content Delivery App</b>: The CDN Transcode sample app is an Open Visual Cloud software stack with all required open-source ingredients integrated to provide an out-of-the-box CDN media transcode service, including live streaming and video on demand. It provides a Docker-based software development environment for developers to easily build specific applications.
-- <b>Edge Insights</b>: The Edge Insights application is designed to enable secure ingestion, processing, storage and management of data, and near real-time (~10ms), event-driven control, across a diverse set of industrial protocols. 
+- **Smart city App**: This end-to-end sample app implements aspects of smart city sensing, analytics, and management, utilizing CPU or VCA.
+- **CDN Transcode and Content Delivery App**: The CDN Transcode sample app is an Open Visual Cloud software stack with all required open-source ingredients integrated to provide an out-of-the-box CDN media transcode service, including live streaming and video on demand. It provides a Docker-based software development environment for developers to easily build specific applications.
+- **Edge Insights**: The Edge Insights application is designed to enable secure ingestion, processing, storage and management of data, and near real-time (~10ms), event-driven control, across a diverse set of industrial protocols. 
 
 The following is a subset of supported reference network functions:  
 
-- <b>gNodeB or eNodeB</b>: 5G or 4G base station implementation on Intel architecture based on Intel’s FlexRAN.
+- **gNodeB or eNodeB**: 5G or 4G base station implementation on Intel architecture based on Intel’s FlexRAN.
 
 Link: [Documents covering OpenNESS supported Reference Architectures](https://github.com/otcshare/specs/tree/master/doc/reference-architectures)
 ## OpenNESS Optimized Commercial Applications 
