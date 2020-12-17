@@ -128,8 +128,6 @@ The CERA 5G On Prem experience kits deploys both the 5G On Premises cluster and 
 ### Edge Service Applications Supported on CERA 5G On Prem
 The CERA architectural paradigm enables convergence of edge services and applications across different market segments. This is demonstrated by taking diverse workloads native to different segments and successfully integrating within a common platform. The reference considers workloads segments across the following applications:
 
-Security: Capture of video and facilitating facial recognition to identified bonafide individuals to determine access to a security perimeter.
-
 Smart city: Capture of live camera streams to monitor and measure pedestrian and vehicle movement within a zone.
 
 Industrial: Monitoring of the manufacturing quality of an industrial line, the capture of video streams focuses on manufactured devices on an assembly line and the real-time removal of identified defect parts.
