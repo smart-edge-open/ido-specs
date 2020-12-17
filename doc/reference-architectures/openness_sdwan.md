@@ -17,7 +17,7 @@ Copyright © 2019 Intel Corporation
 - [SD-WAN CNF Packet Flow](#sd-wan-cnf-packet-flow)
 - [OpenNESS Integration](#openness-integration)
   - [Goals](#goals)
-  - [Networking Implementation](#networKing-implementation)
+  - [Networking Implementation](#networking-implementation)
   - [CERA](#cera)
     - [SD-WAN Edge](#sd-wan-edge)
     - [SD-WAN Hub](#sd-wan-hub)
@@ -34,7 +34,7 @@ Copyright © 2019 Intel Corporation
 - [Acronyms](#acronyms)
 
 ## Introduction
-With the growth of global organizations, there is an increasing need to connect branch offices distributed across the world. As the organization applications are moving from the corporate data centers to the cloud/on-premise edge, their branches require secure and reliable, low latency, and affordable links to access them. One way to achieve this is by leveraging the public Internet (WAN) and enabling secure links that move data across WAN to private edge locations, where destined edge applications are running.
+With the growth of global organizations, there is an increasing need to connect branch offices distributed across the world. As organization applications are moving from the corporate data centers to the cloud/on-premise edge, their branches require secure and reliable, low latency, and affordable links to access them. One way to achieve this is by leveraging the public Internet (WAN) and enabling secure links that move data across WAN to private edge locations, where destined edge applications are running.
 The primary role of traditional Wide Area Network (WAN) is to connect clients to applications hosted anywhere on the Internet. The applications are reached based on public TCP/IP addresses, and routing tables configured on routes. Traditionally, branch offices were connected to their headquarter data centers also via multiple configurable routers and leased connections. Thus, the connections were complex to manage and expensive. However, with the move of the applications to the cloud and edge, where applications are hosted in private networks without public addresses, accessing these applications from outside the edge cluster is not possible without applying even more complex rules and policies.
 
 
