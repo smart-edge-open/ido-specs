@@ -3,7 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 
-# OpenNESS Devkit for Azure
+# OpenNESS Development Kit for Microsoft Azure
 
 ## Introduction
 

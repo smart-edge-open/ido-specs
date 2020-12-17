@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0     
-Copyright © 2019 Intel Corporation  
+Copyright (c) 2019 Intel Corporation  
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture for SD-WAN
@@ -23,14 +23,14 @@ Copyright © 2019 Intel Corporation
     - [SD-WAN Hub](#sd-wan-hub)
 - [Deployment](#deployment)
   - [E2E Scenarios](#e2e-scenarios)
-  - [Hardware Specification](#hardware-specification)
-  - [Scenario 1](#scenario-1)
-  - [Scenario 2](#scenario-2)
-  - [Scenario 3](#scenario-3)
-  - [Resource Consumption](#resource-consumption)
-    - [Methodology](#methodology)
-    - [Results](#results)
-- [References](#References)
+    - [Hardware Specification](#hardware-specification)
+    - [Scenario 1](#scenario-1)
+    - [Scenario 2](#scenario-2)
+    - [Scenario 3](#scenario-3)
+- [Resource Consumption](#resource-consumption)
+  - [Methodology](#methodology)
+  - [Results](#results)
+- [References](#references)
 - [Acronyms](#acronyms)
 
 ## Introduction

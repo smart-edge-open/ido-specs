@@ -6,16 +6,16 @@ Copyright (c) 2019 Intel Corporation
 # OpenNESS Experience Kits
 - [Purpose](#purpose)
 - [OpenNESS setup playbooks](#openness-setup-playbooks)
-- [Customizing kernel, grub parameters, and tuned profile & variables per host.](#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
+- [Customizing kernel, grub parameters, and tuned profile & variables per host](#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
   - [IP address range allocation for various CNIs and interfaces](#ip-address-range-allocation-for-various-cnis-and-interfaces)
   - [Default values](#default-values)
   - [Use newer realtime kernel (3.10.0-1062)](#use-newer-realtime-kernel-3100-1062)
   - [Use newer non-rt kernel (3.10.0-1062)](#use-newer-non-rt-kernel-3100-1062)
   - [Use tuned 2.9](#use-tuned-29)
   - [Default kernel and configure tuned](#default-kernel-and-configure-tuned)
-  - [Change amount of hugepages](#change-amount-of-hugepages)
-  - [Change size of hugepages](#change-size-of-hugepages)
-  - [Change amount and size of hugepages](#change-amount-and-size-of-hugepages)
+  - [Change amount of HugePages](#change-amount-of-hugepages)
+  - [Change size of HugePages](#change-size-of-hugepages)
+  - [Change amount and size of HugePages](#change-amount-and-size-of-hugepages)
   - [Remove input output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
   - [Add custom GRUB parameter](#add-custom-grub-parameter)
   - [Configure OVS-DPDK in kube-ovn](#configure-ovs-dpdk-in-kube-ovn)
@@ -50,7 +50,7 @@ The following are several common customization scenarios.
 The OpenNESS Experience kits deployment uses/allocates/reserves a set of IP address ranges for different CNIs and interfaces. The server or host IP address should not conflict with the default address allocation.
 In case if there is a critical need for the server IP address used by the OpenNESS default deployment, it would require to modify the default addresses used by the OpenNESS.
 
-Following files sepcify the CIDR for CNIs and interfaces. These are the IP address ranges allocated and used by default just for reference.
+Following files specify the CIDR for CNIs and interfaces. These are the IP address ranges allocated and used by default just for reference.
 
 ```yaml
 flavors/media-analytics-vca/all.yml:19:vca_cidr: "172.32.1.0/12"
