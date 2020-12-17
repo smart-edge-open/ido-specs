@@ -26,10 +26,10 @@ Figure 2. Scenario two - OEK copied to the air-gapped network
 
 * A node with access to internet to create the offline package.
 * Cluster set up in an air-gapped environment.
-* Clean setup, see [pre-requisites](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions)
+* Clean setup, see [pre-requisites](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions)
 * [Optional] If OEK is run from an online jumper node, the node needs to be able to SSH into each machine in air-gapped environment.
 * [Optional] A media such as USB drive to copy the offline OEK package to the air-gapped environment if there is no connection from online node.
-* All the nodes in air-gapped environment must be able to SSH to each other without requiring password input, see [getting-started.md](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#exchanging-ssh-keys-between-hosts).
+* All the nodes in air-gapped environment must be able to SSH to each other without requiring password input, see [getting-started.md](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#exchanging-ssh-keys-between-hosts).
 * The control plane node needs to be able to SSH itself.
 * The time and date of the nodes in offline environment is manually synchronized by the cluster's admin.
 * User provided files - OPAE_SDK_1.3.7-5_el7.zip and syscfg_package.zip
@@ -120,7 +120,7 @@ Regardless of the scenario in which the OEK will be deployed the deployment meth
 
 ## Deployment in offline environment
 
-Once all the previous steps provided within this document are completed and the OEK with offline archives is placed on the node which will run the OEK automation, the user should get familiar with the ["Running-playbooks"](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#running-playbooks) and ["Preconditions"](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions) sections of getting started guide and deploy the OpenNESS as per usual deployment steps. Please note only deployment of "flexran" flavour is supported for offline/air-gapped environment, other flavours/configurations and default deployment may fail due to missing dependencies, the support for ACC100 accelerator is not available for offline deployment of "flexran" flavour at the time of writing. Both multi-node and single node modes are supported.
+Once all the previous steps provided within this document are completed and the OEK with offline archives is placed on the node which will run the OEK automation, the user should get familiar with the ["Running-playbooks"](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#running-playbooks) and ["Preconditions"](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions) sections of getting started guide and deploy the OpenNESS as per usual deployment steps. Please note only deployment of "flexran" flavour is supported for offline/air-gapped environment, other flavours/configurations and default deployment may fail due to missing dependencies, the support for ACC100 accelerator is not available for offline deployment of "flexran" flavour at the time of writing. Both multi-node and single node modes are supported.
 
 During the deployment of the offline version of the OEK the archived files created by the offline package creator will be extracted and placed in appropriate directory. The OEK will set up a local file share server on the control plane node and move the files to the said server. The OEK will also create a local yum repo. All the files and packages will be pulled from this file share server by nodes across the air-gapped OpenNESS cluster. During the execution of the OEK the Ansible scripts will follow the same logic as per the online mode with the difference that all the components will be pulled locally from the file share server instead of the internet.
 
