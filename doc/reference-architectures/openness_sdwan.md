@@ -1,26 +1,27 @@
 ```text
 SPDX-License-Identifier: Apache-2.0     
-Copyright (c) 2019 Intel Corporation  
+Copyright (c) 2020 Intel Corporation  
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture for SD-WAN
 - [Introduction](#introduction)
-- [SD-WAN](#sd-wan)
-- [ICN SD-WAN Implementation](#icn-sd-wan-implementation)
+- [Universal Customer Premises Equipment (u-CPE)](#universal-customer-premises-equipment-u-cpe)
+- [Software-Defined Wide Area Network (SD-WAN)](#software-defined-wide-area-network-sd-wan)
+- [SD-WAN Implementation](#sd-wan-implementation)
   - [SD-WAN CNF](#sd-wan-cnf)
   - [SD-WAN CRD Controller](#sd-wan-crd-controller)
-  - [CR Definitions](#cr-definitions)
+  - [Custom Resources (CRs)](#custom-resources-crs)
 - [CNF Configuration via OpenWRT Packages](#cnf-configuration-via-openwrt-packages)
-  - [Mwan3](#mwan3)
-  - [Firewall](#firewall)
+  - [Multi WAN (Mwan3)](#multi-wan-mwan3)
+  - [Firewall (fw3)](#firewall-fw3)
   - [IPSec](#ipsec)
 - [SD-WAN CNF Packet Flow](#sd-wan-cnf-packet-flow)
 - [OpenNESS Integration](#openness-integration)
   - [Goals](#goals)
   - [Networking Implementation](#networking-implementation)
-  - [CERA](#cera)
-    - [SD-WAN Edge](#sd-wan-edge)
-    - [SD-WAN Hub](#sd-wan-hub)
+  - [Converged Edge Reference Architectures (CERA)](#converged-edge-reference-architectures-cera)
+    - [SD-WAN Edge Reference Architecture](#sd-wan-edge-reference-architecture)
+    - [SD-WAN Hub Reference Architecture](#sd-wan-hub-reference-architecture)
 - [Deployment](#deployment)
   - [E2E Scenarios](#e2e-scenarios)
     - [Hardware Specification](#hardware-specification)
@@ -34,95 +35,148 @@ Copyright (c) 2019 Intel Corporation
 - [Acronyms](#acronyms)
 
 ## Introduction
-With the growth of global organizations, there is an increasing need to connect branch offices distributed across the world. As organization applications are moving from the corporate data centers to the cloud/on-premise edge, their branches require secure and reliable, low latency, and affordable links to access them. One way to achieve this is by leveraging the public Internet (WAN) and enabling secure links that move data across WAN to private edge locations, where destined edge applications are running.
-The primary role of traditional Wide Area Network (WAN) is to connect clients to applications hosted anywhere on the Internet. The applications are reached based on public TCP/IP addresses, and routing tables configured on routes. Traditionally, branch offices were connected to their headquarter data centers also via multiple configurable routers and leased connections. Thus, the connections were complex to manage and expensive. However, with the move of the applications to the cloud and edge, where applications are hosted in private networks without public addresses, accessing these applications from outside the edge cluster is not possible without applying even more complex rules and policies.
+With the growth of global organizations, there is an increased need to connect branch offices distributed across the world. As enterprise applications move from corporate data centers to the cloud or the on-premise edge, their branches require secure and reliable, low latency, and affordable connectivity. One way to achieve this is to deploy a wide area network (WAN) over the public Internet, and create secure links to the branches where applications are running.
+The primary role of a traditional WAN is to connect clients to applications hosted anywhere on the Internet. The applications are accessed via public TCP/IP addresses, supported by routing tables on enterprise routers. Branches were also connected to their headquarter data centers via a combination of configurable routers and leased connections. This made WAN connectivty complex and expensive to manage. Additionally, with the move of applications to the cloud and edge, where applications are hosted in private networks without public addresses, accessing these applications requires even more complex rules and policies.
 
 
-Software-defined WAN introduces a new way of management and operation of WAN. Firstly, due to its software-defined nature, it decouples policy and rules configuration from the networking hardware (routers) and simplifies the process. SD-WAN applications can now be hosted on a Universal Customer Premise Equipment (uCPE). The configuration and management are centralized, which makes the networks more scalable; also by leveraging SD-WAN, traffic destined for WAN can completely by-pass enterprise data centers, hence reducing end to end latency.
-This White Paper describes how OpenNESS integrates features of uCPE to offer SD-WAN capabilities for Edge optimization, and how it leverages SD-WAN functionality to allow edge-to-edge communication via WAN.
+Software-defined WAN (SD-WAN) introduces a new way to operate a WAN. First of all, because it is defined by software, its management can be decoupled from the underlying networking hardware (e.g., routers) and managed in a centralized manner, making it more scalable. Secondly, SD-WAN network functions can now be hosted on Universal Customer Premises Equipment (uCPE), which also host software versions of traditional customer premises equipment.  Finally, an SD-WAN can be complemented by edge computing solutions, allowing, for example, latency-sensitive traffic to be steered to edge nodes for local processing, and to allow uCPE functions to be hosted in edge nodes.
 
-## SD-WAN
-Universal Customer Premise Equipment (uCPE) is a general-purpose platform that integrates compute, storage and networking to provide network services (such as SD-WAN) to any site on a network. These network services are implemented as virtual functions or cloud-native network functions.
 
-SD-WAN is a set of software applications that enable application-aware, intelligent, and secure routing of traffic across the WAN. The decisions on how to route particular application traffic are based on specific requirements for this application, such as its priority and security policies. One of the main features of SD-WAN is that it allows using the public internet as a secure form of WAN. It is possible due to the configuration of secure tunnels on the links connecting local networks across the WAN.
+This paper describes how the Open Network Edge Services Software (OpenNESS) integrates uCPE features and SD-WAN capabilities to create  for edge optimization, and how it leverages SD-WAN functionality to allow edge-to-edge communication via a WAN.
 
-OpenNESS provides a reference architecture for SD-WAN consisting of building blocks for cloud-native deployments, and also other reference network functions (CNFs) and applications.
+## Universal Customer Premises Equipment (u-CPE)
+Universal Customer Premise Equipment (uCPE) is a general-purpose platform that can host network functions, implemented in software, that are traditionally run in hardware-based Customer Premises Equipment (CPE). These network services are implemented as virtual functions or cloud-native network functions. Because they are implemented in software, they are well-suited to be hosted on edge nodes, because the nodes are located close to their end users, but also can be be orchestrated by the Controller of an edge computing system.
+
+## Software-Defined Wide Area Network (SD-WAN)
+An SD-WAN is a set of network functions that enable application-aware, intelligent, and secure routing of traffic across the WAN. An SD-WAN typically uses the public internet to interconnect its branch offices, securing the traffic via encrypted tunnels, basically treating the tunnels as "dumb pipes". Traffic at the endpoints can be highly optimized, because the network functions at a branch are virtualized and centrally managed. The SD-WAN manager can also make use of information about the applications running at a branch to optimize traffic.
+
+
+OpenNESS provides an edge computing-based reference architecture for SD-WAN, consisting of building blocks for SD-WAN network functions and reference implementations of branch office functions and services, all running on an OpenNESS edge node and managed by an OpenNESS Controller.
+
+The figure below shows an example of an OpenNESS based SD-WAN. In this figure, there are two edge nodes, "Manufacturing Plant" and "Branch Office". In each node are multiple OpenNESS-based clusters, each running the OpenNESS edge platform, but supporting different collections of network functions, such as Private 5G (e.g., the AF, NEF, gNB, UPF functions), SD-WAN network functions, or user applications.
+
+In this figure, the SD-WAN implementation is depicted in "SD-WAN NFs" boxes appearing in a number of OpenNESS clusters, and an "SD-WAN Controller" appearing in the Orchestration and Management function. Other functions seen in the figure are OpenNESS building blocks that the SD-WAN implementation uses to carry out its function.
+
+
+The next section describes the SD-WAN implementation.
 
 ![OpenNESS reference solution for SD-WAN ](sdwan-images/openness-sdwan-ref.png)
 
-## ICN SD-WAN Implementation
-The CERA SD-WAN is based on OpenWRT, an open-source project based on Linux operating system. With a writeable filesystem and package management integrated, OpenWRT is fully customizable, requiring the user to install only the minimum set of packages for building their application. OpenWRT is primarily used as an OS for embedded devices to build applications for routing network traffic. More details on OpenWRT can be found [here](https://openwrt.org/)
+## SD-WAN Implementation
+The CERA SD-WAN is based on OpenWrt, an embedded version of Linux designed for use in routers and other communication devices. OpenWrt is highly customizable, allowing it to be deployed with a small footprint, and has a fully-writable filesystem. More details about OpenWRT can be found [here](https://openwrt.org/).
 
-SD-WAN application is based on the following set of OpenWRT packages:
+The OpenWrt project provides a number of kernel images. The “x86-generic rootfs” image is used in the SD-WAN implementation
 
-  - mwan3 (for Multiple WAN link support)
+The OpenWrt project contains a number of packages of use in implementing SD-WAN functional elements, which are written as OpenWrt applications. These include:
 
-  - firewall3 (for firewall, SNAT, DNAT)
+  - mwan3 (for Multiple WAN link support) [mwan](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3/)
 
-  - strongswan (for IPsec)
+  - firewall3 (for firewall, SNAT, DNAT) [fw3](https://openwrt.org/docs/guide-user/firewall/overview)
 
-With these packages it supports the following functionalities:
-
-  - IPsec tunnels across K8s clusters - Supporting multiple types of K8s clusters "K8s clusters having static public IP address", "K8s clusters having dynamic public IP address with static FQDN" and "K8s clusters with no public IP".
-
-  - Stateful inspection firewall (for inbound and outbound connections).
-
-  - Source NAT and Destination NAT for supporting K8s clusters whose POD and ClusterIP subnets are overlapping.
-
-  - Multiple WAN link.
+  - strongswan (for IPsec) [strongswan](https://openwrt.org/docs/guide-user/services/vpn/strongswan/start)
 
 
-The CERA for SD-WAN comprises three main functionalities: the SD-WAN CNF (based on OpenWRT), CRD Controller and CR definitions.
+These packages support the following functionality:
+
+  - IPsec tunnels across K8s clusters;  
+     
+  - Support of multiple types of K8s clusters: 
+  
+    - K8s clusters having static public IP address, 
+  
+    - K8s clusters having dynamic public IP address with static FQDN, and 
+  
+    - K8s clusters with no public IP;
+
+  - Stateful inspection firewall (for inbound and outbound connections);
+
+  - Source NAT and Destination NAT for  K8s clusters whose POD and ClusterIP subnets are overlapping;
+
+  - Multiple WAN links.
+
+
+The  SD-WAN implementation uses the following three primary components:
+
+  - SD-WAN Cloud-Native Network Function (CNF) based on OpenWrt packages;
+  
+  - Custom Resource Definition (CRD) Controller;
+  
+  - Custom Resource Definitions (CRD).
+
+The CNF contains the OpenWrt services that perform SD-WANM operations. The CRD Controller and CRDs allow Custom Resources (i.e., extensions to Kubernetes APIs) to be created. Together these components allow information to be sent and received, and commands performed, from the Kubernetes Controller to the SD-WAN.
+
+This behavior is described in the following subsections.
 
 ### SD-WAN CNF
-The major functionality of SD-WAN is implemented as a Cloud-native Network Function or CNF, and deployable within a Kubernetes* environment. The CNF is based on OpenWRT “x86-generic rootfs” image and runs a set of user-space applications: fw3 for firewall and NAT configuration, mwan3 realizing multi-WAN functionality, and strongswan for implementation of IPSec tunnels. SD-WAN CNF can be deployed as a pod on a node with external network connection and arguments for configuration of:
+The SD-WAN CNF is deployed as a pod with external network connections. The CNF runs the mwan, mwan3, and strongswan applications, as described in the previous section. The configuration parameters for the CNF include:
 
-  - LAN interface configuration – to create and connect virtual, local networks within the Edge cluster (local branch) to the CNF.
+  - LAN interface configuration – to create and connect virtual, local networks within the edge cluster (local branch) to the CNF.
 
-  - WAN interfaces configuration – to initialize interface(s) that connect(s) the CNF and connected LANs to external Internet - WAN (also called a provider network) and to initialize the traffic rules (policy, rules, etc.) for the interfaces.
+  - WAN interface configuration – to initialize interfaces that connect the CNF and connected LANs to the external Internet - WAN and to initialize the traffic rules (e.g., policy, rules) for the interfaces. The external WAN is also referred to in this document as a provider network.
 
-SD-WAN traffic rules and WAN interfaces must be configured at runtime through the RESTful API. The CNF implements Luci CGI plugin to provide RESTful API. The RESTful API calls are initiated and passed to the CNF by a CRD Controller described in the following sub-section. Supported RESTful API provides the capability to list available SD-WAN services (mwan3, firewall, and ipsec), get service status, and execute service operations for adding, viewing, and deleting mwan3, firewall, and IPsec settings.
+SD-WAN traffic rules and WAN interfaces are configured at runtime via a RESTful API. The CNF implements the Luci CGI plugin to provide this API. The  API calls are initiated and passed to the CNF by a CRD Controller described in the next paragraph. The  API provides the capability to list available SD-WAN services (e.g., mwan3, firewall, and ipsec), get service status, and execute service operations for adding, viewing, and deleting settings for these services.
 
 ### SD-WAN CRD Controller
-A separate containerized module, CRD Controller (Config Agent) has been implemented to support executing commands in a CNF through Rest API calls. It monitors CRs applied through K8s APIs and translates them into Rest API calls that carry the CNF configuration to the CNF instance.
+The CRD Controller (also referred to in the implementation as a Config Agent), interacts with the SD-WAN CNF via RESTful API calls. It monitors CRs applied through K8s APIs and translates them into  API calls that carry the CNF configuration to the CNF instance.
 
-CRD Controller includes several functions:
+the CRD Controller includes several functions:
 
-  - Mwan3conf Controller to monitor Mwan3Conf CR
+  - Mwan3conf Controller, to monitor the Mwan3Conf CR;
 
-  - FirewallConf Controller to monitor FirewallConf CR 
+  - FirewallConf Controller, to monitor the FirewallConf CR;
 
-  - IPSec Controller to monitor IpSec CRs
+  - IPSec Controller, to monitor the IpSec CRs.
 
 
-### CR Definitions
-With the CRD Controller, the user can configure SD-WAN rules by deploying SD-WAN CRs. The rules define how the CNF behaves. CNF supports three classes of rules: mwan3, firewall, ipsec. Further on, each class includes several kinds of rules. Mwan3 has two kinds of rules: mwan3_policy and mwan3_rule. The firewall class has five kinds of rules: firewall_zone, firewall_snat, firewall_dnat, firewall_forwarding, firewall_rule. Each kind of SD-WAN rule is defined by a CRD. A CR is an instance of a CRD, and carries an actual rule configuration to the CR Controller that passes the configuration to a CNF through a RESTful API call. The CNF uses OpenWRT applications to apply the configurations onto the CNF WAN interfaces.
+### Custom Resources (CRs)
 
-SD-WAN rules are required to deploy a CNF. In a Kubernetes* namespace, with more than one CNF deployment and many SD-WAN rule CRs, labels are used to correlate a CNF with SD-WAN rule CRs.
+As explained above, the behavior of the SD-WAN is governed by rules established in the CNF services.
+In order to set these rules externally, CRs are defined to allow rules to be transmitted from the Kubernetes API. The CRs are created from the CRDs that are part of the SD-WAN implementation.
+
+The types of rules supported by the CRs are: 
+
+  - Mwan3 class, with 2 subclasses, mwan3_policy and mwan3_rule. 
+
+  - The firewall class has 5 kinds of rules: firewall_zone, firewall_snat, firewall_dnat, firewall_forwarding, firewall_rule.  
+
+  - IPsec class.
+  
+  The rules are defined by the OpenWrt services, and can be found in the OpenWrt documentation, e.g., [here](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3).
+  
+  Each kind of SD-WAN rule corresponds to a CRD, which are used to instantiate the CRs.
+
+In a Kubernetes namespace, with more than one CNF deployment and many SD-WAN rule CRDs, labels are used to correlate a CNF with SD-WAN rule CRDs.
 
 ## CNF Configuration via OpenWRT Packages
-### Mwan3
-OpenWRT mwan3 package provides the capabilities for multiple WAN management: WAN interfaces management, outbound traffic rules, traffic load balancing etc. The package allows for connecting the Edge to WANs of different providers and for specifying different rules for the links.
-According to the OpenWRT website, the mwan3 package provides the following functionality and capabilities:
+
+As explained earlier, the SD-WAN CNF contains a collection of services, implemented by OpenWRT packages. In this section, the services are described in greater detail.
+
+### Multi WAN (Mwan3)
+The OpenWRT mwan3 service provides  capabilities for multiple WAN management: WAN interfaces management, outbound traffic rules, traffic load balancing etc. The service allows an edge to connect to WANs of different providers and and to specify different rules for the links.
+
+According to the OpenWRT [website](https://openwrt.org), mwan3 provides the following functionality and capabilities:
 
   - Provides outbound WAN traffic load balancing or fail-over with multiple WAN interfaces based on a numeric weight assignment.
 
-  - Monitors each WAN connection using repeated ping tests and can automatically route outbound traffic to another WAN interface, if the first WAN interface loses connectivity.
+  - Monitors each WAN connection using repeated ping tests and can automatically route outbound traffic to another WAN interface if a current WAN interface loses connectivity.
 
-  - Creates outbound traffic rules to customize as to which outbound connections should be using which WAN interface (policy-based routing). This can be customized based on source IP, destination IP, source port(s), destination port(s), type of IP protocol etc.
+  - Creates outbound traffic rules to customize which outbound connections should use which WAN interface (i.e., policy-based routing). This can be customized based on source IP, destination IP, source port(s), destination port(s), type of IP protocol, and other parameters.
 
   - Supports physical and/or logical WAN interfaces.
 
-  - Uses firewall mask (default 0x3F00) to mark outgoing traffic which can be configured in the /etc/config/mwan3 globals section and can be mixed with other packages that use the firewall masking feature. This value is also used to set how many interfaces are supported.
+  - Uses the firewall mask (default 0x3F00) to mark outgoing traffic, which can be configured in the /etc/config/mwan3 globals section, and can be mixed with other packages that use the firewall masking feature. This value is also used to set the number of supported interfaces.
 
-Mwan3 is useful for routers with multiple internet connections where users have control over what traffic goes through which specific WAN interface. It can handle multiple levels of primary and backup interfaces, where different sources can have different primary or backup WANs. Mwan3 uses Netfilter mark mask to be compatible with other packages (such as OpenVPN, PPTP VPN, QoS-script, Tunnels, etc) so that traffic can also be routed based on the default routing table.
-Mwan3 is triggered by a hotplug event when an interface comes up. Then it creates a new custom routing table and iptables rules for this interface. It then sets up iptables rules and uses iptables MARK to mark certain traffic. Based on these rules, the kernel determines which routing table to use. Once all the routes and rules are initially set up, mwan3 exits. The kernel takes care of all the routing decisions. A monitoring script (mwan3track) runs in the background checking if each WAN interface is up using a ping test. If an interface goes down, the script issues a hotplug event to cause mwan3 to adjust routing tables to the interface failure, delete all the rules and routes to that interface.
-Another component (mwan3rtmon) which is responsible for keeping the main routing table in sync with the interface routing tables, constantly monitors the routing table changes.
-OpenWRT MWAN3 configuration includes the following sections:
+Mwan3 is useful for routers with multiple internet connections, where users have control over the traffic that flows to a specific WAN interface. It can handle multiple levels of primary and backup interfaces, where different sources can have different primary or backup WANs. Mwan3 uses Netfilter mark mask, in order to be compatible with other packages (e.g., OpenVPN, PPTP VPN, QoS-script, Tunnels), so that traffic can also be routed based on the default routing table.
 
-  - Global: common configuration especially used to configure routable loopback address (for OpenWRT 18.06).
+Mwan3 is triggered by a hotplug event when an interface comes up, causing it to create a new custom routing table and iptables rules for the interface. It then sets up iptables rules and uses iptables MARK to mark certain traffic. Based on these rules, the kernel determines which routing table to use. Once all the routes and rules are initially set up, mwan3 exits. Thereafter, the kernel takes care of all the routing decisions. A monitoring script, mwan3track, runs in the background, running ping to verify that each WAN interface is up. If an interface goes down, mwan3track issues a hotplug event to cause mwan3 to adjust routing tables in response to the interface failure, and to delete all the rules and routes to that interface.
 
-  - Interface: define how each WAN interface is tested for up/down status.
+Another component, mwan3rtmon, keeps the main routing table in sync with the interface routing tables by monitoring routing table changes.
+
+Mwan3 is configured when it is started, according to a configuration with the following paragraphs:
+
+  - Global: common configuration spec, used to configure routable loopback address (for OpenWRT 18.06).
+
+  - Interface: defines how each WAN interface is tested for up/down status.
 
   - Member: represents an interface with a metric and a weight value.
 
@@ -130,22 +184,22 @@ OpenWRT MWAN3 configuration includes the following sections:
 
   - Rule: describes what traffic to match and what policy to assign for that traffic.
 
-SD-WAN CNF is created with Global and Interface sections initialized based on the interfaces allocated to CNF. Once CNF starts SD-WAN MWAN3 CNF API can be used to get/create/update/delete an mwan3 rule and policy per Member.
+A SD-WAN CNF will be created with Global and Interface sections initialized based on the interfaces allocated to it. Once the CNF starts, the SD-WAN MWAN3 CNF API can be used to get/create/update/delete an mwan3 rule and policy, on a per member basis.
 
-### Firewall
-OpenWrt uses firewall3 (fw3) netfilter/iptable rule builder application. It runs in the user-space to parse a configuration file into a set of iptables rules, sending each of the rules to the kernel netfilter modules. The fw3 application is used by OpenWRT to “safely” construct a rule set while hiding much of the details. The fw3 configuration automatically provides the router with a base set of rules and an understandable configuration file for additional rules.
+### Firewall (fw3)
+OpenWrt uses the firewall3 (fw3) netfilter/iptable rule builder application. It runs in user space to parse a configuration file into a set of iptables rules, sending each of the rules to the kernel netfilter modules. The fw3 application is used by OpenWRT to “safely” construct a rule set, while hiding much of the details. The fw3 configuration automatically provides the router with a base set of rules and an understandable configuration file for additional rules.
 
-fw3, similar to iptables application, is based on libiptc library that is used to communicate with the Netfilter kernel modules. Both fw3 and iptables applications follow the same steps to apply rules on Netfilter:
+Similarly to the iptables application, fw3 is based on libiptc library that is used to communicate with the netfilter kernel modules. Both fw3 and iptables applications follow the same steps to apply rules on Netfilter:
 
-  - establish a socket and read the Netfilter table into the application.
+  - Establish a socket and read the netfilter table into the application.
 
-  - modify the chains, rules, etc. in the table (all parsing and error checking is done in user-space by libiptc).
+  - Modify the chains, rules, etc. in the table (all parsing and error checking is done in user-space by libiptc).
 
-  - replace the Netfilter table in the kernel.
+  - Replace the netfilter table in the kernel
 
-fw3 is typically managed by invoking the shell script /etc/init.d/firewall that accepts the following set of arguments (start, stop, restart, reload, flush). Behind the scenes, /etc/init.d/firewall then calls fw3, passing the argument to the binary. 
+fw3 is typically managed by invoking the shell script /etc/init.d/firewall, which accepts the following set of arguments (start, stop, restart, reload, flush). Behind the scenes, /etc/init.d/firewall then calls fw3, passing the supplied argument to the binary. 
 
-OpenWRT firewall configuration with use of fw3 application includes the following sections:
+OpenWRT firewall is configured when it is started, via a configuration file with the following paragraphs:
 
   - Default: declares global firewall settings that do not belong to specific zones.
 
@@ -155,82 +209,97 @@ OpenWRT firewall configuration with use of fw3 application includes the followin
 
   - Forwarding: control the traffic between zones.
 
-  - Redirect: defines port forwarding (NAT) rules.
+  - Redirect: defines port forwarding (NAT) rules
 
   - Rule: defines basic accept, drop, or reject rules to allow or restrict access to specific ports or hosts.
 
-SD-WAN firewall API provides support to get/create/update/delete Firewall Zone, Redirect, Rule, and Forwardings.
+The SD-WAN firewall API provides support to get/create/update/delete Firewall Zone, Redirect, Rule, and Forwardings.
 
 ### IPSec
-SD-WAN solution leverages IPSec functionality in SD-WAN CNF to setup secure tunnels to enable Edge-to-WAN and Edge-WAN-Edge (to connect Edges via WAN) communication. SD-WAN uses StrongSwan implementation of IPSec. IPsec rules are integrated with OpenWRT firewall that enables custom firewall rules. IPsec uses the default firewall mechanism to update the firewall rules and injects all the additionally required settings according to IPsec configuration stored in /etc/config/ipsec . 
+The SD-WAN leverages IPSec functionality to setup secure tunnels for  Edge-to-WAN and Edge-WAN-Edge (i.e., to interconnect two edges) communication. The SD-WAN uses the OpenWrt StrongSwan implementation of IPSec. IPsec rules are integrated with the OpenWRT firewall, which enables custom firewall rules. StrongSwan uses the default firewall mechanism to update the firewall rules and injects all the additionally required settings, according to the IPsec configuration stored in /etc/config/ipsec . 
 
-SD-WAN configures the IPSec site-to-site tunnels to connect edge networks through a hub located in the external network. The hub is a server that acts as a proxy between the two edges. The hub also runs SD-WAN CRD Conroller and CNF configured in the way that it knows how to access SD-WAN CNFs deployed on both edges. In that case, to create the IPsec tunnel the WAN interface on the edge is treated as one side of the tunnel and the connected  WAN interface on the hub is configured as the "responder". Both edges are configured as "initiator".
+The SD-WAN configures the IPSec site-to-site tunnels to connect edge networks through a hub located in the external network. The hub is a server that acts as a proxy between pairs of edges.  The hub also runs SD-WAN CRD Controller and CNF configured such that it knows how to access SD-WAN CNFs deployed on both edges.  In that case, to create the IPsec tunnel, the WAN interface on the edge is treated as one side of the tunnel, and the connected  WAN interface on the hub is configured as the "responder". Both edges are configured as "initiator".
 
 ## SD-WAN CNF Packet Flow
 
-Packets that arrives at the edge come through a WAN link that connects the edge to an external provider network. This WAN interface should be already configured with traffic rules. If there is a IPSec tunnel created on the WAN interface, the packet enters the IPSec tunnel and is forwarded according to IPSec and Firewall/NAT rules. Finally the packet leaves CNF through LAN link connecting the OVN network on the edge. 
-Refer to the diagram below for a typical packet flow through the SD-WAN CNF for Rx (WAN to LAN) when a packet sent from external network enters the edge cluster.
+Packets that arrives at the edge come through a WAN link that connects the edge to an external provoder network. This WAN interface should be already configured with traffic rules. If there is an IPSec tunnel created on the WAN interface, the packet enters the IPSec tunnel and is forwarded according to IPSec and Firewall/NAT rules. The packet eventually leaves the CNF via a LAN link connecting the OVN network on the edge. 
+
+The following figure shows the typical packet flow through the SD-WAN CNF for Rx (WAN to LAN) when a packet sent from external network enters the edge cluster:
 
 ![SD-WAN Rx packet flow ](sdwan-images/packet-flow-rx.png)
 
-Packets that attempt to leave the edge come into the CNF through a LAN link attached to the OVN network on the edge cluster. This packet is then marked by mwan3 application. This mark is used by the firewall to apply rules on the packet, and steer it to the proper WAN link that is used by an IPSec tunnel connecting the CNF to WAN. The packet enters the IPSec tunnel and leaves the edge through the WAN interface.
-Refer to the diagram below for a typical packet flow through the SD-WAN CNF for Tx (LAN to WAN) when a packet leaves from the edge cluster to the external network.
+Packets that attempt to leave the edge come into the CNF through a LAN link attached to the OVN network on the edge cluster. This packet is then marked by the mwan3 application. This mark is used by the firewall to apply rules on the packet, and steer it to the proper WAN link used by the IPSec tunnel connecting the CNF to the WAN. The packet enters the IPSec tunnel and leaves the edge through the WAN interface.
+
+The following figure shows the typical packet flow through the SD-WAN CNF for Tx (LAN to WAN), when a packet leaves from the edge cluster to the external network:
 
 ![SD-WAN Tx packet flow ](sdwan-images/packet-flow-tx.png)
 
 ## OpenNESS Integration
+The previous sections of this document describe the operation of an SD-WAN implemention built from OpenWrt and its various packages. We now turn to the subject of how the SD-WAN is integrated with OpenNESS.
+
 ### Goals
-Openness leverages SD-WAN project to offer SD-WAN service within on-premise edge to enable secure and optimized inter-edge data transfer. This functionality is sought by global corporations with their branch offices distributed across many geo-locations as it optimizes access to their applications by simplifying the connections from their edge networks to WAN, and other edge locations via WAN.
+OpenNESS leverages the SD-WAN project to offer SD-WAN service within an on-premise edge, to enable secure and optimized inter-edge data transfer. This functionality is sought by global corporations with  branch offices distributed across many geographical locations, as it creates an optimized WAN between edge locations implemented on top of a public network.
 
-At least one SD-WAN CNF is expected to run on each OpenNESS cluster, and act as a proxy for edge applications traffic that leaves and enters the cluster. Finally, the main task for the CNF is to work as a software-defined route for connecting the edge LANs with the WAN.
+At least one SD-WAN CNF is expected to run on each OpenNESS cluster (as shown in a previous figure), and act as a proxy for edge applications traffic entering and exiting the cluster. The primary task for the CNF is to provide software-defined routes connecting the edge LANs with the (public network) WAN.
 
-Currently, OpenNESS SD-WAN is intended only for single node clusters, accomodating only one instance of CNF and CRD Controller.
+Currently, the OpenNESS SD-WAN is intended only for single node clusters, accommodating only one instance of a CNF and a CRD Controller.
 
 
 
 ### Networking Implementation
-OpenNESS deployment featuring SD-WAN implements networking within the cluster with two CNIs: Calico CNI that acts as the primary CNI and ovn4nfv k8s plugin CNI that acts as the secondary CNI. The deployment also uses Multus CNI that allows attaching multiple network interfaces to pods, which is required by the CNF pod.
+OpenNESS deployment featuring SD-WAN implements networking within the cluster with three CNIs: 
 
-[Calico](https://docs.projectcalico.org/about/about-calico) CNI is used to configure the default network overlay for the OpenNESS cluster. It provides the communication between the pods of the cluster and acts as the management interface. Calico is considered a lighter solution than Kube-OVN, which currently is the preferable CNI plugin for the primary network in OpenNESS clusters.
+  - calico CNI, that acts as the primary CNI. 
+  - ovn4nfv k8s plugin CNI  that acts as the secondary CNI. 
+  - Multus CNI, that allows for attaching multiple network interfaces to pods, required by the CNF pod. Without Multus, Kubernetes pods could support only one network interface.
 
-[ovn4nfv-k8s-plugin](https://github.com/opnfv/ovn4nfv-k8s-plugin) is a CNI plugin based on OVN and OpenVSwitch (OVS). It works with Multus CNI to add multiple interfaces to the pod. In that case, one of the interfaces, net1, is considered as OVN default interface that connects to Multus. The other interfaces are added by ovn4nfv-k8s-plugin according to the pod annotation. With ovn4nfv-k8s-plugin, virtual networks can be created in run-time. The CNI plugin also utilises physical interfaces to connect a pod to an external network (provider network). This is particularly important for SD-WAN CNF. Ovn4nfv also enables Service Function Chaining ([SFC](https://github.com/opnfv/ovn4nfv-k8s-plugin/blob/master/demo/sfc-setup/README.md)).
+The [Calico](https://docs.projectcalico.org/about/about-calico) CNI is used to configure the default network overlay for the OpenNESS cluster. It provides the commuication between the pods of the cluster and acts as the management interface. Calico is considered a lighter solution than Kube-OVN, which currently is the preferable CNI plugin for the primary network in OpenNESS clusters.
 
-In order to work as a proxy between the virtual LANs in the cluster and the WAN, SD-WAN CNF requires configuration for two types of network interfaces:
+The [ovn4nfv-k8s-plugin](https://github.com/opnfv/ovn4nfv-k8s-plugin) is a CNI plugin based on OVN and OpenVSwitch (OVS). It works with the Multus CNI to add multiple interfaces to the pod. If Multus is used, the net1 interface is by convention the OVN default interface that connects to Multus. The other interfaces are added by ovn4nfv-k8s-plugin according to the pod annotation. With ovn4nfv-k8s-plugin, virtual networks can be created at runtime. The CNI plugin also utilises physical interfaces to connect a pod to an external network (provider network). This is particularly important for the SD-WAN CNF. ovn4nfv also enables Service Function Chaining ([SFC](https://github.com/opnfv/ovn4nfv-k8s-plugin/blob/master/demo/sfc-setup/README.md)).
 
-  1)   A virtual LAN network needs to be created on one of the CNF's virtual interfaces. It will connect other application pods belonging to the same OVN network in the cluster. Ovn4nfv plugin allows for simplified creation of a virtual OVN network based on the provided configuration. The network is then attached on one of the CNF' interfaces.
-  2)   A provider network must be created to connect the CNF pod to an external network (WAN). Provider network is attached on the physical network infrastructure via layer-2 (via bridging/switching).
+In order for the SD-WAN CNF to act as a proxy between the virtual LANs in the cluster and the WAN, it needs to have  two types of network interfaces configured:
 
-### CERA
-OpenNESS has defined CERA for SD-WAN edge and SD-WAN hub. They are used by OpenNESS to configure the platform to act as a uCPE platform for SD-WAN CNF on edge and hub accordingly. Even though there is only one implementation of CNF, it can be used for two different purposes:
+ -  A virtual LAN network on one of the CNF's virtual interfaces. This connects  application pods belonging to the same OVN network in the cluster. The ovn4nfv plugin allows for simplified creation of a virtual OVN network based on the provided configuration. The network is then attached on one of the CNF's interfaces.
+ -  A provider network, to connect the CNF pod to an external network (WAN). The provider network is attached to the physical network infrastructure via layer-2 (i.e., via bridging/switching).
 
-#### SD-WAN Edge
-This CERA is used to deploy SD-WAN CNF on a single-node edge cluster that will also accomodate enterprize edge applications. The major goal of this CERA is to bring up a K8s based platform that will boost the performance of deployed edge applications and reduce resource usage by the K8s systems. This platform needs to be optimized and ready to use IA accelerators. OpenNESS provides support for the deployment of OpenVINO™ applications and workloads acceleration through Intel® Vision Accelerator Design with the Intel® Movidius™ VPU HDDL-R add-in card. That is why this CERA enables HDDL plugin to support the HDDL card if available on the node, and to provide acceleration to high-performance applications. The CERA also enables Node Feature Discovery service (NFD) on the cluster to provide awareness of the nodes’ features to the edge applications. Finally, the CERA implements Istio Service Mesh (SM) on the default namespace to connect the edge applications. SM acts as a middleware between the edge applications/services and the OpenNESS platform and provides abstractions for traffic management, observability, and security of the edge micro-services in the mesh. Istio is a cloud-native service mesh platform that provides the service mesh capabilities such as Traffic Management, Security, and Observability uniformly across a network of services. Openness integrates with Istio service mesh to reduce the complexity of large scale edge applications, services, and network functions. More information on SM in OpenNESS can be found [here]().
-To minimalize resource consumption by the cluster, the CERA disables services such as EAA, Edge DNS, and Kafka. Telemetry service stays active for all the K8s deployments.
+### Converged Edge Reference Architectures (CERA)
+CERA is a business program that creates and maintains validated reference architectures of edge networks, including both hardware and software elements. The reference architectures are used by ISVs, system integrators, and others to accelerate the development of production edge computing systems.
+
+The OpenNESS project has created a CERA reference architecture for SD-WAN edge and SD-WAN hub. They are used, with OpenNESS, to create a uCPE platform for an SD-WAN CNF on edge and hub accordingly. Even though there is only one implementation of CNF, it can be used for two different purposes, as described below.
+
+#### SD-WAN Edge Reference Architecture
+The SD-WAN Edge CERA reference implementation is used to deploy SD-WAN CNF on a single-node edge cluster that will also accomodate enterprize edge applications. The major goal of SD-WAN Edge is to support the creation of a Kubernetes-based platform that boosts the performance of deployed edge applications and reduces resource usage by the Kubernetes system. To accomplish this, the underlying platform must be optimized and made ready to use IA accelerators. OpenNESS provides support for the deployment of OpenVINO™ applications and workloads acceleration with the Intel® Movidius™ VPU HDDL-R add-in card.  SD-WAN Edge also enables the Node Feature Discovery (NFD) building block on the cluster to provide awareness of the nodes’ features to  edge applications. Finally, SD-WAN Edge implements Istio Service Mesh (SM) in the default namespace to connect the edge applications. SM acts as a middleware between  edge applications/services and the OpenNESS platform, and provides abstractions for traffic management, observability, and security of the building blocks in the platform. Istio is a cloud-native service mesh that provides capabilities such as Traffic Management, Security, and Observability uniformly across a network of services. OpenNESS integrates with Istio to reduce the complexity of large scale edge applications, services, and network functions. More information on SM in OpenNESS can be found on the OpenNESS [website](https://openness.org/developers/).
+
+
+To minimalize resource consumption by the cluster, SD-WAN Edge disables services such as EAA, Edge DNS, and Kafka. Telemetry service stays active for all the Kubernetes deployments.
+
+The following figure shows the system architecture of the SD-WAN Edge Reference Architecture.
 
 ![OpenNESS SD-WAN Edge Architecture ](sdwan-images/sdwan-edge-arch.png)
 
 
-#### SD-WAN Hub
-CERA for SD-WAN hub prepares an OpenNESS platform for a single-node cluster that will primarily function as an SD-WAN hub. This cluster will also deploy SD-WAN CRD Controller and CNF, but no other corporate applications are expected to run on it. That is why the node does not enable support neither for HDDL card nor Network Feature Discovery and Service Mesh.
+#### SD-WAN Hub Reference Architecture
+The SD-WAN Hub reference architecture prepares an OpenNESS platform for a single-node cluster that functions primarily as an SD-WAN hub. That cluster will also deploy a SD-WAN CRD Controller and a CNF, but no other corporate applications are expected to run on it. That is why the node does not enable support for an HDDL card or for Network Feature Discovery and Service Mesh.
 
-The hub is another OpenNESS single-node cluster that acts as a proxy between different edge clusters. The hub is essential to connect the edges through WAN when applications within the edge clusters have no public IP addresses, and therefore cannot be accessed without configuring certain rules. These rules can be configured globally on a device acting as a hub for the edge locations. 
+The Hub is another OpenNESS single-node cluster that acts as a proxy between different edge clusters. The Hub is essential to connect  edges through a WAN when applications within the edge clusters have no public IP addresses, which requires additional routing rules to provide access. These rules can be configured globally on a device acting as a hub for the edge locations. 
 
-Hub node is required for two purposes:
+The Hub node has two expected use-cases:
 
-- If the edge application wants to access the internet or an external application wants to access service running in the edge node, the hub node can act as a gateway with a security policy applied.
+- If the edge application wants to access the internet, or an external application wants to access service running in the edge node, the Hub node can act as a gateway with a security policy in force.
 
-- For communication between edge nodes located at different locations (in different clusters), if either edge node has public IP, then the IP Tunnel can be configured directly between the edge clusters, but if both edge nodes do not have public IP, the hub node is required to act as a proxy to enable the communication.
+- For communication between a pair of edge nodes located at different locations (and in different clusters), if both edge nodes have public IP addresses, then an IP Tunnel can be configured directly between the edge clusters, otherwise the Hub node is required to act as a proxy to enable the communication.
 
-SD-WAN hub node needs high performance especially for IO processing, required for providing communication between the edge clusters.
+The following figure shows the system architecture of the SD-WAN Hub Reference Architecture.
 
 ![OpenNESS SD-WAN Hub Architecture ](sdwan-images/sdwan-hub-arch.png)
 
 ## Deployment
 ### E2E Scenarios
-Three end-to-end scenarios have been validated to verify deployment of OpenNESS featuring SD-WAN functionality. These scenarios are described in the following sections of this White Paper. 
+Three end-to-end scenarios have been validated to verify deployment of an SD-WAN on OpenNESS. The three scenarios are described in the following sections of this document. 
+
 #### Hardware Specification
 
-The following specification of hardware is used in the scenario setups. 
+The following table describes the hardware requirements of the scenarios. 
 
 | Hardware |                        | UE                                 | Edge & Hub                           |
 | ---------|----------------------- | ---------------------------------- | ------------------------------------ |
@@ -243,44 +312,47 @@ The following specification of hardware is used in the scenario setups.
 |          | L3 cache:              |  30720K                            | 1126K                                |
 |          | NUMA node0 CPU(s):     |  0-11                              | 0-15                                 |
 |          | NUMA node1 CPU(s):     |  12-23                             |                                      |
-| NIC      | Ethernet controller:   | Intel® Corporation                  | Intel® Corporation                    |
+| NIC      | Ethernet controller:   | Intel Corporation                  | Intel Corporation                    |
 |          |                        | 82599ES 10-Gigabit                 | Ethernet Connection                  |
 |          |                        | SFI/SFP+ Network Connection        | X722 for 10GbE SFP+                  |
 |          |                        | (rev 01)                           | Subsystem: Advantech Co. Ltd         |
-|          |                        | Subsystem: Intel® Corporation       | Device 301d                          |
+|          |                        | Subsystem: Intel Corporation       | Device 301d                          |
 |          |                        | Ethernet Server Adapter X520-2     |                                      |
 | HDDL     |                        |                                    |                                      |
 
 #### Scenario 1
 
-In this scenario, two UEs are connected to two separate edge nodes which are connected to one common hub. The scenario aims to highlight that the basic connectivity across the edge clusters can be achieved with the use of SD-WAN. The scenario proves that based on this connectivity, traffic can be sent between the edge clusters. The traffic flow is initiated on one UE and received on the other UE.  
+In this scenario, two UEs are connected to two separate edge nodes, which are connected to one common hub. The scenario demonstrates basic connectivity accross the edge clusters via the SD-WAN. The traffic flow is initiated on one UE and received on the other UE.  
 
-For this scenario, OpenNESS is deployed on both the edges and the hub. On each edge and hub, SD-WAN RD Controller and a CNF are set up. Then CRs are used to configre the CNFs and to set up IPsec tunnels between each edge and the hub, and to configure rules on the WAN interfaces connecting edges with the hub. Each CNF is connected to two provider networks. The CNFs on Edge 1 and Edge 2 use provider network n2 to connect to UEs outside the Edge, and the provider network n3 to connect the hub in another edge location. Currently, the UE connects to the CNF directly without the switch. In the picture below, UE1 is in the same network(NET1) as Edge1 port, and it is considered a private network.
-This scenario verifies that sample traffic can be sent from the UE connected to Edge2 to another UE connected to Edge1, over secure WAN links connecting Edge1 and Edge2 to a hub. To demonstrate this connectivity, traffic from the Iperf-client application running on Edge2 UE is sent towards Edge1 UE running the Iperf server application.
+For this scenario, OpenNESS is deployed on both edges and on the hub. On each edge and hub, an SD-WAN CRD Controller and a CNF are set up. Then CRs are used to configre the CNFs and to set up IPsec tunnels between each edge and the hub, and to configure rules on the WAN interfaces connecting edges with the hub. Each CNF is connected to two provider networks. The CNFs on Edge 1 and Edge 2 use provider network n2 to connect to UEs outside the Edge, and the provider network n3 to connect the hub in another edge location. Currently, the UE connects to the CNF directly without the switch. In the following figure, UE1 is in the same network(NET1) as Edge1 port. It is considered a private network.
 
-Edge1 node also deploys an OpenVINO™ app and in this manner, this scenario integrates scenario 3 (described below).
+This scenario verifies that sample traffic can be sent from the UE connected to Edge2 to another UE connected to Edge1 over secure WAN links connecting the edges to a hub. To demonstrate this connectivity, traffic from the Iperf-client application running on the Edge2 UE is sent toward the Edge1 UE running the Iperf server application.
+
+The Edge1 node also deploys an OpenVINO app, and, in this way, this scenario also demonstrates Scenario 3 described below.
 
 ![OpenNESS SD-WAN Scenario 1 ](sdwan-images/e2e-scenario1.png)
 
-A detailed description of this E2E test is provided in the OpenNESS documentation for this SD-WAN [scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md) 
+A more detailed description of this E2E test is provided under the link in the OpenNESS documentation for this SD-WAN [scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md).
 
 #### Scenario 2
-This scenario demonstrates a simple OpenNESS SD-WAN use case which involves only one single node cluster that deploys SD-WAN CNF and an application pod running Iperf client. CNF pod and Iperf-client pod are attached to one virtual OVN network using n3 and n0 interfaces respectively. CNF has configured a provider network on interface n2 that is attached to a physical interface on the Edge node to work as a bridge to connect the external network. This scenario demonstrates that after a  proper configuration of the CNF, the traffic sent from the application pod uses SD-WAN CNF as proxy and arrives at the User Equipment (UE) in the external network. The E2E traffic from the Iperf3 client application running on the application pod deployed on the Edge node travels to the external UE via 10G NIC port. The UE runs the Iperf3 server application. The OpenNESS cluster consisting of the Edge Node server is deployed with SD-WAN edge CERA. The Iperf client traffic is expected to pass through the SD-WAN cnf and the attached provider network interface to reach the Iperf server listening on the UE.
+This scenario demonstrates an simple OpenNESS SD-WAN with a single node cluster, that deploys an SD-WAN CNF and an application pod running an Iperf client. The scenario is depicted in the following figure.
 
-A detailed description of the scenario can be found in this SD-WAN scenario [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md)
+The CNF pod and Iperf-client pod are attached to one virtual OVN network, using the n3 and n0 interfaces respectively. The CNF has configured a provider network on interface n2, that is attached to a physical interface on the Edge node to work as a bridge, to connect the external network. This scenario demonstrates that, after configuration of the CNF, the traffic sent from the application pod uses the SD-WAN CNF as a proxy, and arrives at the User Equipment (UE) in the external network. The E2E traffic from the Iperf3 client application on the application pod (which is deployed on the Edge node) travels to the external UE via a 10G NIC port. The UE runs the Iperf3 server application. The OpenNESS cluster, consisting of the Edge Node server,  is deployed on the SD-WAN Edge. The Iperf client traffic is expected to pass through the SD-WAN CNF and the attached provider network interface to reach the Iperf server that is listening on the UE.
+
+A more detailed description of the scenarion can be found in this SD-WAN scenario [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md)
 
 ![OpenNESS SD-WAN Scenario 2 ](sdwan-images/e2e-scenario2.png)
 
 
 #### Scenario 3
-This scenario demonstrates execution of sample OpenVINO™ benchmark application deployed on the OpenNESS edge platform equipped with an HDDL accelerator card. It reflects the use case where high performance OpenVINO™ application is executed on OpenNESS single node cluster, deployed with CERA SD-WAN edge. The CERA enables HDDL plugin to provide the OpenNESS platform with support for workload acceleration through HDDL card inserted on the node. For more information on the OpenVINO™ sample application, refer to the following links:
+This scenario a sample OpenVINO benchmark application deployed on an OpenNESS edge platform equipped with an HDDL accelerator card. It reflects the use case in which a high performance OpenVINO application is executed on an OpenNESS single node cluster, deployed with an SD-WAN Edge. The SD-WAN Edge enables an HDDL plugin to provide the OpenNESS platform with support for workload acceleration via the HDDL card. More information on the OpenVINO sample application is provided under the following links:
 
   - [OpenVINO Sample Application White Paper](https://github.com/otcshare/specs/blob/master/doc/applications/openness_openvino.md)
 
   - [OpenVINO Sample Application Onboarding](https://github.com/otcshare/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-openvino-application)
 
 
-Detailed description of this scenario is available in OpenNESS [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
+A more detailed description of this scenario is available in OpenNESS [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
 
 ![OpenNESS SD-WAN Scenario 3 ](sdwan-images/e2e-scenario3.png)
 
@@ -289,15 +361,15 @@ Detailed description of this scenario is available in OpenNESS [documentation](h
 
 The resource consumption of CPU and memory was measured. 
 
-To  measure the CPU and memory resource consumption by the K8s cluster a “kubctl top pod -A” command was used both on the Edge node and the Hub. 
+To measure the CPU and memory resource consumption of the Kubernetes cluster, the “kubctl top pod -A” command was invoked both on the Edge node and the Edge Hub. 
 
-The resource consumption was measure twice:
+The resource consumption was measured twice:
 
-  - when no IPerf traffic was transferred through it 
+  - With no IPerf traffic; 
 
-  - when IPerf traffic was being sent from Edge2-UE to Edge1-UE
+  - With IPerf traffic  from Edge2-UE to Edge1-UE.
 
-To measure total memory usage command “free -h” was used.
+To measure total memory usage, the command “free -h” was used.
 
 ### Results
 
@@ -324,6 +396,9 @@ To measure total memory usage command “free -h” was used.
 |             |                                                               |
 |-------------|---------------------------------------------------------------|
 | API         | Application Programming Interface                             |
+| CERA        | Converged Edge Reference Architectures
+| CR          | Custom Resource                                               |
+| CRD         | Custom Resource Definition                                    |
 | CNF         | Cloud-native Network Function                                 |
 | DNAT        | Destination Network Address Translation                       |
 | HDDL        | High Density Deep Learning                                    |
