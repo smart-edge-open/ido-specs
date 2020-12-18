@@ -6,16 +6,16 @@ Copyright (c) 2019 Intel Corporation
 # OpenNESS Experience Kits
 - [Purpose](#purpose)
 - [OpenNESS setup playbooks](#openness-setup-playbooks)
-- [Customizing kernel, grub parameters, and tuned profile & variables per host.](#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
+- [Customizing kernel, grub parameters, and tuned profile & variables per host](#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
   - [IP address range allocation for various CNIs and interfaces](#ip-address-range-allocation-for-various-cnis-and-interfaces)
   - [Default values](#default-values)
   - [Use newer realtime kernel (3.10.0-1062)](#use-newer-realtime-kernel-3100-1062)
   - [Use newer non-rt kernel (3.10.0-1062)](#use-newer-non-rt-kernel-3100-1062)
   - [Use tuned 2.9](#use-tuned-29)
   - [Default kernel and configure tuned](#default-kernel-and-configure-tuned)
-  - [Change amount of hugepages](#change-amount-of-hugepages)
-  - [Change size of hugepages](#change-size-of-hugepages)
-  - [Change amount and size of hugepages](#change-amount-and-size-of-hugepages)
+  - [Change amount of HugePages](#change-amount-of-hugepages)
+  - [Change size of HugePages](#change-size-of-hugepages)
+  - [Change amount and size of HugePages](#change-amount-and-size-of-hugepages)
   - [Remove input output memory management unit (IOMMU) from grub params](#remove-input-output-memory-management-unit-iommu-from-grub-params)
   - [Add custom GRUB parameter](#add-custom-grub-parameter)
   - [Configure OVS-DPDK in kube-ovn](#configure-ovs-dpdk-in-kube-ovn)
@@ -35,7 +35,7 @@ OEKs allow a user to customize kernel, grub parameters, and tuned profiles by le
 
 OEKs contain a `host_vars/` directory that can be used to place a YAML file (`nodes-inventory-name.yml`, e.g., `node01.yml`). The file would contain variables that would override roles' default values.
 
-> **NOTE**: Despite the ability to customize parameters (kernel), it is required to have a clean CentOS\* 7.6.1810 operating system installed on hosts (from a minimal ISO image) that will be later deployed from Ansible scripts. This OS shall not have any user customizations.
+> **NOTE**: Despite the ability to customize parameters (kernel), it is required to have a clean CentOS\* 7.8.2003 operating system installed on hosts (from a minimal ISO image) that will be later deployed from Ansible scripts. This OS shall not have any user customizations.
 
 To override the default value, place the variable's name and new value in the host's vars file. For example, the contents of `host_vars/node01.yml` that would result in skipping kernel customization on that node:
 
@@ -50,7 +50,7 @@ The following are several common customization scenarios.
 The OpenNESS Experience kits deployment uses/allocates/reserves a set of IP address ranges for different CNIs and interfaces. The server or host IP address should not conflict with the default address allocation.
 In case if there is a critical need for the server IP address used by the OpenNESS default deployment, it would require to modify the default addresses used by the OpenNESS.
 
-Following files sepcify the CIDR for CNIs and interfaces. These are the IP address ranges allocated and used by default just for reference.
+Following files specify the CIDR for CNIs and interfaces. These are the IP address ranges allocated and used by default just for reference.
 
 ```yaml
 flavors/media-analytics-vca/all.yml:19:vca_cidr: "172.32.1.0/12"
@@ -74,11 +74,11 @@ Here are several default values:
 # --- machine_setup/custom_kernel
 kernel_skip: false  # use this variable to disable custom kernel installation for host
 
-kernel_repo_url: http://linuxsoft.cern.ch/cern/centos/7/rt/CentOS-RT.repo
-kernel_repo_key: http://linuxsoft.cern.ch/cern/centos/7/os/x86_64/RPM-GPG-KEY-cern
+kernel_repo_url: http://linuxsoft.cern.ch/cern/centos/7.8.2003/rt/CentOS-RT.repo
+kernel_repo_key: http://linuxsoft.cern.ch/cern/centos/7.8.2003/os/x86_64/RPM-GPG-KEY-cern
 kernel_package: kernel-rt-kvm
 kernel_devel_package: kernel-rt-devel
-kernel_version: 3.10.0-957.21.3.rt56.935.el7.x86_64
+kernel_version: 3.10.0-1127.19.1.rt56.1116.el7.x86_64
 
 kernel_dependencies_urls: []
 kernel_dependencies_packages: []
@@ -95,8 +95,8 @@ additional_grub_params: ""
 # --- machine_setup/configure_tuned
 tuned_skip: false   # use this variable to skip tuned profile configuration for host
 tuned_packages:
-- http://linuxsoft.cern.ch/scientific/7x/x86_64/os/Packages/tuned-2.11.0-8.el7.noarch.rpm
-- http://linuxsoft.cern.ch/scientific/7x/x86_64/os/Packages/tuned-profiles-realtime-2.11.0-8.el7.noarch.rpm
+- tuned-2.11.0-8.el7
+- http://linuxsoft.cern.ch/scientific/7.8/x86_64/os/Packages/tuned-profiles-realtime-2.11.0-8.el7.noarch.rpm
 tuned_profile: realtime
 tuned_vars: |
   isolated_cores=2-3
@@ -104,16 +104,16 @@ tuned_vars: |
   nohz_full=2-3
 ```
 
-### Use newer realtime kernel (3.10.0-1062)
-By default, `kernel-rt-kvm-3.10.0-957.21.3.rt56.935.el7.x86_64` from `http://linuxsoft.cern.ch/cern/centos/$releasever/rt/$basearch/` repository is installed.
+### Use different realtime kernel (3.10.0-1062)
+By default, `kernel-rt-kvm-3.10.0-1127.19.1.rt56.1116.el7.x86_64` from buil-in repository is installed.
 
 To use another version (e.g., `kernel-rt-kvm-3.10.0-1062.9.1.rt56.1033.el7.x86_64`), create a `host_var` file for the host with content:
 ```yaml
 kernel_version: 3.10.0-1062.9.1.rt56.1033.el7.x86_64
 ```
 
-### Use newer non-rt kernel (3.10.0-1062)
-The OEK installs a real-time kernel by default from a specific repository. However, the non-rt kernel is present in the official CentOS repository. Therefore, to use a newer non-rt kernel, the following overrides must be applied:
+### Use different non-rt kernel (3.10.0-1062)
+The OEK installs a real-time kernel by default. However, the non-rt kernel is present in the official CentOS repository. Therefore, to use a different non-rt kernel, the following overrides must be applied:
 ```yaml
 kernel_repo_url: ""                           # package is in default repository, no need to add new repository
 kernel_package: kernel                        # instead of kernel-rt-kvm

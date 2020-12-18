@@ -338,13 +338,35 @@ Example:
     # Servers to be used by NTP instead of the default ones (e.g. 0.centos.pool.ntp.org)
     ntp_servers: ['ger.corp.intel.com']
     ```
-6. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running following command:
+
+6. Edit file `ido-converged-edge-experience-kits/openness/flavors/cera_5g_near_edge/edgenode_group.yml` and provide correct CPU settings.
+
+    ```yaml
+    tuned_vars: |
+      isolated_cores=1-16,25-40
+      nohz=on
+      nohz_full=1-16,25-40
+    # CPUs to be isolated (for RT procesess)
+    cpu_isol: "1-16,25-40"
+    # CPUs not to be isolate (for non-RT processes) - minimum of two OS cores necessary for controller
+    cpu_os: "0,17-23,24,41-47"
+    ```
+
+7. Edit file `ido-converged-edge-experience-kits/openness/flavors/cera_5g_near_edge/controller_group.yml` and provide names of `network interfaces` that are connected to second server and number of VF's to be created.
+
+    ```yaml
+    sriov:
+      network_interfaces: {eno1: 5, eno2: 2}
+    ```
+    > NOTE: On various platform interfaces can have different name. For e.g `eth1` instead of `eno1`. Please verify interface name before deployment and do right changes.
+
+8. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running following command:
     ```shell
-    ./deploy_openness_for_cera.sh 
+    ./deploy_openness_for_cera.sh cera_5g_near_edge
     ```
     It might take few hours.
 
-7. After successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory.ini`, change IP address to `CERA 5G CN` server.
+9. After successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory.ini`, change IP address to `CERA 5G CN` server.
     ```ini
     [all]
     controller ansible_ssh_user=root ansible_host=192.168.1.109 # Second server CN
@@ -357,17 +379,19 @@ Example:
     ```
     All settings in `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` are the same for both servers.
 
-8. When both servers have deployed OpenNess, login to `CERA 5G CN` server and generate `RSA ssh key`. It's required for AMF/SMF VM deployment.
+10. When both servers have deployed OpenNess, login to `CERA 5G CN` server and generate `RSA ssh key`. It's required for AMF/SMF VM deployment.
     ```shell
     ssh-keygen -t rsa
     # Press enter key to apply default values
     ```
-9. Now full setup is ready for CERA deployment.
+11. Now full setup is ready for CERA deployment.
 
 ### CERA Near Edge Experience Kit Deployment
 For CERA deployment some prerequisites have to be fulfilled. 
 
-1. Edit file `ido-converged-edge-experience-kits/group_vars/all.yml` and provide correct settings:
+1. CentOS should use kernel `kernel-3.10.0-957.el7.x86_64` and have no newer kernels installed.
+
+2. Edit file `ido-converged-edge-experience-kits/group_vars/all.yml` and provide correct settings:
 
     Git token
     ```yaml
@@ -389,7 +413,8 @@ For CERA deployment some prerequisites have to be fulfilled.
     vm_image_path: "/opt/flexcore-5g-rel/ubuntu_18.04.qcow2"
     ```
 
-2. Edit file `ido-converged-edge-experience-kits/host_vars/localhost.yml` and provide correct proxy if is required.
+3. Edit file `ido-converged-edge-experience-kits/host_vars/localhost.yml` and provide correct proxy if is required.
+
     ```yaml
     ### Proxy settings
     # Setup proxy on the machine - required if the Internet is accessible via proxy
@@ -405,11 +430,11 @@ For CERA deployment some prerequisites have to be fulfilled.
     proxy_yum_url: "{{ proxy_os_http }}"
     ```
 
-3. Build all docker images required and provide all necessary binaries.
+4. Build all docker images required and provide all necessary binaries.
     - [dUPF](#dUPF)
     - [UPF](#UPF)
     - [AMF-SMF](#AMF-SMF)
-4. Set all necessary settings for `CERA 5G NE` in `ido-converged-edge-experience-kits/host_vars/cera_5g_ne.yml`.  
+5. Set all necessary settings for `CERA 5G NE` in `ido-converged-edge-experience-kits/host_vars/cera_5g_ne.yml`.  
     See [more details](#dUPF) for dUPF configuration
     ```yaml
     # Define PCI addresses (xxxx:xx:xx.x format) for i-upf
@@ -439,7 +464,7 @@ For CERA deployment some prerequisites have to be fulfilled.
     save_video: "enable"
     target_device: "CPU"
     ```
-5. Set all necessary settings for `CERA 5G CN` in `ido-converged-edge-experience-kits/host_vars/cera_5g_cn.yml`.  
+7. Set all necessary settings for `CERA 5G CN` in `ido-converged-edge-experience-kits/host_vars/cera_5g_cn.yml`.  
     For more details check:
     - [UPF](#UPF)
     - [AMF-SMF](#AMF-SMF)
@@ -455,6 +480,10 @@ For CERA deployment some prerequisites have to be fulfilled.
     ```yaml
     # 5gc binaries directory name
     package_name_5gc: "5gc"
+    ```
+    ```yaml
+    # psa-upf directory path
+    upf_binaries_path: '/opt/flexcore-5g-rel/psa-upf/'
     ```
     ```yaml
     ## AMF-SMF vars
@@ -475,13 +504,13 @@ For CERA deployment some prerequisites have to be fulfilled.
     # PF interface name of N4, N6, N9 created VFs
     host_if_name_N4_N6_n9: "eno1"
     ```
-6. Provide correct IP for target servers in file `ido-converged-edge-experience-kits/cera_inventory.ini`
+8. Provide correct IP for target servers in file `ido-converged-edge-experience-kits/cera_inventory.ini`
     ```ini
     [all]
     cera_5g_ne ansible_ssh_user=root ansible_host=192.168.1.109
     cera_5g_cn ansible_ssh_user=root ansible_host=192.168.1.43
     ```
-6. Deploy CERA Experience Kit
+9. Deploy CERA Experience Kit
     ```shell
     ./deploy_cera.sh
     ```
@@ -501,7 +530,7 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 
 #### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
+To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 #### Settings
 Following variables need to be defined in `/host_vars/cera_5g_ne.yml`
@@ -533,7 +562,7 @@ The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. 
 
 #### Prerequisites
 
-To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA , which builds the image automatically.
+To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_cn). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 #### Settings
 
@@ -681,6 +710,8 @@ Steps to do on logged Guest OS
 
 After these steps there will be available `.qcow2` image generated by installed Virtual Machine in `/var/lib/libvirt/images` directory.
 
+If AMF-SMF is not working correctly installing these packages should fix it: `qemu-guest-agent,iputils-ping,iproute2,screen,libpcap-dev,tcpdump,libsctp-dev,apache2,python-pip,sudo,ssh`.
+
 ### Remote-DN
 
 #### Overview
@@ -741,6 +772,11 @@ Where:
     ```shell 
     wget https://storage.googleapis.com/coverr-main/zip/Rainy_Street.zip
     ```
+
+The OpenVINO demo, saves its output to saved_video/ov-output.mjpeg file on the cera_5g_cn machine.
+
+- To stop the OpenVINO demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
+- To start the OpenVINO demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
 
 ### EIS
 Deployment of EIS is completely automated, so there is no need to set or configure anything except providing release package archive.
