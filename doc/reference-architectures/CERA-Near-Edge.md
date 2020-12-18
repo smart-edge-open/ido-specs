@@ -362,7 +362,7 @@ Example:
 
 8. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running following command:
     ```shell
-    ./deploy_openness_for_cera.sh 
+    ./deploy_openness_for_cera.sh cera_5g_near_edge
     ```
     It might take few hours.
 
