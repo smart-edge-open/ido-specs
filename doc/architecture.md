@@ -115,7 +115,7 @@ Edge Multi-Cluster Orchestration(EMCO), is a Geo-distributed application orchest
 
 ![](arch-images/openness-emco.png)
 
-Link: [EMCO](https://github.com/otcshare/specs/blob/master/doc/building-blocks/emco/openness-emco.md)
+Link: [EMCO](https://github.com/open-ness/specs/blob/master/doc/building-blocks/emco/openness-emco.md)
 ### Resource Management
 
 Resource Management represents a methodology which involves identification of the hardware and software resources on the edge cluster, Configuration and allocation of the resources and continuous monitoring of the resources for any changes.
@@ -140,7 +140,7 @@ Resource Allocation involves configuration of the certain hardware resources lik
 
 Resource monitoring involves tracking the usage of allocated resources to the applications and services and also tracking the remaining allocatable resources. OpenNESS provides collectors, node exporters using collectd, telegraf and custom exporters as part of telemetry and monitoring of current resource usage. Resource monitoring support is provided for CPU, VPU, FPGA AND Memory.
 
-Link: [Enhanced Platform Awareness: Documents covering Accelerators and Resource Management](https://github.com/otcshare/specs/tree/master/doc/building-blocks/enhanced-platform-awareness)
+Link: [Enhanced Platform Awareness: Documents covering Accelerators and Resource Management](https://github.com/open-ness/specs/tree/master/doc/building-blocks/enhanced-platform-awareness)
 
 ### Accelerators
 
@@ -177,13 +177,13 @@ OpenNESS supports the following CNIs:
 - **Kube-OVN CNI**: integrates the OVN-based network virtualization with Kubernetes. It offers an advanced container network fabric for enterprises with the most functions and the easiest operation.
 - **Calico CNI/eBPF**: supports applications with higher performance using eBPF and IPv4/IPv6 dual-stack
 
-Link: [Dataplane and CNI](https://github.com/otcshare/specs/tree/master/doc/building-blocks/dataplane)
+Link: [Dataplane and CNI](https://github.com/open-ness/specs/tree/master/doc/building-blocks/dataplane)
 
 ### Edge Aware Service Mesh 
 
 Istio is a feature-rich, cloud-native service mesh platform that provides a collection of key capabilities such as: Traffic Management, Security and Observability uniformly across a network of services. OpenNESS integrates natively with the Istio service mesh to help reduce the complexity of large scale edge applications, services, and network functions. 
 
-Link: [Service Mesh](https://github.com/otcshare/specs/blob/master/doc/applications/openness_service_mesh.md)
+Link: [Service Mesh](https://github.com/open-ness/specs/blob/master/doc/applications/openness_service_mesh.md)
 
 ### Telemetry and Monitoring
 
@@ -203,7 +203,7 @@ Hardware Telemetry support:
 
 OpenNESS also supports a reference application of using telemetry to take actions using Kubernetes APIs. This reference is provided to the Telemetry Aware Scheduler project. 
 
-Link: [Telemetry](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md)
+Link: [Telemetry](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md)
 
 ### Edge Services 
 
@@ -237,21 +237,21 @@ This flavor supports the installation of the minimal set of components from Open
 
 This flavor typically refers to RAN Distributed Unit (O-DU) and Centralized Unit (O-CU) 4G/5G nodes deployed on the access edge. In some cases, DU may be integrated into the radio. The example RAN deployment flavor uses FlexRAN as a reference DU. 
 
-Link: [CERA Access Edge Overview](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_ran.md)
+Link: [CERA Access Edge Overview](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/ran/openness_ran.md)
 
-Link: [ORAN Fronthaul](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/ran/openness_xran.md) 
+Link: [ORAN Fronthaul](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/ran/openness_xran.md) 
 
 ### CERA Near Edge Flavor
 
 CERA Near Edge Flavor provides reference for edge deployments at aggregation points, mini central office and presents a scalable solution across the near edge network scaling from a single edge node to a multi cluster deployment services many edge nodes. The reference solution will used for deployments for example involving edge node with Core User plane function and Applications an services. 
 
-Link: [CERA Near Edge Overview](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md)
+Link: [CERA Near Edge Overview](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md)
 
 ### CERA On Prem Edge and Private Wireless
 
 CERA 5G On Prem deployment focuses on On Premises, Private Wireless and Ruggedized Outdoor deployments, presenting a scalable solution across the On Premises edge. 
 
-Link: [CERA On Prem Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
+Link: [CERA On Prem Edge](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
 
 ### CERA SD-WAN Edge Flavor
 
@@ -261,7 +261,7 @@ CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancem
 
 CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs SD-WAN CNF. 
 
-Link: [CERA SD-WAN](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/openness_sdwan.md)
+Link: [CERA SD-WAN](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/openness_sdwan.md)
 
 ### CERA Media Analytics Flavor with VCAC-A
 
@@ -287,11 +287,11 @@ CERA for Core Control Plane Flavor provides key OpenNESS Kubernetes enhancements
 
 CERA for Core User Plane Flavor provides key OpenNESS Kubernetes enhancements for high performance Computing and Networking using SR-IOV for reference core network user plane network functions.
 
-Link: [CERA Core User Plane](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_upf.md) 
+Link: [CERA Core User Plane](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/core-network/openness_upf.md) 
 
-Link: [5G Non Standalone deployment](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_5g_nsa.md)
+Link: [5G Non Standalone deployment](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/core-network/openness_5g_nsa.md)
 
-Link: [5G Standalone deployment](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/core-network/openness_ngc.md)
+Link: [5G Standalone deployment](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/core-network/openness_ngc.md)
 
 ### CERA for Untrusted Non-3GPP Access Flavor 
 
@@ -311,7 +311,7 @@ The following is a subset of supported reference network functions:
 
 - **gNodeB or eNodeB**: 5G or 4G base station implementation on Intel architecture based on Intel’s FlexRAN.
 
-Link: [Documents covering OpenNESS supported Reference Architectures](https://github.com/otcshare/specs/tree/master/doc/reference-architectures)
+Link: [Documents covering OpenNESS supported Reference Architectures](https://github.com/open-ness/specs/tree/master/doc/reference-architectures)
 ## OpenNESS Optimized Commercial Applications 
 
 OpenNESS Optimized Commercial applications are available at [Intel® Network Builders](https://networkbuilders.intel.com/commercial-applications)

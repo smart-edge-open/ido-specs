@@ -176,7 +176,7 @@ The Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) plays a key r
 
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
-For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
 
 <b>Intel® QAT</b>  
 The Intel® QuickAssist Adapter provides customers with a scalable, flexible, and extendable way to offer Intel® QuickAssist Technology (Intel® QAT) crypto acceleration and compression capabilities to their existing product lines. Intel® QuickAssist Technology (Intel® QAT) provides hardware acceleration to assist with the performance demands of securing and routing Internet traffic and other workloads, such as compression and wireless 4G LTE and 5G gnb algorithm offload, thereby reserving processor cycles for application and control processing.
@@ -218,9 +218,9 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
     ```
     > NOTE: Replace TARGET_IP with the actual IP address of the target machine.
 
-2. Clone `ido-converged-edge-experience-kits` repo from `github.com/otcshare` using git token.
+2. Clone `ido-converged-edge-experience-kits` repo from `github.com/open-ness` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:otcshare/ido-converged-edge-experience-kits.git
+    git clone --recursive GIT_TOKEN@github.com:open-ness/ido-converged-edge-experience-kits.git
     ```
     > NOTE: Replace GIT_TOKEN with your git token.
 
@@ -502,7 +502,7 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 
 ##### Prerequisites
 
-To deploy dUPF correctly, one needs to provide Docker image to Docker repository on the target node. There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly, one needs to provide Docker image to Docker repository on the target node. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ##### Settings
 The following variables need to be defined in `cera_config.yaml`
@@ -529,7 +529,7 @@ The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. 
 #### Deployment
 ##### Prerequisites
 
-To deploy `UPF` correctly one needs to provide a Docker image to Docker Repository on target nodes. There is a script on the  `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy `UPF` correctly one needs to provide a Docker image to Docker Repository on target nodes. There is a script on the  `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ##### Settings
 
@@ -556,7 +556,7 @@ The CERA `AMF-SMF` component is deployed on `CERA 5G Core Network (cera_5g_cn)` 
 #### Deployment
 ##### Prerequisites
 
-To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(cera_5g_cn). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/AMF-SMF` repository provided by CERA, which builds the image automatically.
+To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(cera_5g_cn). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/AMF-SMF` repository provided by CERA, which builds the image automatically.
 
 ##### Settings
 
@@ -642,7 +642,7 @@ Deployment of EIS is completely automated, so there is no need to set or configu
 eis_release_package_path: ""
 ```
 
-For more details about `eis-experience-kit` check [README.md](https://github.com/otcshare/edgeapps/blob/master/applications/eis-experience-kit/README.md)
+For more details about `eis-experience-kit` check [README.md](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/README.md)
 
 ### gNodeB
 #### Overview
@@ -652,7 +652,7 @@ For more details about `eis-experience-kit` check [README.md](https://github.com
 #### Deployment
 #### Prerequisites
 
-To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card.
+To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card.
 
 #### Settings
 
