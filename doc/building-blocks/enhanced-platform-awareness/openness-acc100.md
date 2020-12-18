@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019-2020 Intel Corporation
+Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
 # Using ACC100 eASIC in OpenNESS: Resource Allocation, and Configuration

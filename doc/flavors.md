@@ -279,9 +279,11 @@ This deployment flavor enables the following ingredients:
 
 ## Reference Service Mesh
 
-Service Mesh technology enables services discovery and sharing of data between application services. This technology can be useful in any CERA. Customers will find Service Mesh under flavors directory as a reference to quicky try out the technology and understand the implications. In future OpenNESS releases this Service Mesh will not be a dedicated flavor. 
+Service Mesh technology enables services discovery and sharing of data between application services. This technology can be useful in any CERA. Customers will find Service Mesh under flavors directory as a reference to quickly try out the technology and understand the implications. In future OpenNESS releases this Service Mesh will not be a dedicated flavor. 
 
 The pre-defined *service-mesh* deployment flavor installs the OpenNESS service mesh that is based on [Istio](https://istio.io/).
+
+> **NOTE**: When deploying Istio Service Mesh in VMs, a minimum of 8 CPU core and 16GB RAM must be allocated to each worker VM so that Istio operates smoothly
 
 Steps to install this flavor are as follows:
 1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
