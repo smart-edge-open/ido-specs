@@ -335,7 +335,7 @@ This deployment flavor enables the following ingredients:
 
 ## CERA SD-WAN Edge Flaor
 
-CERA SD-WAN Edge flavor is used to deploy SD-WAN on OpenNESS cluster acting as the Edge platform. This CERA flavor supports only single-node OpenNESS deployment. It provides configuration that supports running SD-WAN CNFs on the OpenNESS cluster, enables hardware accelerators with the HDDL plugin, and adds support for Service Mesh (SM) and Node Feature Disovery (NFD) to aid other applications and services runing on the Edge node. This CERA flavor disbless EAA, Kafka adn Edge DNS services for platform optimization.
+CERA SD-WAN Edge flavor is used to deploy SD-WAN on the OpenNESS cluster acting as an Edge platform. This CERA flavor only supports single-node OpenNESS deployments. It provides configuration that supports running SD-WAN CNFs on the OpenNESS cluster, enables hardware accelerators with the HDDL plugin, and adds support for service mesh and node feature disovery to aid other applications and services runing on the Edge node. This CERA flavor disbless EAA, Kafka adn Edge DNS services for platform optimization.
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
@@ -365,7 +365,7 @@ CERA SD-WAN Hub flavor is used to deploy SD-WAN on the OpenNESS cluster acting a
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 2. Run the x-openness-experience-kits deployment script:
-    ```shell$
+    ```shell
     $ deploy_ne.sh -f sdewan-hub single
     ```
 
