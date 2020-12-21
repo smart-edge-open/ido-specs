@@ -332,3 +332,54 @@ This deployment flavor enables the following ingredients:
 * Harbor Registry
 * The default Kubernetes CNI: `kube-ovn`
 * EMCO services
+
+## CERA SD-WAN Edge Flaor
+
+CERA SD-WAN Edge flavor is used to deploy SD-WAN on OpenNESS cluster acting as the Edge platform. This CERA flavor supports only single-node OpenNESS deployment. It provides configuration that supports running SD-WAN CNFs on the OpenNESS cluster, enables hardware accelerators with the HDDL plugin, and adds support for Service Mesh (SM) and Node Feature Disovery (NFD) to aid other applications and services runing on the Edge node. This CERA flavor disbless EAA, Kafka adn Edge DNS services for platform optimization.
+
+The following are steps to install this flavor:
+1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Run the x-openness-experience-kits deployment script:
+    ```shell
+    $ deploy_ne.sh -f sdewan-edge single
+    ```
+
+This CERA flavor enables the following deployment configuration:
+* Istio servise mesh on the default namespace
+* Node Feature Discovery
+* The primamary K8s CNI: 'calico'
+* The secondary K8s CNI: 'ovn4nfv'
+* HDDL support
+* Telemetry
+* Reserved CPUs for K8s and OS daemons
+* Kiali management console
+
+This CERA flavor disables the following deployment configuration:
+* EAA service with Kafka
+* Edge DNS
+
+## CERA SD-WAN Hub Flavor
+
+CERA SD-WAN Hub flavor is used to deploy SD-WAN on the OpenNESS cluster acting as a Hub for Edge clusters. It only supports single-node OpenNESS deployments. This CERA flavor disabless EAA, Kafka and EAA services for platform optimization.
+
+The following are steps to install this flavor:
+1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Run the x-openness-experience-kits deployment script:
+    ```shell$
+    $ deploy_ne.sh -f sdewan-hub single
+    ```
+
+This CERA flavor enables the following deployment configuration:
+* The primamary CNI 'calico'
+* The secondary CNI 'ovn4nfv'
+* Telemetry
+* Reserved CPUs for K8s and OS daemons
+* Kiali management console
+
+
+This CERA flavor disables the following deployemnt configuration:
+* Node Feature Discovery
+* EAA service with Kafka
+* Edge DNS
+* HDDL support
+
