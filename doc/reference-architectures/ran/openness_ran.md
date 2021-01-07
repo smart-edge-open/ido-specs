@@ -65,7 +65,7 @@ This section explains the steps involved in building the FlexRAN image. Only L1 
    cd edgeapps/network-functions/ran/5G/du-dev
    ./build-du-dev-image.sh
    ```
-   The list of binary files that are used is documented in [dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/5G/gnb/Dockerfile)
+   The list of binary files that are used is documented in [dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/5G/flexRAN-gnb/Dockerfile)
    - ICC, IPP mpi and mkl Runtime 
    - DPDK build target directory 
    - FlexRAN test vectors (optional) 
