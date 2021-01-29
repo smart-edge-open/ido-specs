@@ -38,6 +38,7 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `kube-ovn`
 * Telemetry
 
+To customize this flavor we recommend creating additional file in openness-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `openness-experiance-kits/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`). 
 
 ## CERA Access Edge Flavor
 
