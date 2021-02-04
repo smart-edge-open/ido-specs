@@ -66,16 +66,18 @@ CMK can be deployed using a [Helm chart](https://helm.sh/). The CMK Helm chart u
    # CMK - Comma separated list of nodes' hostnames
    cmk_host_list: "node01,node02"
    ```
-2. Deploy the controller with `deploy_ne.sh controller`.
+2. Deploy the controller with `deploy_ne.sh -f <flavor> controller`.
 
 **Edge Node / Kubernetes node**
 
 1. In `group_vars/all/10-open.yml`, change `ne_cmk_enable` to “true”.
 2. To change core isolation set isolated cores in `group_vars/edgenode_group/10-open.yml` as `additional_grub_params` for your node e.g. in `group_vars/edgenode_group/10-open.yml`, set `additional_grub_params: "isolcpus=1-10,49-58"`.
-3. Deploy the node with `deploy_ne.sh node`.
+3. Deploy the node with `deploy_ne.sh -f <flavor> node`.
 
 The environment setup can be validated using steps from the [CMK operator manual](https://github.com/intel/CPU-Manager-for-Kubernetes/blob/master/docs/operator.md#validating-the-environment).
 
+**Note:**
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
 ### Usage
 
 The following example creates a `Pod` that can be used to deploy an application pinned to a core:

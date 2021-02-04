@@ -35,7 +35,7 @@ Find below a guide on changing these values. Customizations must be made before 
 Variables for hugepage customization can be placed in several files:
 
 * `group_vars/controller_group/10-open.yml` and `group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes respectively in every mode
-* `host_vars/<inventory_host_name>.yml` will only affect `<inventory_host_name>` host present in `inventory.ini` (in all modes)
+* `host_vars/<inventory_host_name>/10-open.yml` will only affect `<inventory_host_name>` host present in `inventory.ini` (in all modes)
 * Hugepages can be also specified for mode and machine type, e.g. hugepages for NetworkEdge Edge Node can be set in `network_edge.yml` in a play for Edge Nodes:
 
   ```yaml
@@ -85,7 +85,7 @@ Change the following lines in the `group_vars/edgenode_group/10-open.yml` or `gr
   ```
 
 #### Customizing hugepages for specific machine
-To specify the size or amount only for a specific machine, `hugepage_size` and/or `hugepage_amount` can be provided in `host_vars/<host_name_from_inventory>/10-open.yml` (i.e., if host is named `node01`, then the file is `host_vars/node01/open-10.yml`). For example:
+To specify the size or amount only for a specific machine, `hugepage_size` and/or `hugepage_amount` can be provided in `host_vars/<host_name_from_inventory>/10-open.yml` (i.e., if host is named `node01`, then the file is `host_vars/node01/10-open.yml`). For example:
 ```yaml
 # host_vars/node01/10-open.yml
 
