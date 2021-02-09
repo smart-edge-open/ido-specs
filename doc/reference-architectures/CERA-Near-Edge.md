@@ -286,9 +286,9 @@ More information: [BIOS and Firmware Configuration on OpenNESS Platform](https:/
     ```
     > NOTE: Replace TARGET_IP with the actual IP address of the target machine.
 
-2. Clone `ido-converged-edge-experience-kits` repo from `github.com/otcshare` using git token.
+2. Clone `ido-converged-edge-experience-kits` repo from `github.com/open-ness` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:otcshare/ido-converged-edge-experience-kits.git
+    git clone --recursive GIT_TOKEN@github.com:open-ness/ido-converged-edge-experience-kits.git
     ```
     > NOTE: Replace GIT_TOKEN with your git token.
 
@@ -530,7 +530,7 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 
 #### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 #### Settings
 Following variables need to be defined in `/host_vars/cera_5g_ne.yml`
@@ -562,7 +562,7 @@ The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. 
 
 #### Prerequisites
 
-To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_cn). There is a script on the `otcshare/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_cn). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 #### Settings
 
@@ -785,7 +785,7 @@ Deployment of EIS is completely automated, so there is no need to set or configu
 eis_release_package_path: ""
 ```
 
-For more details about `eis-experience-kit` check [README.md](https://github.com/otcshare/edgeapps/blob/master/applications/eis-experience-kit/README.md)
+For more details about `eis-experience-kit` check [README.md](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/README.md)
 
 ## Conclusion
 CERA Near Edge deployment provide a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the Near Edge Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 
