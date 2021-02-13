@@ -110,7 +110,7 @@ The KubeVirt role responsible for bringing up KubeVirt components is enabled by 
           ```
  2. Set up other common configurations for the cluster and enable other EPA features as needed and deploy the cluster using the `deploy_ne.sh -f <flavor>` script in the OpenNESS experience kit top-level directory.
 
-Note: Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Note: Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
  3. On successful deployment, the following pods will be in a running state:
     ```shell
