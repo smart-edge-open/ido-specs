@@ -117,7 +117,7 @@ fpga_userspace_vf:
 
 The following packages need to be placed into specific directories for the feature to work:
 
-1. The OPAE package `OPAE_SDK_1.3.7-5_el7.zip` needs to be placed inside the `x-openness-experience-kits/opae_fpga` directory. The package can be obtained as part of Intel® FPGA PAC N3000 OPAE beta release. To obtain the package, contact your Intel representative.
+1. The OPAE package `OPAE_SDK_1.3.7-5_el7.zip` needs to be placed inside the `x-openness-experience-kits/oek/opae_fpga` directory. The package can be obtained as part of Intel® FPGA PAC N3000 OPAE beta release. To obtain the package, contact your Intel representative.
 
 Run setup script `deploy_ne.sh -f <flavor>`.
 
