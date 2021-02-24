@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture 5G On Premises Edge
@@ -368,8 +368,8 @@ Example:
 The following prerequisites should be met for CERA deployment.
 
 1. CentOS should use the following kernel and have no newer kernels installed:
-    *  `3.10.0-1127.19.1.rt56.1116.el7.x86_64` on Near Edge server.
-    *  `3.10.0-1127.el7.x86_64` on Core Network server.
+    *  `3.10.0-1160.11.1.rt56.1145.el7.x86_64` on Near Edge server.
+    *  `3.10.0-1160.el7.x86_64` on Core Network server.
 
 2. Edit file `ido-converged-edge-experience-kits/cera_config.yaml` and provide correct settings:
 

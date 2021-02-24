@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0       
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Edge Multi-Cluster Orchestrator (EMCO)
@@ -333,7 +333,7 @@ _Figure 11 - SmartCity Deployment Architecture Overview_
 The example steps are shown as follows:
 - Prerequisites
   - Make one edge cluster and one cloud cluster ready by using OpenNESS Flavor.
-  - Prepare one server with a vanilla CentOS\* 7.8.2003 for EMCO installation.
+  - Prepare one server with a vanilla CentOS\* 7.9.2009 for EMCO installation.
 - EMCO installation
 - Cluster setup
 - Project setup
