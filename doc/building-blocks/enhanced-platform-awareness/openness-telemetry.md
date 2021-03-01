@@ -189,7 +189,7 @@ The various OEK flavors are enabled for CollectD deployment as follows:
 
 1. Select the flavor for the deployment of CollectD from the OEK during OpenNESS deployment; the flavor is to be selected with `telemetry_flavor: <flavor name>`.
 
-   In the event of using the `flexran` profile, `OPAE_SDK_1.3.7-5_el7.zip` needs to be available in `./x-openness-experience-kits/oek/opae_fpga` directory; for details about the packages, see [FPGA support in OpenNESS](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#edge-controller)
+   In the event of using the `flexran` profile, `OPAE_SDK_1.3.7-5_el7.zip` needs to be available in `./x-openness-experience-kits/oek/opae_fpga` directory; for details about the packages, see [FPGA support in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#edge-controller)
 2. To access metrics available from CollectD, connect to the Prometheus [dashboard](#prometheus).
 3. Look up an example the CollectD metric by specifying the metric name (ie. `collectd_cpufreq`) and pressing `execute` under the `graph` tab.
    ![CollectD Metric](telemetry-images/collectd_metric.png)

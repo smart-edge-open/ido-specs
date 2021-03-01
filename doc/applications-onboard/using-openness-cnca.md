@@ -133,7 +133,7 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 
   >**NOTE**: In addition to the OpenNESS controller bring up, by enabling the ngc role, the playbook scripts performs:
 
-  - A clone of the x-epcforedge repo from GitHub\*
+  - A clone of the ido-epcforedge repo from GitHub\*
   - Builds AF, NEF, OAM, and CNTF microservices
   - Generates certificate files at the location **/opt/openness/certs/ngc** on the controller.
   - Creates ConfigMap **certs-cm** from the above directory.
