@@ -232,7 +232,7 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
 
 2. Run the x-OEK for CERA deployment script:
    ```shell
@@ -256,7 +256,7 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for On Premises deployments on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
-1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/x-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
+1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
 
 2. Run the x-OEK for CERA deployment script:
    ```shell

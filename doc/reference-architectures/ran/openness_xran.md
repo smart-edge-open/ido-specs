@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0     
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # O-RAN Front Haul Sample Application in OpenNESS 
@@ -406,7 +406,7 @@ Verify the i40e driver version of the NIC to be used and the firmware version on
 
 ## Deploy xRAN sample app O-DU and O-RU in OpenNESS Network Edge
 
-Before starting the deployment script, OpenNESS should be configured according to the instructions available [here](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
+Before starting the deployment script, OpenNESS should be configured according to the instructions available [here](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
 Additional configuration steps are provided below.
 
 ### Setting up SRIOV 
@@ -437,7 +437,7 @@ Additional configuration steps are provided below.
       vm_vf_ports: 0
 ```
 
-Detailed instructions on configuring SRIOV for OpenNESS can be found [here](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md)
+Detailed instructions on configuring SRIOV for OpenNESS can be found [here](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md)
 
 3. Modify SRIOV ConfigMap
 
@@ -547,14 +547,14 @@ Run the deployment script:
 ```
 
 **Note:**
-Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
 Check the `/proc/cmd` output. It should look similar to:
 
 ```shell
     #cat /proc/cmdline
 
-    BOOT_IMAGE=/vmlinuz-3.10.0-1127.19.1.rt56.1116.el7.x86_64 root=/dev/mapper/centosroot ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap intel_iommu=on iommu=pt usbcore.autosuspend=-1 selinux=0 enforcing=0 nmi_watchdog=0 softlockup_panic=0 audit=0 intel_pstate=disable cgroup_memory=1 cgroup_enable=memory mce=off idle=poll hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=0 default_hugepagesz=1G isolcpus=1-19,21-39 rcu_nocbs=1-19,21-39 kthread_cpus=0,20 irqaffinity=0,20 nohz_full=1-19,21-39
+    BOOT_IMAGE=/vmlinuz-3.10.0-1160.11.1.rt56.1145.el7.x86_64 root=/dev/mapper/centosroot ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap intel_iommu=on iommu=pt usbcore.autosuspend=-1 selinux=0 enforcing=0 nmi_watchdog=0 softlockup_panic=0 audit=0 intel_pstate=disable cgroup_memory=1 cgroup_enable=memory mce=off idle=poll hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=0 default_hugepagesz=1G isolcpus=1-19,21-39 rcu_nocbs=1-19,21-39 kthread_cpus=0,20 irqaffinity=0,20 nohz_full=1-19,21-39
 ```
 
 ### Configure Interfaces

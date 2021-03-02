@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture 5G On Premises Edge
@@ -176,7 +176,7 @@ The Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) plays a key r
 
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
-For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
 
 <b>Intel® QAT</b>  
 The Intel® QuickAssist Adapter provides customers with a scalable, flexible, and extendable way to offer Intel® QuickAssist Technology (Intel® QAT) crypto acceleration and compression capabilities to their existing product lines. Intel® QuickAssist Technology (Intel® QAT) provides hardware acceleration to assist with the performance demands of securing and routing Internet traffic and other workloads, such as compression and wireless 4G LTE and 5G gnb algorithm offload, thereby reserving processor cycles for application and control processing.
@@ -368,8 +368,8 @@ Example:
 The following prerequisites should be met for CERA deployment.
 
 1. CentOS should use the following kernel and have no newer kernels installed:
-    *  `3.10.0-1127.19.1.rt56.1116.el7.x86_64` on Near Edge server.
-    *  `3.10.0-1127.el7.x86_64` on Core Network server.
+    *  `3.10.0-1160.11.1.rt56.1145.el7.x86_64` on Near Edge server.
+    *  `3.10.0-1160.el7.x86_64` on Core Network server.
 
 2. Edit file `ido-converged-edge-experience-kits/cera_config.yaml` and provide correct settings:
 

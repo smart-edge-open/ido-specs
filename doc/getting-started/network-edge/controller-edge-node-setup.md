@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019-2020 Intel Corporation
+Copyright (c) 2019-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # OpenNESS Network Edge: Controller and Edge node setup
@@ -54,13 +54,13 @@ The following set of actions must be completed to set up the Open Network Edge S
    ```
 
    **Note:**
-Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
 # Preconditions
 
 To use the playbooks, several preconditions must be fulfilled. These preconditions are described in the [Q&A](#qa) section below. The preconditions are:
 
-- CentOS\* 7.8.2003 must be installed on hosts where the product is deployed. It is highly recommended to install the operating system using a minimal ISO image on nodes that will take part in deployment (obtained from inventory file). Also, do not make customizations after a fresh manual install because it might interfere with Ansible scripts and give unpredictable results during deployment.
+- CentOS\* 7.9.2009 must be installed on hosts where the product is deployed. It is highly recommended to install the operating system using a minimal ISO image on nodes that will take part in deployment (obtained from inventory file). Also, do not make customizations after a fresh manual install because it might interfere with Ansible scripts and give unpredictable results during deployment.
 
 - Hosts for the Edge Controller (Kubernetes control plane) and Edge Nodes (Kubernetes nodes) must have proper and unique hostnames (i.e., not `localhost`). This hostname must be specified in `/etc/hosts` (refer to [Setup static hostname](#setup-static-hostname)).
 
@@ -92,7 +92,7 @@ The command syntax for the scripts is: `action_mode.sh -f <flavor> [group]`, i.e
 The parameter `controller` or `nodes` in each case deploys or cleans up the Edge Controller or the Edge Nodes, respectively.
 
 **Note:**
-Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
 For an initial installation, `deploy_ne.sh controller` must be run before `deploy_ne.sh nodes`. During the initial installation, the hosts may reboot. After reboot, the deployment script that was last run should be run again.
 
@@ -114,14 +114,14 @@ For example, when installing Docker\*, the RPM repository is added and Docker is
 
 ### Supported EPA features
 
-Several enhanced platform capabilities and features are available in OpenNESS for Network Edge. For the full list of supported features, see [Enhanced Platform Awareness Features](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/supported-epa.md). The documents referenced in this list provide a detailed description of the features, and step-by-step instructions for enabling them. Users should become familiar with available features before executing the deployment playbooks.
+Several enhanced platform capabilities and features are available in OpenNESS for Network Edge. For the full list of supported features, see [Enhanced Platform Awareness Features](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/supported-epa.md). The documents referenced in this list provide a detailed description of the features, and step-by-step instructions for enabling them. Users should become familiar with available features before executing the deployment playbooks.
 
 ### VM support for Network Edge
-Support for VM deployment on OpenNESS for Network Edge is available and enabled by default. Certain configurations and prerequisites may need to be satisfied to use all VM capabilities. The user is advised to become familiar with the VM support documentation before executing the deployment playbooks. See [openness-network-edge-vm-support](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/openness-network-edge-vm-support.md) for more information.
+Support for VM deployment on OpenNESS for Network Edge is available and enabled by default. Certain configurations and prerequisites may need to be satisfied to use all VM capabilities. The user is advised to become familiar with the VM support documentation before executing the deployment playbooks. See [openness-network-edge-vm-support](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/openness-network-edge-vm-support.md) for more information.
 
 ### Application on-boarding
 
-Refer to the [network-edge-applications-onboarding](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md) document for instructions on how to deploy edge applications for OpenNESS Network Edge.
+Refer to the [network-edge-applications-onboarding](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md) document for instructions on how to deploy edge applications for OpenNESS Network Edge.
 
 ### Single-node Network Edge cluster
 
@@ -152,7 +152,7 @@ To deploy Network Edge in a single-node cluster scenario, follow the steps below
 4. Single-node cluster can be deployed by running command: `./deploy_ne.sh -f <flavor> single`
 
 **Note:**
-Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
 ## Harbor registry
 
@@ -365,12 +365,12 @@ The following CNIs are currently supported:
   * Network attachment definition: openness-calico
 * [weavenet](https://github.com/weaveworks/weave)
   * CIDR: 10.32.0.0/12
-* [SR-IOV](https://github.com/intel/sriov-cni) (cannot be used as a standalone or primary CNI - [sriov setup](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md))
-* [Userspace](https://github.com/intel/userspace-cni-network-plugin) (cannot be used as a standalone or primary CNI - [Userspace CNI setup](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/dataplane/openness-userspace-cni.md)
+* [SR-IOV](https://github.com/intel/sriov-cni) (cannot be used as a standalone or primary CNI - [sriov setup](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces.md))
+* [Userspace](https://github.com/intel/userspace-cni-network-plugin) (cannot be used as a standalone or primary CNI - [Userspace CNI setup](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/dataplane/openness-userspace-cni.md)
 
 Multiple CNIs can be requested to be set up for the cluster. To provide such functionality [the Multus CNI](https://github.com/intel/multus-cni) is used.
 
->**NOTE**: For a guide on how to add new a CNI role to the OpenNESS Experience Kits, refer to [the OpenNESS Experience Kits guide](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md#adding-new-cni-plugins-for-kubernetes-network-edge).
+>**NOTE**: For a guide on how to add new a CNI role to the OpenNESS Experience Kits, refer to [the OpenNESS Experience Kits guide](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md#adding-new-cni-plugins-for-kubernetes-network-edge).
 
 ### Selecting cluster networking plugins (CNI)
 
@@ -564,7 +564,7 @@ and check to make sure that only the key(s) you wanted were added.
 To make sure the key is copied successfully, try to SSH into the host: `ssh 'root@host'`. It should not ask for the password.
 
 >**NOTE**: Where non-root user is used for example `openness` the command should be replaced to `ssh openness@host`. For more information about non-root user please refer to:
-[The non-root user on the OpenNESS Platform](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-nonroot.md)
+[The non-root user on the OpenNESS Platform](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-nonroot.md)
 ## Setting proxy
 
 If a proxy is required to connect to the Internet, it is configured via the following steps:
@@ -626,4 +626,4 @@ edgenode_repository_branch: openness-20.03
 
 ## Customization of kernel, grub parameters, and tuned profile
 
-OpenNESS Experience Kits provide an easy way to customize the kernel version, grub parameters, and tuned profile. For more information, refer to [the OpenNESS Experience Kits guide](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md).
+OpenNESS Experience Kits provide an easy way to customize the kernel version, grub parameters, and tuned profile. For more information, refer to [the OpenNESS Experience Kits guide](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md).
