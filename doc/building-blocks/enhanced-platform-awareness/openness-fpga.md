@@ -324,7 +324,7 @@ Build the image:
 
 `./build-image.sh`
 
-From the Edge Controlplane, deploy the application pod. The pod specification is located at `/opt/openness/edgenode/edgecontroller/fpga/fpga-sample-app.yaml`:
+From the Edge Controlplane, deploy the application pod. The pod specification is located at `/opt/openness/edgeservices/edgecontroller/fpga/fpga-sample-app.yaml`:
 
 ```
 kubectl create -f fpga-sample-app.yaml
