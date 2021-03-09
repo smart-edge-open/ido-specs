@@ -38,7 +38,7 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `kube-ovn`
 * Telemetry
 
-To customize this flavor we recommend creating additional file in openness-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `openness-experiance-kits/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`). 
+To customize this flavor we recommend creating additional file in openness-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `openness-experiance-kits/inventory/default/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`). 
 
 ## CERA Access Edge Flavor
 
@@ -95,13 +95,13 @@ The pre-defined *media-analytics-vca* deployment flavor provisions an optimized 
 
 The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Add the VCA hostname in the `[edgenode_vca_group]` group in `inventory.ini` file of the OEK, for example:
+2. Add the VCA hostname in the `[edgenode_vca_group]` group in `inventory/default/inventory.ini` file of the OEK, for example:
     ```
     [edgenode_vca_group]
     silpixa00400194
     ```
 
-    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.ini` file and under the `[edgenode_vca_group]` group.
+    > **NOTE:** The VCA host name should *only* be placed once in the `inventory/default/inventory.ini` file and under the `[edgenode_vca_group]` group.
 
 3. Run the OEK deployment script:
     ```shell
@@ -176,7 +176,7 @@ This deployment flavor enables the following ingredients:
 - Istio service mesh
 - Kiali management console
 
-> **NOTE:** It is an expectation that the `core-cplane` deployment flavor is done for a setup consisting of *at least one* OpenNESS edge node, i.e: the `inventory.ini` must contain at least one host name under the `edgenode_group` section.
+> **NOTE:** It is an expectation that the `core-cplane` deployment flavor is done for a setup consisting of *at least one* OpenNESS edge node, i.e: the `inventory/default/inventory.ini` must contain at least one host name under the `edgenode_group` section.
 
 > **NOTE:** For a real deployment with the 5G Core Network Functions the NEF and CNTF can be uninstalled using helm charts. Refer to [OpenNESS using CNCA](applications-onboard/using-openness-cnca.md)
 
