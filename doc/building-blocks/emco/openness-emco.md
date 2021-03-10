@@ -307,6 +307,8 @@ EMCO supports [multiple deployment options](https://github.com/otcshare/EMCO/tre
 > **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for configuration, since EMCO micro services just need to be deployed on the Kubernetes* control plane node.
 - Run script `./deploy_ne.sh -f central_orchestrator`. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
 
+Besids that, OpenNESS EMCO also supports deployment option for Azure public cloud. <FFS>
+
 ```shell
 # kubectl get pods -n emco
 NAMESPACE NAME                           READY   STATUS   RESTARTS AGE
@@ -363,9 +365,11 @@ In the step, cluster provider will be created. And both the edge cluster and the
 4. Run the command for the environment setup with success return as below:
     ```shell
     # cd cli-scripts/
-    # ./setup_env.sh
+    # ./setup_env.sh -e <EMCO_IP> -d <EDGE_HOST_IP> -c <CLOUD_HOST_IP> -r
     ```
     > **NOTE**: [SmartCity application](https://github.com/OpenVisualCloud/Smart-City-Sample) secrets need the specific information only accessiable by the edge cluster and the cloud cluster.  `setup_env.sh` will automate it.
+    > **NOTE**: The enviroment setup steps include SmartCity github repo clone, docker images building, helm charts prepration and clusters configuration information preparation.  
+
 
 5. Run the command for the clusters setup with expected result as below:
     ```shell
@@ -375,19 +379,20 @@ In the step, cluster provider will be created. And both the edge cluster and the
     URL: cluster-providers/smartcity-cluster-provider/clusters/edge01/labels Response Code: 201 Response: {"label-name":"LabelSmartCityEdge"}
     URL: cluster-providers/smartcity-cluster-provider/clusters/cloud01/labels Response Code: 201 Response: {"label-name":"LabelSmartCityCloud"}
     ```
+    > **NOTE**: The cluster setup steps include clusters providers registration, clusters registration, adding labels for the clusters, EMCO controller creation and registration.  
 
 ### Project Setup
 
 Run the command for the project setup with expected result as below:
 
-```shell
-# cd cli-scripts/
-# ./02_apply.sh
+    ```shell
+    # cd cli-scripts/
+    # ./02_apply.sh
 
-Using config file: emco_cfg.yaml
-http://localhost:31298/v2
-URL: projects Response Code: 201 Response: {"metadata":{"name":"project_smtc","description":"","UserData1":"","UserData2":""}}
-```
+    Using config file: emco_cfg.yaml
+    http://localhost:31298/v2
+    URL: projects Response Code: 201 Response: {"metadata":{"name":"project_smtc","description":"","UserData1":"","UserData2":""}}
+    ```
 
 ### Logical Cloud Setup
 
@@ -466,3 +471,7 @@ URL: projects/project_smtc/composite-apps/composite_smtc/v1/deployment-intent-gr
 ```
 
 After termination, the SmartCity application will be deleted from the clusters.
+
+
+### SmartCity Deployment according to EMCO HPA intent
+<FFS>
