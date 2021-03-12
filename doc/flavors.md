@@ -35,7 +35,7 @@ The following are steps to install this flavor:
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
-* The default Kubernetes CNI: `kube-ovn`
+* The default Kubernetes CNI: `calico`
 * Telemetry
 
 To customize this flavor we recommend creating additional file in openness-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `openness-experiance-kits/inventory/default/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`). 
@@ -83,7 +83,7 @@ The following are steps to install this flavor:
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
-* The default Kubernetes CNI: `kube-ovn`
+* The default Kubernetes CNI: `calico`
 * Video analytics services
 * Telemetry
 * Istio service mesh - conditional
@@ -132,7 +132,7 @@ The following are steps to install this flavor:
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
-* The default Kubernetes CNI: `kube-ovn`
+* The default Kubernetes CNI: `calico`
 * Telemetry
 
 ## CERA CDN Caching Flavor
@@ -197,7 +197,7 @@ The following are steps to install this flavor:
 This deployment flavor enables the following ingredients:
 
 - Node feature discovery
-- Kubernetes CNI: kube-ovn and SRIOV.
+- Kubernetes CNI: calico and SRIOV.
 - CPU Manager for Kubernetes (CMK) with 4 exclusive cores (1 to 4) and 1 core in shared pool.
 - Kubernetes Device Plugin
 - Telemetry
