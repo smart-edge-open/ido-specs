@@ -465,7 +465,7 @@ The following command is used in CentOS\* to set a static hostname:
 hostnamectl set-hostname <host_name>
 ```
 
-As shown in the following example, the hostname must also be defined in `/etc/host`:
+As shown in the following example, the hostname must also be defined in `/etc/hosts`:
 
 ```shell
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 <host_name>
