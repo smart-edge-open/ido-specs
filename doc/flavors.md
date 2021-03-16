@@ -295,7 +295,7 @@ Steps to install this flavor are as follows:
 
 This deployment flavor enables the following ingredients:
 * Node Feature Discovery
-* The default Kubernetes CNI: `kube-ovn`
+* The default Kubernetes CNI: `calico`
 * Istio service mesh
 * Kiali management console
 * Telemetry
@@ -331,7 +331,7 @@ Steps to install this flavor are as follows:
 
 This deployment flavor enables the following ingredients:
 * Harbor Registry
-* The default Kubernetes CNI: `kube-ovn`
+* The default Kubernetes CNI: `calico`
 * EMCO services
 
 ## CERA SD-WAN Edge Flaor
