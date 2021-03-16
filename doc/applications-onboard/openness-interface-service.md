@@ -21,7 +21,7 @@ Copyright (c) 2019-2020 Intel Corporation
 
 Interface service is an application running in the Kubernetes\* pod on each node of the OpenNESS Kubernetes cluster. It allows users to attach additional network interfaces of the node to the provided OVS bridge, enabling external traffic scenarios for applications deployed in the Kubernetes\* pods. Services on each node can be controlled from the control plane using kubectl plugin.
 
-Interface service can attach both kernel and user space (DPDK) network interfaces to the appropriate OVS bridges.
+Interface service can attach both kernel and user space (DPDK) network interfaces to the appropriate OVS bridges. To perform that operation Kube-OVN needs to be set as main CNI.
 
 ## Traffic from the external host
 
