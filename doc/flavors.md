@@ -168,7 +168,7 @@ The following are steps to install this flavor:
 This deployment flavor enables the following ingredients:
 
 - Node feature discovery
-- The default Kubernetes CNI: kube-ovn
+- The default Kubernetes CNIs: calico, sriov
 - Telemetry
 - OpenNESS 5G Microservices
 - OAM(Operation, Administration, Maintenance) and AF(Application Function) on the OpenNESS Controller/K8S Master.
