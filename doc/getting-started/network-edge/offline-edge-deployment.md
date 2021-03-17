@@ -141,7 +141,7 @@ Make sure cotrol-plane node can SSH itself. ie:
 <local IP>
 # ssh-copy-id root@<local IP>
 ```
-If you use the no-root user (openness) to deploy the cluster, you need to add no-root (openness) to log in to the controller without password.
+If you use the no-root user (openness) to deploy the cluster, you need to add a rule that the controller node to access itself through ssh without password.
 ```shell
 # hostname -I | awk '{print $1}'
 <local IP>
