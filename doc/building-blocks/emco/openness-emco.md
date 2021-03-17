@@ -308,8 +308,6 @@ EMCO supports [multiple deployment options](https://github.com/otcshare/EMCO/tre
 > **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for configuration, since EMCO micro services just need to be deployed on the Kubernetes* control plane node.
 - Run script `./deploy_ne.sh -f central_orchestrator`. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
 
-Besids that, OpenNESS EMCO also provides Azure templates and supports deployment automation for EMCO cluster installation on Azure public cloud. More details refer to [OpenNESS Development Kit for Microsoft Azure](https://github.com/otcshare/ido-specs/blob/master/doc/devkits/openness-azure-devkit.md).
-
 ```shell
 # kubectl get pods -n emco
 NAMESPACE NAME                           READY   STATUS   RESTARTS AGE
@@ -324,6 +322,8 @@ emco      orchestrator-78b76cb547-xrvz5  1/1     Running  0        14m
 emco      ovnaction-5d8d4447f9-nn7l6     1/1     Running  0        14m
 emco      rsync-99b85b4x88-ashmc         1/1     Running  0        14m
 ```
+
+Besides that, OpenNESS EMCO also provides Azure templates and supports deployment automation for EMCO cluster installation on Azure public cloud. More details refer to [OpenNESS Development Kit for Microsoft Azure](https://github.com/otcshare/ido-specs/blob/master/doc/devkits/openness-azure-devkit.md).
 
 ## EMCO Example: SmartCity Deployment
 - The [SmartCity application](https://github.com/OpenVisualCloud/Smart-City-Sample) is a sample application that is built on top of the OpenVINO™ and Open Visual Cloud software stacks for media processing and analytics. The composite application is composed of two parts: EdgeApp + WebApp (cloud application for additional post-processing such as calculating statistics and display/visualization) 
@@ -498,6 +498,7 @@ OpenNESS EMCO supports Hardware Platform Awareness (HPA) based Placement Intent.
 OpenNESS EMCO offers an example for HPA based SmartCity application deployment. To obtain all the deployment related scripts, contact your Intel representative. Below will give overview about how to enable HPA intent based on the scripts used in the previous sections.
 
 The overall setup topology looks like:
+
 ![OpenNESS EMCO](openness-emco-images/openness-emco-smtc-hpa-setup.png)
 
 _Figure 12 - SmartCity HPA Setup_
