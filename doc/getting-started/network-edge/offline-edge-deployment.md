@@ -52,7 +52,7 @@ Clone the OpenNESS Experience Kits repo to an online node:
 Navigate to offline package creator directory:
 
 ```shell
-# cd x-openness-experience-kits/oek/offline_package_creator/
+# cd x-openness-experience-kits/offline_package_creator/
 ```
 
 Create a directory from which user provided files can be accessed:
@@ -68,15 +68,13 @@ Copy the 'OPAE_SDK_1.3.7-5_el7.zip' file (optional but necessary by default - to
 # cp syscfg_package.zip /<usr>/<provided>/<directory>
 ```
 
-Edit [x-openness-experience-kits/oek/offline_package_creator/scripts/initrc](https://github.com/otcshare/openness-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
+Edit [x-openness-experience-kits/offline_package_creator/scripts/initrc](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
 
 ```shell
 # otcshare token
-GITHUB_USERNAME=""
 GITHUB_TOKEN=""
 
 # User add ones
-HTTP_PROXY="http://<address>:<port>" #Add proxy first
 GIT_PROXY="http://<address>:<port>"
 
 # location of OPAE_SDK_1.3.7-5_el7.zip
@@ -92,13 +90,13 @@ BUILD_COLLECTD_FPGA=disable
 DIR_OF_FPGA_ZIP="/<usr>/<provided>/<directory>"
 ```
 
-Start the offline package creator script [x-openness-experience-kits/oek/offline_package_creator/offline_package_creator.sh](https://github.com/otcshare/openness-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
+Start the offline package creator script [x-openness-experience-kits/offline_package_creator/offline_package_creator.sh](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
 
 ```shell
 # bash offline_package_creator.sh  all 
 ```
 
-The script will download all the files define in the [pdl_flexran.yml](https://github.com/otcshare/openness-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `x-openness-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
+The script will download all the files define in the [pdl_flexran.yml](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `x-openness-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
 
 ```shell
 # ls x-openness-experience-kits/roles/offline_roles/unpack_offline_package/files
@@ -139,9 +137,16 @@ Make sure nodes can access each other through SSH without password.
 Make sure cotrol-plane node can SSH itself. ie:
 
 ```shell
-# hostname -I
-<name>
-# ssh-copy-id <name>
+# hostname -I | awk '{print $1}'
+<local IP>
+# ssh-copy-id root@<local IP>
+```
+If you use the no-root user (openness) to deploy the cluster, you need to add no-root (openness) to log in to the controller without password.
+```shell
+# hostname -I | awk '{print $1}'
+<local IP>
+# ssh-copy-id root@<local IP>
+$ ssh-copy-id openness@<local IP>
 ```
 
 Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see configs in flavor directory](https://github.com/otcshare/x-openness-experience-kits/tree/master/flavors/flexran).
