@@ -251,9 +251,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: producer
            image: producer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
@@ -398,9 +398,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: consumer
            image: consumer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
