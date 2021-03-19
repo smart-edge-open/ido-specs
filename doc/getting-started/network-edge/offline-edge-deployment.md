@@ -13,7 +13,7 @@ Copyright (c) 2019-2020 Intel Corporation
 
 ## OpenNESS support in offline environment
 
-The OpenNESS projects supports a deployment of the solution in an air-gapped, offline environment. The support is currently limited to "[flexran" deployment flavor of OpenNESS Experience Kit](https://github.com/otcshare/x-openness-experience-kits/tree/master/flavors/flexran) only and it allows for offline deployment of vRAN specific components. Internet connection is needed to create the offline package, a script to download and build all necessary components will create an archive of all the necessary files. Once the offline package is created the installation of OpenNESS Experience Kits will be commenced as usual, in the same way as the default online installation would.
+The OpenNESS projects supports a deployment of the solution in an air-gapped, offline environment. The support is currently limited to "[flexran" deployment flavor of OpenNESS Experience Kit](https://github.com/otcshare/ido-converged-edge-experience-kits/tree/master/flavors/flexran) only and it allows for offline deployment of vRAN specific components. Internet connection is needed to create the offline package, a script to download and build all necessary components will create an archive of all the necessary files. Once the offline package is created the installation of OpenNESS Experience Kits will be commenced as usual, in the same way as the default online installation would.
 
 It can be deployed in two different scenarios. The first scenario is to deploy the OpenNESS Experience Kits from the online "jumper" node which is being used to create the offline package, this internet connected node must have a network connection to the air-gapped/offline nodes. The second scenario is to copy the whole OpenNESS Experience Kit directory with the already archived packages to the air-gapped/offline environment (for example via USB or other media or means) and run the OpenNESS Experience Kit from within the offline environment. All the nodes within the air-gapped/offline cluster need to able to SSH into each other.
 
@@ -46,13 +46,13 @@ To run the offline package creator run the following steps (user should not be a
 Clone the OpenNESS Experience Kits repo to an online node:
 
 ```shell
-# https://github.com/otcshare/x-openness-experience-kits.git
+# https://github.com/otcshare/ido-converged-edge-experience-kits.git
 ```
 
 Navigate to offline package creator directory:
 
 ```shell
-# cd x-openness-experience-kits/offline_package_creator/
+# cd ido-converged-edge-experience-kits/offline_package_creator/
 ```
 
 Create a directory from which user provided files can be accessed:
@@ -68,7 +68,7 @@ Copy the 'OPAE_SDK_1.3.7-5_el7.zip' file (optional but necessary by default - to
 # cp syscfg_package.zip /<usr>/<provided>/<directory>
 ```
 
-Edit [x-openness-experience-kits/offline_package_creator/scripts/initrc](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
+Edit [ido-converged-edge-experience-kits/offline_package_creator/scripts/initrc](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
 
 ```shell
 # otcshare token
@@ -90,16 +90,16 @@ BUILD_COLLECTD_FPGA=disable
 DIR_OF_FPGA_ZIP="/<usr>/<provided>/<directory>"
 ```
 
-Start the offline package creator script [x-openness-experience-kits/offline_package_creator/offline_package_creator.sh](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
+Start the offline package creator script [ido-converged-edge-experience-kits/offline_package_creator/offline_package_creator.sh](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
 
 ```shell
 # bash offline_package_creator.sh  all 
 ```
 
-The script will download all the files define in the [pdl_flexran.yml](https://github.com/otcshare/x-openness-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `x-openness-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
+The script will download all the files define in the [pdl_flexran.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
 
 ```shell
-# ls x-openness-experience-kits/roles/offline_roles/unpack_offline_package/files
+# ls ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files
 
 checksum.txt prepackages.tar.gz opcdownloads.tar.gz
 ```
@@ -124,7 +124,7 @@ During the deployment of the offline version of the OEK the archived files creat
 
 The following are the specific steps to enable offline/air-gaped deployment from OEK:
 
-Enable the offline deployment in [x-openness-experience-kits/inventory/default/group_vars/all/10-open.yml](https://github.com/otcshare/x-openness-experience-kits/blob/master/inventory/default/group_vars/all/10-open.yml)
+Enable the offline deployment in [ido-converged-edge-experience-kits/inventory/default/group_vars/all/10-open.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/inventory/default/group_vars/all/10-open.yml)
 
 ```yaml
 ## Offline Mode support
@@ -141,7 +141,7 @@ Make sure cotrol-plane node can SSH itself. ie:
 <local IP>
 # ssh-copy-id root@<local IP>
 ```
-If you use the no-root user (openness) to deploy the cluster, you need to add a rule that the controller node to access itself through ssh without password.
+If a non-root user is being used (ie. openness) to deploy the cluster, a rule needs to be added, allowing the controller node to access itself through SSH without password.
 ```shell
 # hostname -I | awk '{print $1}'
 <local IP>
@@ -149,7 +149,7 @@ If you use the no-root user (openness) to deploy the cluster, you need to add a 
 $ ssh-copy-id openness@<local IP>
 ```
 
-Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see configs in flavor directory](https://github.com/otcshare/x-openness-experience-kits/tree/master/flavors/flexran).
+Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see configs in flavor directory](https://github.com/otcshare/ido-converged-edge-experience-kits/tree/master/flavors/flexran).
 
 Deploy OpenNESS using FlexRAN flavor for multi or single node:
 
