@@ -41,7 +41,8 @@ To create the offline package the user must have an access to an online node fro
 Figure 3. Offline package creator workflow
 ![OPC flow](offline-images/offline-flow.png)
 
-To run the offline package creator run the following steps (user should not be a "root" user but does need "sudo" privileges to create the package, RT components will require installation of RT kernel on the node by the OPC):
+To run the offline package creator, follow the steps as below:
+>**RT components will require installation of RT kernel on the node by the OPC**
 
 Clone the OpenNESS Experience Kits repo to an online node:
 
