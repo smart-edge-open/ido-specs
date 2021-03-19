@@ -42,7 +42,7 @@ Figure 3. Offline package creator workflow
 ![OPC flow](offline-images/offline-flow.png)
 
 To run the offline package creator, follow the steps as below:
->**RT components will require installation of RT kernel on the node by the OPC**
+> **NOTE:** RT components will require installation of RT kernel on the node by the OPC
 
 Clone the OpenNESS Experience Kits repo to an online node:
 
