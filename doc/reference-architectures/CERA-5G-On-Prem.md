@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture 5G On Premises Edge
@@ -176,7 +176,7 @@ The Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) plays a key r
 
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
-For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+For more references, see [<b>openness-fpga.md</b>: Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
 
 <b>Intel® QAT</b>  
 The Intel® QuickAssist Adapter provides customers with a scalable, flexible, and extendable way to offer Intel® QuickAssist Technology (Intel® QAT) crypto acceleration and compression capabilities to their existing product lines. Intel® QuickAssist Technology (Intel® QAT) provides hardware acceleration to assist with the performance demands of securing and routing Internet traffic and other workloads, such as compression and wireless 4G LTE and 5G gnb algorithm offload, thereby reserving processor cycles for application and control processing.
@@ -231,7 +231,7 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
     git submodule update --init --recursive
     ```
 
-4. Provide target machines IP addresses for OpenNESS deployment in `ido-converged-edge-experience-kits/openness_inventory.ini`. For Singlenode setup, set the same IP address for both `controller` and `node01`, the line with `node02` should be commented by adding # at the beginning.  
+4. Provide target machines IP addresses for OpenNESS deployment in `ido-converged-edge-experience-kits/openness_inventory/default/inventory.ini`. For Singlenode setup, set the same IP address for both `controller` and `node01`, the line with `node02` should be commented by adding # at the beginning.  
 Example:
     ```ini
     [all]
@@ -241,7 +241,7 @@ Example:
     ```
     At that stage provide IP address only for `CERA 5G NE` server.
     
-    If the GMC device is available, the node server can be synchronized. In the `ido-converged-edge-experience-kits/openness_inventory.ini`, `node01` should be added to `ptp_slave_group`. The default value `controller` for `[ptp_master]` should be removed or commented.
+    If the GMC device is available, the node server can be synchronized. In the `ido-converged-edge-experience-kits/openness_inventory/default/inventory.ini`, `node01` should be added to `ptp_slave_group`. The default value `controller` for `[ptp_master]` should be removed or commented.
     ```ini
     [ptp_master]
     #controller
@@ -250,7 +250,7 @@ Example:
     node01
     ```
 
-5. Edit `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
+5. Edit `ido-converged-edge-experience-kits/openness/inventory/default/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
 
     Git token.
     ```yaml
@@ -306,7 +306,7 @@ Example:
       network_interfaces: {eno1: 5, eno2: 10}
     ```
 
-8. Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+8. Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
 
     For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
     ```yaml
@@ -339,7 +339,7 @@ Example:
     ```
     Note: This might take few hours.
 
-10. After a successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory.ini`, change IP address to `CERA 5G CN` server.
+10. After a successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory/default/inventory.ini`, change IP address to `CERA 5G CN` server.
     ```ini
     [all]
     controller ansible_ssh_user=root ansible_host=192.168.1.109 # Second server CN
@@ -350,7 +350,7 @@ Example:
     ```shell
     ./deploy_openness_for_cera.sh 
     ```
-    All settings in `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` are the same for both servers.
+    All settings in `ido-converged-edge-experience-kits/openness/inventory/default/group_vars/all/10-open.yml` are the same for both servers.
 
     For `CERA 5G CN` server disable synchronization with GMC inside `ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/edgenode_group.yml` file.
     ```yaml
@@ -368,8 +368,8 @@ Example:
 The following prerequisites should be met for CERA deployment.
 
 1. CentOS should use the following kernel and have no newer kernels installed:
-    *  `3.10.0-1127.19.1.rt56.1116.el7.x86_64` on Near Edge server.
-    *  `3.10.0-1127.el7.x86_64` on Core Network server.
+    *  `3.10.0-1160.11.1.rt56.1145.el7.x86_64` on Near Edge server.
+    *  `3.10.0-1160.el7.x86_64` on Core Network server.
 
 2. Edit file `ido-converged-edge-experience-kits/cera_config.yaml` and provide correct settings:
 
@@ -459,7 +459,7 @@ The following prerequisites should be met for CERA deployment.
     vpp_interface_N4_N9_name: 'VirtualFunctionEthernet19/a/0'
     vpp_interface_N6_name: 'VirtualFunctionEthernet19/a/1'
     ```
-3. If needed change additional settings for `CERA 5G NE` in `ido-converged-edge-experience-kits/host_vars/cera_5g_ne.yml`.  
+3. If needed change additional settings for `CERA 5G NE` in `ido-converged-edge-experience-kits/inventory/default/host_vars/cera_5g_ne.yml`.  
     ```yaml
     # DPDK driver used (vfio-pci/igb_uio) to VFs bindings
     dpdk_driver_upf: "igb_uio"
@@ -476,7 +476,7 @@ The following prerequisites should be met for CERA deployment.
     - [UPF](#UPF)
     - [AMF-SMF](#AMF-SMF)
     - [gNB](#gNodeB)
-5. Provide correct IP for target servers in file `ido-converged-edge-experience-kits/cera_inventory.ini`
+5. Provide correct IP for target servers in file `ido-converged-edge-experience-kits/cera_inventory/default/inventory.ini`
     ```ini
     [all]
     cera_5g_ne ansible_ssh_user=root ansible_host=192.168.1.109
@@ -595,7 +595,7 @@ In the `cera_config.yaml` file can be chosen for which application should be bui
 deploy_app: "" - Type openvino if OpenVINO demo should be launched.
 ```
 
-Several variables must be set in the file `host_vars/cera_5g_ne.yml`:
+Several variables must be set in the file `inventory/default/host_vars/cera_5g_ne.yml`:
 ```yaml
 model: "pedestrian-detection-adas-0002" - Model for which the OpenVINO demo will be run. Models which can be selected: pedestrian-detection-adas-0002, pedestrian-detection-adas-binary-0001, pedestrian-and-vehicle-detector-adas-0001, vehicle-detection-adas-0002, vehicle-detection-adas-binary-0001, person-vehicle-bike-detection-crossroad-0078, person-vehicle-bike-detection-crossroad-1016, person-reidentification-retail-0031, person-reidentification-retail-0248, person-reidentification-retail-0249, person-reidentification-retail-0300, road-segmentation-adas-0001
 
@@ -612,7 +612,7 @@ Immediately after creating, the ov-openvino pod will wait for input streaming. I
 #### Streaming
 Video to OpenVINO™ pod should be streamed to IP `192.168.1.101` and port `5000`. Make sure that the pod with OpenVINO™ is visible from your streaming machine. In the simplest case, the video can be streamed from the same machine where pod with OpenVINO™ is available.
 
-Output will be saved to the `saved_video/ov-output.mjpeg` file (`save_video` variable in the `host_vars/cera_5g_ne.yml` should be set to `"enable"` and should be not changed).
+Output will be saved to the `saved_video/ov-output.mjpeg` file (`save_video` variable in the `inventory/default/host_vars/cera_5g_ne.yml` should be set to `"enable"` and should be not changed).
 
 Streaming is possible from a file or from a camera. For continuous and uninterrupted streaming of a video file, the video file can be streamed in a loop. An example of a Bash file for streaming is shown below.
 ```shell
@@ -726,7 +726,7 @@ GMC must be properly configured and connected to the server's ETH port.
 
 #### Settings
 If the GMC has been properly configured and connected to the server then the node server can be synchronized.
-In the `ido-converged-edge-experience-kits/openness_inventory.ini` file, `node01` should be added to `ptp_slave_group` and the content inside the `ptp_master` should be empty or commented. 
+In the `ido-converged-edge-experience-kits/openness_inventory/default/inventory.ini` file, `node01` should be added to `ptp_slave_group` and the content inside the `ptp_master` should be empty or commented. 
 ```ini
 [ptp_master]
 #controller
@@ -738,7 +738,7 @@ Server synchronization can be enabled inside `ido-converged-edge-experience-kits
 ```yaml
 ptp_sync_enable: true
 ```
-Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
 
 For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
 ```yaml

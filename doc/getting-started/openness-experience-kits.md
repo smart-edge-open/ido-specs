@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019 Intel Corporation
+Copyright (c) 2019-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # OpenNESS Experience Kits
@@ -29,15 +29,15 @@ The OpenNESS Experience Kit (OEK) repository contains a set of Ansible\* playboo
 
 ## Customizing kernel, grub parameters, and tuned profile & variables per host
 
-OEKs allow a user to customize kernel, grub parameters, and tuned profiles by leveraging Ansible's feature of `host_vars`.
+OEKs allow a user to customize kernel, grub parameters, and tuned profiles by leveraging Ansible's feature of `inventory/default/host_vars`.
 
-> **NOTE**: `groups_vars/[edgenode|controller|edgenode_vca]_group` directories contain variables applicable for the respective groups and they can be used in `host_vars` to change on per node basis while `group_vars/all` contains cluster wide variables.
+> **NOTE**: `groups_vars/[edgenode|controller|edgenode_vca]_group` directories contain variables applicable for the respective groups and they can be used in `inventory/default/host_vars` to change on per node basis while `inventory/default/group_vars/all` contains cluster wide variables.
 
-OEKs contain a `host_vars/` directory in which we can create another directory (`nodes-inventory-name`) and place a YAML file (`10-open.yml`, e.g., `node01/10-open.yml`). The file would contain variables that would override roles' default values.
+OEKs contain a `inventory/default/host_vars/` directory in which we can create another directory (`nodes-inventory-name`) and place a YAML file (`10-open.yml`, e.g., `node01/10-open.yml`). The file would contain variables that would override roles' default values.
 
-> **NOTE**: Despite the ability to customize parameters (kernel), it is required to have a clean CentOS\* 7.8.2003 operating system installed on hosts (from a minimal ISO image) that will be later deployed from Ansible scripts. This OS shall not have any user customizations.
+> **NOTE**: Despite the ability to customize parameters (kernel), it is required to have a clean CentOS\* 7.9.2009 operating system installed on hosts (from a minimal ISO image) that will be later deployed from Ansible scripts. This OS shall not have any user customizations.
 
-To override the default value, place the variable's name and new value in the host's vars file. For example, the contents of `host_vars/node01/10-open.yml` that would result in skipping kernel customization on that node:
+To override the default value, place the variable's name and new value in the host's vars file. For example, the contents of `inventory/default/host_vars/node01/10-open.yml` that would result in skipping kernel customization on that node:
 
 ```yaml
 kernel_skip: true
@@ -54,10 +54,10 @@ Following files specify the CIDR for CNIs and interfaces. These are the IP addre
 
 ```yaml
 flavors/media-analytics-vca/all.yml:19:vca_cidr: "172.32.1.0/12"
-group_vars/all/10-open.yml:90:calico_cidr: "10.243.0.0/16"
-group_vars/all/10-open.yml:93:flannel_cidr: "10.244.0.0/16"
-group_vars/all/10-open.yml:96:weavenet_cidr: "10.32.0.0/12"
-group_vars/all/10-open.yml:99:kubeovn_cidr: "10.16.0.0/16,100.64.0.0/16,10.96.0.0/12"
+inventory/default/group_vars/all/10-open.yml:90:calico_cidr: "10.245.0.0/16"
+inventory/default/group_vars/all/10-open.yml:93:flannel_cidr: "10.244.0.0/16"
+inventory/default/group_vars/all/10-open.yml:96:weavenet_cidr: "10.32.0.0/12"
+inventory/default/group_vars/all/10-open.yml:99:kubeovn_cidr: "10.16.0.0/16,100.64.0.0/16,10.96.0.0/12"
 roles/kubernetes/cni/kubeovn/controlplane/templates/crd_local.yml.j2:13:  cidrBlock: "192.168.{{ loop.index0 + 1 }}.0/24"
 ```
 
@@ -74,11 +74,11 @@ Here are several default values:
 # --- machine_setup/custom_kernel
 kernel_skip: false  # use this variable to disable custom kernel installation for host
 
-kernel_repo_url: http://linuxsoft.cern.ch/cern/centos/7.8.2003/rt/CentOS-RT.repo
-kernel_repo_key: http://linuxsoft.cern.ch/cern/centos/7.8.2003/os/x86_64/RPM-GPG-KEY-cern
+kernel_repo_url: http://linuxsoft.cern.ch/cern/centos/7.9.2009/rt/CentOS-RT.repo
+kernel_repo_key: http://linuxsoft.cern.ch/cern/centos/7.9.2009/os/x86_64/RPM-GPG-KEY-cern
 kernel_package: kernel-rt-kvm
 kernel_devel_package: kernel-rt-devel
-kernel_version: 3.10.0-1127.19.1.rt56.1116.el7.x86_64
+kernel_version: 3.10.0-1160.11.1.rt56.1145.el7.x86_64
 
 kernel_dependencies_urls: []
 kernel_dependencies_packages: []
@@ -95,8 +95,8 @@ additional_grub_params: ""
 # --- machine_setup/configure_tuned
 tuned_skip: false   # use this variable to skip tuned profile configuration for host
 tuned_packages:
-- tuned-2.11.0-8.el7
-- http://linuxsoft.cern.ch/scientific/7.8/x86_64/os/Packages/tuned-profiles-realtime-2.11.0-8.el7.noarch.rpm
+- tuned-2.11.0-9.el7
+- http://ftp.scientificlinux.org/linux/scientific/7/x86_64/os/Packages/tuned-profiles-realtime-2.11.0-9.el7.noarch.rpm
 tuned_profile: realtime
 tuned_vars: |
   isolated_cores=2-3
@@ -105,7 +105,7 @@ tuned_vars: |
 ```
 
 ### Use different realtime kernel (3.10.0-1062)
-By default, `kernel-rt-kvm-3.10.0-1127.19.1.rt56.1116.el7.x86_64` from buil-in repository is installed.
+By default, `kernel-rt-kvm-3.10.0-1160.11.1.rt56.1145.el7.x86_64` from buil-in repository is installed.
 
 To use another version (e.g., `kernel-rt-kvm-3.10.0-1062.9.1.rt56.1033.el7.x86_64`), create a `host_var` file for the host with content:
 ```yaml
@@ -174,12 +174,12 @@ additional_grub_params: "debug"
 ```
 
 ### Configure OVS-DPDK in kube-ovn
-By default, OVS-DPDK is enabled. To disable it, set a flag:
+By default, OVS-DPDK is disabled (due to set calico as a default cni). To enable it, set a flag:
 ```yaml
-kubeovn_dpdk: false
+kubeovn_dpdk: true
 ```
 
->**NOTE**: This flag should be set in `roles/kubernetes/cni/kubeovn/common/defaults/main.ym` or added to `group_vars/all/10-default.yml`.
+>**NOTE**: This flag should be set in `roles/kubernetes/cni/kubeovn/common/defaults/main.ym` or added to `inventory/default/group_vars/all/10-open.yml`.
 
 Additionally, HugePages in the OVS pod can be adjusted once default HugePage settings are changed.
 ```yaml
@@ -216,6 +216,7 @@ kubeovn_dpdk_lcore_mask: "0x2"   # DPDK lcore mask
 The following are basic prechecks that are currently executed:
   * Check if any CNI is requested (i.e., `kubernetes_cni` is not empty).
   * Check if `sriov` is not requested as primary (first on the list) or standalone (only on the list).
+  * Check if `calico` is requested as a primary (first on the list).
   * Check if `kubeovn` is requested as a primary (first on the list).
   * Check if the requested CNI is available (check if some CNI is requested that isn't present in the `available_kubernetes_cnis` list).
 * CNI roles should be as self-contained as possible (unless necessary, CNI-specific tasks should not be present in `kubernetes/{controlplane,node,common}` or `openness/network_edge/{controlplane,node}`).

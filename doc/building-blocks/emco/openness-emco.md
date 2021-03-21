@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0       
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Edge Multi-Cluster Orchestrator (EMCO)
@@ -303,7 +303,7 @@ Steps for EMCO Authentication and Authorization Setup:
 ### EMCO Installation With OpenNESS Flavor
 EMCO supports [multiple deployment options](https://github.com/otcshare/EMCO/tree/main/deployments). [OpenNESS Experience Kit](https://github.com/otcshare/specs/blob/master/doc/getting-started/openness-experience-kits.md) offers the `central_orchestrator` flavor to automate EMCO build and deployment as mentioned below.
 - The first step is to prepare one server environment which needs to fulfill the [preconditions](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions).
-- Then place the EMCO server hostname in `[controller_group]` group in `inventory.ini` file of openness-experience-kit. 
+- Then place the EMCO server hostname in `[controller_group]` group in `inventory/default/inventory.ini` file of openness-experience-kit. 
 > **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for configuration, since EMCO micro services just need to be deployed on the Kubernetes* control plane node.
 - Run script `./deploy_ne.sh -f central_orchestrator`. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
 
@@ -333,7 +333,7 @@ _Figure 11 - SmartCity Deployment Architecture Overview_
 The example steps are shown as follows:
 - Prerequisites
   - Make one edge cluster and one cloud cluster ready by using OpenNESS Flavor.
-  - Prepare one server with a vanilla CentOS\* 7.8.2003 for EMCO installation.
+  - Prepare one server with a vanilla CentOS\* 7.9.2009 for EMCO installation.
 - EMCO installation
 - Cluster setup
 - Project setup

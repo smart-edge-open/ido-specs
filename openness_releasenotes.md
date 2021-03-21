@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019-2020 Intel Corporation
+Copyright (c) 2019-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Release Notes 
@@ -31,6 +31,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.06](#openness---2006-2)
   - [OpenNESS - 20.09](#openness---2009-2)
   - [OpenNESS - 20.12](#openness---2012-2)
+  - [OpenNESS - 20.12.02](#openness---201202)
 - [Known Issues and Limitations](#known-issues-and-limitations)
   - [OpenNESS - 19.06](#openness---1906-3)
   - [OpenNESS - 19.06.01](#openness---190601-3)
@@ -40,6 +41,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.06](#openness---2006-3)
   - [OpenNESS - 20.09](#openness---2009-3)
   - [OpenNESS - 20.12](#openness---2012-3)
+  - [OpenNESS - 20.12.02](#openness---201202-1)
 - [Release Content](#release-content)
   - [OpenNESS - 19.06](#openness---1906-4)
   - [OpenNESS - 19.06.01](#openness---190601-4)
@@ -49,6 +51,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.06](#openness---2006-4)
   - [OpenNESS - 20.09](#openness---2009-4)
   - [OpenNESS - 20.12](#openness---2012-4)
+  - [OpenNESS - 20.12.02](#openness---201202-2)
 - [Hardware and Software Compatibility](#hardware-and-software-compatibility)
   - [Intel® Xeon® D Processor](#intel-xeon-d-processor)
   - [2nd Generation Intel® Xeon® Scalable Processors](#2nd-generation-intel-xeon-scalable-processors)
@@ -284,6 +287,10 @@ This document provides high-level system features, issues, and limitations infor
 - Support Intel® vRAN Dedicated Accelerator ACC100, Kubernetes Cloud-native deployment supporting higher capacity 4G/LTE and 5G vRANs cells/carriers for FEC offload. 
 - Major system Upgrades: Kubernetes 1.19.3, CentOS 7.8, Calico 3.16, and Kube-OVN 1.5.2.
 
+## OpenNESS - 21.03
+- Major system Upgrades: CentOS 7.9, Kubernetes 1.20.0, Calico 3.17 and Docker 20.10.2.
+- Set Calico as a default cni for cdn-transcode, central_orchestrator, core-cplane, core-uplane, media-analytics and minimal flavor.
+
 # Changes to Existing Features
 
 ## OpenNESS - 19.06
@@ -350,6 +357,13 @@ There are no non-Intel issues relevant to this release.
 - Known issue with Pod that uses hugepage get stuck in terminating state on deletion hs been fixed after upgrading to Kubernetes 1.19.3
 - Upgraded to Kube-OVN v1.5.2 for further Kube-OVN CNI enhancements
 
+## OpenNESS - 20.12.02
+- Fixed EdgeDNS service building failure resulting in deployment failure
+- Fixed FlexRAN and FlexRAN Telemetry flavors to eliminate deployment failures
+- Fixed Calico and SR-IOV deployment failures
+- Fixed TAS deployment
+- Updated SR-IOV CNI and device plugin to fix issues with image build in offline package creator
+
 # Known Issues and Limitations
 ## OpenNESS - 19.06
 There are no issues relevant to this release.
@@ -398,6 +412,9 @@ There is one issue relevant to this release: it is not possible to remove the ap
 - Limitation of AF/NEF APIs usage: AF and NEF support only queued requests, hence the API calls should be made in sequence one after another using CNCA for the deterministic responses. If the API calls are made directly from multiple threads concurrently, the behavior is nondeterministic
 - Telemetry deployment with PCM enabled will cause a deployment failure in single node cluster deployments due to PCM dashboards for Grafana not being found
 
+## OpenNESS - 20.12.02
+- Offline deployment issues related to zlib-devel version 1.2.7-19
+
 # Release Content
 
 ## OpenNESS - 19.06
@@ -428,6 +445,10 @@ OpenNESS Edge node, OpenNESS Controller, Common, Spec, OpenNESS Applications, an
 - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec and IDO Experience kit.
 
 > **NOTE**: Edge applications repo is common to Open Source and IDO
+
+## OpenNESS - 20.12.02
+- Open Source: Edge node, Controller, Epcforedge, Common, Spec, Applications and Experience kit.
+- IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec and IDO Experience kit.
 
 # Hardware and Software Compatibility
 OpenNESS Edge Node has been tested using the following hardware specification:
@@ -477,9 +498,9 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 
 # Supported Operating Systems
 
-OpenNESS was tested on CentOS Linux release 7.8.2003 (Core)
-> **NOTE**: OpenNESS is tested with CentOS 7.8 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
+OpenNESS was tested on CentOS Linux release 7.9.2009 (Core)
+> **NOTE**: OpenNESS is tested with CentOS 7.9 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
 
 # Packages Version
 
-Package: telemetry, cadvisor 0.36.0, grafana 7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, golang 1.15, docker 19.03.12, kubernetes 1.19.3, dpdk 19.11, ovs 2.14.0, ovn 2.14.0, helm 3.0, kubeovn 1.5.2, flannel 0.12.0, calico 3.16.0, multus 3.6, sriov cni 2.3, nfd 0.6.0, cmk v1.4.1, TAS (from specific commit "a13708825e854da919c6fdf05d50753113d04831")
+Package: telemetry, cadvisor 0.36.0, grafana 7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, golang 1.15, docker 20.10.2, kubernetes 1.20.0, dpdk 19.11, ovs 2.14.0, ovn 2.14.0, helm 3.0, kubeovn 1.5.2, flannel 0.13.0, calico 3.17.0, multus 3.6, sriov cni 2.3, nfd 0.6.0, cmk v1.4.1, TAS (from specific commit "a13708825e854da919c6fdf05d50753113d04831"), openssl 1.1.1i

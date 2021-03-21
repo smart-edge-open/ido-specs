@@ -34,8 +34,8 @@ Find below a guide on changing these values. Customizations must be made before 
 
 Variables for hugepage customization can be placed in several files:
 
-* `group_vars/controller_group/10-open.yml` and `group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes respectively in every mode
-* `host_vars/<inventory_host_name>/10-open.yml` will only affect `<inventory_host_name>` host present in `inventory.ini` (in all modes)
+* `inventory/default/group_vars/controller_group/10-open.yml` and `inventory/default/group_vars/edgenode_group/10-open.yml` will affect Edge Controller and Edge Nodes respectively in every mode
+* `inventory/default/host_vars/<inventory_host_name>/10-open.yml` will only affect `<inventory_host_name>` host present in `inventory/default/inventory.ini` (in all modes)
 * Hugepages can be also specified for mode and machine type, e.g. hugepages for NetworkEdge Edge Node can be set in `network_edge.yml` in a play for Edge Nodes:
 
   ```yaml
@@ -45,32 +45,32 @@ Variables for hugepage customization can be placed in several files:
     vars:
       hugepage_amount: "5000"
   ```
-  >**NOTE**: Due to Ansible’s\* variable precedence, configuring hugepages in `network_edge.yml` is not recommended because it overrides customization in `group_vars` and `host_vars`.
+  >**NOTE**: Due to Ansible’s\* variable precedence, configuring hugepages in `network_edge.yml` is not recommended because it overrides customization in `inventory/default/group_vars` and `inventory/default/host_vars`.
 The usage is summarized in the following table:
 
 | File                                          | Network Edge | Native On Premises |            Edge Controller             |                     Edge Node                     |                                     Comment                                     |
 | --------------------------------------------- | :----------: | :---------: | :------------------------------------: | :-----------------------------------------------: | :-----------------------------------------------------------------------------: |
-| `group_vars/controller_group/10-open.yml`     |     yes      |     yes     |                  yes                   |                                                   |                                                                                 |
-| `group_vars/edgenode_group/10-open.yml`       |     yes      |     yes     |                                        |                 yes - every node                  |                                                                                 |
-| `host_vars/<inventory_host_name>/10-open.yml` |     yes      |     yes     |                  yes                   |                        yes                        | affects machine specified in `inventory.ini` with name  `<inventory_host_name>` |
+| `inventory/default/group_vars/controller_group/10-open.yml`     |     yes      |     yes     |                  yes                   |                                                   |                                                                                 |
+| `inventory/default/group_vars/edgenode_group/10-open.yml`       |     yes      |     yes     |                                        |                 yes - every node                  |                                                                                 |
+| `inventory/default/host_vars/<inventory_host_name>/10-open.yml` |     yes      |     yes     |                  yes                   |                        yes                        | affects machine specified in `inventory/default/inventory.ini` with name  `<inventory_host_name>` |
 | `network_edge.yml`                            |     yes      |             | `vars` under `hosts: controller_group` | `vars` under `hosts: edgenode_group` - every node |                                 not recommended                                 |
 
 Note that variables have precedence:
 1. **not recommended:** `network_edge.yml` will always take precedence for files from this list (overrides every other var)
-2. `host_vars/`
-3. `group_vars/edgenode_group/20-enhanced.yml` and `group_vars/controller_group/20-enhanced.yml`
-4. `group_vars/edgenode_group/10-open.yml` and `group_vars/controller_group/10-open.yml`
-5. `group_vars/all/20-enhanced.yml`
-6. `group_vars/all/10-open.yml`
+2. `inventory/default/host_vars/`
+3. `inventory/default/group_vars/edgenode_group/20-enhanced.yml` and `inventory/default/group_vars/controller_group/20-enhanced.yml`
+4. `inventory/default/group_vars/edgenode_group/10-open.yml` and `inventory/default/group_vars/controller_group/10-open.yml`
+5. `inventory/default/group_vars/all/20-enhanced.yml`
+6. `inventory/default/group_vars/all/10-open.yml`
 7. `default/main.yml` in roles' directory
 
 ### Examples
 
 #### Changing size and amount of the hugepages for both controller and nodes
-Change the following lines in the `group_vars/edgenode_group/10-open.yml` or `group_vars/controller_group/10-open.yml`:
+Change the following lines in the `inventory/default/group_vars/edgenode_group/10-open.yml` or `inventory/default/group_vars/controller_group/10-open.yml`:
 * To set 1500 of the hugepages with the page size of 2 MB (which is the default value) for the Edge Controller:
   ```yaml
-  # group_vars/controller_group/10-open.yml
+  # inventory/default/group_vars/controller_group/10-open.yml
 
   hugepage_size: "2M"
   hugepage_amount: "1500"
@@ -78,16 +78,16 @@ Change the following lines in the `group_vars/edgenode_group/10-open.yml` or `gr
 
 * To set 10 of the hugepages with the page size of 1GB for the Edge Nodes:
   ```yaml
-  # group_vars/edgenode_group/10-open.yml
+  # inventory/default/group_vars/edgenode_group/10-open.yml
 
   hugepage_size: "1G"
   hugepage_amount: "10"
   ```
 
 #### Customizing hugepages for specific machine
-To specify the size or amount only for a specific machine, `hugepage_size` and/or `hugepage_amount` can be provided in `host_vars/<host_name_from_inventory>/10-open.yml` (i.e., if host is named `node01`, then the file is `host_vars/node01/10-open.yml`). For example:
+To specify the size or amount only for a specific machine, `hugepage_size` and/or `hugepage_amount` can be provided in `inventory/default/host_vars/<host_name_from_inventory>/10-open.yml` (i.e., if host is named `node01`, then the file is `inventory/default/host_vars/node01/10-open.yml`). For example:
 ```yaml
-# host_vars/node01/10-open.yml
+# inventory/default/host_vars/node01/10-open.yml
 
 hugepage_size: "2M"
 hugepage_amount: "1500"

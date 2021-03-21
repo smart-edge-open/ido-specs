@@ -309,7 +309,7 @@ Example:
     ```
     At that stage provide IP address only for `CERA 5G NE` server.
 
-5. Edit `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
+5. Edit `ido-converged-edge-experience-kits/openness/inventory/default/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
 
     Git token.
     ```yaml
@@ -377,7 +377,7 @@ Example:
     ```shell
     ./deploy_openness_for_cera.sh 
     ```
-    All settings in `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` are the same for both servers.
+    All settings in `ido-converged-edge-experience-kits/openness/inventory/default/group_vars/all/10-open.yml` are the same for both servers.
 
 10. When both servers have deployed OpenNess, login to `CERA 5G CN` server and generate `RSA ssh key`. It's required for AMF/SMF VM deployment.
     ```shell
@@ -733,7 +733,7 @@ Deployment of Local-DN is completely automated, so there is no need to set or co
 ### OpenVINO
 
 #### Settings
-In the `group_vars/all.yml` file can be chosen which application should be built and deploy. Set a proper value for the deploy_app variable.
+In the `inventory/default/group_vars/all.yml` file can be chosen which application should be built and deploy. Set a proper value for the deploy_app variable.
 ```yaml
 deploy_app: "" - Type openvino if OpenVINO demo should be launched.
 ```

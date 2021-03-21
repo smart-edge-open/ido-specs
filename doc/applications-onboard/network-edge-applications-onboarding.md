@@ -116,7 +116,7 @@ To verify that the images for sample application consumer and producer are [buil
 ## Applying Kubernetes network policies
 Kubernetes NetworkPolicy is a mechanism that enables control over how pods are allowed to communicate with each other and other network endpoints. By default, in the Network Edge environment, all *ingress* traffic is blocked (services running inside of deployed applications are not reachable) and all *egress* traffic is enabled (pods can reach the internet).
 
-1. To apply a network policy for the sample application allowing ingress traffic, create a `sample_policy.yml` file that specifies the network policy:
+1. To apply a network policy for the sample application allowing ingress traffic, create a `sample_policy.yml` file that specifies the network policy (in the example network policy `cidr` field contains Calico CNI cidr; for other CNI use specific CNI cidr, e.g. for Kube-ovn CNI use `10.16.0.0/16`):
    ```yml
    apiVersion: networking.k8s.io/v1
    kind: NetworkPolicy
@@ -130,7 +130,7 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
      ingress:
      - from:
        - ipBlock:
-           cidr: 10.16.0.0/16
+           cidr: 10.245.0.0/16
        ports:
        - protocol: TCP
          port: 80
@@ -251,9 +251,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: producer
            image: producer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
@@ -398,9 +398,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: consumer
            image: consumer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
@@ -728,15 +728,15 @@ kubectl interfaceservice get <officeX_host_name>
 
 ## Inter application communication
 The IAC is available via the default overlay network used by Kubernetes - Kube-OVN.
-For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/x-specs/blob/master/doc/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
+For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
 
 # Enhanced Platform Awareness
-Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](https://github.com/otcshare/x-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
+Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](https://github.com/otcshare/ido-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
 
-Refer to [<b>supported-epa.md</b>](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/supported-epa.md) for the list of supported EPA features on OpenNESS network edge.
+Refer to [<b>supported-epa.md</b>](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/supported-epa.md) for the list of supported EPA features on OpenNESS network edge.
 
 # VM support for Network Edge
-Support for VM deployment on OpenNESS for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [openness-network-edge-vm-support.md](https://github.com/otcshare/x-specs/blob/master/doc/applications-onboard/openness-network-edge-vm-support.md).
+Support for VM deployment on OpenNESS for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [openness-network-edge-vm-support.md](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/openness-network-edge-vm-support.md).
 
 # Troubleshooting
 This section covers steps for debugging edge applications in Network Edge.

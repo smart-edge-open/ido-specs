@@ -46,7 +46,7 @@ Available management with `kube-cnca` against LTE CUPS OAM agent are:
 2. Deletion of LTE CUPS userplanes
 3. Updating (patching) LTE CUPS userplanes
 
-The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/openness-experience-kits.md).
+The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md).
 In the following sections, a detailed explanation with examples is provided about the CNCA management.
 
 Creation of the LTE CUPS userplane is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration) section. Use the `apply` command to post a userplane creation request onto Application Function (AF):
@@ -126,14 +126,14 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 ### Bring up of NGC components in Network Edge mode
 
 - If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `group_vars/all/20-enhanced.yml` before running `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single`, as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` before running `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single`, as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single` as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single` as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
 
   >**NOTE**: In addition to the OpenNESS controller bring up, by enabling the ngc role, the playbook scripts performs:
 
-  - A clone of the x-epcforedge repo from GitHub\*
+  - A clone of the ido-epcforedge repo from GitHub\*
   - Builds AF, NEF, OAM, and CNTF microservices
   - Generates certificate files at the location **/opt/openness/certs/ngc** on the controller.
   - Creates ConfigMap **certs-cm** from the above directory.
@@ -386,7 +386,7 @@ Modifying the certificates. Complete the following steps:
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/x-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
+The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
 
 #### Edge Node services operations with 5G Core (through OAM interface)
 

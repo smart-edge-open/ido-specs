@@ -85,24 +85,24 @@ For information on how to update and flash the MAX10 to supported version see [I
 To run the OpenNESS package with FPGA (FEC) functionality, the feature needs to be enabled on both Edge Controller and Edge Node.
 
 #### OpenNESS Experience Kit
-To enable FPGA support from OEK, change the variable `ne_opae_fpga_enable` in `group_vars/all/10-default.yml` (or flavor alternative file) to `true`:
+To enable FPGA support from OEK, change the variable `ne_opae_fpga_enable` in `inventory/default/group_vars/all/10-open.yml` (or flavor alternative file) to `true`:
 ```yaml
-# group_vars/all/10-default.yml
+# inventory/default/group_vars/all/10-open.yml
 ne_opae_fpga_enable: true
 ```
 
 Additionally, SRIOV must be enabled in OpenNESS:
 ```yaml
-# group_vars/all/10-default.yml
+# inventory/default/group_vars/all/10-open.yml
 kubernetes_cnis:
 - <main CNI>
 - sriov
 ```
 
-Also, enable the following options in `group_vars/all/10-default.yml`:
+Also, enable the following options in `inventory/default/group_vars/all/10-open.yml`:
 The following device config is the default config for the Intel® FPGA PAC N3000 with a 5GNR vRAN user image tested (this configuration is common to both the EdgeNode and EdgeController setup).
 ```yaml
-# group_var/all/10-default.yml
+# group_var/all/10-open.yml
 
 fpga_sriov_userspace_enable: true
 
@@ -117,12 +117,12 @@ fpga_userspace_vf:
 
 The following packages need to be placed into specific directories for the feature to work:
 
-1. The OPAE package `OPAE_SDK_1.3.7-5_el7.zip` needs to be placed inside the `x-openness-experience-kits/opae_fpga` directory. The package can be obtained as part of Intel® FPGA PAC N3000 OPAE beta release. To obtain the package, contact your Intel representative.
+1. The OPAE package `OPAE_SDK_1.3.7-5_el7.zip` needs to be placed inside the `x-openness-experience-kits/oek/opae_fpga` directory. The package can be obtained as part of Intel® FPGA PAC N3000 OPAE beta release. To obtain the package, contact your Intel representative.
 
 Run setup script `deploy_ne.sh -f <flavor>`.
 
 **Note:**
-Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/x-specs/blob/master/doc/flavors.md).
+Up to version 20.12 choosing flavor was optional. Since version 21.03 and moving forward this parameter is no longer optional. To learn more about [flavors go to this page](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md).
 
 After a successful deployment, the following pods will be available in the cluster (CNI pods may vary depending on deployment):
 ```shell
@@ -227,7 +227,7 @@ To run vRAN workloads on the Intel® FPGA PAC N3000, the FPGA must be programmed
 
 #### Telemetry monitoring
 
-  Support for monitoring temperature and power telemetry of the Intel® FPGA PAC N3000 is also provided from OpenNESS with a CollectD collector that is configured for the `flexran` flavor. Intel® FPGA PAC N3000 telemetry monitoring is provided to CollectD as a plugin. It collects the temperature and power metrics from the card and exposes them to Prometheus\* from which the user can easily access the metrics. For more information on how to enable telemetry for FPGA in OpenNESS, see the [telemetry whitepaper](https://github.com/otcshare/x-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md#collectd).
+  Support for monitoring temperature and power telemetry of the Intel® FPGA PAC N3000 is also provided from OpenNESS with a CollectD collector that is configured for the `flexran` flavor. Intel® FPGA PAC N3000 telemetry monitoring is provided to CollectD as a plugin. It collects the temperature and power metrics from the card and exposes them to Prometheus\* from which the user can easily access the metrics. For more information on how to enable telemetry for FPGA in OpenNESS, see the [telemetry whitepaper](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md#collectd).
 
   ![PACN3000 telemetry](fpga-images/openness-fpga4.png)
 
@@ -324,7 +324,7 @@ Build the image:
 
 `./build-image.sh`
 
-From the Edge Controlplane, deploy the application pod. The pod specification is located at `/opt/openness/edgenode/edgecontroller/fpga/fpga-sample-app.yaml`:
+From the Edge Controlplane, deploy the application pod. The pod specification is located at `/opt/openness/edgeservices/edgecontroller/fpga/fpga-sample-app.yaml`:
 
 ```
 kubectl create -f fpga-sample-app.yaml
