@@ -116,7 +116,7 @@ To verify that the images for sample application consumer and producer are [buil
 ## Applying Kubernetes network policies
 Kubernetes NetworkPolicy is a mechanism that enables control over how pods are allowed to communicate with each other and other network endpoints. By default, in the Network Edge environment, all *ingress* traffic is blocked (services running inside of deployed applications are not reachable) and all *egress* traffic is enabled (pods can reach the internet).
 
-1. To apply a network policy for the sample application allowing ingress traffic, create a `sample_policy.yml` file that specifies the network policy:
+1. To apply a network policy for the sample application allowing ingress traffic, create a `sample_policy.yml` file that specifies the network policy (in the example network policy `cidr` field contains Calico CNI cidr; for other CNI use specific CNI cidr, e.g. for Kube-ovn CNI use `10.16.0.0/16`):
    ```yml
    apiVersion: networking.k8s.io/v1
    kind: NetworkPolicy
@@ -130,7 +130,7 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
      ingress:
      - from:
        - ipBlock:
-           cidr: 10.16.0.0/16
+           cidr: 10.245.0.0/16
        ports:
        - protocol: TCP
          port: 80
@@ -251,9 +251,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: producer
            image: producer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
@@ -398,9 +398,9 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
          - name: consumer
            image: consumer:1.0
            imagePullPolicy: Never
-             volumeMounts:
-               - name: certs
-                 mountPath: /home/sample/certs/
+           volumeMounts:
+             - name: certs
+               mountPath: /home/sample/certs/
            ports:
            - containerPort: 443
          volumes:
@@ -542,7 +542,7 @@ By default, in a Network Edge environment, all *ingress* traffic is blocked (ser
    spec:
      podSelector:
        matchLabels:
-         name: openvino-cons-app
+         app: openvino-cons-app
      policyTypes:
      - Ingress
      ingress:
