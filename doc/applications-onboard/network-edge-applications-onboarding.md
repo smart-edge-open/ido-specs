@@ -542,7 +542,7 @@ By default, in a Network Edge environment, all *ingress* traffic is blocked (ser
    spec:
      podSelector:
        matchLabels:
-         name: openvino-cons-app
+         app: openvino-cons-app
      policyTypes:
      - Ingress
      ingress:
@@ -728,7 +728,8 @@ kubectl interfaceservice get <officeX_host_name>
 
 ## Inter application communication
 The IAC is available via the default overlay network used by Kubernetes - Kube-OVN.
-For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
+
+For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
 
 # Enhanced Platform Awareness
 Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](https://github.com/otcshare/ido-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
