@@ -82,6 +82,7 @@ The following are steps to install this flavor:
 
 > **NOTE:** The video analytics services integrates with the OpenNESS service mesh when the flag `ne_istio_enable: true` is set.
 > **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
+> **NOTE:** Istio deployment can be customized using parameters in the `flavor/media-analytics/all.yaml` (parameters set in the flavor file override default parameters set in `inventory/default/group_vars/all/10-default.yml`).
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
@@ -279,44 +280,6 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
 - RMD operator
-
-## Reference Service Mesh
-
-Service Mesh technology enables services discovery and sharing of data between application services. This technology can be useful in any CERA. Customers will find Service Mesh under flavors directory as a reference to quickly try out the technology and understand the implications. In future OpenNESS releases this Service Mesh will not be a dedicated flavor. 
-
-The pre-defined *service-mesh* deployment flavor installs the OpenNESS service mesh that is based on [Istio](https://istio.io/).
-
-> **NOTE**: When deploying Istio Service Mesh in VMs, a minimum of 8 CPU core and 16GB RAM must be allocated to each worker VM so that Istio operates smoothly
-
-Steps to install this flavor are as follows:
-1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run OEK deployment script:
-    ```shell
-    $ deploy_ne.sh -f service-mesh
-    ```
-
-This deployment flavor enables the following ingredients:
-* Node Feature Discovery
-* The default Kubernetes CNI: `calico`
-* Istio service mesh
-* Kiali management console
-* Telemetry
-
-> **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
-
-Following parameters in the flavor/all.yaml can be customize for Istio deployment:
-
-```code 
-# Istio deployment profile possible values: default, demo, minimal, remote
-istio_deployment_profile: "default"
-
-# Kiali
-istio_kiali_username: "admin"
-istio_kiali_password: "{{ lookup('password', '/dev/null length=16') }}"
-istio_kiali_nodeport: 30001
-```
-
-> **NOTE:** If creating a customized flavor, the Istio service mesh installation can be included in the Ansible playbook by setting the flag `ne_istio_enable: true` in the flavor file.
 
 ## Central Orchestrator Flavor
 
