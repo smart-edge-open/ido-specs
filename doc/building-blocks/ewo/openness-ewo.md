@@ -73,7 +73,17 @@ EWO supports [kubectl deployment](https://github.com/otcshare/ewo/tree/main/plat
 > **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for EWO overlay configuration, since EWO overlay micro services just need to be deployed on the Kubernetes* control plane node.
 - Setup configurations for EWO networks/cnfs/rules in `inventory/default/host_vars/${NODE_NAME}/30-ewo.yml` as as mentioned below [EWO Configuration](#ewo-configuration) section.
 > **NOTE**: The configurations are node per node. If only deploy cnfs on one node in the cluster, these configurations can be in `flavors/sdewan-hub/all.yml` or `flavors/sdewan-edge/all.yml`
-- Run script `./deploy_ne.sh -f sdewan-edge` or `./deploy_ne.sh -f sdewan-hub` for edge and hub cluster. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
+- Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-edge` or `sdewan-hub`:
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: sdewan_edge_cluster
+        flavor: sdewan-edge # or sdewan-hub
+    ... 
+    ```
+- Run `deploy.py` script for edge and hub cluster. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
+> **NOTE**: for more details about deployment and defining inventory please refer to [CEEK](../../getting-started/converged-edge-experience-kits.md#converged-edge-experience-kit-explained) getting started page.
 
 ```shell
 # kubectl get pods -n cnf

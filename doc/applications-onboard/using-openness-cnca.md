@@ -46,7 +46,7 @@ Available management with `kube-cnca` against LTE CUPS OAM agent are:
 2. Deletion of LTE CUPS userplanes
 3. Updating (patching) LTE CUPS userplanes
 
-The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md).
+The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [Converged Edge Experience Kits](../getting-started/converged-edge-experience-kits.md).
 In the following sections, a detailed explanation with examples is provided about the CNCA management.
 
 Creation of the LTE CUPS userplane is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration) section. Use the `apply` command to post a userplane creation request onto Application Function (AF):
@@ -126,10 +126,10 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 ### Bring up of NGC components in Network Edge mode
 
 - If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` before running `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single`, as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh -f <flavor>` or `deploy_ne.sh -f <flavor> single` as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
 
   >**NOTE**: In addition to the OpenNESS controller bring up, by enabling the ngc role, the playbook scripts performs:
 

@@ -163,13 +163,22 @@ Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see
 
 Deploy OpenNESS using FlexRAN flavor for multi or single node:
 
+1. Update the `inventory.yaml` file by setting the deployment flavor as `flexran` and set single node deployment flag to `true` for single node deployment:
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: offline_flexran_cluster
+        flavor: flexran
+        single_node_deployment: false # set true for single node
+    ... 
+    ```
+  > **NOTE:** set `single_node_deployment:` to `true` for single node
+2. Run deployment:
 ```shell
-# ./deploy_ne.sh -f flexran
+# python3 deploy.py
 ```
-OR
-```shell
-# ./deploy_ne.sh -f flexran single
-```
+> **NOTE**: for more details about deployment and defining inventory please refer to [CEEK](../../getting-started/converged-edge-experience-kits.md#converged-edge-experience-kit-explained) getting started page.
 ## Deployment in offline environment by python3
 1. Install pre-requisite tools (python3., ansible...etc)before running deployment script.
 ```shell
