@@ -17,6 +17,8 @@ Copyright (c) 2020 Intel Corporation
   - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
   - [Reference Service Mesh](#reference-service-mesh)
   - [Central Orchestrator Flavor](#central-orchestrator-flavor)
+  - [CERA SD-WAN Edge Flaor](#cera-sd-wan-edge-flaor)
+  - [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
 
 # OpenNESS Deployment Flavors
 
