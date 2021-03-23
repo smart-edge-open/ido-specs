@@ -162,14 +162,14 @@ OR
 # ./deploy_ne.sh -f flexran single
 ```
 ## Deployment in offline environment by python3
-1. Install pre-requisite tools for the the deployment script
+1. Install pre-requisite tools (python3., ansible...etc)before running deployment script.
 ```shell
 # mkdir /tmp/Pre_Install
 # cp ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files/prepackages.tar.gz /tmp/Pre_Install
 # cd /tmp/Pre_Install && tar xvf ./prepackages.tar.gz
 # yum localinstall -y ./*
 ```
-2. Edit the **inventory.yml** file by providing information about the cluster nodes and the intended deployment flavor, please refer this [document](https://openness.atlassian.net/wiki/spaces/CERA/pages/1332609040/Converged+Edge+Experience+Kit+Quick+Start-up+Guide#Deployment-customization)
+2. Edit the **inventory.yml** file by providing information about the cluster nodes and the intended deployment flavor, please refer this [document](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md)
 
 3. Additional configurations should be applied to the default **group_vars** file:**inventory/default/group_vars/all/10-default.yml**
 ```yaml
