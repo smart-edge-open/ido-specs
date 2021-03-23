@@ -32,7 +32,8 @@ Figure 2. Scenario two - OEK copied to the air-gapped network
 * All the nodes in air-gapped environment must be able to SSH to each other without requiring password input, see [getting-started.md](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#exchanging-ssh-keys-between-hosts).
 * The control plane node needs to be able to SSH itself.
 * The time and date of the nodes in offline environment is manually synchronized by the cluster's admin.
-* User provided files - OPAE_SDK_1.3.7-5_el7.zip and syscfg_package.zip
+* User provided files - OPAE_SDK_1.3.7-5_el7.zip and syscfg_package.zip.
+* User provided files - [ice-1.3.2.tar.gz](https://downloadcenter.intel.com/download/29746/Intel-Network-Adapter-Driver-for-E810-Series-Devices-under-Linux-) and [iavf-4.0.2.tar.gz](https://downloadcenter.intel.com/download/24693?v=t) when `e810_driver_enable` flag is set (default setting).
 
 ## Creating the offline package from an online node
 
@@ -67,6 +68,14 @@ Copy the 'OPAE_SDK_1.3.7-5_el7.zip' file (optional but necessary by default - to
 ```shell
 # cp OPAE_SDK_1.3.7-5_el7.zip /<usr>/<provided>/<directory>
 # cp syscfg_package.zip /<usr>/<provided>/<directory>
+```
+
+Create the `ido-converged-edge-experience-kits/oek/nic_drivers` directory and copy the `ice-1.3.2.tar.gz` and `iavf-4.0.2.tar.gz` files (optional but necessary by default - to be done when `e810_driver_enable` is enabled in "flexran" flavor of OEK) to the directory.
+
+```shell
+# mkdir ./oek/nic_drivers
+# cp ice-1.3.2.tar.gz ./oek/nic_drivers
+# cp iavf-4.0.2.tar.gz ./oek/nic_drivers
 ```
 
 Edit [ido-converged-edge-experience-kits/offline_package_creator/scripts/initrc](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
