@@ -116,7 +116,7 @@ policy:
 
 # 5G NGC components bring up and Configuration using CNCA
 
-OpenNESS provides Ansible\* scripts for setting up NGC components for two scenarios. Each of the scenarios is supported by a separate role in the OpenNESS Experience Kit:
+OpenNESS provides Ansible\* scripts for setting up NGC components for two scenarios. Each of the scenarios is supported by a separate role in the Converged Edge Experience Kits:
 
 Role "ngc"
 This role brings up the 5g OpenNESS setup in the loopback mode for testing and demonstrating its usability. The Ansible scripts that are part of the "ngc" role build, configure, and start AF, Network Exposure Function (NEF), OAM, and Core Network Test Function (CNTF) in the Network Edge mode. Within this role, AF and OAM are set up on the controller node. NEF and CNTF are set up on the edge node.  The description of the configuration and setup of the NGC components provided in the next sections of this document refers to the ngc role. The NGC components set up within the ngc role can be fully integrated and tested with the provided kubectl plugin or CNCA UI.
@@ -386,7 +386,7 @@ Modifying the certificates. Complete the following steps:
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [OpenNESS Experience Kit](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
+The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
 
 #### Edge Node services operations with 5G Core (through OAM interface)
 
