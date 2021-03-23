@@ -50,10 +50,15 @@ The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 2. Configure the flavor file to reflect desired deployment.
    - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
-   - Configure the amount of CPUs reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
+   - Configure which CPUs are to be reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
    - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
+
+3. Provide necessary files:
+   - Create the `ido-converged-edge-experience-kits/oek/biosfw` directory and copy the `syscfg_package.zip` file to the directory (can be disabled with `ne_biosfw_enable` flag).
+   - Create the `ido-converged-edge-experience-kits/oek/opae_fpga` directory and copy the OPAE_SDK_1.3.7-5_el7.zip to the directory (can be disabled with `ne_opae_fpga_enable` flag)
+   - Create the `ido-converged-edge-experience-kits/oek/nic_drivers` directory and copy the `ice-1.3.2.tar.gz` and `iavf-4.0.2.tar.gz` files to the directory (can be disabled with `e810_driver_enable` flag).
   
-3. Run OEK deployment script:
+4. Run OEK deployment script:
     ```shell
     $ deploy_ne.sh -f flexran
     ```
@@ -65,6 +70,7 @@ This deployment flavor enables the following ingredients:
 * FPGA remote system update through OPAE
 * FPGA configuration
 * eASIC ACC100 configuration
+* E810 and IAVF kernel driver update
 * RT Kernel
 * Topology Manager
 * RMD operator
