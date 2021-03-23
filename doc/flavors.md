@@ -50,10 +50,15 @@ The following are steps to install this flavor:
 1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 2. Configure the flavor file to reflect desired deployment.
    - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
-   - Configure the amount of CPUs reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
+   - Configure which CPUs are to be reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
    - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
+
+3. Provide necessary files:
+   - Create the `ido-converged-edge-experience-kits/oek/biosfw` directory and copy the `syscfg_package.zip` file to the directory (can be disabled with `ne_biosfw_enable` flag).
+   - Create the `ido-converged-edge-experience-kits/oek/opae_fpga` directory and copy the OPAE_SDK_1.3.7-5_el7.zip to the directory (can be disabled with `ne_opae_fpga_enable` flag)
+   - Create the `ido-converged-edge-experience-kits/oek/nic_drivers` directory and copy the `ice-1.3.2.tar.gz` and `iavf-4.0.2.tar.gz` files to the directory (can be disabled with `e810_driver_enable` flag).
   
-3. Run OEK deployment script:
+4. Run OEK deployment script:
     ```shell
     $ deploy_ne.sh -f flexran
     ```
@@ -65,6 +70,7 @@ This deployment flavor enables the following ingredients:
 * FPGA remote system update through OPAE
 * FPGA configuration
 * eASIC ACC100 configuration
+* E810 and IAVF kernel driver update
 * RT Kernel
 * Topology Manager
 * RMD operator
@@ -82,6 +88,7 @@ The following are steps to install this flavor:
 
 > **NOTE:** The video analytics services integrates with the OpenNESS service mesh when the flag `ne_istio_enable: true` is set.
 > **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
+> **NOTE:** Istio deployment can be customized using parameters in the `flavor/media-analytics/all.yaml` (parameters set in the flavor file override default parameters set in `inventory/default/group_vars/all/10-default.yml`).
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
@@ -279,44 +286,6 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
 - RMD operator
-
-## Reference Service Mesh
-
-Service Mesh technology enables services discovery and sharing of data between application services. This technology can be useful in any CERA. Customers will find Service Mesh under flavors directory as a reference to quickly try out the technology and understand the implications. In future OpenNESS releases this Service Mesh will not be a dedicated flavor. 
-
-The pre-defined *service-mesh* deployment flavor installs the OpenNESS service mesh that is based on [Istio](https://istio.io/).
-
-> **NOTE**: When deploying Istio Service Mesh in VMs, a minimum of 8 CPU core and 16GB RAM must be allocated to each worker VM so that Istio operates smoothly
-
-Steps to install this flavor are as follows:
-1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run OEK deployment script:
-    ```shell
-    $ deploy_ne.sh -f service-mesh
-    ```
-
-This deployment flavor enables the following ingredients:
-* Node Feature Discovery
-* The default Kubernetes CNI: `calico`
-* Istio service mesh
-* Kiali management console
-* Telemetry
-
-> **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
-
-Following parameters in the flavor/all.yaml can be customize for Istio deployment:
-
-```code 
-# Istio deployment profile possible values: default, demo, minimal, remote
-istio_deployment_profile: "default"
-
-# Kiali
-istio_kiali_username: "admin"
-istio_kiali_password: "{{ lookup('password', '/dev/null length=16') }}"
-istio_kiali_nodeport: 30001
-```
-
-> **NOTE:** If creating a customized flavor, the Istio service mesh installation can be included in the Ansible playbook by setting the flag `ne_istio_enable: true` in the flavor file.
 
 ## Central Orchestrator Flavor
 
