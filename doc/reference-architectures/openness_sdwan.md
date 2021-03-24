@@ -296,6 +296,7 @@ The following figure shows the system architecture of the SD-WAN Hub Reference A
 ## Deployment
 ### E2E Scenarios
 Three end-to-end scenarios have been validated to verify deployment of an SD-WAN on OpenNESS. The three scenarios are described in the following sections of this document. 
+For more details about SD-WAN deployment on OpenNESS, please refer [EWO Building Blocks](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/ewo/openness-ewo.md).
 
 #### Hardware Specification
 
