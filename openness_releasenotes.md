@@ -295,6 +295,7 @@ This document provides high-level system features, issues, and limitations infor
 - Kubernetes CNI upgrades: Calico 3.17, SR-IOV CNI 2.6, Flannel 0.13.0.
 - Telemetry upgrades: CAdvisor 0.37.5, Grafana 7.4.2, Prometheus 2.24.0, Prometheus Node Exporter 1.0.1.
 - Set Calico as a default cni for cdn-transcode, central_orchestrator, core-cplane, core-uplane, media-analytics and minimal flavor.
+- Intel CMK support deprecated in favour of Kubernetes native CPU Manaher
 
 # Changes to Existing Features
 
