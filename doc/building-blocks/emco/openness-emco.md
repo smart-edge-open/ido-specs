@@ -514,7 +514,7 @@ Run the command for the SmartCity termination with expected result as below:
 After termination, the SmartCity application will be deleted from the clusters.
 
 
-### Deploy SmartCity Application With HPA intent
+### Deploy SmartCity Application With HPA Intent
 OpenNESS EMCO supports Hardware Platform Awareness (HPA) based Placement Intent.
 - Application developer such as SmartCity can state that a certain microservice needs a specific list of resources.
 - EMCO can pass that requirement to each appropriate K8s cluster so that the K8s scheduler can place the microservice on a node that has that specific list of resources.
