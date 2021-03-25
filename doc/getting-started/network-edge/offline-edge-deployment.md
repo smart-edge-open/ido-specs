@@ -174,30 +174,14 @@ Deploy OpenNESS using FlexRAN flavor for multi or single node:
     ... 
     ```
   > **NOTE:** set `single_node_deployment:` to `true` for single node
-2. Run deployment:
+
+2. Install the pre-requisites.
+```shell
+# ./scripts/ansible-precheck.sh
+```
+
+3. Run deployment:
 ```shell
 # python3 deploy.py
 ```
 > **NOTE**: for more details about deployment and defining inventory please refer to [CEEK](../../getting-started/converged-edge-experience-kits.md#converged-edge-experience-kit-explained) getting started page.
-## Deployment in offline environment by python3
-1. Install pre-requisite tools (python3., ansible...etc)before running deployment script.
-```shell
-# mkdir /tmp/Pre_Install
-# cp ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files/prepackages.tar.gz /tmp/Pre_Install
-# cd /tmp/Pre_Install && tar xvf ./prepackages.tar.gz
-# yum localinstall -y ./*
-```
-2. Edit the **inventory.yml** file by providing information about the cluster nodes and the intended deployment flavor, please refer this [document](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
-
-3. Additional configurations should be applied to the default **group_vars** file:**inventory/default/group_vars/all/10-default.yml**
-```yaml
-## Offline Mode support
-offline_enable: True
-```
-Make sure nodes can access each other through SSH without password.
-Make sure cotrol-plane node can SSH itself.
-
-4. Get the deployment started by executing the deploy script.
-```shell
-# python3 deploy.py
-```
