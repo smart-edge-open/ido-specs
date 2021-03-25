@@ -375,7 +375,7 @@ _Figure 8 - Status Monitoring and Query Sequence_
 
 
 ### EMCO API
-For user interaction, EMCO provides [RESTful API](https://github.com/otcshare/EMCO/blob/main/docs/emco_apis.yaml). Apart from that, EMCO also provides CLI. For the detailed usage, refer to [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl)
+For user interaction, EMCO provides [RESTful API](https://github.com/otcshare/IDO-EMCO/blob/main/docs/user/ido-emco-hpa-api.yaml). Apart from that, EMCO also provides CLI. For the detailed usage, refer to [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl)
 > **NOTE**: The EMCO RESTful API is the foundation for the other interaction facilities like the EMCO CLI, EMCO GUI (available in the future) and other orchestrators.
 
 ### EMCO Authentication and Authorization
@@ -414,7 +414,7 @@ Steps for EMCO Authentication and Authorization Setup:
 - Apply Authentication and Authorization Policies
 
 ### EMCO Installation With OpenNESS Flavor
-EMCO supports [multiple deployment options](https://github.com/otcshare/EMCO/tree/main/deployments). [Converged Edge Experience Kits](../../getting-started/converged-edge-experience-kits.md) offers the `central_orchestrator` flavor to automate EMCO build and deployment as mentioned below.
+EMCO supports [multiple deployment options](https://github.com/otcshare/IDO-EMCO/tree/main/deployments). [Converged Edge Experience Kits](../../getting-started/converged-edge-experience-kits.md) offers the `central_orchestrator` flavor to automate EMCO build and deployment as mentioned below.
 - The first step is to prepare one server environment which needs to fulfill the [preconditions](../../getting-started/network-edge/controller-edge-node-setup.md#preconditions).
 - Place the EMCO server hostname in `controller_group/hosts/ctrl.openness.org:` dictionary in `inventory.yml` file of converged-edge-experience-kit.
 - Update the `inventory.yaml` file by setting the deployment flavor as `central_orchestrator`
@@ -744,7 +744,7 @@ spec:
 
  
 ### HPA intent based on non-alloctable resource requirements - VCAC-A
-The Visual Cloud Accelerator Card - Analytics (VCAC-A) equips 2nd Generation Intel® Xeon® processor- based platforms with Iris® Pro Graphics and Intel® Movidius™ VPUs to enhance video codec, computer vision, and inference capabilities. Refer to details in [OpenNESS VCAC-A](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-vcac-a.md)
+The Visual Cloud Accelerator Card - Analytics (VCAC-A) equips 2nd Generation Intel® Xeon® processor- based platforms with Iris® Pro Graphics and Intel® Movidius™ VPUs to enhance video codec, computer vision, and inference capabilities. Refer to details in [OpenNESS VCAC-A](../enhanced-platform-awareness/openness-vcac-a.md)
 
 During the VCAC-A installation, the VCA nodes are labeled with `vcac-zone=yes` and features with NFD. For the non-allocatable resource requirement intent, can refer to below example:
 ```yaml
@@ -762,4 +762,4 @@ spec:
    weight: 1
    resource: {"key":"vcac-zone", "value":"yes"}
 ```
-After deployment with SmartCity application instantiation, the expected result is: edge application will be deployed on the edge cluster which contains VACA-A accelerator.
+After SmartCity application instantiation, the expected result is: edge application will be only deployed on the edge cluster which contains VACA-A accelerator.
