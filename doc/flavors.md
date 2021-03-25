@@ -3,34 +3,42 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
-- [OpenNESS Deployment Flavors](#openness-deployment-flavors)
-  - [CERA Minimal Flavor](#cera-minimal-flavor)
-  - [CERA Access Edge Flavor](#cera-access-edge-flavor)
-  - [CERA Media Analytics Flavor](#cera-media-analytics-flavor)
-  - [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
-  - [CERA CDN Transcode Flavor](#cera-cdn-transcode-flavor)
-  - [CERA CDN Caching Flavor](#cera-cdn-caching-flavor)
-  - [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
-  - [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
-  - [CERA Untrusted Non3gpp Access Flavor](#cera-untrusted-non3gpp-access-flavor)
-  - [CERA Near Edge Flavor](#cera-near-edge-flavor)
-  - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
-  - [Reference Service Mesh](#reference-service-mesh)
-  - [Central Orchestrator Flavor](#central-orchestrator-flavor)
-
 # OpenNESS Deployment Flavors
+This document introduces the supported deployment flavors that are deployable through the Converged Edge Experience Kits (CEEK).
 
-This document introduces the supported deployment flavors that are deployable through OpenNESS Experience Kits (OEKs.
+- [CERA Minimal Flavor](#cera-minimal-flavor)
+- [CERA Access Edge Flavor](#cera-access-edge-flavor)
+- [CERA Media Analytics Flavor](#cera-media-analytics-flavor)
+- [CERA Media Analytics Flavor with VCAC-A](#cera-media-analytics-flavor-with-vcac-a)
+- [CERA CDN Transcode Flavor](#cera-cdn-transcode-flavor)
+- [CERA CDN Caching Flavor](#cera-cdn-caching-flavor)
+- [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
+- [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
+- [CERA Untrusted Non3gpp Access Flavor](#cera-untrusted-non3gpp-access-flavor)
+- [CERA Near Edge Flavor](#cera-near-edge-flavor)
+- [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
+- [Central Orchestrator Flavor](#central-orchestrator-flavor)
+- [CERA SD-WAN Edge Flaor](#cera-sd-wan-edge-flaor)
+- [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
 
 ## CERA Minimal Flavor
 
 The pre-defined *minimal* deployment flavor provisions the minimal set of configurations for bringing up the OpenNESS network edge deployment.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the OEK deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `minimal`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: minimal_cluster
+        flavor: minimal
+    ... 
+    ```
+3. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f minimal
+    $ python3 deploy.py
     ```
 
 This deployment flavor enables the following ingredients:
@@ -38,22 +46,38 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `calico`
 * Telemetry
 
-To customize this flavor we recommend creating additional file in openness-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `openness-experiance-kits/inventory/default/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`). 
+To customize this flavor we recommend creating additional file in converged-edge-experience-kits that will override any variables used in previous configuration. This file should be placed in location: `converged-edge-experience-kits/inventory/default/group_vars/all` and filenames should start with number greater than highest value currently present (e.g. `40-overrides.yml`).
+
 
 ## CERA Access Edge Flavor
 
 The pre-defined *flexran* deployment flavor provisions an optimized system configuration for vRAN workloads on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
 2. Configure the flavor file to reflect desired deployment.
-   - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
-   - Configure the amount of CPUs reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
-   - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/otcshare/openness-experience-kits/blob/master/flavors/flexran/all.yml) file.
-  
-3. Run OEK deployment script:
+   - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/otcshare/converged-edge-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/otcshare/converged-edge-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
+   - Configure which CPUs are to be reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
+   - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/otcshare/converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
+
+3. Provide necessary files:
+   - Create the `ido-converged-edge-experience-kits/ceek/biosfw` directory and copy the `syscfg_package.zip` file to the directory (can be disabled with `ne_biosfw_enable` flag).
+   - Create the `ido-converged-edge-experience-kits/ceek/opae_fpga` directory and copy the OPAE_SDK_1.3.7-5_el7.zip to the directory (can be disabled with `ne_opae_fpga_enable` flag)
+   - Create the `ido-converged-edge-experience-kits/ceek/nic_drivers` directory and copy the `ice-1.3.2.tar.gz` and `iavf-4.0.2.tar.gz` files to the directory (can be disabled with `e810_driver_enable` flag).
+
+4. Update the `inventory.yaml` file by setting the deployment flavor as `flexran`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: flexran_cluster
+        flavor: flexran
+    ... 
+    ```
+
+5. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f flexran
+    $ python3 deploy.py
     ```
 This deployment flavor enables the following ingredients:
 * Node Feature Discovery
@@ -63,6 +87,7 @@ This deployment flavor enables the following ingredients:
 * FPGA remote system update through OPAE
 * FPGA configuration
 * eASIC ACC100 configuration
+* E810 and IAVF kernel driver update
 * RT Kernel
 * Topology Manager
 * RMD operator
@@ -72,14 +97,24 @@ This deployment flavor enables the following ingredients:
 The pre-defined *media-analytics* deployment flavor provisions an optimized system configuration for media analytics workloads on Intel® Xeon® platforms. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the OEK deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `media-analytics`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: media_analytics_cluster
+        flavor: media-analytics
+    ... 
+    ```
+3. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f media-analytics
+    $ python3 deploy.py
     ```
 
 > **NOTE:** The video analytics services integrates with the OpenNESS service mesh when the flag `ne_istio_enable: true` is set.
 > **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
+> **NOTE:** Istio deployment can be customized using parameters in the `flavor/media-analytics/all.yaml` (parameters set in the flavor file override default parameters set in `inventory/default/group_vars/all/10-default.yml`).
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
@@ -94,22 +129,34 @@ This deployment flavor enables the following ingredients:
 The pre-defined *media-analytics-vca* deployment flavor provisions an optimized system configuration for media analytics workloads leveraging Visual Cloud Accelerator Card – Analytics (VCAC-A) acceleration. It also provisions a set of video analytics services based on the [Video Analytics Serving](https://github.com/intel/video-analytics-serving) for analytics pipeline management and execution.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Add the VCA hostname in the `[edgenode_vca_group]` group in `inventory/default/inventory.ini` file of the OEK, for example:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Add the VCA host name in the `edgenode_vca_group:` group in `inventory.yml` file of the CEEK, e.g:
+    ```yaml
+    edgenode_vca_group:
+      hosts:
+        vca-node01.openness.org:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
     ```
-    [edgenode_vca_group]
-    silpixa00400194
+    > **NOTE:** The VCA host name should *only* be placed once in the `inventory.yml` file and under the `edgenode_vca_group:` group. 
+
+3. Update the `inventory.yaml` file by setting the deployment flavor as `media-analytics-vca`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: media_analytics_vca_cluster
+        flavor: media-analytics-vca
+    ... 
     ```
 
-    > **NOTE:** The VCA host name should *only* be placed once in the `inventory/default/inventory.ini` file and under the `[edgenode_vca_group]` group.
-
-3. Run the OEK deployment script:
+4. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f media-analytics-vca
+    $ python3 deploy.py
     ```
 
-> **NOTE:** At the time of writing this document, *Weave Net*\* is the only supported CNI for network edge deployments involving VCAC-A acceleration. The `weavenet` CNI is automatically selected by the *media-analytics-vca*.
-> **NOTE:** The flag `force_build_enable` (default true) supports force build VCAC-A system image (VCAD) by default, it is defined in flavors/media-analytics-vca/all.yml. By setting the flag as false, OEK will not rebuild the image and re-use the last system image built during deployment. If the flag is true, OEK will force build VCA host kernel and node system image which will take several hours.
+> **NOTE:** At the time of writing this document, *Weave Net*\* is the only supported CNI for network edge deployments involving VCAC-A acceleration. The `weavenet` CNI is automatically selected by the *media-analytics-vca*. 
+> **NOTE:** The flag `force_build_enable` (default true) supports force build VCAC-A system image (VCAD) by default, it is defined in flavors/media-analytics-vca/all.yml. By setting the flag as false, CEEK will not rebuild the image and re-use the last system image built during deployment. If the flag is true, CEEK will force build VCA host kernel and node system image which will take several hours.
 
 This deployment flavor enables the following ingredients:
 * Node feature discovery
@@ -124,10 +171,19 @@ This deployment flavor enables the following ingredients:
 The pre-defined *cdn-transcode* deployment flavor provisions an optimized system configuration for Content Delivery Network (CDN) transcode sample workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the OEK deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `cdn-transcode`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: cdn_transcode_cluster
+        flavor: cdn-transcode
+    ... 
+    ```
+3. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f cdn-transcode
+    $ python3 deploy.py
     ```
 
 This deployment flavor enables the following ingredients:
@@ -140,10 +196,19 @@ This deployment flavor enables the following ingredients:
 The pre-defined *cdn-caching* deployment flavor provisions an optimized system configuration for CDN content delivery workloads on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the OEK deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `cdn-caching`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: cdn_caching_cluster
+        flavor: cdn-caching
+    ... 
+    ```
+3. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f cdn-caching
+    $ python3 deploy.py
     ```
 
 This deployment flavor enables the following ingredients:
@@ -158,12 +223,20 @@ The pre-defined Core Control Plane flavor provisions the minimal set of configur
 
 The following are steps to install this flavor:
 
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-
-2. Run the x-OEK deployment script:
-   ```
-   $ ido-openness-experience-kits# deploy_ne.sh -f core-cplane
-   ```
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `core-cplane`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: core_cplane_cluster
+        flavor: core-cplane
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
 
 This deployment flavor enables the following ingredients:
 
@@ -187,12 +260,20 @@ This deployment flavor enables the following ingredients:
 The pre-defined Core Control Plane flavor provisions the minimal set of configurations for a 5G User Plane Function on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-
-2. Run the x-OEK deployment script:
-   ```
-   $ ido-openness-experience-kits# deploy_ne.sh -f core-uplane
-   ```
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `core-uplane`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: core_uplane_cluster
+        flavor: core-uplane
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
 
 This deployment flavor enables the following ingredients:
 
@@ -211,13 +292,20 @@ The pre-defined Untrusted Non3pp Access flavor provisions the minimal set of con
 
 The following are steps to install this flavor:
 
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-
-2. Run the x-OEK deployment script:
-
-   ```bash
-   $ ido-openness-experience-kits# deploy_ne.sh -f untrusted-non3pp-access
-   ```
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `untrusted-non3pp-access`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: untrusted_non3pp_access_cluster
+        flavor: untrusted-non3pp-access
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
 
 This deployment flavor enables the following ingredients:
 
@@ -232,12 +320,21 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
-
-2. Run the x-OEK for CERA deployment script:
-   ```shell
-   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
-   ```
+1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `cera_5g_near_edge`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: cera_5g_near_edge_cluster
+        flavor: cera_5g_near_edge
+        single_node_deployment: true
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
 
 This deployment flavor enables the following ingredients:
 
@@ -256,12 +353,21 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for On Premises deployments on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
-1. Configure the OEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
-
-2. Run the x-OEK for CERA deployment script:
-   ```shell
-   $ ido-converged-edge-experience-kits# deploy_openness_for_cera.sh
-   ```
+1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `cera_5g_on_premise`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: cera_5g_on_premise_cluster
+        flavor: cera_5g_on_premise
+        single_node_deployment: true
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
 
 This deployment flavor enables the following ingredients:
 
@@ -278,44 +384,6 @@ This deployment flavor enables the following ingredients:
 - HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
 - RMD operator
 
-## Reference Service Mesh
-
-Service Mesh technology enables services discovery and sharing of data between application services. This technology can be useful in any CERA. Customers will find Service Mesh under flavors directory as a reference to quickly try out the technology and understand the implications. In future OpenNESS releases this Service Mesh will not be a dedicated flavor. 
-
-The pre-defined *service-mesh* deployment flavor installs the OpenNESS service mesh that is based on [Istio](https://istio.io/).
-
-> **NOTE**: When deploying Istio Service Mesh in VMs, a minimum of 8 CPU core and 16GB RAM must be allocated to each worker VM so that Istio operates smoothly
-
-Steps to install this flavor are as follows:
-1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run OEK deployment script:
-    ```shell
-    $ deploy_ne.sh -f service-mesh
-    ```
-
-This deployment flavor enables the following ingredients:
-* Node Feature Discovery
-* The default Kubernetes CNI: `calico`
-* Istio service mesh
-* Kiali management console
-* Telemetry
-
-> **NOTE:** Kiali management console username can be changed by editing the variable `istio_kiali_username`. By default `istio_kiali_password` is randomly generated and can be retirieved by running `kubectl get secrets/kiali -n istio-system -o json | jq -r '.data.passphrase' | base64 -d` on the Kubernetes controller.
-
-Following parameters in the flavor/all.yaml can be customize for Istio deployment:
-
-```code 
-# Istio deployment profile possible values: default, demo, minimal, remote
-istio_deployment_profile: "default"
-
-# Kiali
-istio_kiali_username: "admin"
-istio_kiali_password: "{{ lookup('password', '/dev/null length=16') }}"
-istio_kiali_nodeport: 30001
-```
-
-> **NOTE:** If creating a customized flavor, the Istio service mesh installation can be included in the Ansible playbook by setting the flag `ne_istio_enable: true` in the flavor file.
-
 ## Central Orchestrator Flavor
 
 Central Orchestrator Flavor is used to deploy EMCO.  
@@ -323,10 +391,19 @@ Central Orchestrator Flavor is used to deploy EMCO.
 The pre-defined *orchestration* deployment flavor provisions an optimized system configuration for emco (central orchestrator) workloads on Intel Xeon servers. It also provisions a set of central orchestrator services for [edge, multiple clusters orchestration](building-blocks/emco/openness-emco.md).
 
 Steps to install this flavor are as follows:
-1. Configure OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run OEK deployment script:
+1. Configure CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `central_orchestrator`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: central_orchestrator_cluster
+        flavor: central_orchestrator
+    ... 
+    ```
+3. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f central_orchestrator
+    $ python3 deploy.py
     ```
 
 This deployment flavor enables the following ingredients:
@@ -339,10 +416,21 @@ This deployment flavor enables the following ingredients:
 CERA SD-WAN Edge flavor is used to deploy SD-WAN on the OpenNESS cluster acting as an Edge platform. This CERA flavor only supports single-node OpenNESS deployments. It provides configuration that supports running SD-WAN CNFs on the OpenNESS cluster, enables hardware accelerators with the HDDL plugin, and adds support for service mesh and node feature disovery to aid other applications and services runing on the Edge node. This CERA flavor disbless EAA, Kafka adn Edge DNS services for platform optimization.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the x-openness-experience-kits deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Configure the CNF as described in [EWO Building Blocks](building-blocks/ewo/openness-ewo.md).
+3. Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-edge`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: sdewan_edge_cluster
+        flavor: sdewan-edge
+        single_node_deployment: true
+    ... 
+    ```
+4. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f sdewan-edge single
+    $ python3 deploy.py
     ```
 
 This CERA flavor enables the following deployment configuration:
@@ -364,10 +452,21 @@ This CERA flavor disables the following deployment configuration:
 CERA SD-WAN Hub flavor is used to deploy SD-WAN on the OpenNESS cluster acting as a Hub for Edge clusters. It only supports single-node OpenNESS deployments. This CERA flavor disabless EAA, Kafka and EAA services for platform optimization.
 
 The following are steps to install this flavor:
-1. Configure the OEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Run the x-openness-experience-kits deployment script:
+1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
+2. Configure the CNF as described in [EWO Building Blocks](building-blocks/ewo/openness-ewo.md).
+3. Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-hub`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: sdewan_hub_cluster
+        flavor: sdewan-hub
+        single_node_deployment: true
+    ... 
+    ```
+4. Run CEEK deployment script:
     ```shell
-    $ deploy_ne.sh -f sdewan-hub single
+    $ python3 deploy.py
     ```
 
 This CERA flavor enables the following deployment configuration:
