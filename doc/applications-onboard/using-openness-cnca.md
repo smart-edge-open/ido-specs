@@ -617,19 +617,20 @@ Sample yaml file for updating a single application:
 apiVersion: v1
 kind: ngc_pfd
 policy:
-  externalAppID: afApp01
-  allowedDelay: 1000
-  cachingTime: 1000
-  pfds:
-    - pfdID: pfdId01
-      flowDescriptions:
-        - "permit in ip from 10.11.12.123 80 to any"
-    - pfdID: pfdId02
-      urls:
-        - "^http://test.example2.net(/\\S*)?$"
-    - pfdID: pfdId03
-      domainNames:
-        - "www.latest_example.com"
+  pfdDatas:
+    - externalAppID: afApp01
+      allowedDelay: 1000
+      cachingTime: 1000
+      pfds:
+        - pfdID: pfdId01
+          flowDescriptions:
+            - "permit in ip from 10.11.12.123 80 to any"
+        - pfdID: pfdId02
+          urls:
+            - "^http://test.example2.net(/\\S*)?$"
+        - pfdID: pfdId03
+          domainNames:
+            - "www.latest_example.com"
 ```
 
 #### Policy Authorization operations with 5G Core (through AF interface)
