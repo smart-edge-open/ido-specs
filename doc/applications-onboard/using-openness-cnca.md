@@ -126,7 +126,40 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 ### Bring up of NGC components in Network Edge mode
 
 - If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Set `flavor` as `core-uplane` in `inventory.yml` before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+  Set `flavor` as `core-cplane` in `inventory.yml` (a sample `inventory.yml` is shown as below) before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+
+  ```yaml
+  ---
+  all:
+    vars:
+      cluster_name: cluster_test    # NOTE: Use `_` instead of spaces.
+      flavor: core-cplane  # NOTE: Flavors can be found in `flavors` directory.
+      single_node_deployment: true  # Request single node deployment (true/false).
+      limit:                        # Limit ansible deployment to certain inventory group or hosts
+  controller_group:
+    hosts:
+      controller:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+  edgenode_group:
+    hosts:
+      node01:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+      node02:
+        ansible_host: 172.16.0.2
+        ansible_user: openness
+      node03:
+        ansible_host: 172.16.0.3
+        ansible_user: openness
+  edgenode_vca_group:
+    hosts:
+  ptp_master:
+    hosts:
+  ptp_slave_group:
+    hosts:
+
+  ```
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
   Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
