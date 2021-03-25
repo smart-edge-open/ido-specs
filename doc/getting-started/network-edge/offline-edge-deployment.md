@@ -37,7 +37,7 @@ Figure 2. Scenario two - CEEK copied to the air-gapped network
 
 ## Creating the offline package from an online node
 
-To create the offline package the user must have an access to an online node from which the offline package creator can download all necessary files and build Docker images. The list of files to be downloaded/build is provided in a form of a package definition list (Only package definition list for "flexran" flavor of OpenNESS is provided at the time of writing). Various categories of files to be downloaded are provided within this list including: RPMs, PIP pacakges, Helm charts, Dockerfiles, Go modules, and miscellaneous downloads. According to the category of a file the logic of offline package creator script will handle the download/build accordingly. Some files such as proprietary packages need to be provided by user in specified directories (see following steps). Once the offline package creator collects all necessary components it will pack them into an archive and then place them in appropriate place within the Converged Edge Experience Kits directory. Once the packages are archived the Converged Edge Experience Kits are ready to be deployed in air-gapped environment. The following diagram illustrates the workflow of the offline package creator. Additional information regarding the offline package creator can be found in the [README.md file](https://github.com/otcshare/converged-edge-experience-kits/blob/master/offline_package_creator/README.md).
+To create the offline package the user must have an access to an online node from which the offline package creator can download all necessary files and build Docker images. The list of files to be downloaded/build is provided in a form of a package definition list (Only package definition list for "flexran" flavor of OpenNESS is provided at the time of writing). Various categories of files to be downloaded are provided within this list including: RPMs, PIP pacakges, Helm charts, Dockerfiles, Go modules, and miscellaneous downloads. According to the category of a file the logic of offline package creator script will handle the download/build accordingly. Some files such as proprietary packages need to be provided by user in specified directories (see following steps). Once the offline package creator collects all necessary components it will pack them into an archive and then place them in appropriate place within the Converged Edge Experience Kits directory. Once the packages are archived the Converged Edge Experience Kits are ready to be deployed in air-gapped environment. The following diagram illustrates the workflow of the offline package creator. Additional information regarding the offline package creator can be found in the [README.md file](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/offline_package_creator/README.md).
 
 Figure 3. Offline package creator workflow
 ![OPC flow](offline-images/offline-flow.png)
@@ -174,30 +174,14 @@ Deploy OpenNESS using FlexRAN flavor for multi or single node:
     ... 
     ```
   > **NOTE:** set `single_node_deployment:` to `true` for single node
-2. Run deployment:
+
+2. Install the pre-requisites.
+```shell
+# ./scripts/ansible-precheck.sh
+```
+
+3. Run deployment:
 ```shell
 # python3 deploy.py
 ```
 > **NOTE**: for more details about deployment and defining inventory please refer to [CEEK](../../getting-started/converged-edge-experience-kits.md#converged-edge-experience-kit-explained) getting started page.
-## Deployment in offline environment by python3
-1. Install pre-requisite tools (python3., ansible...etc)before running deployment script.
-```shell
-# mkdir /tmp/Pre_Install
-# cp ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files/prepackages.tar.gz /tmp/Pre_Install
-# cd /tmp/Pre_Install && tar xvf ./prepackages.tar.gz
-# yum localinstall -y ./*
-```
-2. Edit the **inventory.yml** file by providing information about the cluster nodes and the intended deployment flavor, please refer this [document](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
-
-3. Additional configurations should be applied to the default **group_vars** file:**inventory/default/group_vars/all/10-default.yml**
-```yaml
-## Offline Mode support
-offline_enable: True
-```
-Make sure nodes can access each other through SSH without password.
-Make sure cotrol-plane node can SSH itself.
-
-4. Get the deployment started by executing the deploy script.
-```shell
-# python3 deploy.py
-```
