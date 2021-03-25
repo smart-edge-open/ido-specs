@@ -18,11 +18,12 @@ Copyright (c) 2020-2021 Intel Corporation
       - [Lifecycle Operations](#lifecycle-operations-2)
       - [Level-1 Logical Clouds](#level-1-logical-clouds)
       - [Level-0 Logical Clouds](#level-0-logical-clouds)
+    - [Hardware Platform Awareness](#hardware-platform-awareness)
     - [OVN Action Controller](#ovn-action-controller)
     - [Traffic Controller](#traffic-controller)
     - [Generic Action Controller](#generic-action-controller)
     - [Resource Synchronizer](#resource-synchronizer)
-    - [Placment and Action Controllers in EMCO](#placment-and-action-controllers-in-emco)
+    - [Placement and Action Controllers in EMCO](#placement-and-action-controllers-in-emco)
     - [Status Monitoring and Queries in EMCO](#status-monitoring-and-queries-in-emco)
   - [EMCO Terminology](#emco-terminology-1)
   - [EMCO API](#emco-api)
@@ -189,6 +190,115 @@ Logical Clouds were introduced to group and partition clusters in a multi-tenant
 ##### Level-0 Logical Clouds
 In some use cases, and in the administrative domains where it makes sense, a project may want to access raw, unmodified, administrator-level clusters. For such cases, no namespaces need to be created and no new users need to be created or authenticated in the API. To solve this, the Distributed Cloud Manager introduces Level-0 Logical Clouds, which offer the same consistent interface as Level-1 Logical Clouds to the Distributed Application Scheduler. Being of type Level-0 means "the lowest-level", or the administrator level. As such, no changes will be made to the clusters themselves. Instead, the only operation that takes place is the reuse of credentials already provided via the Cluster Registration API for the clusters assigned to the Logical Cloud (instead of generating new credentials, namespace/resources and kubeconfig files).
 
+#### Hardware Platform Awareness
+The Hardware Platform Awareness (HPA) is a feature that enables placement
+of workloads in different Kubernetes clusters based on availability of hardware
+resources in those clusters. Some examples of hardware resources are CPU,
+memory, devices such as GPUs, and PCI Virtual Functions (VFs) in SR-IOV
+capable PCI devices. HPA Intents can be added to the deployment intent
+group to express hardware resource requirements for individual
+microservices within an application.
+
+To elaborate, HPA tracks two kinds of resources:
+
+ A. Capabilities, also called Non-Allocatable Resources: A workload may
+    need CPUs with specific instruction sets such as AVX512, or a node in
+    which Huge Pages are enabled for memory. Such capabilities are
+    expressed in Kubernetes as a label on the node. Since capabilities
+    are properties rather than quantities, HPA models them as resources
+    for which one cannot specify how many of them are needed: they are not
+    allocatable.
+
+ B. Capacities, also called Allocatable Resources: A workload may need,
+    say, 2 CPUs, 4 GB RAM and 1 GPU. HPA Intents for such quantifiable
+    resources state how many of each resource type is needed. So they are
+    called allocatable resources.
+
+Every HPA resource has a name and one or more values. The name is exactly
+the same as the one used by Kubernetes. For example, the name
+`feature.node.kubernetes.io/cpu-cpuid.AVX512BW` identifies nodes with CPUs
+that have the AVX512 instruction set. A resource specification for it would
+look like this:
+ ```
+ resource: {"key":"feature.node.kubernetes.io/cpu-cpuid.AVX512BW", "value":"true"}
+ ```
+
+For non-allocatable resources, the `key` is the resource name as reported
+by the [Node Feature Discovery](https://docs.01.org/kubernetes/nfd/overview.html)
+feature in Kubernetes. The value would be the same as what one would use in
+the `nodeSelector` field of a Kubernetes pod manifest for that resource.
+For the example above, the `value` would be `true`.
+
+Allocatable resources fall into two categories: (a) those treated by
+Kubernetes as distinct types, namely, `cpu` and `memory`, and (b) generic
+resources, such as devices reported by device plugins in the cluster nodes.
+For each of these, as per the Kubernetes model, one can assign a `requests`
+parameter, which is the minimum resource amount that needs to be guaranteed
+for the workload to function. Optionally, one can also assign a `limits`
+parameter, which is the maximum amount of that resource that can be
+assigned. Both parameters in the HPA intent get added to the pod manifest
+of the microservice specified in the HPA intent, so that the scheduler of
+the Kubernetes cluster on which the microservice gets placed can act on
+them for node-level placement.
+
+Only the `requests` field is used for placement decisions; the `limits`
+parameter (if present) is passed transparently to Kubernetes but otherwise
+ignored.  The HPA placement tracks the total capacity of each resource in
+each cluster, and subtracts the number guaranteed to each microservice
+(i.e. `requests`) to determine the free number of each resource in each
+cluster. If the application's Helm chart specifies default resources, the
+HPA intent values will override them.
+
+Resource specifications in Kubernetes are made at the level of containers.
+HPA intents therefore require the container name to be specified. However,
+non-allocatable resources often correspond to node-level properties or
+capabilities, and they would be common to all containers within a pod.
+
+The intent author should note that Kubernetes has many implicit semantics for
+[CPU management policy](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/)
+based on `requests` and `limits` fields for `cpu` and `memory`. In
+particular, these fields can be used to decide the QoS class of the pod
+and its CPU affinity. Specifically, to get exclusive CPUs for a pod, the
+following need to be done:
+  * In each node of the relevant Kubernetes clusters, set the kubelet option
+    `--cpu-manager-policy=static`. This enables the static CPU manager
+    policy in those nodes.
+  * In the HPA intent, specify both `requests` and `limits` for `cpu`
+    and ensure they are equal. Do the same for `memory`. This puts the
+    pod in Guaranteed QoS class.
+  * In the HPA intent, ensure the CPU counts are integers. This enables
+    exclusive CPU access.
+
+To arrange for a microservice to get access to a specific PCI device or
+PCI Virtual Functions (VFs) from an SR-IOV device, it is assumed that
+the necessary system prerequisites, such as installing device plugins, have
+been addressed in each relevant cluster. Often, the hardware requirements
+of a microservice has two parts: (a) the type and count of needed devices
+and (b) a specific version of the device driver to operate those devices.
+HPA expects that the appropriate driver version has been published
+as a node label (non-allocatable resource in HPA terms). Then the HPA
+intent would have two parts:
+ * A non-allocatable resource requirement, for the driver/software version.
+   Example: `resource: {"key": "foo.driver.version", "value": "10.1.0"}`
+ * An allocatable resource requirement, specifying the device resource
+   name, requests and limits. Example:
+   `resource: {"name": "myvendor.com/foo", "requests": "2", "limits": "2"}`
+
+In general, the HPA resource specifications and semantics are based on the
+corresponding Kubernetes concepts, consistent with the principle that EMCO
+automates Kubernetes deployments rather than pose yet another layer for the
+user to learn. So, please consult the Kubernetes documentation for further
+details.
+
+Examples of HPA Intents can be seen in the repository within the folder
+`src/placement-controllers/hpa/examples`.
+
+In the context of EMCO architecture, HPA provides a placement controller
+and an action controller. The HPA placement controller always runs after
+the generic placement controller.
+
+Please read the release notes regarding caveats and known limitations.
+
 #### OVN Action Controller
 The OVN Action Controller (ovnaction) microservice is an action controller which may be registered and added to a deployment intent group to apply specific network intents to resources in the composite application. It provides the following functionalities:
 - Network intent APIs which allow specification of network connection intents for resources within applications.
@@ -218,7 +328,7 @@ To achieve both the usecases, the controller exposes RESTful APIs to create, upd
 #### Resource Synchronizer
 This microservice is the one which deploys the resources in edge/cloud clusters. 'Resource contexts' created by various microservices are used by this microservice. It takes care of retrying, in case the remote clusters are not reachable temporarily. 
 
-#### Placment and Action Controllers in EMCO
+#### Placement and Action Controllers in EMCO
 This section illustrates some key aspects of the EMCO controller architecture.  Depending on the needs of a composite application, intents that handle specific operations for application resources (e.g. addition, modification, etc.) can be created via the APIs provided by the corresponding controller API.  The following diagram shows the sequence of interactions to register controllers with EMCO.
 
 ![OpenNESS EMCO](openness-emco-images/emco-register-controllers.png)
