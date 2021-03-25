@@ -146,19 +146,6 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
       node01:
         ansible_host: 172.16.0.1
         ansible_user: openness
-      node02:
-        ansible_host: 172.16.0.2
-        ansible_user: openness
-      node03:
-        ansible_host: 172.16.0.3
-        ansible_user: openness
-  edgenode_vca_group:
-    hosts:
-  ptp_master:
-    hosts:
-  ptp_slave_group:
-    hosts:
-
   ```
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
