@@ -517,10 +517,9 @@ The step includes:
     > **NOTE**: The `01_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `01_clusters_template.yaml` which contains the clusters related resources to create in EMCO. For example: Cluster Providers, Labels...etc.
 
 ### Project Setup
-The step includes:
-- Register a project which groups SmartCity application under a common tenant.
+The step invokes EMCO CLI and registers a project which groups SmartCity application under a common tenant.
 
-#### Run the command for the project setup with expected result as below:
+Run the command for the project setup with expected result as below:
 
      ```shell
      # cd cli-scripts/
@@ -530,15 +529,12 @@ The step includes:
      http://localhost:31298/v2
      URL: projects Response Code: 201 Response: {"metadata":{"name":"project_smtc","description":"","UserData1":"","UserData2":""}}
      ```
-
-
-     > **NOTE**: The `02_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `02_project_template.yaml` which contains the projects related resources to create in EMCO.
+The `02_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `02_project_template.yaml` which contains the projects related resources to create in EMCO.
 
 ### Logical Cloud Setup
-The step includes:
-- Register a logical cloud associated with the physical clusters.
+The step invokes EMCO CLI and registers a logical cloud associated with the physical clusters.
 
-#### Run the command for the logical cloud setup with expected result as below:
+Run the command for the logical cloud setup with expected result as below:
 
      ```shell
      # cd cli-scripts/
@@ -552,9 +548,7 @@ The step includes:
      http://localhost:31877/v2
      URL: projects/project_smtc/logical-clouds/default/instantiate Response Code: 200 Response:
      ```
-
-
-    > **NOTE**: The `03_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `03_logical_cloud_template.yaml` which contains the logical cloud related resources to create in EMCO.
+The `03_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `03_logical_cloud_template.yaml` which contains the logical cloud related resources to create in EMCO.
 
 ### Deploy SmartCity Application
 The setup includes:
