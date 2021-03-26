@@ -306,7 +306,7 @@ Example:
       network_interfaces: {eno1: 5, eno2: 10}
     ```
 
-8. Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+8. Edit file `ido-converged-edge-experience-kits/openness/ido-oek/ceek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
 
     For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
     ```yaml
@@ -738,7 +738,7 @@ Server synchronization can be enabled inside `ido-converged-edge-experience-kits
 ```yaml
 ptp_sync_enable: true
 ```
-Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+Edit file `ido-converged-edge-experience-kits/openness/ido-oek/ceek/inventory/default/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
 
 For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
 ```yaml

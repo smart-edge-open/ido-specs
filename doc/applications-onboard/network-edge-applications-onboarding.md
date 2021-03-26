@@ -506,12 +506,8 @@ This section guides users through the complete process of onboarding the OpenVIN
 3. Verify that no errors show up in the logs of the OpenVINO consumer application:
    ```
    kubectl logs openvino-cons-app
-   ```
-4. Log into the consumer application pod and modify `analytics.openness` entry in `/etc/hosts` with the IP address set in step one of [Setting up Networking Interfaces](#Setting-up-Networking-Interfaces) (192.168.1.10 by default, the physical interface connected to traffic generating host).
-   ```
-   kubectl exec -it openvino-cons-app /bin/sh
-   apt-get install vim
-   vim /etc/hosts
+   kubectl get po -o custom-columns=NAME:.metadata.name,IP:.status.podIP | grep cons-app | awk '{print $2}'
+   <ip>
    ```
 
 ## Applying Kubernetes network policies
@@ -728,7 +724,8 @@ kubectl interfaceservice get <officeX_host_name>
 
 ## Inter application communication
 The IAC is available via the default overlay network used by Kubernetes - Kube-OVN.
-For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
+
+For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
 
 # Enhanced Platform Awareness
 Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](https://github.com/otcshare/ido-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.

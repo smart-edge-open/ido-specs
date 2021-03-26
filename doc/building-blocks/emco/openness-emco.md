@@ -18,11 +18,12 @@ Copyright (c) 2020-2021 Intel Corporation
       - [Lifecycle Operations](#lifecycle-operations-2)
       - [Level-1 Logical Clouds](#level-1-logical-clouds)
       - [Level-0 Logical Clouds](#level-0-logical-clouds)
+    - [Hardware Platform Awareness](#hardware-platform-awareness)
     - [OVN Action Controller](#ovn-action-controller)
     - [Traffic Controller](#traffic-controller)
     - [Generic Action Controller](#generic-action-controller)
     - [Resource Synchronizer](#resource-synchronizer)
-    - [Placment and Action Controllers in EMCO](#placment-and-action-controllers-in-emco)
+    - [Placement and Action Controllers in EMCO](#placement-and-action-controllers-in-emco)
     - [Status Monitoring and Queries in EMCO](#status-monitoring-and-queries-in-emco)
   - [EMCO Terminology](#emco-terminology-1)
   - [EMCO API](#emco-api)
@@ -34,6 +35,9 @@ Copyright (c) 2020-2021 Intel Corporation
   - [Logical Cloud Setup](#logical-cloud-setup)
   - [Deploy SmartCity Application](#deploy-smartcity-application)
   - [SmartCity Termination](#smartcity-termination)
+  - [Deploy SmartCity Application With HPA Intent](#smartcity-deploy-hpa-intent)
+    - [HPA intent based on alloctable resource requirements - CPU](#hpa-intent-example-cpu)
+    - [HPA intent based on non-alloctable resource requirements - VCAC-A](#hpa-intent-example-vcac-a)
 
 ## Background
 Edge Multi-Cluster Orchestration(EMCO), an OpenNESS Building Block, is a Geo-distributed application orchestrator for Kubernetes\*. EMCO operates at a higher level than Kubernetes\* and interacts with multiple of edges and clouds running Kubernetes. The main objective of EMCO is automation of the deployment of applications and services across multiple clusters. It acts as a central orchestrator that can manage edge services and network functions across geographically distributed edge clusters from different third parties. 
@@ -69,14 +73,14 @@ The following figure shows the topology overview for the OpenNESS EMCO orchestra
 _Figure 2 - Topology Overview with OpenNESS EMCO_
 
 All the managed edge clusters and cloud clusters are connected with the EMCO cluster through the WAN network. 
-- The central orchestration (EMCO) cluster can be installed and provisioned by using the [OpenNESS Central Orchestrator Flavor](https://github.com/otcshare/specs/blob/master/doc/flavors.md). 
-- The edge clusters and the cloud cluster can be installed and provisioned by using the [OpenNESS Flavor](https://github.com/otcshare/specs/blob/master/doc/flavors.md). 
+- The central orchestration (EMCO) cluster can be installed and provisioned by using the [OpenNESS Central Orchestrator Flavor](../../flavors.md). 
+- The edge clusters and the cloud cluster can be installed and provisioned by using the [OpenNESS Flavor](../../flavors.md). 
 - The composite application - [SmartCity](https://github.com/OpenVisualCloud/Smart-City-Sample) is composed of two parts: edge application and cloud (web) application. 
   - The edge application executes media processing and analytics on multiple edge clusters to reduce latency.
   - The cloud application is like a web application for additional post-processing, such as calculating statistics and display/visualization on the cloud cluster side.
   - The EMCO user can deploy the SmartCity applications across the clusters. Besides that, EMCO allows the operator to override configurations and profiles to satisfy deployment needs.
 
-This document aims to familiarize the user with EMCO and [OpenNESS deployment flavor](https://github.com/otcshare/specs/blob/master/doc/flavors.md) for EMCO installation and provision, and provide instructions accordingly.
+This document aims to familiarize the user with EMCO and [OpenNESS deployment flavor](../../flavors.md) for EMCO installation and provision, and provide instructions accordingly.
 
 ## EMCO Introduction
 
@@ -186,6 +190,115 @@ Logical Clouds were introduced to group and partition clusters in a multi-tenant
 ##### Level-0 Logical Clouds
 In some use cases, and in the administrative domains where it makes sense, a project may want to access raw, unmodified, administrator-level clusters. For such cases, no namespaces need to be created and no new users need to be created or authenticated in the API. To solve this, the Distributed Cloud Manager introduces Level-0 Logical Clouds, which offer the same consistent interface as Level-1 Logical Clouds to the Distributed Application Scheduler. Being of type Level-0 means "the lowest-level", or the administrator level. As such, no changes will be made to the clusters themselves. Instead, the only operation that takes place is the reuse of credentials already provided via the Cluster Registration API for the clusters assigned to the Logical Cloud (instead of generating new credentials, namespace/resources and kubeconfig files).
 
+#### Hardware Platform Awareness
+The Hardware Platform Awareness (HPA) is a feature that enables placement
+of workloads in different Kubernetes clusters based on availability of hardware
+resources in those clusters. Some examples of hardware resources are CPU,
+memory, devices such as GPUs, and PCI Virtual Functions (VFs) in SR-IOV
+capable PCI devices. HPA Intents can be added to the deployment intent
+group to express hardware resource requirements for individual
+microservices within an application.
+
+To elaborate, HPA tracks two kinds of resources:
+
+ A. Capabilities, also called Non-Allocatable Resources: A workload may
+    need CPUs with specific instruction sets such as AVX512, or a node in
+    which Huge Pages are enabled for memory. Such capabilities are
+    expressed in Kubernetes as a label on the node. Since capabilities
+    are properties rather than quantities, HPA models them as resources
+    for which one cannot specify how many of them are needed: they are not
+    allocatable.
+
+ B. Capacities, also called Allocatable Resources: A workload may need,
+    say, 2 CPUs, 4 GB RAM and 1 GPU. HPA Intents for such quantifiable
+    resources state how many of each resource type is needed. So they are
+    called allocatable resources.
+
+Every HPA resource has a name and one or more values. The name is exactly
+the same as the one used by Kubernetes. For example, the name
+`feature.node.kubernetes.io/cpu-cpuid.AVX512BW` identifies nodes with CPUs
+that have the AVX512 instruction set. A resource specification for it would
+look like this:
+ ```
+ resource: {"key":"feature.node.kubernetes.io/cpu-cpuid.AVX512BW", "value":"true"}
+ ```
+
+For non-allocatable resources, the `key` is the resource name as reported
+by the [Node Feature Discovery](https://docs.01.org/kubernetes/nfd/overview.html)
+feature in Kubernetes. The value would be the same as what one would use in
+the `nodeSelector` field of a Kubernetes pod manifest for that resource.
+For the example above, the `value` would be `true`.
+
+Allocatable resources fall into two categories: (a) those treated by
+Kubernetes as distinct types, namely, `cpu` and `memory`, and (b) generic
+resources, such as devices reported by device plugins in the cluster nodes.
+For each of these, as per the Kubernetes model, one can assign a `requests`
+parameter, which is the minimum resource amount that needs to be guaranteed
+for the workload to function. Optionally, one can also assign a `limits`
+parameter, which is the maximum amount of that resource that can be
+assigned. Both parameters in the HPA intent get added to the pod manifest
+of the microservice specified in the HPA intent, so that the scheduler of
+the Kubernetes cluster on which the microservice gets placed can act on
+them for node-level placement.
+
+Only the `requests` field is used for placement decisions; the `limits`
+parameter (if present) is passed transparently to Kubernetes but otherwise
+ignored.  The HPA placement tracks the total capacity of each resource in
+each cluster, and subtracts the number guaranteed to each microservice
+(i.e. `requests`) to determine the free number of each resource in each
+cluster. If the application's Helm chart specifies default resources, the
+HPA intent values will override them.
+
+Resource specifications in Kubernetes are made at the level of containers.
+HPA intents therefore require the container name to be specified. However,
+non-allocatable resources often correspond to node-level properties or
+capabilities, and they would be common to all containers within a pod.
+
+The intent author should note that Kubernetes has many implicit semantics for
+[CPU management policy](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/)
+based on `requests` and `limits` fields for `cpu` and `memory`. In
+particular, these fields can be used to decide the QoS class of the pod
+and its CPU affinity. Specifically, to get exclusive CPUs for a pod, the
+following need to be done:
+  * In each node of the relevant Kubernetes clusters, set the kubelet option
+    `--cpu-manager-policy=static`. This enables the static CPU manager
+    policy in those nodes.
+  * In the HPA intent, specify both `requests` and `limits` for `cpu`
+    and ensure they are equal. Do the same for `memory`. This puts the
+    pod in Guaranteed QoS class.
+  * In the HPA intent, ensure the CPU counts are integers. This enables
+    exclusive CPU access.
+
+To arrange for a microservice to get access to a specific PCI device or
+PCI Virtual Functions (VFs) from an SR-IOV device, it is assumed that
+the necessary system prerequisites, such as installing device plugins, have
+been addressed in each relevant cluster. Often, the hardware requirements
+of a microservice has two parts: (a) the type and count of needed devices
+and (b) a specific version of the device driver to operate those devices.
+HPA expects that the appropriate driver version has been published
+as a node label (non-allocatable resource in HPA terms). Then the HPA
+intent would have two parts:
+ * A non-allocatable resource requirement, for the driver/software version.
+   Example: `resource: {"key": "foo.driver.version", "value": "10.1.0"}`
+ * An allocatable resource requirement, specifying the device resource
+   name, requests and limits. Example:
+   `resource: {"name": "myvendor.com/foo", "requests": "2", "limits": "2"}`
+
+In general, the HPA resource specifications and semantics are based on the
+corresponding Kubernetes concepts, consistent with the principle that EMCO
+automates Kubernetes deployments rather than pose yet another layer for the
+user to learn. So, please consult the Kubernetes documentation for further
+details.
+
+Examples of HPA Intents can be seen in the repository within the folder
+`src/placement-controllers/hpa/examples`.
+
+In the context of EMCO architecture, HPA provides a placement controller
+and an action controller. The HPA placement controller always runs after
+the generic placement controller.
+
+Please read the release notes regarding caveats and known limitations.
+
 #### OVN Action Controller
 The OVN Action Controller (ovnaction) microservice is an action controller which may be registered and added to a deployment intent group to apply specific network intents to resources in the composite application. It provides the following functionalities:
 - Network intent APIs which allow specification of network connection intents for resources within applications.
@@ -215,7 +328,7 @@ To achieve both the usecases, the controller exposes RESTful APIs to create, upd
 #### Resource Synchronizer
 This microservice is the one which deploys the resources in edge/cloud clusters. 'Resource contexts' created by various microservices are used by this microservice. It takes care of retrying, in case the remote clusters are not reachable temporarily. 
 
-#### Placment and Action Controllers in EMCO
+#### Placement and Action Controllers in EMCO
 This section illustrates some key aspects of the EMCO controller architecture.  Depending on the needs of a composite application, intents that handle specific operations for application resources (e.g. addition, modification, etc.) can be created via the APIs provided by the corresponding controller API.  The following diagram shows the sequence of interactions to register controllers with EMCO.
 
 ![OpenNESS EMCO](openness-emco-images/emco-register-controllers.png)
@@ -262,7 +375,7 @@ _Figure 8 - Status Monitoring and Query Sequence_
 
 
 ### EMCO API
-For user interaction, EMCO provides [RESTful API](https://github.com/otcshare/EMCO/blob/main/docs/emco_apis.yaml). Apart from that, EMCO also provides CLI. For the detailed usage, refer to [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl)
+For user interaction, EMCO provides [RESTful API](https://github.com/otcshare/IDO-EMCO/blob/main/docs/user/ido-emco-hpa-api.yaml). Apart from that, EMCO also provides CLI. For the detailed usage, refer to [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl)
 > **NOTE**: The EMCO RESTful API is the foundation for the other interaction facilities like the EMCO CLI, EMCO GUI (available in the future) and other orchestrators.
 
 ### EMCO Authentication and Authorization
@@ -301,11 +414,37 @@ Steps for EMCO Authentication and Authorization Setup:
 - Apply Authentication and Authorization Policies
 
 ### EMCO Installation With OpenNESS Flavor
-EMCO supports [multiple deployment options](https://github.com/otcshare/EMCO/tree/main/deployments). [OpenNESS Experience Kit](https://github.com/otcshare/specs/blob/master/doc/getting-started/openness-experience-kits.md) offers the `central_orchestrator` flavor to automate EMCO build and deployment as mentioned below.
-- The first step is to prepare one server environment which needs to fulfill the [preconditions](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions).
-- Then place the EMCO server hostname in `[controller_group]` group in `inventory/default/inventory.ini` file of openness-experience-kit. 
-> **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for configuration, since EMCO micro services just need to be deployed on the Kubernetes* control plane node.
-- Run script `./deploy_ne.sh -f central_orchestrator`. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
+EMCO supports [multiple deployment options](https://github.com/otcshare/IDO-EMCO/tree/main/deployments). [Converged Edge Experience Kits](../../getting-started/converged-edge-experience-kits.md) offers the `central_orchestrator` flavor to automate EMCO build and deployment as mentioned below.
+- The first step is to prepare one server environment which needs to fulfill the [preconditions](../../getting-started/network-edge/controller-edge-node-setup.md#preconditions).
+- Place the EMCO server hostname in `controller_group/hosts/ctrl.openness.org:` dictionary in `inventory.yml` file of converged-edge-experience-kit.
+- Update the `inventory.yaml` file by setting the deployment flavor as `central_orchestrator`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: central_orchestrator_cluster
+        flavor: central_orchestrator
+        single_node_deployment: false
+        limit: controller_group
+    controller_group:
+      hosts:
+        ctrl.openness.org:
+          ansible_host: <controller ip address>
+          ansible_user: openness
+    edgenode_group:
+      hosts:
+    edgenode_vca_group:
+      hosts:
+    ptp_master:
+      hosts:
+    ptp_slave_group:
+      hosts:
+    ... 
+    ```
+> **NOTE**: `edgenode_group:` and `edgenode_vca_group:` are not required for configuration, since EMCO micro services just need to be deployed on the Kubernetes* control plane node.
+
+> **NOTE**: for more details about deployment and defining inventory please refer to [CEEK](../../getting-started/converged-edge-experience-kits.md#converged-edge-experience-kit-explained) getting started page.
+- Run script `python3 deploy.py`. Deployment should complete successfully. In the flavor, harbor registry is deployed to provide images services as well.
 
 ```shell
 # kubectl get pods -n emco
@@ -322,6 +461,8 @@ emco      ovnaction-5d8d4447f9-nn7l6     1/1     Running  0        14m
 emco      rsync-99b85b4x88-ashmc         1/1     Running  0        14m
 ```
 
+Besides that, OpenNESS EMCO also provides Azure templates and supports deployment automation for EMCO cluster on Azure public cloud. More details refer to [OpenNESS Development Kit for Microsoft Azure](https://github.com/otcshare/ido-specs/blob/master/doc/devkits/openness-azure-devkit.md).
+
 ## EMCO Example: SmartCity Deployment
 - The [SmartCity application](https://github.com/OpenVisualCloud/Smart-City-Sample) is a sample application that is built on top of the OpenVINO™ and Open Visual Cloud software stacks for media processing and analytics. The composite application is composed of two parts: EdgeApp + WebApp (cloud application for additional post-processing such as calculating statistics and display/visualization) 
 - The edge cluster (representing regional office), the cloud cluster and the EMCO are connected with each other.
@@ -333,6 +474,7 @@ _Figure 11 - SmartCity Deployment Architecture Overview_
 The example steps are shown as follows:
 - Prerequisites
   - Make one edge cluster and one cloud cluster ready by using OpenNESS Flavor.
+    - If testing with HPA intent, need to prepare two edge clusters.
   - Prepare one server with a vanilla CentOS\* 7.9.2009 for EMCO installation.
 - EMCO installation
 - Cluster setup
@@ -340,14 +482,19 @@ The example steps are shown as follows:
 - Logical cloud Setup
 - Deploy SmartCity application
 
+### EMCO installation
+Follow the guidance as [EMCO Installation With OpenNESS Flavor](#emco-installation-with-openness-flavor), logon to the EMCO host server and maker sure that Harbor and EMCO microservices are in running status.
+ 
 ### Cluster Setup
-In the step, cluster provider will be created. And both the edge cluster and the cloud cluster will be registered in the EMCO.
+The step includes:
+- Prepare edge and cloud clusters kubeconfig files, SmartCity helm charts and relevant artifacts.
+- Register clusters provider by [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl).
+- Register provider's clusters by [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl).
+- Register EMCO controllers and resource synchroizer by [EMCO CLI](https://github.com/otcshare/EMCO/tree/main/src/tools/emcoctl).
 
-1. After [EMCO Installation With OpenNESS Flavor](#emco-installation-with-openness-flavor), logon to the EMCO host server and maker sure that Harbor and EMCO microservices are in running status.
-
-2. On the edge and cloud cluster, run the following command to make Docker logon to the Harbor deployed on the EMCO server, thus the clusters can pull SmartCity images from the Harbor:
+1. On the edge and cloud cluster, run the following command to make Docker logon to the Harbor deployed on the EMCO server, thus the clusters can pull SmartCity images from the Harbor:
     ```shell
-    HARBORRHOST=<harbor_registry_host>
+    HARBORRHOST=<emco_harbor_registry_host_ip>:30003
 
     cd /etc/docker/certs.d/
     mkdir ${HARBORRHOST}
@@ -356,18 +503,22 @@ In the step, cluster provider will be created. And both the edge cluster and the
     HARBORRPW=Harbor12345
     docker login ${HARBORRHOST} -u admin -p ${HARBORRPW}
     ```
+
     > **NOTE**: <harbor_registry_host> should be `<EMCO Server IP Address>:30003`.
 
-3. On the EMCO server, download the [scripts,profiles and configmap JSON files](https://github.com/otcshare/edgeapps/tree/master/applications/smart-city-app/emco).
+2. On the EMCO server, download the [scripts,profiles and configmap JSON files](https://github.com/otcshare/edgeapps/tree/master/applications/smart-city-app/emco).
 
-4. Run the command for the environment setup with success return as below:
+3. Artifacts Preparation for clusters's kubeconfig, smartcity helm charts and other relevant artifacts
+   Run the command for the environment setup with success return as below:
     ```shell
     # cd cli-scripts/
-    # ./setup_env.sh
+    # ./setup_env.sh -e <EMCO_IP> -d <EDGE_HOST_IP> -c <CLOUD_HOST_IP> -r
     ```
-    > **NOTE**: [SmartCity application](https://github.com/OpenVisualCloud/Smart-City-Sample) secrets need the specific information only accessiable by the edge cluster and the cloud cluster.  `setup_env.sh` will automate it.
 
-5. Run the command for the clusters setup with expected result as below:
+    > **NOTE**: EMCO CLI is used in the setup script, and the steps include SmartCity github repo clone, docker images building, helm charts prepration and clusters configuration information preparation...etc.  
+
+
+4. Run the command for the clusters setup with expected result as below:
     ```shell
     # cd cli-scripts/
     # ./01_apply.sh
@@ -376,37 +527,50 @@ In the step, cluster provider will be created. And both the edge cluster and the
     URL: cluster-providers/smartcity-cluster-provider/clusters/cloud01/labels Response Code: 201 Response: {"label-name":"LabelSmartCityCloud"}
     ```
 
+    > **NOTE**: The cluster setup steps include clusters providers registration, clusters registration, adding labels for the clusters, EMCO controller creation and registration. 
+
+    > **NOTE**: The `01_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `01_clusters_template.yaml` which contains the clusters related resources to create in EMCO. For example: Cluster Providers, Labels...etc.
+
 ### Project Setup
+The step invokes EMCO CLI and registers a project which groups SmartCity application under a common tenant.
 
 Run the command for the project setup with expected result as below:
 
-```shell
-# cd cli-scripts/
-# ./02_apply.sh
+     ```shell
+     # cd cli-scripts/
+     # ./02_apply.sh
 
-Using config file: emco_cfg.yaml
-http://localhost:31298/v2
-URL: projects Response Code: 201 Response: {"metadata":{"name":"project_smtc","description":"","UserData1":"","UserData2":""}}
-```
+     Using config file: emco_cfg.yaml
+     http://localhost:31298/v2
+     URL: projects Response Code: 201 Response: {"metadata":{"name":"project_smtc","description":"","UserData1":"","UserData2":""}}
+     ```
+The `02_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `02_project_template.yaml` which contains the projects related resources to create in EMCO.
 
 ### Logical Cloud Setup
+The step invokes EMCO CLI and registers a logical cloud associated with the physical clusters.
 
 Run the command for the logical cloud setup with expected result as below:
 
-```shell
-# cd cli-scripts/
-# ./03_apply.sh
+     ```shell
+     # cd cli-scripts/
+     # ./03_apply.sh
 
-Using config file: emco_cfg.yaml
-http://localhost:31877/v2
-URL: projects/project_smtc/logical-clouds Response Code: 201 Response: {"metadata":{"name":"default","description":"","userData1":"","userData2":""},"spec":{"namespace":"","level":"0","user":{"user-name":"","type":"","user-permissions":null}}}
-http://localhost:31877/v2
-URL: projects/project_smtc/logical-clouds/default/cluster-references Response Code: 201 Response: {"metadata":{"name":"lc-edge01","description":"","userData1":"","userData2":""},"spec":{"cluster-provider":"smartcity-cluster-provider","cluster-name":"edge01","loadbalancer-ip":"0.0.0.0","certificate":""}}
-http://localhost:31877/v2
-URL: projects/project_smtc/logical-clouds/default/instantiate Response Code: 200 Response:
-```
+     Using config file: emco_cfg.yaml
+     http://localhost:31877/v2
+     URL: projects/project_smtc/logical-clouds Response Code: 201 Response: {"metadata":{"name":"default","description":"","userData1":"","userData2":""},"spec":{"namespace":"","level":"0","user":{"user-name":"","type":"","user-permissions":null}}}
+     http://localhost:31877/v2
+     URL: projects/project_smtc/logical-clouds/default/cluster-references Response Code: 201 Response: {"metadata":{"name":"lc-edge01","description":"","userData1":"","userData2":""},"spec":{"cluster-provider":"smartcity-cluster-provider","cluster-name":"edge01","loadbalancer-ip":"0.0.0.0","certificate":""}}
+     http://localhost:31877/v2
+     URL: projects/project_smtc/logical-clouds/default/instantiate Response Code: 200 Response:
+     ```
+The `03_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `03_logical_cloud_template.yaml` which contains the logical cloud related resources to create in EMCO.
 
 ### Deploy SmartCity Application
+The setup includes:
+- Onboard SmartCity Application helm charts and profiles
+- Create generic placement intent to specify the edge/cloud cluster locations for each applicaiton of SmartCity
+- Create deployment intent references of the generic placement intent and generic actions intent for SmartCity generic kuberenetes resource: configmap, secret...etc.
+- Approve and Instantiate SmartCityp deployment 
 
 1. Run the command for the SmartCity application deployment with expected result as below:
     ```shell
@@ -418,8 +582,11 @@ URL: projects/project_smtc/logical-clouds/default/instantiate Response Code: 200
     http://localhost:31298/v2
     URL: projects/project_smtc/composite-apps/composite_smtc/v1/deployment-intent-groups/smtc-deployment-intent-group/instantiate Response Code: 202 Response:
     ```
+
     > **NOTE**: EMCO supports generic K8S resource configuration including configmap, secret,etc. The example offers the usage about [configmap configuration](https://github.com/otcshare/edgeapps/blob/master/applications/smart-city-app/emco/cli-scripts/04_apps_template.yaml) to the clusters. 
 
+    > **NOTE**: The `04_apply.sh` script invokes EMCO CLI tool - `emcoctl` and applies resource template file - `04_apps_template.yaml` which contains the application related resources to create in EMCO, for example deployment-intent, application helm chart entries, override profiles, configmap...etc. The placement intent for the use case is cluster label name and provider name.
+    
 2. Verify SmartCity Application Deployment Information.
 The pods on the edge cluster are in the running status as shown as below:
 
@@ -456,13 +623,158 @@ _Figure 12 - SmartCity UI_
 ### SmartCity Termination
 
 Run the command for the SmartCity termination with expected result as below:
-```shell
-# cd cli-scripts/
-# ./88_terminate.sh
+    ```shell
+    # cd cli-scripts/
+    # ./88_terminate.sh
 
-Using config file: emco_cfg.yaml
-http://localhost:31298/v2
-URL: projects/project_smtc/composite-apps/composite_smtc/v1/deployment-intent-groups/smtc-deployment-intent-group/terminate Response Code: 202 Response:
-```
+    Using config file: emco_cfg.yaml
+    http://localhost:31298/v2
+    URL: projects/project_smtc/composite-apps/composite_smtc/v1/deployment-intent-groups/smtc-deployment-intent-group/terminate Response Code: 202 Response:
+    ```
 
 After termination, the SmartCity application will be deleted from the clusters.
+
+
+### Deploy SmartCity Application With HPA Intent
+OpenNESS EMCO supports Hardware Platform Awareness (HPA) based Placement Intent.
+- Application developer such as SmartCity can state that a certain microservice needs a specific list of resources.
+- EMCO can pass that requirement to each appropriate K8s cluster so that the K8s scheduler can place the microservice on a node that has that specific list of resources.
+  - There are two kinds of resources:
+    - Allocatable resources which can be quantified and allocated to containers in specific quantities, such as cpu and memory. 
+    - Non-allocatable resources which are properties of CPUs, hosts, etc. such as the availablity of a specifc instruction set like AVX512.
+  - Each resource requirement in the intent shall be stated using the same name as in Kubernetes, such as cpu, memory, and intel.com/gpu, for both allocatable and non-allocatable resources.
+- More details about EMCO HPA can refer to [EMCO HPA Design](https://github.com/otcshare/IDO-EMCO/blob/main/docs/developer/hpa-design.md).
+
+
+OpenNESS EMCO offers an example for HPA based SmartCity application deployment. To obtain all the deployment related scripts, contact your Intel representative. Below will give overview about how to enable HPA intent based on EMCO CLI tool - `emcoctl`'s resource template files.
+
+The overall setup topology looks like:
+
+![OpenNESS EMCO](openness-emco-images/openness-emco-smtc-hpa-setup.png)
+
+_Figure 12 - SmartCity HPA Setup_
+
+
+### HPA intent based on alloctable resource requirements - CPU
+
+- Two edge clusters and one cloud cluster need to be prepared beforehand.
+- HPA related controller registeration section as below example
+```yaml
+---
+#creating placement controller entries for determining a suitable cluster based on the hardware requirements for each microservice
+version: emco/v2
+resourceContext:
+  anchor: controllers
+metadata :
+  name: hpa-placement-controller-1
+  description: test
+  userData1: test1
+  userData2: test2
+spec:
+  host: {{ .HpaPlacementIP }}
+  port: {{ .HpaPlacementPort }}
+  type: placement
+  priority: 1
+
+---
+#creating action controller entries for modifying the Kubernetes objects corresponding to the app or microservice, so that the Kubernetes controller in the target cluster can satisfy those requirements.
+version: emco/v2
+resourceContext:
+  anchor: controllers
+metadata :
+  name: hpa-action-controller-1
+spec:
+  host: {{ .HpaActionIP }}
+  port: {{ .HpaActionPort }}
+  type: action
+  priority: 1
+
+---
+#creating clm controller entries
+version: emco/v2
+resourceContext:
+  anchor: clm-controllers
+metadata :
+  name: hpa-placement-controller-1
+  description: test
+  userData1: test1
+  userData2: test2
+spec:
+  host: {{ .HpaPlacementIP }}
+  port: {{ .HpaPlacementPort }}
+  priority: 1
+```  
+  
+> **NOTE**: To test with multiple edge clusters, can add more edge clusters registration in `01_clusters_template.yaml` and add the new reference edge cluster to logical cloud in `03_logical_cloud_template.yaml`.
+ 
+
+- Create HPA intent creation and consumer application context section as below example:    
+    
+```yaml
+---
+#create app hpa placement intent
+version: emco/v2
+resourceContext:
+  anchor: projects/{{ .ProjectName }}/composite-apps/{{ .CompositeApp }}/v1/deployment-intent-groups/{{ .DeploymentIntent }}/hpa-intents
+metadata:
+  name: hpa-placement-intent-1
+  description: "smtc app hpa placement intent"
+  userData1: test1
+  userData2: test2
+spec:
+  app-name: {{ .AppEdge }}
+
+---
+#add consumer 1 to app hpa placement intent. A resource consumer for an allocatable resource is a container within a pod and resource consumer is expressed in terms of any of these Kubernetes objects.
+version: emco/v2
+resourceContext:
+  anchor: projects/{{ .ProjectName }}/composite-apps/{{ .CompositeApp }}/v1/deployment-intent-groups/{{ .DeploymentIntent }}/hpa-intents/hpa-placement-intent-1/hpa-resource-consumers
+metadata:
+  name: hpa-placement-consumer-1
+spec:
+  api-version: apps/v1
+  kind: Deployment
+  name: traffic-office1-analytics-traffic
+  container-name:  traffic-office1-analytics-traffic
+
+---
+#add allocatable-resource to app hpa placement consumer
+version: emco/v2
+resourceContext:
+  anchor: projects/{{ .ProjectName }}/composite-apps/{{ .CompositeApp }}/v1/deployment-intent-groups/{{ .DeploymentIntent }}/hpa-intents/hpa-placement-intent-1/hpa-resource-consumers/hpa-placement-consumer-1/resource-requirements
+metadata:
+  name: hpa-placement-allocatable-resource-1
+  description: "resource requirements"
+spec:
+    allocatable : true
+    mandatory : true
+    weight : 1
+    resource : {"name":"cpu", "requests":8, "limits":9}
+```
+
+> **NOTE**: `traffic-office1-analytics-traffic` is SmartCity analytics micro service kubernetes deployment name and container name.
+
+
+- After deployment with SmartCity application instantiation, the expected result is: edge application will be deployed on the edge cluster which satisfies the CPU resource requirements intent.
+
+ 
+### HPA intent based on non-alloctable resource requirements - VCAC-A
+The Visual Cloud Accelerator Card - Analytics (VCAC-A) equips 2nd Generation Intel® Xeon® processor- based platforms with Iris® Pro Graphics and Intel® Movidius™ VPUs to enhance video codec, computer vision, and inference capabilities. Refer to details in [OpenNESS VCAC-A](../enhanced-platform-awareness/openness-vcac-a.md)
+
+During the VCAC-A installation, the VCA nodes are labeled with `vcac-zone=yes` and features with NFD. For the non-allocatable resource requirement intent, can refer to below example:
+```yaml
+---
+# add non-allocatable-resource to app hpa placement consumer
+version: emco/v2
+resourceContext:
+ anchor: projects/{{ .ProjectName }}/composite-apps/{{ .CompositeApp }}/v1/deployment-intent-groups/{{ .DeploymentIntent }}/hpa-intents/hpa-placement-intent-1/hpa-resource-consumers/hpa-placement-consumer-1/resource-requirements
+metadata:
+ name: hpa-placement-nonallocatable-resource-1
+ description: description of hpa placement_nonallocatable_resource
+spec:
+   allocatable: false
+   mandatory: true
+   weight: 1
+   resource: {"key":"vcac-zone", "value":"yes"}
+```
+After SmartCity application instantiation, the expected result is: edge application will be only deployed on the edge cluster which contains VACA-A accelerator.
