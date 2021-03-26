@@ -39,7 +39,7 @@ Copyright (c) 2019-2021 Intel Corporation
   - [Obtaining installation files](#obtaining-installation-files)
   - [Setting Git](#setting-git)
     - [GitHub token](#github-token)
-    - [Customize tag/branch/sha to checkout](#customize-tagbranchsha-to-checkout)
+    - [Customize tag/branch/sha to checkout on edgeservices repository](#customize-tagbranchsha-to-checkout-on-edgeservices-repository)
   - [Customization of kernel, grub parameters, and tuned profile](#customization-of-kernel-grub-parameters-and-tuned-profile)
 
 # Quickstart
