@@ -343,9 +343,9 @@ Currently, there are 2 typical E2E scenarios as examples. And there will be more
 
 ### Three Clusters E2E Scenario
 In this scenario, there are 2 UEs connected to two separate edges which are connected via a hub cluster. It shows the traffic flow from one UE to the other UE via hub. Currently it is just a basic connectivity function without SFC.
-For more details please ref [Three Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md), we also support an automation deployment for this scenario [E2E Scenario Automation Deployment](https://github.com/otcshare/x-test/blob/master/test_plans/ned/integration/ts35-sdwan.md#itpned3501-scenario-a)
+For more details please ref [Three Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md), this justdescribes the manual deployment steps. And you can prepare a new configure follow the above guide for automation deployment.
 
 ### One Clusters E2E Scenario
 In this scenario, there are 1 UEs connected to an edge cluster. It demonstrates E2E traffic transfer from Iperf3 running on a pod deployed on Edge Node to an external UE connected to Node by SNAT.
 
-For more details please ref [One Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md), we also support an automation deployment for this scenario [E2E Scenario Automation Deployment](https://github.com/otcshare/x-test/blob/master/test_plans/ned/integration/ts35-sdwan.md#itpned3502-scenario-c)
+For more details please ref [One Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md), this justdescribes the manual deployment steps. And you can prepare a new configure follow the above guide for automation deployment.
