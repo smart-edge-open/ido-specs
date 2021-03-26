@@ -126,7 +126,27 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 ### Bring up of NGC components in Network Edge mode
 
 - If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+  Set `flavor` as `core-cplane` in `inventory.yml` (a sample `inventory.yml` is shown as below) before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+
+  ```yaml
+  ---
+  all:
+    vars:
+      cluster_name: cluster_test    # NOTE: Use `_` instead of spaces.
+      flavor: core-cplane  # NOTE: Flavors can be found in `flavors` directory.
+      single_node_deployment: true  # Request single node deployment (true/false).
+      limit:                        # Limit ansible deployment to certain inventory group or hosts
+  controller_group:
+    hosts:
+      controller:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+  edgenode_group:
+    hosts:
+      node01:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+  ```
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
   Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
@@ -597,19 +617,20 @@ Sample yaml file for updating a single application:
 apiVersion: v1
 kind: ngc_pfd
 policy:
-  externalAppID: afApp01
-  allowedDelay: 1000
-  cachingTime: 1000
-  pfds:
-    - pfdID: pfdId01
-      flowDescriptions:
-        - "permit in ip from 10.11.12.123 80 to any"
-    - pfdID: pfdId02
-      urls:
-        - "^http://test.example2.net(/\\S*)?$"
-    - pfdID: pfdId03
-      domainNames:
-        - "www.latest_example.com"
+  pfdDatas:
+    - externalAppID: afApp01
+      allowedDelay: 1000
+      cachingTime: 1000
+      pfds:
+        - pfdID: pfdId01
+          flowDescriptions:
+            - "permit in ip from 10.11.12.123 80 to any"
+        - pfdID: pfdId02
+          urls:
+            - "^http://test.example2.net(/\\S*)?$"
+        - pfdID: pfdId03
+          domainNames:
+            - "www.latest_example.com"
 ```
 
 #### Policy Authorization operations with 5G Core (through AF interface)
