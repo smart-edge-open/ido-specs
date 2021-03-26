@@ -706,16 +706,14 @@ To generate a GitHub token, refer to [GitHub help - Creating a personal access t
 
 To provide the token, edit the value of `git_repo_token` variable in `inventory/default/group_vars/all/10-open.yml`.
 
-### Customize tag/branch/sha to checkout
+### Customize tag/branch/sha to checkout on edgeservices repository
 
-A specific tag, branch, or commit SHA can be checked out by setting the `controller_repository_branch` and the `edgenode_repository_branch` variables in `inventory/default/group_vars/all/10-open.yml` for Edge Nodes and Kubernetes control plane / Edge Controller, respectively.
+A specific tag, branch, or commit SHA on edgeservices repository can be checked out by setting the `git_repo_branch` variable in `inventory/default/group_vars/all/10-open.yml`.
 
 ```yaml
-controller_repository_branch: master
-edgenode_repository_branch: master
+git_repo_branch: master
 # or
-controller_repository_branch: openness-20.03
-edgenode_repository_branch: openness-20.03
+git_repo_branch: openness-20.03
 ```
 
 ## Customization of kernel, grub parameters, and tuned profile
