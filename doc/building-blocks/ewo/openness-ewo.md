@@ -69,8 +69,8 @@ More details please refer [Converged Edge Reference Architecture for SD-WAN](htt
 ### EWO Installation With OpenNESS Flavor
 EWO supports [kubectl deployment](https://github.com/otcshare/ewo/tree/main/platform/crd-ctrlr/examples). [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md) offers the `sdewan-edge` and `sdewan-hub` flavor to automate edge and hub cluster deployment separately.
 - The first step is to prepare one server environment which needs to fulfill the [preconditions](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions).
-- Then place the EWO server hostname in `[controller_group]` and `[edgenode_group]` group in `inventory/default/inventory.ini` file of ido-converged-edge-experience-kits.
-> **NOTE**: `[edgenode_group]` and `[edgenode_vca_group]` are not required for EWO overlay configuration, since EWO overlay micro services just need to be deployed on the Kubernetes* control plane node.
+- Then place the EWO server hostname in `controller_group` and `edgenode_group` group in `inventory.yml` file of ido-converged-edge-experience-kits.
+> **NOTE**: `edgenode_group` and `edgenode_vca_group` are not required for EWO overlay configuration, since EWO overlay micro services just need to be deployed on the Kubernetes* control plane node.
 - Setup configurations for EWO networks/cnfs/rules in `inventory/default/host_vars/${NODE_NAME}/30-ewo.yml` as as mentioned below [EWO Configuration](#ewo-configuration) section.
 > **NOTE**: The configurations are node per node. If only deploy cnfs on one node in the cluster, these configurations can be in `flavors/sdewan-hub/all.yml` or `flavors/sdewan-edge/all.yml`
 - Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-edge` or `sdewan-hub`:
@@ -114,16 +114,6 @@ and
 sdwan_labels: '{"sdwanProvider": "cucc"}'
 
 ```
-
-If we will deploy cnfs only on node3, we can just define the sdwan_labels in `inventory/default/inventory.ini`.
-
-```bash
-[edgenode_group]
-node01
-node02
-node03 sdwan_labels='{"sdwanProvider": "ctcc"}'
-```
-
 
 #### Network and CNF Interface
 ![EWO Network and CNF Map](openness-ewo-images/ewo-network-cnf-interface.png)
@@ -353,9 +343,9 @@ Currently, there are 2 typical E2E scenarios as examples. And there will be more
 
 ### Three Clusters E2E Scenario
 In this scenario, there are 2 UEs connected to two separate edges which are connected via a hub cluster. It shows the traffic flow from one UE to the other UE via hub. Currently it is just a basic connectivity function without SFC.
-For more details please ref [Three Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md), we also support an automation deployment for this scenario [E2E Scenario Automation Deployment](https://github.com/otcshare/x-test/blob/master/test_plans/ned/integration/ts35-sdwan.md#itpned3501-scenario-a)
+For more details please ref [Three Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md), this justdescribes the manual deployment steps. And you can prepare a new configure follow the above guide for automation deployment.
 
 ### One Clusters E2E Scenario
 In this scenario, there are 1 UEs connected to an edge cluster. It demonstrates E2E traffic transfer from Iperf3 running on a pod deployed on Edge Node to an external UE connected to Node by SNAT.
 
-For more details please ref [One Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md), we also support an automation deployment for this scenario [E2E Scenario Automation Deployment](https://github.com/otcshare/x-test/blob/master/test_plans/ned/integration/ts35-sdwan.md#itpned3502-scenario-c)
+For more details please ref [One Clusters E2E Scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md), this justdescribes the manual deployment steps. And you can prepare a new configure follow the above guide for automation deployment.
