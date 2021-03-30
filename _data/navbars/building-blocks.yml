@@ -103,11 +103,3 @@ section:
       path: /doc/building-blocks/emco/openness-emco
       meta_title: Edge Multi-Cluster Orchestrator 
       meta_description: Geo-Distributed multiple clusters application orchestration.
-
-  - title: Edge WAN Overlay
-    path:
-    section:
-    - title: Edge WAN Overlay (EWO)
-      path: /doc/building-blocks/ewo/openness-ewo
-      meta_title: Edge WAN Overlay
-      meta_description: SDEWAN overlay networks among multiple clusters.
