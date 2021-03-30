@@ -417,7 +417,7 @@ CERA SD-WAN Edge flavor is used to deploy SD-WAN on the OpenNESS cluster acting 
 
 The following are steps to install this flavor:
 1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Configure the CNF as described in [Converged Edge Reference Architecture for SD-WAN](reference-architectures/openness_sdwan.md#ewo-configuration).
+2. Configure the CNF as described in [Converged Edge Reference Architecture for SD-WAN](reference-architectures/cera_sdwan.md#ewo-configuration).
 3. Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-edge`
     ```yaml
     ---
@@ -453,7 +453,7 @@ CERA SD-WAN Hub flavor is used to deploy SD-WAN on the OpenNESS cluster acting a
 
 The following are steps to install this flavor:
 1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/network-edge/controller-edge-node-setup.md).
-2. Configure the CNF as described in [Converged Edge Reference Architecture for SD-WAN](reference-architectures/openness_sdwan.md#ewo-configuration).
+2. Configure the CNF as described in [Converged Edge Reference Architecture for SD-WAN](reference-architectures/cera_sdwan.md#ewo-configuration).
 3. Update the `inventory.yaml` file by setting the deployment flavor as `sdewan-hub`
     ```yaml
     ---
