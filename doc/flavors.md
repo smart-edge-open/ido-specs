@@ -17,8 +17,9 @@ This document introduces the supported deployment flavors that are deployable th
 - [CERA Untrusted Non3gpp Access Flavor](#cera-untrusted-non3gpp-access-flavor)
 - [CERA Near Edge Flavor](#cera-near-edge-flavor)
 - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
+- [CERA 5G Central Office Flavor](#cera-5g-central-office-flavor)
 - [Central Orchestrator Flavor](#central-orchestrator-flavor)
-- [CERA SD-WAN Edge Flaor](#cera-sd-wan-edge-flaor)
+- [CERA SD-WAN Edge Flavor](#cera-sd-wan-edge-flavor)
 - [CERA SD-WAN Hub Flavor](#cera-sd-wan-hub-flavor)
 
 ## CERA Minimal Flavor
@@ -384,6 +385,36 @@ This deployment flavor enables the following ingredients:
 - HugePages of size 1Gi and the amount of HugePages as 40G for the nodes
 - RMD operator
 
+## CERA 5G Central Office Flavor
+
+The pre-defined CERA 5g Central Office flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Core Network applications deployments on Intel® Xeon® platforms.
+
+The following are steps to install this flavor:
+1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](reference-architectures/CERA-5G-On-Prem.md) or [Converged Edge Reference Architecture Near Edge](reference-architectures/CERA-Near-Edge.md).
+2. Update the `inventory.yaml` file by setting the deployment flavor as `cera_5g_central_office`
+    ```yaml
+    ---
+    all:
+      vars:
+        cluster_name: cera_5g_central_office_cluster
+        flavor: cera_5g_central_office
+        single_node_deployment: true
+    ... 
+    ```
+3. Run ido-CEEK deployment script:
+    ```shell
+    $ python3 deploy.py
+    ```
+
+This deployment flavor enables the following ingredients:
+
+- Kubernetes CNI: Calico and SRIOV.
+- SRIOV device plugin
+- Virtual Functions
+- Kubernetes Device Plugin
+- BIOSFW feature
+- HugePages of size 8Gi and the amount of HugePages as 40G for the nodes
+
 ## Central Orchestrator Flavor
 
 Central Orchestrator Flavor is used to deploy EMCO.  
@@ -411,7 +442,7 @@ This deployment flavor enables the following ingredients:
 * The default Kubernetes CNI: `calico`
 * EMCO services
 
-## CERA SD-WAN Edge Flaor
+## CERA SD-WAN Edge Flavor
 
 CERA SD-WAN Edge flavor is used to deploy SD-WAN on the OpenNESS cluster acting as an Edge platform. This CERA flavor only supports single-node OpenNESS deployments. It provides configuration that supports running SD-WAN CNFs on the OpenNESS cluster, enables hardware accelerators with the HDDL plugin, and adds support for service mesh and node feature disovery to aid other applications and services runing on the Edge node. This CERA flavor disbless EAA, Kafka adn Edge DNS services for platform optimization.
 
