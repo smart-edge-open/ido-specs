@@ -125,8 +125,8 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 
 ### Bring up of NGC components in Network Edge mode
 
-- If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Set `flavor` as `core-cplane` in `inventory.yml` (a sample `inventory.yml` is shown as below) before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+- If OpenNESS (Edge Controller + Edge Node) is not yet deployed through converged-edge-experience-kits, then:
+  Set `flavor` as `core-cplane` in `inventory.yml` (a sample `inventory.yml` is shown as below) before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/openness-cluster-setup.md) document. If not, skip this step.
 
   ```yaml
   ---
@@ -149,7 +149,7 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
   ```
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/openness-cluster-setup.md) document.
 
   >**NOTE**: In addition to the OpenNESS controller bring up, by enabling the ngc role, the playbook scripts performs:
 
@@ -406,7 +406,7 @@ Modifying the certificates. Complete the following steps:
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
+The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md)
 
 #### Edge Node services operations with 5G Core (through OAM interface)
 

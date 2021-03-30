@@ -31,13 +31,11 @@ Copyright (c) 2019-2020 Intel Corporation
 - [Troubleshooting](#troubleshooting)
   - [Useful Commands:](#useful-commands)
 
-<!-- author to determine if instances of "master" in text need to be changed to "control plane". Fix images to align with inclusive lanugage guidelines. -->
-
 # Introduction
 This document aims to familiarize users with the Open Network Edge Services Software (OpenNESS) application on-boarding process for the Network Edge. This document provides instructions on how to deploy an application from the Edge Controller to Edge Nodes in the cluster; it also provides sample deployment scenarios and traffic configuration for the application. The applications will be deployed from the Edge Controller via the Kubernetes `kubectl` command-line utility. Sample specification files for application onboarding are also provided.
 
 # Installing OpenNESS
-The following application onboarding steps assume that OpenNESS was installed through [OpenNESS playbooks](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md).
+The following application onboarding steps assume that OpenNESS was installed through [OpenNESS playbooks](../getting-started/openness-cluster-setup.md).
 
 # Building applications
 Users must provide the application to be deployed on the OpenNESS platform for Network Edge. The application must be provided in a Docker\* image format that is available either from an external Docker repository (Docker Hub) or a locally built Docker image. The image must be available on the Edge Node, which the application will be deployed on.
@@ -725,15 +723,15 @@ kubectl interfaceservice get <officeX_host_name>
 ## Inter application communication
 The IAC is available via the default overlay network used by Kubernetes - Kube-OVN.
 
-For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
+For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](../building-blocks/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
 
 # Enhanced Platform Awareness
-Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](https://github.com/otcshare/ido-specs/blob/master/doc/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
+Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](../building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
 
-Refer to [<b>supported-epa.md</b>](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/supported-epa.md) for the list of supported EPA features on OpenNESS network edge.
+Refer to Building Blocks / Enhanced Platform Awareness section for the list of supported EPA features on OpenNESS network edge.
 
 # VM support for Network Edge
-Support for VM deployment on OpenNESS for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [openness-network-edge-vm-support.md](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/openness-network-edge-vm-support.md).
+Support for VM deployment on OpenNESS for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [VM support in OpenNESS for Network Edge](../applications-onboard/openness-network-edge-vm-support.md) section.
 
 # Troubleshooting
 This section covers steps for debugging edge applications in Network Edge.

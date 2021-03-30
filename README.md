@@ -6,7 +6,7 @@ Copyright (c) 2019-2020 Intel Corporation
 # OpenNESS Quick Start
 
    ## <b>Network Edge</b>
-   ### <b>Step 1.</b> Get Hardware &#9658; <b>Step 2.</b> [Getting started](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md) &#9658; <b>Step 3.</b> [Applications Onboarding](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md)
+   ### <b>Step 1.</b> Get Hardware &#9658; <b>Step 2.</b> [Getting started](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md) &#9658; <b>Step 3.</b> [Applications Onboarding](https://github.com/otcshare/ido-specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md)
 
 # OpenNESS solution documentation index
 
@@ -20,10 +20,12 @@ Below is the complete list of OpenNESS solution documentation
 ## Getting Started - Setup
 
 * [<b>getting-started</b>: Folder containing how to get started with installing and trying OpenNESS Network Edge solutions](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started)
+   * [<b>openness-cluster-setup.md</b>: Getting started here for installing and trying OpenNESS Network Edge](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md)
    * [<b>converged-edge-experience-kits.md</b>: Overview of the Converged Edge Experience Kits that are used to install the Network Edge solutions](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
-   * [<b>network-edge</b>: Folder containing how to get started with installing and trying OpenNESS Network Edge](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge)
-     * [<b>controller-edge-node-setup.md</b>: Started here for installing and trying OpenNESS Network Edge](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
-     * [<b>supported-epa.md</b>: List of Silicon and Software EPA that are features that are supported in OpenNESS Network Edge](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/supported-epa.md)
+   * [<b>non-root-user.md</b>: Using the non-root user on the OpenNESS Platform](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/non-root-user.md)
+   * [<b>offline-edge-deployment.md</b>: Setting up OpenNESS in an air-gapped, offline environment](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/offline-edge-deployment.md)
+   * [<b>harbor-registry.md</b>: Enabling Harbor Registry service in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/harbor-registry.md)
+   * [<b>kubernetes-dashboard.md</b>: Installing  Kubernetes Dashboard for OpenNESS Network Edge cluster](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/kubernetes-dashboard.md)
 
 ## Application onboarding - Deployment
 
@@ -62,7 +64,6 @@ Below is the complete list of OpenNESS solution documentation
    * [<b>openness_hddl.md</b>: Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness_hddl.md)
    * [<b>openness-topology-manager.md</b>: Resource Locality awareness support through Topology manager in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-topology-manager.md)
    * [<b>openness-vca.md</b>: Visual Compute Accelerator Card - Analytics (VCAC-A)](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-vcac-a.md)
-   * [<b>openness-kubernetes-dashboard.md</b>: Kubernetes Dashboard in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-kubernetes-dashboard.md)
    * [<b>openness-rmd.md</b>: Cache Allocation using Resource Management Daemon(RMD) in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-rmd.md)
    * [<b>openness-telemetry</b>: Telemetry Support in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-telemetry.md)
 
@@ -79,6 +80,8 @@ Below is the complete list of OpenNESS solution documentation
    * [<b>openness_appguide.md</b>: How to develop or Port existing cloud application to the Edge cloud based on OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_appguide.md)
    * [<b>openness_ovc.md</b>: Open Visual Cloud Smart City reference Application for OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_ovc.md)
    * [<b>openness_openvino.md</b>: AI inference reference Edge application for OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_openvino.md)
+   * [<b>openness_va_services.md</b>: Video Analytics Services for OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_va_services.md)
+   * [<b>openness_service_mesh.md</b>: Service Mesh support in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_service_mesh.md)
 
 ## Cloud Adapters
 

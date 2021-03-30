@@ -68,7 +68,7 @@ More details please refer [Converged Edge Reference Architecture for SD-WAN](htt
 
 ### EWO Installation With OpenNESS Flavor
 EWO supports [kubectl deployment](https://github.com/otcshare/ewo/tree/main/platform/crd-ctrlr/examples). [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md) offers the `sdewan-edge` and `sdewan-hub` flavor to automate edge and hub cluster deployment separately.
-- The first step is to prepare one server environment which needs to fulfill the [preconditions](https://github.com/otcshare/specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions).
+- The first step is to prepare one server environment which needs to fulfill the [preconditions](https://github.com/otcshare/specs/blob/master/doc/getting-started/openness-cluster-setup.md#preconditions).
 - Then place the EWO server hostname in `controller_group` and `edgenode_group` group in `inventory.yml` file of ido-converged-edge-experience-kits.
 > **NOTE**: `edgenode_group` and `edgenode_vca_group` are not required for EWO overlay configuration, since EWO overlay micro services just need to be deployed on the Kubernetes* control plane node.
 - Setup configurations for EWO networks/cnfs/rules in `inventory/default/host_vars/${NODE_NAME}/30-ewo.yml` as as mentioned below [EWO Configuration](#ewo-configuration) section.
