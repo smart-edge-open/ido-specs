@@ -264,7 +264,7 @@ CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancem
 
 CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs SD-WAN CNF. 
 
-Link: [CERA SD-WAN](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/openness_sdwan.md)
+Link: [CERA SD-WAN](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/cera_sdwan.md)
 
 ### CERA Media Analytics Flavor with VCAC-A
 

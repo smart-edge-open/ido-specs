@@ -52,6 +52,6 @@ section:
     meta_description: Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
 
   - title: Converged Edge Reference Architecture for SD-WAN
-    path: /doc/reference-architectures/openness_sdwan
+    path: /doc/reference-architectures/cera_sdwan
     meta_title: Converged Edge Reference Architecture for SD-WAN
     meta_description: OpenNESS provides a reference solution for SD-WAN consisting of building blocks for cloud-native deployments.
