@@ -364,7 +364,7 @@ A more detailed description of this scenario is available in OpenNESS [documenta
 ![OpenNESS SD-WAN Scenario 3 ](sdwan-images/e2e-scenario3.png)
 
 ### EWO Configuration
-Currently there are 5 typical configurations for EWO as follow. With these configurations, it is easy to deploy the above scenarios automatically.
+There are five types configuration for EWO. With these configurations, it is easy to deploy the above scenarios automatically.
 
 #### NodeSelector For CNF
 
@@ -374,14 +374,14 @@ For this example, we want to setup a cnf on node1 and another cnf on node3, the 
 
 `inventory/default/host_vars/node1/30-ewo.yml`
 ```bash
-sdwan_labels: '{"sdwanPurpose": "infra", "sdwanProvider": "ctc"}'
+sdwan_labels: '{"sdwanPurpose": "infra", "sdwanProvider": "operator_A"}'
 
 ```
 
 and
 `inventory/default/host_vars/node3/30-ewo.yml`
 ```bash
-sdwan_labels: '{"sdwanProvider": "cucc"}'
+sdwan_labels: '{"sdwanProvider": "operator_B"}'
 
 ```
 
@@ -399,13 +399,13 @@ edgenode_group:
     node03:
       ansible_host: 172.16.0.3
       ansible_user: openness
-      sdwan_labels: {"sdwanProvider": "ctcc"}
+      sdwan_labels: {"sdwanProvider": "operator_A"}
 ```
 
 #### Network and CNF Interface
 ![EWO Network and CNF Map](sdwan-images/ewo-network-cnf-interface.png)
 This configuration is used to setup ovn WAN or cluster networks and attach the cnfs to the network.
-For this example, we want to setup 4 networks, 4 colors (black/yellow/orage/purple) for different networks. The balck and yellow are 2 different WAN networks. The configurations snippet as below:
+For this example, we want to setup 4 networks with different color lines (black/yellow/orage/purple). The balck and yellow are 2 different WAN networks. The configurations snippet as below:
 
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
@@ -439,7 +439,7 @@ networks:
     excludeIps: 10.10.3.2..10.10.3.9
     providerNetType: "NONE"
 
-# Container info
+# CNF pod info
 cnf_config:
  - name: "cnf1"
    interfaces:
@@ -456,16 +456,16 @@ cnf_config:
 
 #### Tunnel
 ![EWO Tunnel](sdwan-images/ewo-tunnel-setup.png)
-This configuration is used to setup an tunnel between 2 clusters.
+This configuration is used to setup an IPsec tunnel between 2 clusters.
 The configurations snippet for the edge cluster(left) as below:
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
 ```bash
 
 pnet1_name: pnetwork1
-## a list for networks define. It can be provider network or ovn4nfv network.
-## ovn4nfv network can be consider as the second cluster network, how many netowrks
-## let deployer confirm, it can be any netowrks.
+# a list for networks define. It can be provider network or ovn4nfv network.
+# ovn4nfv must be secondary cluster network CNI. And the user can use the
+# configuration to customize networks according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet1_subnet"
@@ -475,10 +475,10 @@ networks:
     providerNetType: "DIRECT"
     providerInterfaceName: "p1"
 
-#overlay network
+# overlay network
 O_TUNNEL_NET: 172.16.30.0/24
 
-# Container info
+# CNF pod info
 cnf_config:
  - name: "cnf1"
    interfaces:
@@ -512,10 +512,10 @@ networks:
     providerNetType: "DIRECT"
     providerInterfaceName: "p1"
 
-#overlay network
+# overlay network
 O_TUNNEL_NET: 172.16.30.0/24
 
-# Container info
+# CNF pod info
 cnf_config:
  - name: "cnf1"
    interfaces:
@@ -533,7 +533,7 @@ cnf_config:
 
 #### SNAT
 ![EWO SNAT](sdwan-images/ewo-snat-setup.png)
-This configuration is used to setup an SNAT when an app pod in clusters whant to access the out network, for example it wants to access the service on internet.
+This configuration is used to setup an SNAT when an app pod in clusters want to access the out network, for example it wants to access the service on internet.
 The configurations snippet as below:
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
@@ -560,7 +560,7 @@ networks:
     providerNetType: "DIRECT"
     providerInterfaceName: "p2"
 
-# Container info
+# CNF pod info
 cnf_config:
  - name: "cnf1"
    interfaces:
@@ -580,7 +580,7 @@ cnf_config:
 
 #### DNAT
 ![EWO DNAT](sdwan-images/ewo-snat-setup.png)
-This configuration is used to setup an DNAT when outer traffic come into the cluster, for example, when an app pod expose an service to internet.
+This configuration is used to setup an DNAT when outer traffic come into the cluster, for example, when an app pod expose a service to internet.
 The configurations snippet as below:
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
@@ -607,7 +607,7 @@ networks:
     providerNetType: "DIRECT"
     providerInterfaceName: "p2"
 
-# Container info
+# CNF pod info
 cnf_config:
  - name: "cnf1"
    interfaces:
@@ -689,6 +689,5 @@ To measure total memory usage, the command “free -h” was used.
 | EWO Controller | <p>To represent central overlay controller</p>|
 | EWO Operator | <p>To represent CRD controller</p>|
 | EWO CNF | <p>To represent OpenWRT based CNF. </p>|
-| EWO VPPCNF | <p>To represent VPP based CNF. </p>|
 | SDEWAN CRD Controller | <p>is implemented as k8s CRD Controller, it manages CRDs (e.g. Firewall related CRDs, Mwan3 related CRDs and IpSec related CRDs etc.) and internally calls SDEWAN Restful API to do CNF configuration. And a remote client (e.g. SDEWAN Central Controller) can manage SDEWAN CNF configuration through creating/updating/deleting SDEWAN CRs. </p>|
 | OpenWRT based CNF | <p>The CNF is implemented based on OpenWRT, it enhances OpenWRT Luci web interface with SDEWAN controllers to provide Restful API for network functions configuration and control.</p>|
