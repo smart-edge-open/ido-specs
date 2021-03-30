@@ -132,7 +132,7 @@ the CRD Controller includes several functions:
 
   - FirewallConf Controller, to monitor the FirewallConf CR;
 
-  - IPSec Controller, to monitor the IpSec CRs.
+  - IPSec Controller, to monitor the IPsec CRs.
 
 
 ### Custom Resources (CRs)
@@ -414,9 +414,10 @@ pnet1_name: pnetwork1
 pnet2_name: pnetwork2
 onet1_name: onetwork1
 
-## a list for networks define. It can be provider network or ovn4nfv network.
-## ovn4nfv network can be consider as the second cluster network, how many netowrks
-## let deployer confirm, it can be any netowrks.
+# A list of network definitions. It can be provider network or ovn4nfv network.
+# ovn4nfv should be configured as the secondary CNI for cluster network in this
+# situation. And the user can use the configuration to customize networks
+# according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet1_subnet"
@@ -463,9 +464,10 @@ in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.y
 ```bash
 
 pnet1_name: pnetwork1
-# a list for networks define. It can be provider network or ovn4nfv network.
-# ovn4nfv must be secondary cluster network CNI. And the user can use the
-# configuration to customize networks according to needs.
+# A list of network definitions. It can be provider network or ovn4nfv network.
+# ovn4nfv should be configured as the secondary CNI for cluster network in this
+# situation. And the user can use the configuration to customize networks
+# according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet1_subnet"
@@ -500,9 +502,10 @@ in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.y
 ```bash
 pnet1_name: pnetwork1
 
-## a list for networks define. It can be provider network or ovn4nfv network.
-## ovn4nfv network can be consider as the second cluster network, how many netowrks
-## let deployer confirm, it can be any netowrks.
+# A list of network definitions. It can be provider network or ovn4nfv network.
+# ovn4nfv should be configured as the secondary CNI for cluster network in this
+# situation. And the user can use the configuration to customize networks
+# according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet2_subnet"
@@ -533,7 +536,7 @@ cnf_config:
 
 #### SNAT
 ![EWO SNAT](sdwan-images/ewo-snat-setup.png)
-This configuration is used to setup an SNAT when an app pod in clusters want to access the out network, for example it wants to access the service on internet.
+This configuration is used to setup an SNAT when an app pod in clusters want to access the external network, for example it wants to access the service on internet.
 The configurations snippet as below:
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
@@ -541,9 +544,10 @@ in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.y
 pnet1_name: pnetwork1
 pnet2_name: pnetwork2
 
-## a list for networks define. It can be provider network or ovn4nfv network.
-## ovn4nfv network can be consider as the second cluster network, how many netowrks
-## let deployer confirm, it can be any netowrks.
+# A list of network definitions. It can be provider network or ovn4nfv network.
+# ovn4nfv should be configured as the secondary CNI for cluster network in this
+# situation. And the user can use the configuration to customize networks
+# according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet1_subnet"
@@ -580,7 +584,7 @@ cnf_config:
 
 #### DNAT
 ![EWO DNAT](sdwan-images/ewo-snat-setup.png)
-This configuration is used to setup an DNAT when outer traffic come into the cluster, for example, when an app pod expose a service to internet.
+This configuration is used to setup an DNAT when outer traffic comes into the cluster, for example, when an app pod exposes a service to internet.
 The configurations snippet as below:
 
 in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.yml`(edge cluster as example) if only set cnfs on one node.
@@ -588,9 +592,10 @@ in `inventory/default/host_vars/node1/30-ewo.yml`, or `flavors/sdewan-edge/all.y
 pnet1_name: pnetwork1
 pnet2_name: pnetwork2
 
-## a list for networks define. It can be provider network or ovn4nfv network.
-## ovn4nfv network can be consider as the second cluster network, how many netowrks
-## let deployer confirm, it can be any netowrks.
+# A list of network definitions. It can be provider network or ovn4nfv network.
+# ovn4nfv should be configured as the secondary CNI for cluster network in this
+# situation. And the user can use the configuration to customize networks
+# according to needs.
 networks:
   - networkname: "{{ pnet1_name }}"
     subnname: "pnet1_subnet"
@@ -689,5 +694,5 @@ To measure total memory usage, the command “free -h” was used.
 | EWO Controller | <p>To represent central overlay controller</p>|
 | EWO Operator | <p>To represent CRD controller</p>|
 | EWO CNF | <p>To represent OpenWRT based CNF. </p>|
-| SDEWAN CRD Controller | <p>is implemented as k8s CRD Controller, it manages CRDs (e.g. Firewall related CRDs, Mwan3 related CRDs and IpSec related CRDs etc.) and internally calls SDEWAN Restful API to do CNF configuration. And a remote client (e.g. SDEWAN Central Controller) can manage SDEWAN CNF configuration through creating/updating/deleting SDEWAN CRs. </p>|
+| SDEWAN CRD Controller | <p>is implemented as k8s CRD Controller, it manages CRDs (e.g. Firewall related CRDs, Mwan3 related CRDs and IPsec related CRDs etc.) and internally calls SDEWAN Restful API to do CNF configuration. And a remote client (e.g. SDEWAN Central Controller) can manage SDEWAN CNF configuration through creating/updating/deleting SDEWAN CRs. </p>|
 | OpenWRT based CNF | <p>The CNF is implemented based on OpenWRT, it enhances OpenWRT Luci web interface with SDEWAN controllers to provide Restful API for network functions configuration and control.</p>|
