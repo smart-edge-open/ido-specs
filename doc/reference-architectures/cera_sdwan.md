@@ -339,14 +339,14 @@ The Edge1 node also deploys an OpenVINO app, and, in this way, this scenario als
 
 ![OpenNESS SD-WAN Scenario 1 ](sdwan-images/e2e-scenario1.png)
 
-A more detailed description of this E2E test is provided under the link in the OpenNESS documentation for this SD-WAN [scenario](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md).
+A more detailed description of this E2E test is provided under the link in the OpenNESS documentation for this SD-WAN [scenario](https://github.com/open-ness/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/three-single-node-clusters/E2E-Overview.md).
 
 #### Scenario 2
 This scenario demonstrates an simple OpenNESS SD-WAN with a single node cluster, that deploys an SD-WAN CNF and an application pod running an Iperf client. The scenario is depicted in the following figure.
 
 The CNF pod and Iperf-client pod are attached to one virtual OVN network, using the n3 and n0 interfaces respectively. The CNF has configured a provider network on interface n2, that is attached to a physical interface on the Edge node to work as a bridge, to connect the external network. This scenario demonstrates that, after configuration of the CNF, the traffic sent from the application pod uses the SD-WAN CNF as a proxy, and arrives at the User Equipment (UE) in the external network. The E2E traffic from the Iperf3 client application on the application pod (which is deployed on the Edge node) travels to the external UE via a 10G NIC port. The UE runs the Iperf3 server application. The OpenNESS cluster, consisting of the Edge Node server,  is deployed on the SD-WAN Edge. The Iperf client traffic is expected to pass through the SD-WAN CNF and the attached provider network interface to reach the Iperf server that is listening on the UE.
 
-A more detailed description of the scenarion can be found in this SD-WAN scenario [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md)
+A more detailed description of the scenarion can be found in this SD-WAN scenario [documentation](https://github.com/open-ness/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/one-single-node-cluster/README.md)
 
 ![OpenNESS SD-WAN Scenario 2 ](sdwan-images/e2e-scenario2.png)
 
@@ -354,12 +354,12 @@ A more detailed description of the scenarion can be found in this SD-WAN scenari
 #### Scenario 3
 This scenario a sample OpenVINO benchmark application deployed on an OpenNESS edge platform equipped with an HDDL accelerator card. It reflects the use case in which a high performance OpenVINO application is executed on an OpenNESS single node cluster, deployed with an SD-WAN Edge. The SD-WAN Edge enables an HDDL plugin to provide the OpenNESS platform with support for workload acceleration via the HDDL card. More information on the OpenVINO sample application is provided under the following links:
 
-  - [OpenVINO Sample Application White Paper](https://github.com/otcshare/specs/blob/master/doc/applications/openness_openvino.md)
+  - [OpenVINO Sample Application White Paper](https://github.com/open-ness/specs/blob/master/doc/applications/openness_openvino.md)
 
-  - [OpenVINO Sample Application Onboarding](https://github.com/otcshare/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-openvino-application)
+  - [OpenVINO Sample Application Onboarding](https://github.com/open-ness/specs/blob/master/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-openvino-application)
 
 
-A more detailed description of this scenario is available in OpenNESS [documentation](https://github.com/otcshare/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
+A more detailed description of this scenario is available in OpenNESS [documentation](https://github.com/open-ness/edgeapps/blob/master/network-functions/sdewan_cnf/e2e-scenarios/openvino-hddl-cluster/README.md)
 
 ![OpenNESS SD-WAN Scenario 3 ](sdwan-images/e2e-scenario3.png)
 
@@ -660,10 +660,10 @@ To measure total memory usage, the command “free -h” was used.
 - [ICN SDEWAN documentation](https://wiki.akraino.org/display/AK/ICN+-+SDEWAN)
 - [ovn4nfv k8s plugin documentation](https://github.com/opnfv/ovn4nfv-k8s-plugin)
 - [Service Function Chaining (SFC) Setup](https://github.com/opnfv/ovn4nfv-k8s-plugin/blob/master/demo/sfc-setup/README.md)
-- [Utilizing a Service Mesh for Edge Services in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/applications/openness_service_mesh.md)
-- [Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness_hddl.md)
-- [Node Feature Discovery support in OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md)
-- [OpenVINO™ Sample Application in OpenNESS](https://github.com/otcshare/ido-specs/blob/78d7797cbe0a21ade2fdc61625c2416d8430df23/doc/applications/openness_openvino.md)
+- [Utilizing a Service Mesh for Edge Services in OpenNESS](https://github.com/open-ness/ido-specs/blob/master/doc/applications/openness_service_mesh.md)
+- [Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness_hddl.md)
+- [Node Feature Discovery support in OpenNESS](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md)
+- [OpenVINO™ Sample Application in OpenNESS](https://github.com/open-ness/ido-specs/blob/78d7797cbe0a21ade2fdc61625c2416d8430df23/doc/applications/openness_openvino.md)
 
 ## Acronyms
 

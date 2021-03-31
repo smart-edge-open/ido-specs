@@ -57,9 +57,9 @@ The pre-defined *flexran* deployment flavor provisions an optimized system confi
 The following are steps to install this flavor:
 1. Configure the CEEK as described in the [OpenNESS Getting Started Guide for Network Edge](getting-started/openness-cluster-setup.md).
 2. Configure the flavor file to reflect desired deployment.
-   - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
-   - Configure which CPUs are to be reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
-   - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
+   - Configure the CPUs selected for isolation and OS/K8s processes from command line in files [controller_group.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/flavors/flexran/controller_group.yml) and [edgenode_group.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/flavors/flexran/edgenode_group.yml) - please note that in single node mode the edgenode_group.yml is used to configure the CPU isolation.
+   - Configure which CPUs are to be reserved for K8s and OS from K8s level with `reserved_cpu` flag in [all.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
+   - Configure whether the FPGA or eASIC support for FEC is desired or both in [all.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/flavors/flexran/all.yml) file.
 
 3. Provide necessary files:
    - Create the `ido-converged-edge-experience-kits/ceek/biosfw` directory and copy the `syscfg_package.zip` file to the directory (can be disabled with `ne_biosfw_enable` flag).
@@ -284,7 +284,7 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 8G for the nodes
 
-> **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF)
+> **NOTE**: For a reference UPF deployment, refer to [5G UPF Edge App](https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF)
 
 ## CERA Untrusted Non3gpp Access Flavor
 
@@ -320,7 +320,7 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
 
 The following are steps to install this flavor:
-1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
+1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture Near Edge](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md).
 2. Update the `inventory.yaml` file by setting the deployment flavor as `cera_5g_near_edge`
     ```yaml
     ---
@@ -353,7 +353,7 @@ This deployment flavor enables the following ingredients:
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for On Premises deployments on Intel® Xeon® platforms. It also provisions for deployment of Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000 tools and components to enable offloading for the acceleration of FEC (Forward Error Correction) to the FPGA.
 
 The following are steps to install this flavor:
-1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
+1. Configure the CEEK under CERA repository as described in the [Converged Edge Reference Architecture On Premises Edge](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md).
 2. Update the `inventory.yaml` file by setting the deployment flavor as `cera_5g_on_premise`
     ```yaml
     ---

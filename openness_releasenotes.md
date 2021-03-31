@@ -288,7 +288,7 @@ This document provides high-level system features, issues, and limitations infor
 - Reference deployment with Kubernetes enhancements for high-performance compute and networking for an SD-WAN node (Hub) that runs SD-WAN CNF.
 - Reference deployment for high-performance Computing and Networking using SR-IOV for reference Untrusted Non-3GPP Access as defined by 3GPP Release 15.
 - Reference implementation of the offline installation package for the CERA Access Edge flavor enabling installation of Kubernetes and related enhancements for Access edge deployments.
-- Early access release of Edge Multi-Cluster Orchestration(EMCO), a Geo-distributed application orchestrator for Kubernetes. This release supports EMCO deploying and managing the life cycle of the Smart City Application pipeline on the edge cluster. More details in the [EMCO Release Notes](https://github.com/otcshare/EMCO/blob/main/ReleaseNotes.md).
+- Early access release of Edge Multi-Cluster Orchestration(EMCO), a Geo-distributed application orchestrator for Kubernetes. This release supports EMCO deploying and managing the life cycle of the Smart City Application pipeline on the edge cluster. More details in the [EMCO Release Notes](https://github.com/open-ness/EMCO/blob/main/ReleaseNotes.md).
 - Azure Development kit (Devkit) supporting the installation of an OpenNESS Kubernetes cluster on the Microsoft* Azure* cloud. This is typically used by a customer who wants to develop applications and services for the edge using OpenNESS building blocks.
 - Support Intel® vRAN Dedicated Accelerator ACC100, Kubernetes Cloud-native deployment supporting higher capacity 4G/LTE and 5G vRANs cells/carriers for FEC offload. 
 - Major system Upgrades: Kubernetes 1.19.3, CentOS 7.8, Calico 3.16, and Kube-OVN 1.5.2.
@@ -337,10 +337,10 @@ There are no unsupported or discontinued features relevant to this release.
 ## OpenNESS - 21.03
 - FlexRAN/Access Edge CERA Flavor is only aviable in Intel Distribution of OpenNESS
 - OpenNESS repositories have been consolidated to the following 
-  - https://github.com/otcshare/ido-converged-edge-experience-kits
-  - https://github.com/otcshare/ido-specs
-  - https://github.com/otcshare/ido-edgeservices
-  - https://github.com/otcshare/ido-epcforedge
+  - https://github.com/open-ness/ido-converged-edge-experience-kits
+  - https://github.com/open-ness/ido-specs
+  - https://github.com/open-ness/ido-edgeservices
+  - https://github.com/open-ness/ido-epcforedge
 # Fixed Issues
 
 ## OpenNESS - 19.06
@@ -486,10 +486,10 @@ OpenNESS Edge node, OpenNESS Controller, Common, Spec, OpenNESS Applications, an
 - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec and IDO Experience kit.
 
 ## OpenNESS - 21.03
-  - https://github.com/otcshare/ido-converged-edge-experience-kits
-  - https://github.com/otcshare/ido-specs
-  - https://github.com/otcshare/ido-edgeservices
-  - https://github.com/otcshare/ido-epcforedge
+  - https://github.com/open-ness/ido-converged-edge-experience-kits
+  - https://github.com/open-ness/ido-specs
+  - https://github.com/open-ness/ido-edgeservices
+  - https://github.com/open-ness/ido-epcforedge
 # Hardware and Software Compatibility
 OpenNESS Edge Node has been tested using the following hardware specification:
 
