@@ -156,7 +156,10 @@ OpenNESS supports the following accelerator microservices.
 - **FPGA/eASIC/NIC**: Software that enables AI inferencing for applications, high-performance and low-latency packet pre-processing on network cards, and offloading for network functions such as eNB/gNB offloading Forward Error Correction (FEC). It consists of: 
   - FPGA device plugin for inferencing
   - SR-IOV device plugin for FPGA/eASIC
-  - Dynamic Device Profile for Network Interface Cards (NIC) 
+  - Dynamic Device Profile for Network Interface Cards (NIC)
+- **Intel® QuickAssist Technology (Intel® QAT)**: Software that enables offloading of security and compression task on data in rest or in-motion for the cloud, networking, big data, and storage applications: 
+  - Kubernetes CRD operator for discrete and on-board Intel® QAT devices
+  - Intel QuickAssist Technology (QAT) device plugin for Kubernetes
 
 ### Dataplane/Container Network Interfaces
 
@@ -261,7 +264,7 @@ CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancem
 
 CERA SD-WAN Edge flavor provides a reference deployment with Kubernetes enhancements for High performance compute and networking for a SD-WAN node that runs SD-WAN CNF. 
 
-Link: [CERA SD-WAN](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/openness_sdwan.md)
+Link: [CERA SD-WAN](https://github.com/otcshare/ido-specs/blob/master/doc/reference-architectures/cera_sdwan.md)
 
 ### CERA Media Analytics Flavor with VCAC-A
 

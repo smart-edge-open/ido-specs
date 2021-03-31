@@ -72,7 +72,7 @@ section:
       meta_description: The Visual Cloud Accelerator Card - Analytics (VCAC-A) equips Intel® Xeon® Scalable Processor based platforms and Intel Movidius™ VPU to enhance the video codec, computer vision, and inference capabilities.
 
     - title: Intel® QuickAssist Adapter
-      path: /doc/building-blocks/enhanced-platform-awareness/openness-qat.md
+      path: /doc/building-blocks/enhanced-platform-awareness/openness-qat
       meta_title: Using Intel® QuickAssist Adapter in OpenNESS - Resource Allocation, and Configuration
       meta_description: Intel® QuickAssist Adapter plays a key role in accelerating cryptographic operations in 5G networking.
 
@@ -91,11 +91,6 @@ section:
       meta_title: Telemetry support in OpenNESS
       meta_description: OpenNESS supports platform and application telemetry allowing users to retrieve information about the platform, the underlying hardware, cluster and applications deployed.
 
-    - title: Kubernetes Dashboard in OpenNESS
-      path: /doc/building-blocks/enhanced-platform-awareness/openness-kubernetes-dashboard
-      meta_title: Kubernetes Dashboard in OpenNESS
-      meta_description: OpenNESS supports Kubernetes Dashboard that can be used to inspect and manage Kubernetes cluster.
-
   - title: Multi-Cluster Orchestration
     path:
     section:
@@ -103,11 +98,3 @@ section:
       path: /doc/building-blocks/emco/openness-emco
       meta_title: Edge Multi-Cluster Orchestrator 
       meta_description: Geo-Distributed multiple clusters application orchestration.
-
-  - title: Edge WAN Overlay
-    path:
-    section:
-    - title: Edge WAN Overlay (EWO)
-      path: /doc/building-blocks/ewo/openness-ewo
-      meta_title: Edge WAN Overlay
-      meta_description: SDEWAN overlay networks among multiple clusters.

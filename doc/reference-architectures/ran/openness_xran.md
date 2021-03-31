@@ -406,7 +406,7 @@ Verify the i40e driver version of the NIC to be used and the firmware version on
 
 ## Deploy xRAN sample app O-DU and O-RU in OpenNESS Network Edge
 
-Before starting the deployment script, OpenNESS should be configured according to the instructions available [here](../../getting-started/network-edge/controller-edge-node-setup.md)
+Before starting the deployment script, OpenNESS should be configured according to the instructions available [here](../../getting-started/openness-cluster-setup.md)
 Additional configuration steps are provided below.
 
 ### Setting up SRIOV 
