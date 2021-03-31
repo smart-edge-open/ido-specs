@@ -46,7 +46,7 @@ Available management with `kube-cnca` against LTE CUPS OAM agent are:
 2. Deletion of LTE CUPS userplanes
 3. Updating (patching) LTE CUPS userplanes
 
-The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [OpenNESS Experience Kit](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-experience-kits.md).
+The `kube-cnca` plugin is installed automatically on the control plane during the installation phase of the [Converged Edge Experience Kits](../getting-started/converged-edge-experience-kits.md).
 In the following sections, a detailed explanation with examples is provided about the CNCA management.
 
 Creation of the LTE CUPS userplane is performed based on the configuration provided by the given YAML file. The YAML configuration should follow the provided sample YAML in [Sample YAML LTE CUPS userplane configuration](#sample-yaml-lte-cups-userplane-configuration) section. Use the `apply` command to post a userplane creation request onto Application Function (AF):
@@ -116,7 +116,7 @@ policy:
 
 # 5G NGC components bring up and Configuration using CNCA
 
-OpenNESS provides Ansible\* scripts for setting up NGC components for two scenarios. Each of the scenarios is supported by a separate role in the OpenNESS Experience Kit:
+OpenNESS provides Ansible\* scripts for setting up NGC components for two scenarios. Each of the scenarios is supported by a separate role in the Converged Edge Experience Kits:
 
 Role "ngc"
 This role brings up the 5g OpenNESS setup in the loopback mode for testing and demonstrating its usability. The Ansible scripts that are part of the "ngc" role build, configure, and start AF, Network Exposure Function (NEF), OAM, and Core Network Test Function (CNTF) in the Network Edge mode. Within this role, AF and OAM are set up on the controller node. NEF and CNTF are set up on the edge node.  The description of the configuration and setup of the NGC components provided in the next sections of this document refers to the ngc role. The NGC components set up within the ngc role can be fully integrated and tested with the provided kubectl plugin or CNCA UI.
@@ -125,11 +125,31 @@ This role brings up the 5g OpenNESS setup in the loopback mode for testing and d
 
 ### Bring up of NGC components in Network Edge mode
 
-- If OpenNESS (Edge Controller + Edge Node) is not yet deployed through openness-experience-kit, then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `group_vars/all/20-enhanced.yml` before running `deploy_ne.sh` or `deploy_ne.sh single`, as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document. If not, skip this step.
+- If OpenNESS (Edge Controller + Edge Node) is not yet deployed through converged-edge-experience-kits, then:
+  Set `flavor` as `core-cplane` in `inventory.yml` (a sample `inventory.yml` is shown as below) before running `deploy.py` as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/openness-cluster-setup.md) document. If not, skip this step.
+
+  ```yaml
+  ---
+  all:
+    vars:
+      cluster_name: cluster_test    # NOTE: Use `_` instead of spaces.
+      flavor: core-cplane  # NOTE: Flavors can be found in `flavors` directory.
+      single_node_deployment: true  # Request single node deployment (true/false).
+      limit:                        # Limit ansible deployment to certain inventory group or hosts
+  controller_group:
+    hosts:
+      controller:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+  edgenode_group:
+    hosts:
+      node01:
+        ansible_host: 172.16.0.1
+        ansible_user: openness
+  ```
 
 - If OpenNESS Edge Controller + Edge Node is already deployed (but without enabling the ngc role) and at a later stage you want to enable NGC components then:
-  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `group_vars/all/20-enhanced.yml` and then re-run `deploy_ne.sh` or `deploy_ne.sh single` as described in the [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/network-edge/controller-edge-node-setup.md) document.
+  Enable the role for ngc by changing the `ne_ngc_enable` variable to `true` in `inventory/default/group_vars/all/20-enhanced.yml` and then re-run `deploy.py` with specified `limit: controller` variable in `inventory.yml` (define only one cluster on which the role should be enabled) as described in [OpenNESS Network Edge: Controller and Edge node setup](../getting-started/openness-cluster-setup.md) document.
 
   >**NOTE**: In addition to the OpenNESS controller bring up, by enabling the ngc role, the playbook scripts performs:
 
@@ -386,7 +406,7 @@ Modifying the certificates. Complete the following steps:
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [OpenNESS Experience Kit](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md)
+The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md)
 
 #### Edge Node services operations with 5G Core (through OAM interface)
 
@@ -597,19 +617,20 @@ Sample yaml file for updating a single application:
 apiVersion: v1
 kind: ngc_pfd
 policy:
-  externalAppID: afApp01
-  allowedDelay: 1000
-  cachingTime: 1000
-  pfds:
-    - pfdID: pfdId01
-      flowDescriptions:
-        - "permit in ip from 10.11.12.123 80 to any"
-    - pfdID: pfdId02
-      urls:
-        - "^http://test.example2.net(/\\S*)?$"
-    - pfdID: pfdId03
-      domainNames:
-        - "www.latest_example.com"
+  pfdDatas:
+    - externalAppID: afApp01
+      allowedDelay: 1000
+      cachingTime: 1000
+      pfds:
+        - pfdID: pfdId01
+          flowDescriptions:
+            - "permit in ip from 10.11.12.123 80 to any"
+        - pfdID: pfdId02
+          urls:
+            - "^http://test.example2.net(/\\S*)?$"
+        - pfdID: pfdId03
+          domainNames:
+            - "www.latest_example.com"
 ```
 
 #### Policy Authorization operations with 5G Core (through AF interface)

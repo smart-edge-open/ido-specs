@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2020 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Converged Edge Reference Architecture 5G On Premises Edge
@@ -11,7 +11,7 @@ The Converged Edge Reference Architectures (CERA) are a set of pre-integrated HW
     - [CERA 5G On Prem OpenNESS Configuration](#cera-5g-on-prem-openness-configuration)
     - [CERA 5G On Prem Deployment Architecture](#cera-5g-on-prem-deployment-architecture)
     - [CERA 5G On Prem Experience Kit Deployments](#cera-5g-on-prem-experience-kit-deployments)
-  - [Edge Service Applications Supported on CERA 5G On Prem](#edge-service-applications-supported-on-cera-5g-on-prem)
+  - [Edge Service Applications Supported by CERA 5G On Prem](#edge-service-applications-supported-by-cera-5g-on-prem)
     - [OpenVINO™](#openvino)
     - [Edge Insights Software](#edge-insights-software)
   - [CERA 5G On Prem Hardware Platform](#cera-5g-on-prem-hardware-platform)
@@ -21,7 +21,6 @@ The Converged Edge Reference Architectures (CERA) are a set of pre-integrated HW
   - [BIOS Setup](#bios-setup)
   - [Setting up Machine with Ansible](#setting-up-machine-with-ansible)
     - [Steps to be performed on the machine, where the Ansible playbook is going to be run](#steps-to-be-performed-on-the-machine-where-the-ansible-playbook-is-going-to-be-run)
-  - [CERA 5G On Premise Experience Kit Deployment](#cera-5g-on-premise-experience-kit-deployment)
 - [5G Core Components](#5g-core-components)
   - [dUPF](#dupf)
     - [Overview](#overview)
@@ -231,26 +230,59 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
     git submodule update --init --recursive
     ```
 
-4. Provide target machines IP addresses for OpenNESS deployment in `ido-converged-edge-experience-kits/openness_inventory.ini`. For Singlenode setup, set the same IP address for both `controller` and `node01`, the line with `node02` should be commented by adding # at the beginning.  
-Example:
-    ```ini
-    [all]
-    controller ansible_ssh_user=root ansible_host=192.168.1.43 # First server NE
-    node01 ansible_ssh_user=root ansible_host=192.168.1.43 # First server NE
-    ; node02 ansible_ssh_user=root ansible_host=192.168.1.12
-    ```
-    At that stage provide IP address only for `CERA 5G NE` server.
-    
-    If the GMC device is available, the node server can be synchronized. In the `ido-converged-edge-experience-kits/openness_inventory.ini`, `node01` should be added to `ptp_slave_group`. The default value `controller` for `[ptp_master]` should be removed or commented.
-    ```ini
-    [ptp_master]
-    #controller
+4. Provide target machines IP addresses for CEEK deployment in `ido-converged-edge-experience-kits/inventory.yml`. For Singlenode setup, set the same IP address for both `controller` and `node01`. In the same file define the details for Central Office cluster deployment.
+    Example:
+    ```yaml
+    all:
+      vars:
+        cluster_name: on_premises_cluster
+        flavor: cera_5g_on_premise
+        single_node_deployment: true
+        limit:
+    controller_group:
+      hosts:
+        controller:
+          ansible_host: 172.16.0.1
+          ansible_user: root
+    edgenode_group:
+      hosts:
+        node01:
+          ansible_host: 172.16.0.1
+          ansible_user: root
+    edgenode_vca_group:
+      hosts:
+    ptp_master:
+      hosts:
+    ptp_slave_group:
+      hosts:
 
-    [ptp_slave_group]
-    node01
+    ---
+    all:
+      vars:
+        cluster_name: central_office_cluster  
+        flavor: cera_5g_central_office
+        single_node_deployment: true
+        limit:
+    controller_group:
+      hosts:
+        co_controller:
+          ansible_host: 172.16.1.1
+          ansible_user: root
+    edgenode_group:
+      hosts:
+        co_node1:
+          ansible_host: 172.16.1.1
+          ansible_user: root
+    edgenode_vca_group:
+      hosts:
+    ptp_master:
+      hosts:
+    ptp_slave_group:
+      hosts:
+      
     ```
 
-5. Edit `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
+5. Edit `ido-converged-edge-experience-kits/inventory/default/group_vars/all/10-open.yml` and provide some correct settings for deployment.  
 
     Git token.
     ```yaml
@@ -280,212 +312,114 @@ Example:
     ntp_servers: ['ntp.server.com']
     ```
 
-6. Edit file `ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/edgenode_group.yml` and provide correct CPU settings.
+6. Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml` and provide On Premise deployment configuration.
 
+    Choose Edge Application that will be deployed:
     ```yaml
-    tuned_vars: |
-      isolated_cores=2-23,26-47
-      nohz=on
-      nohz_full=2-23,26-47
-    
-    # CPUs to be isolated (for RT procesess)
-    cpu_isol: "2-23,26-47"
-    # CPUs not to be isolate (for non-RT processes) - minimum of two OS cores necessary for controller
-    cpu_os: "0-1,24-25"
+    # Choose which demo will be launched: `eis` or `openvino`
+    # To do not deploy any demo app, refer to `edgeapps_deployment_enable` variable
+    deploy_demo_app: "openvino"
     ```
 
-    If a GMC is connected to the setup, then node server synchronization can be enabled inside ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/edgenode_group.yml file.
+     If OpenVINO was chosen as Edge Application, set the options:
     ```yaml
-    ptp_sync_enable: true
+    model: "pedestrian-detection-adas-0002" # model name used by demo application
+    display_host_ip: "" # update ip for visualizer HOST GUI.
+    save_video: "enable"  # enable saving the output video to file
+    target_device: "CPU"  # device which will be used for video processing, currently only CPU is supported
     ```
 
-7. Edit file `ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/controller_group.yml` and provide names of `network interfaces` that are connected to second server and number of VF's to be created.
+    Set interface name for fronthaul connection:
+    ```yaml
+    ## Interface logical name (PF) used for fronthaul
+    fronthaul_if_name: "enp184s0f0"
+    ```
 
+    Set interface name for connection to UPF and AMF-SMF:
+    ```yaml
+    # PF interface name of N3, N4, N6, N9 created VFs
+    host_if_name_cn: "eno1"
+    ```
+
+
+7. Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/controller_group.yml`
+
+    Provide names of `network interfaces` that are connected to the Central Office cluster and number of VF's to be created.
     ```yaml
     sriov:
-      network_interfaces: {eno1: 5, eno2: 10}
+      network_interfaces: {eno1: 5, enp184s0f0: 10}
     ```
 
-8. Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+8. Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/edgenode_group.yml`
 
-    For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
+    Set up CPUs isolation according to your hardware
     ```yaml
-    ptp_port: "eno3"
+    # Variables applied with the profile
+    tuned_vars: |
+      isolated_cores=1-16,25-40
+      nohz=on
+      nohz_full=1-16,25-40
+
+    # CPUs to be isolated (for RT procesess)
+    cpu_isol: "1-16,25-40"
+    # CPUs not to be isolate (for non-RT processes) - minimum of two OS cores necessary for controller
+    cpu_os: "0,17-23,24,41-47"
     ```
 
-    Variable `ptp_network_transport` keeps network transport for ptp. Choose `"-4"` for default CERA setup. The `gm_ip` variable should contain the GMC's IP address. The Ansible scripts set the IP on the interface connected to the GMC, according to the values in the variables `ptp_port_ip` and `ptp_port_cidr`.
+    Set up hugepages settings
     ```yaml
-    # Valid options:
-    # -2 Select the IEEE 802.3 network transport.
-    # -4 Select the UDP IPv4 network transport.
-    ptp_network_transport: "-4"
-
-    
-    # Grand Master IP, e.g.:
-    #   gm_ip: "169.254.99.9"
-    gm_ip: "169.254.99.9"
-
-    # - ptp_port_ip contains a static IP for the server port connected to GMC, e.g.:
-    #   ptp_port_ip: "169.254.99.175"
-    # - ptp_port_cidr - CIDR for IP from, e.g.:
-    #   ptp_port_cidr: "24"
-    ptp_port_ip: "169.254.99.175"
-    ptp_port_cidr: "24"
+    # Size of a single hugepage (2M or 1G)
+    hugepage_size: "1G"
+    # Amount of hugepages
+    hugepage_amount: "40"
     ```
 
-9. Execute the `deploy_openness_for_cera.sh` script in `ido-converged-edge-experience-kits` to start OpenNESS platform deployment process by running the following command:
-    ```shell
-    ./deploy_openness_for_cera.sh cera_5g_on_premise
-    ```
-    Note: This might take few hours.
+9.  Set all necessary settings for `CERA 5G CO` in `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/all.yml`.
 
-10. After a successful OpenNESS deployment, edit again `ido-converged-edge-experience-kits/openness_inventory.ini`, change IP address to `CERA 5G CN` server.
-    ```ini
-    [all]
-    controller ansible_ssh_user=root ansible_host=192.168.1.109 # Second server CN
-    node01 ansible_ssh_user=root ansible_host=192.168.1.109 # Second server CN
-    ; node02 ansible_ssh_user=root ansible_host=192.168.1.12
-    ```
-    Then run `deploy_openness_for_cera.sh` again.
-    ```shell
-    ./deploy_openness_for_cera.sh 
-    ```
-    All settings in `ido-converged-edge-experience-kits/openness/group_vars/all/10-open.yml` are the same for both servers.
-
-    For `CERA 5G CN` server disable synchronization with GMC inside `ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/edgenode_group.yml` file.
     ```yaml
-    ptp_sync_enable: false
-    ```
-
-11. When both servers have deployed OpenNess, login to `CERA 5G CN` server and generate `RSA ssh key`. It's required for AMF/SMF VM deployment.
-    ```shell
-    ssh-keygen -t rsa
-    # Press enter key to apply default values
-    ```
-12. The full setup is now ready for CERA deployment.
-
-### CERA 5G On Premise Experience Kit Deployment
-The following prerequisites should be met for CERA deployment.
-
-1. CentOS should use the following kernel and have no newer kernels installed:
-    *  `3.10.0-1127.19.1.rt56.1116.el7.x86_64` on Near Edge server.
-    *  `3.10.0-1127.el7.x86_64` on Core Network server.
-
-2. Edit file `ido-converged-edge-experience-kits/cera_config.yaml` and provide correct settings:
-
-    Git token
-    ```yaml
-    git_repo_token: "your git token"
-    ```
-    Decide which demo application should be launched
-    ```yaml
-    # choose which demo will be launched: `eis` or `openvino`
-    deploy_app: "eis"
-    ```
-    EIS release package location
-    ```yaml
-    # provide EIS release package archive absolute path
-    eis_release_package_path: ""
-    ```
-    [OpenVino](#OpenVINO) settings, if OpenVino app was set as active demo application
-    ```yaml
-    display_host_ip: "" # update ip for visualizer HOST GUI.
-    save_video: "enable"
-    ```
-    Proxy settings
-    ```yaml
-    # Setup proxy on the machine - required if the Internet is accessible via proxy
-    proxy_os_enable: true
-    # Clear previous proxy settings
-    proxy_os_remove_old: true
-    # Proxy URLs to be used for HTTP, HTTPS and FTP
-    proxy_os_http: "http://proxy.example.org:3129"
-    proxy_os_https: "http://proxy.example.org:3128"
-    proxy_os_ftp: "http://proxy.example.org:3128"
-    proxy_os_noproxy: "127.0.0.1,localhost,192.168.1.0/24"
-    # Proxy to be used by YUM (/etc/yum.conf)
-    proxy_yum_url: "{{ proxy_os_http }}"
-    ```
-    See [more details](#dUPF) for dUPF configuration
-    ```yaml
-    # Define PCI addresses (xxxx:xx:xx.x format) for i-upf
-    n3_pci_bus_address: "0000:19:0a.0"
-    n4_n9_pci_bus_address: "0000:19:0a.1"
-    n6_pci_bus_address: "0000:19:0a.2"
-
-    # Define VPP VF interface names for i-upf
-    n3_vf_interface_name: "VirtualFunctionEthernet19/a/0"
-    n4_n9_vf_interface_name: "VirtualFunctionEthernet19/a/1"
-    n6_vf_interface_name: "VirtualFunctionEthernet19/a/2"
-        
-    # PF interface name of N3 created VF
-    host_if_name_N3: "eno2"
     # PF interface name of N4, N6, N9 created VFs
-    host_if_name_N4_N6_n9: "eno2"
+    host_if_name_cn: "eno1"
     ```
-    [gNodeB](#gNodeB) configuration
+
+10. Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/controller_group.yml`
+
+    Provide names of `network interfaces` that are connected to the Near Edge cluster and number of VF's to be created.
     ```yaml
-    ## gNodeB related config
-    gnodeb_fronthaul_vf1: "0000:65:02.0"
-    gnodeb_fronthaul_vf2: "0000:65:02.1"
-
-    gnodeb_fronthaul_vf1_mac: "ac:1f:6b:c2:48:ad"
-    gnodeb_fronthaul_vf2_mac: "ac:1f:6b:c2:48:ab"
-
-    n2_gnodeb_pci_bus_address: "0000:19:0a.3"
-    n3_gnodeb_pci_bus_address: "0000:19:0a.4"
-
-    fec_vf_pci_addr: "0000:b8:00.1"
-
-    # DPDK driver used (vfio-pci/igb_uio) to VFs bindings
-    dpdk_driver_gnodeb: "igb_uio"
-
-    ## ConfigMap vars
-
-    fronthaul_if_name: "enp101s0f0"
+    sriov:
+      network_interfaces: {eno1: 5}
     ```
-    Settings for `CERA 5G CN`
+
+11. Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/edgenode_group.yml`
+
+    Set up CPUs isolation according to your hardware capabilities
     ```yaml
-    ## PSA-UPF vars
+    # Variables applied with the profile
+    tuned_vars: |
+      isolated_cores=1-16,25-40
+      nohz=on
+      nohz_full=1-16,25-40
 
-    # Define N4/N9 and N6 interface device PCI bus address
-    PCI_bus_address_N4_N9: '0000:19:0a.0'
-    PCI_bus_address_N6: '0000:19:0a.1'
-
-    # 5gc binaries directory name
-    package_5gc_path: "/opt/amf-smf/"
-
-    # vpp interface name as per setup connection
-    vpp_interface_N4_N9_name: 'VirtualFunctionEthernet19/a/0'
-    vpp_interface_N6_name: 'VirtualFunctionEthernet19/a/1'
+    # CPUs to be isolated (for RT procesess)
+    cpu_isol: "1-16,25-40"
+    # CPUs not to be isolate (for non-RT processes) - minimum of two OS cores necessary for controller
+    cpu_os: "0,17-23,24,41-47"
     ```
-3. If needed change additional settings for `CERA 5G NE` in `ido-converged-edge-experience-kits/host_vars/cera_5g_ne.yml`.  
+
+    Set up hugepages settings
     ```yaml
-    # DPDK driver used (vfio-pci/igb_uio) to VFs bindings
-    dpdk_driver_upf: "igb_uio"
+    # Size of a single hugepage (2M or 1G)
+    hugepage_size: "1G"
+    # Amount of hugepages
+    hugepage_amount: "8"
 
-    # Define path where i-upf is located on remote host
-    upf_binaries_path: "/opt/flexcore-5g-rel/i-upf/"
-    ```
-    OpenVino model
-    ```yaml
-    model: "pedestrian-detection-adas-0002"
-    ```
-4. Build the following docker images required and provide necessary binaries.
-    - [dUPF](#dUPF)
-    - [UPF](#UPF)
-    - [AMF-SMF](#AMF-SMF)
-    - [gNB](#gNodeB)
-5. Provide correct IP for target servers in file `ido-converged-edge-experience-kits/cera_inventory.ini`
-    ```ini
-    [all]
-    cera_5g_ne ansible_ssh_user=root ansible_host=192.168.1.109
-    cera_5g_cn ansible_ssh_user=root ansible_host=192.168.1.43
-    ```
-6. Deploy CERA Experience Kit
+12. Deploy Converged Edge Experience Kit (Near Edge and Central Office clusters simultaneously)
+
+    Silent deployment:
     ```shell
-    ./deploy_cera.sh
+    python ./deploy.py
     ```
+
+    > NOTE: In multicluster deployment logs are hidden by default. To check the logs `tail` tool can be used on deployment log files.
 
 ## 5G Core Components
 This section describes in details how to build particular images and configure ansible for deployment.
@@ -502,18 +436,20 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. 
 
 ##### Prerequisites
 
-To deploy dUPF correctly, one needs to provide Docker image to Docker repository on the target node. There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly, one needs to provide Docker image to Docker repository on the target node. There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+
+```sh
+./build_image.sh -b i-upf -i i-upf
+```
 
 ##### Settings
-The following variables need to be defined in `cera_config.yaml`
+The following variables need to be defined in `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml`
 ```yaml
-n3_pci_bus_address: "" - PCI bus address of VF, which is used for N3 interface by dUPF
-n4_n9_pci_bus_address: "" - PCI bus address of VF, which is used for N4 and N9 interface by dUPF
-n6_pci_bus_address: "" - PCI bus address of VF, which is used for N6 interface by dUPF
+## Interface logical name (PF) used for fronthaul
+fronthaul_if_name: "enp184s0f0"
 
-n3_vf_interface_name: "" - name of VF, which is used for N3 interface by dUPF
-n4_n9_vf_interface_name: "" - name of VF, which is used for N4 and N9 interface by dUPF
-n6_vf_interface_name: "" - name of VF, which is used for N6 interface by dUPF
+# PF interface name of N3, N4, N6, N9 created VFs
+host_if_name_cn: "eno1"
 ```
 
 ##### Configuration
@@ -524,22 +460,23 @@ The dUPF is configured automatically during the deployment.
 
 The `User Plane Function (UPF)` is a part of 5G Core Network, it is responsible for packets routing. It has 2 separate interfaces for `N4/N9` and `N6` data lines. `N4/N9` interface is used for connection with `dUPF` and `AMF/SMF` (locally). `N6` interface is used for connection with `EDGE-APP`, `dUPF` and `Remote-DN` (locally).
 
-The CERA UPF component is deployed on `CERA 5G Core Network (cera_5g_cn)` node. It is deployed as a POD - during deployment of CERA 5G On Prem automatically.
+The CERA UPF component is deployed on `CERA 5G Central Office` node. It is deployed as a POD - during deployment of CERA 5G Central Office flavor automatically.
 
 #### Deployment
 ##### Prerequisites
 
-To deploy `UPF` correctly one needs to provide a Docker image to Docker Repository on target nodes. There is a script on the  `open-ness/eddgeapps/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy `UPF` correctly one needs to provide a Docker image to Docker Repository on target nodes. There is a script on the  `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+
+```sh
+./build_image.sh -b psa-upf -i psa-upf
+```
 
 ##### Settings
 
-The following variables need to be defined in the `cera_config.yaml`
-```yaml
-PCI_bus_address_N4_N9: "" - PCI bus address of VF, which is used for N4 and N9 interface by UPF
-PCI_bus_address_N6: "" - PCI bus address of VF, which is used for N6 interface by UPF
+Update interface name in file `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/all.yml` that is used for connection to Near Edge cluster (dUPF).
 
-vpp_interface_N4_N9_name: "" - name of VF, which is used for N4 and N9 interface by UPF
-vpp_interface_N6_name: "" - name of VF, which is used for N6 interface by UPF
+```yaml
+host_if_name_cn: "eno1"
 ```
 
 ##### Configuration
@@ -556,21 +493,21 @@ The CERA `AMF-SMF` component is deployed on `CERA 5G Core Network (cera_5g_cn)` 
 #### Deployment
 ##### Prerequisites
 
-To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(cera_5g_cn). There is a script on the `open-ness/eddgeapps/network-functions/core-network/5G/AMF-SMF` repository provided by CERA, which builds the image automatically.
+To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(cera_5g_co). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/AMF_SMF` repository provided by CERA, which builds the image automatically.
+
+```sh
+./build_image.sh -b amf-smf
+```
 
 ##### Settings
-
-Following variables need to be defined in `cera_config.yaml`
-```yaml
-# 5gc binaries directory name
-package_5gc_path: "/opt/amf-smf/"
-```
+No special settings are required for AMF-SMF deployment.
 
 ##### Configuration
 The `AMF-SMF` is configured automatically during the deployment.
 
 
 ### Remote-DN
+
 #### Overview
 Remote Data Network is component, which represents `“internet”` in networking. CERA Core Network manages which data should apply to `Near Edge Application(EIS/OpenVINO)` or go further to the network.
 
@@ -590,12 +527,12 @@ Deployment of Local-DN is completely automated, so there is no need to set or co
 ### OpenVINO
 
 #### Settings
-In the `cera_config.yaml` file can be chosen for which application should be built and deployed. Set a proper value for the deploy_app variable.
+In the `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml` file can be chosen which application should be built and deploy. Set a proper value for the deploy_app variable.
 ```yaml
-deploy_app: "" - Type openvino if OpenVINO demo should be launched.
+deploy_demo_app: "" - Type openvino if OpenVINO demo should be launched.
 ```
 
-Several variables must be set in the file `host_vars/cera_5g_ne.yml`:
+Several variables must be set in the file `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml`:
 ```yaml
 model: "pedestrian-detection-adas-0002" - Model for which the OpenVINO demo will be run. Models which can be selected: pedestrian-detection-adas-0002, pedestrian-detection-adas-binary-0001, pedestrian-and-vehicle-detector-adas-0001, vehicle-detection-adas-0002, vehicle-detection-adas-binary-0001, person-vehicle-bike-detection-crossroad-0078, person-vehicle-bike-detection-crossroad-1016, person-reidentification-retail-0031, person-reidentification-retail-0248, person-reidentification-retail-0249, person-reidentification-retail-0300, road-segmentation-adas-0001
 
@@ -603,7 +540,7 @@ save_video: "enable" - For value "enable" the output will be written to /root/sa
 ```
 
 #### Deployment
-After running the `deploy_cera.sh` script, pod ov-openvino should be available on `cera_5g_ne` machine. The status of the ov-openvino pod can be checked by use:
+After running the `deploy.py` script, pod ov-openvino should be available on Near Edge cluster. The status of the ov-openvino pod can be checked by use:
 ```shell
 kubectl -n openvino get pods -o wide
 ```
@@ -612,7 +549,7 @@ Immediately after creating, the ov-openvino pod will wait for input streaming. I
 #### Streaming
 Video to OpenVINO™ pod should be streamed to IP `192.168.1.101` and port `5000`. Make sure that the pod with OpenVINO™ is visible from your streaming machine. In the simplest case, the video can be streamed from the same machine where pod with OpenVINO™ is available.
 
-Output will be saved to the `saved_video/ov-output.mjpeg` file (`save_video` variable in the `host_vars/cera_5g_ne.yml` should be set to `"enable"` and should be not changed).
+Output will be saved to the `saved_video/ov-output.mjpeg` file (`save_video` variable in the `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml` should be set to `"enable"` and should be not changed).
 
 Streaming is possible from a file or from a camera. For continuous and uninterrupted streaming of a video file, the video file can be streamed in a loop. An example of a Bash file for streaming is shown below.
 ```shell
@@ -647,35 +584,19 @@ For more details about `eis-experience-kit` check [README.md](https://github.com
 ### gNodeB
 #### Overview
 
-`gNodeB` is a part of 5G Core Architecture and is deployed on `CERA 5G Nere Edge (cera_5g_ne)` node.
+`gNodeB` is a part of 5G Core Architecture and is deployed on `CERA 5G On Premise (cera_5g_ne)` node.
 
 #### Deployment
 #### Prerequisites
 
-To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card.
+To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card. 
 
 #### Settings
 
-The following variables need to be defined in `cera_config.yaml`
+The following variables need to be defined in `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/all.yml`
 ```yaml
-## gNodeB related config
-# Fronthaul require two VFs
-gnodeb_fronthaul_vf1: "0000:65:02.0" - PCI bus address of VF, which is used as fronthaul
-gnodeb_fronthaul_vf2: "0000:65:02.1" - PCI bus address of VF, which is used as fronthaul
-
-gnodeb_fronthaul_vf1_mac: "ac:1f:6b:c2:48:ad" - MAC address which will be set on the first VF during deployment
-gnodeb_fronthaul_vf2_mac: "ac:1f:6b:c2:48:ab" - MAC address which will be set on the second VF during deployment
-
-n2_gnodeb_pci_bus_address: "0000:19:0a.3" - PCI bus address of VF, which is used for N2 interface
-n3_gnodeb_pci_bus_address: "0000:19:0a.4" - PCI bus address of VF, which is used for N3 interface
-
-fec_vf_pci_addr: "0000:b8:00.1" - PCI bus address of VF, which is assigned to FEC PAC N3000 accelerator
-
-# DPDK driver used (vfio-pci/igb_uio) to VFs bindings
-dpdk_driver_gnodeb: "igb_uio" - driver for binding interfaces
-
-## ConfigMap vars
-fronthaul_if_name: "enp101s0f0" - name of fronthaul interface
+## Interface logical name (PF) used for fronthaul
+fronthaul_if_name: "enp101s0f0"
 ```
 
 #### Configuration
@@ -726,19 +647,20 @@ GMC must be properly configured and connected to the server's ETH port.
 
 #### Settings
 If the GMC has been properly configured and connected to the server then the node server can be synchronized.
-In the `ido-converged-edge-experience-kits/openness_inventory.ini` file, `node01` should be added to `ptp_slave_group` and the content inside the `ptp_master` should be empty or commented. 
-```ini
-[ptp_master]
-#controller
+In the `ido-converged-edge-experience-kits/inventory.yml` file, `node01` should be added to `ptp_slave_group` and the content inside the `ptp_master` should be empty or commented. 
+```yaml
+ptp_master:
+  hosts:
 
-[ptp_slave_group]
-node01
+ptp_slave_group:
+  hosts:
+    node01
 ```
-Server synchronization can be enabled inside `ido-converged-edge-experience-kits/openness/flavors/cera_5g_on_premise/edgenode_group.yml` file.
+Server synchronization can be enabled inside `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/edgenode_group.yml` file.
 ```yaml
 ptp_sync_enable: true
 ```
-Edit file `ido-converged-edge-experience-kits/openness/x-oek/oek/host_vars/node01.yml` if a GMC is connected and the node server should be synchronized.
+Edit file `ido-converged-edge-experience-kits/flavors/cera_5g_on_premise/edgenode_group.yml` if a GMC is connected and the node server should be synchronized.
 
 For single node setup (this is the default mode for CERA), `ptp_port` keeps the host's interface connected to Grand Master, e.g.:
 ```yaml
@@ -806,6 +728,7 @@ CERA 5G On Premises deployment provides a reference implementation of how to use
 | CERA        | Converged Edge Reference Architecture                         |
 | CN          | Core Network                                                  |
 | CNF         | Container Network Function                                    |
+| CO          | Central Office                                                |
 | CommSPs     | Communications Service Providers                              |
 | DPDK        | Data Plane Developer Kit                                      |
 | eNB         | e-NodeB                                                       |

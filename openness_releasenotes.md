@@ -1,6 +1,6 @@
 ```text
 SPDX-License-Identifier: Apache-2.0
-Copyright (c) 2019-2020 Intel Corporation
+Copyright (c) 2019-2021 Intel Corporation
 ```
 <!-- omit in toc -->
 # Release Notes 
@@ -13,6 +13,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.06](#openness---2006)
   - [OpenNESS - 20.09](#openness---2009)
   - [OpenNESS - 20.12](#openness---2012)
+  - [OpenNESS - 21.03](#openness---2103)
 - [Changes to Existing Features](#changes-to-existing-features)
   - [OpenNESS - 19.06](#openness---1906-1)
   - [OpenNESS - 19.06.01](#openness---190601)
@@ -22,6 +23,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.06](#openness---2006-1)
   - [OpenNESS - 20.09](#openness---2009-1)
   - [OpenNESS - 20.12](#openness---2012-1)
+  - [OpenNESS - 21.03](#openness---2103-1)
 - [Fixed Issues](#fixed-issues)
   - [OpenNESS - 19.06](#openness---1906-2)
   - [OpenNESS - 19.06.01](#openness---190601-1)
@@ -32,6 +34,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.09](#openness---2009-2)
   - [OpenNESS - 20.12](#openness---2012-2)
   - [OpenNESS - 20.12.02](#openness---201202)
+  - [OpenNESS - 21.03](#openness---2103-2)
 - [Known Issues and Limitations](#known-issues-and-limitations)
   - [OpenNESS - 19.06](#openness---1906-3)
   - [OpenNESS - 19.06.01](#openness---190601-3)
@@ -42,6 +45,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.09](#openness---2009-3)
   - [OpenNESS - 20.12](#openness---2012-3)
   - [OpenNESS - 20.12.02](#openness---201202-1)
+  - [OpenNESS - 21.03](#openness---2103-3)
 - [Release Content](#release-content)
   - [OpenNESS - 19.06](#openness---1906-4)
   - [OpenNESS - 19.06.01](#openness---190601-4)
@@ -52,8 +56,10 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.09](#openness---2009-4)
   - [OpenNESS - 20.12](#openness---2012-4)
   - [OpenNESS - 20.12.02](#openness---201202-2)
+  - [OpenNESS - 21.03](#openness---2103-4)
 - [Hardware and Software Compatibility](#hardware-and-software-compatibility)
   - [Intel® Xeon® D Processor](#intel-xeon-d-processor)
+  - [3rd Generation Intel® Xeon® Scalable Processors - Early Access](#3rd-generation-intel-xeon-scalable-processors---early-access)
   - [2nd Generation Intel® Xeon® Scalable Processors](#2nd-generation-intel-xeon-scalable-processors)
   - [Intel® Xeon® Scalable Processors](#intel-xeon-scalable-processors)
 - [Supported Operating Systems](#supported-operating-systems)
@@ -142,7 +148,7 @@ This document provides high-level system features, issues, and limitations infor
   - Non-Privileged Container: Support deployment of non-privileged pods (CNFs and Applications as reference)
 - Edge Compute EPA features support for On-Premises
   - Using Intel® Movidius™ Myriad™ X High Density Deep Learning (HDDL) solution in OpenNESS
-- OpenNESS Experience Kit for Network and OnPremises edge
+- Converged Edge Experience Kits for Network and OnPremises edge
   - Offline Release Package: Customers should be able to create an installer package that can be used to install OnPremises version of OpenNESS without the need for Internet access.
 - 5G NR Edge Cloud deployment support
   - 5G NR edge cloud deployment support with SA mode
@@ -287,6 +293,20 @@ This document provides high-level system features, issues, and limitations infor
 - Support Intel® vRAN Dedicated Accelerator ACC100, Kubernetes Cloud-native deployment supporting higher capacity 4G/LTE and 5G vRANs cells/carriers for FEC offload. 
 - Major system Upgrades: Kubernetes 1.19.3, CentOS 7.8, Calico 3.16, and Kube-OVN 1.5.2.
 
+## OpenNESS - 21.03
+- EMCO: Hardware Platform Awareness (HPA) based Placement Intent support. Demonstrated using Smart City Pipeline with CPU and VCAC-A mode. 
+- Edge Insights for Industrial updated to 2.4
+- SD-WAN Flavor deployment automation improvement 
+- Support for Intel® Ethernet Controller E810 
+- Improvements to Converged Edge Reference Architecture framework including support for deploying one or more OpenNESS Kubernetes clusters 
+- OpenVINO upgraded to  2021.1.110
+- Early Access support for 3rd Generation Intel® Xeon® Scalable Processors
+- Major system upgrades: CentOS 7.9, Kubernetes 1.20.0, Docker 20.10.2, QEMU 5.2 and Golang 1.16.
+- Kubernetes CNI upgrades: Calico 3.17, SR-IOV CNI 2.6, Flannel 0.13.0.
+- Telemetry upgrades: CAdvisor 0.37.5, Grafana 7.4.2, Prometheus 2.24.0, Prometheus Node Exporter 1.0.1.
+- Set Calico as a default cni for cdn-transcode, central_orchestrator, core-cplane, core-uplane, media-analytics and minimal flavor.
+- Intel CMK is replaced with Kubernetes native CPU manager for core resource allocation
+
 # Changes to Existing Features
 
 ## OpenNESS - 19.06
@@ -314,7 +334,13 @@ There are no unsupported or discontinued features relevant to this release.
 
 ## OpenNESS - 20.12
 There are no unsupported or discontinued features relevant to this release.
-
+## OpenNESS - 21.03
+- FlexRAN/Access Edge CERA Flavor is only aviable in Intel Distribution of OpenNESS
+- OpenNESS repositories have been consolidated to the following 
+  - https://github.com/open-ness/ido-converged-edge-experience-kits
+  - https://github.com/open-ness/ido-specs
+  - https://github.com/open-ness/ido-edgeservices
+  - https://github.com/open-ness/ido-epcforedge
 # Fixed Issues
 
 ## OpenNESS - 19.06
@@ -359,6 +385,10 @@ There are no non-Intel issues relevant to this release.
 - Fixed Calico and SR-IOV deployment failures
 - Fixed TAS deployment
 - Updated SR-IOV CNI and device plugin to fix issues with image build in offline package creator
+
+## OpenNESS - 21.03
+- Offline deployment issues related to zlib-devel version 1.2.7-19
+- CAdvisor resource utilization has been optimized using "--docker_only=true" which decreased CPU usage from 15-25% to 5-6% (confirmed with ‘docker stats’ and ‘top’ commands). Memory usage also decreased by around 15-20%.
 
 # Known Issues and Limitations
 ## OpenNESS - 19.06
@@ -411,6 +441,15 @@ There is one issue relevant to this release: it is not possible to remove the ap
 ## OpenNESS - 20.12.02
 - Offline deployment issues related to zlib-devel version 1.2.7-19
 
+## OpenNESS - 21.03
+- An issue appears when the KubeVirt Containerized Data Importer (CDI) upload pod is deployed with Kube-OVN CNI, the deployed pods readiness probe fails and pod is never in ready state. Calico CNI is used by default in OpenNESS when using CDI
+- Telemetry deployment with PCM enabled will cause a deployment failure in single node cluster deployments due to conflict with CollectD deployment, it is advised to not use PCM and CollectD at the same time in OpenNESS at this time
+- Kafka and Zookeeper resource consumption is on the higher side. When deployed in the context of uCPE and SD-WAN users need to consider this. 
+- When flannel CNI is being used and worker node is being manually joined or re-joined to the cluster, then 
+`kubectl patch node NODE_NAME -p '{ "spec":{ "podCIDR":"10.244.0.0/24" }}`
+command should be issued on controller to enable flannel CNI on that node.
+- Cloud native enablement for Access Edge CERA is functional, however FlexRAN tests in timermode shows instability in this release. This issue is being investigated and will be addressed with a hotfix post release.
+
 # Release Content
 
 ## OpenNESS - 19.06
@@ -446,6 +485,11 @@ OpenNESS Edge node, OpenNESS Controller, Common, Spec, OpenNESS Applications, an
 - Open Source: Edge node, Controller, Epcforedge, Common, Spec, Applications and Experience kit.
 - IDO: IDO Edge node, IDO Controller, IDO Epcforedge, IDO Spec and IDO Experience kit.
 
+## OpenNESS - 21.03
+  - https://github.com/open-ness/ido-converged-edge-experience-kits
+  - https://github.com/open-ness/ido-specs
+  - https://github.com/open-ness/ido-edgeservices
+  - https://github.com/open-ness/ido-epcforedge
 # Hardware and Software Compatibility
 OpenNESS Edge Node has been tested using the following hardware specification:
 
@@ -454,6 +498,14 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 - Motherboard type: [X11SDV-16C-TP8F](https://www.supermicro.com/products/motherboard/Xeon/D/X11SDV-16C-TP8F.cfm)
 - Intel® Xeon® Processor D-2183IT
 
+## 3rd Generation Intel® Xeon® Scalable Processors - Early Access
+
+|              |                                                            |
+| ------------ | ---------------------------------------------------------- |
+| ICX-SP       | Compute Node based on 3rd Generation Intel® Xeon® Scalable Processors                      |
+| NIC          | Intel® Ethernet Controller E810                      |
+
+ 
 ## 2nd Generation Intel® Xeon® Scalable Processors
 
 |              |                                                            |
@@ -494,9 +546,11 @@ OpenNESS Edge Node has been tested using the following hardware specification:
 
 # Supported Operating Systems
 
-OpenNESS was tested on CentOS Linux release 7.8.2003 (Core)
-> **NOTE**: OpenNESS is tested with CentOS 7.8 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
+OpenNESS was tested on CentOS Linux release 7.9.2009 (Core)
+> **NOTE**: OpenNESS is tested with CentOS 7.9 Pre-empt RT kernel to ensure VNFs and Applications can co-exist. There is no requirement from OpenNESS software to run on a Pre-empt RT kernel.
 
 # Packages Version
 
-Package: telemetry, cadvisor 0.36.0, grafana 7.0.3, prometheus 2.16.0, prometheus: node exporter 1.0.0-rc.0, golang 1.15, docker 19.03.12, kubernetes 1.19.3, dpdk 19.11, ovs 2.14.0, ovn 2.14.0, helm 3.0, kubeovn 1.5.2, flannel 0.12.0, calico 3.16.0, multus 3.6, sriov cni 2.3, nfd 0.6.0, cmk v1.4.1, TAS (from specific commit "a13708825e854da919c6fdf05d50753113d04831")
+Package: telemetry, cadvisor 0.37.5, grafana 7.4.2, prometheus 2.24.0, prometheus: node exporter 1.0.1, golang 1.16, docker 20.10.2, kubernetes 1.20.0, dpdk 19.11.1, ovs 2.14.0, ovn 2.14.0, helm 3.1.2, kubeovn 1.5.2, flannel 0.13.0, calico 3.17.0, multus 3.6, sriov cni 2.6, nfd 0.6.0, cmk v1.4.1, TAS (from specific commit "a13708825e854da919c6fdf05d50753113d04831"), openssl 1.1.1i, QEMU 5.2
+
+> OpenNESS uses openwrt-18.06.4-x86-64 for the SD-WAN reference solution and it does not include the latest functional and security updates. openwrt-19.07.5-x86-64 or the latest at the time of development will be targeted to be released in 2nd Half of 2021 and will include additional functional and security updates. Customers should update to the latest version as it becomes available.
