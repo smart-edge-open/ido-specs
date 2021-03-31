@@ -296,7 +296,6 @@ This document provides high-level system features, issues, and limitations infor
 ## OpenNESS - 21.03
 - EMCO: Hardware Platform Awareness (HPA) based Placement Intent support. Demonstrated using Smart City Pipeline with CPU and VCAC-A mode. 
 - Edge Insights for Industrial updated to 2.4
-- Kubernetes deployment support for Intel® QuickAssist Technology (Intel® QAT)
 - SD-WAN Flavor deployment automation improvement 
 - Support for Intel® Ethernet Controller E810 
 - Improvements to Converged Edge Reference Architecture framework including support for deploying one or more OpenNESS Kubernetes clusters 
@@ -445,7 +444,12 @@ There is one issue relevant to this release: it is not possible to remove the ap
 ## OpenNESS - 21.03
 - An issue appears when the KubeVirt Containerized Data Importer (CDI) upload pod is deployed with Kube-OVN CNI, the deployed pods readiness probe fails and pod is never in ready state. Calico CNI is used by default in OpenNESS when using CDI
 - Telemetry deployment with PCM enabled will cause a deployment failure in single node cluster deployments due to conflict with CollectD deployment, it is advised to not use PCM and CollectD at the same time in OpenNESS at this time
-- Kafka and Zookeeper reosurce consumption is on the higher side. When deployed in the context of uCPE and SD-WAN users need to consider this. 
+- Kafka and Zookeeper resource consumption is on the higher side. When deployed in the context of uCPE and SD-WAN users need to consider this. 
+- When flannel CNI is being used and worker node is being manually joined or re-joined to the cluster, then 
+`kubectl patch node NODE_NAME -p '{ "spec":{ "podCIDR":"10.244.0.0/24" }}`
+command should be issued on controller to enable flannel CNI on that node.
+- Access Edge/FlexRAN CERA Flavour - FlexRAN tests in timermode stops working. This issue is being investigated and will be addressed with a hotfix post release. 
+
 # Release Content
 
 ## OpenNESS - 19.06
@@ -548,3 +552,5 @@ OpenNESS was tested on CentOS Linux release 7.9.2009 (Core)
 # Packages Version
 
 Package: telemetry, cadvisor 0.37.5, grafana 7.4.2, prometheus 2.24.0, prometheus: node exporter 1.0.1, golang 1.16, docker 20.10.2, kubernetes 1.20.0, dpdk 19.11.1, ovs 2.14.0, ovn 2.14.0, helm 3.1.2, kubeovn 1.5.2, flannel 0.13.0, calico 3.17.0, multus 3.6, sriov cni 2.6, nfd 0.6.0, cmk v1.4.1, TAS (from specific commit "a13708825e854da919c6fdf05d50753113d04831"), openssl 1.1.1i, QEMU 5.2
+
+> OpenNESS uses openwrt-18.06.4-x86-64 for the SD-WAN reference solution and it does not include the latest functional and security updates. openwrt-19.07.5-x86-64 or the latest at the time of development will be targeted to be released in 2nd Half of 2021 and will include additional functional and security updates. Customers should update to the latest version as it becomes available.
