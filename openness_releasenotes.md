@@ -448,7 +448,7 @@ There is one issue relevant to this release: it is not possible to remove the ap
 - When flannel CNI is being used and worker node is being manually joined or re-joined to the cluster, then 
 `kubectl patch node NODE_NAME -p '{ "spec":{ "podCIDR":"10.244.0.0/24" }}`
 command should be issued on controller to enable flannel CNI on that node.
-- Access Edge/FlexRAN CERA Flavour - FlexRAN tests in timermode stops working. This issue is being investigated and will be addressed with a hotfix post release. 
+- Cloud native enablement for Access Edge CERA is functional, however FlexRAN tests in timermode shows instability in this release. This issue is being investigated and will be addressed with a hotfix post release.
 
 # Release Content
 
