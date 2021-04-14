@@ -54,7 +54,7 @@ Reference architecture combines wireless and high performance compute for IoT, A
     - [Settings](#settings-3)
     - [Deployment](#deployment-3)
     - [Streaming](#streaming)
-  - [EIS](#eis)
+  - [EII](#eii)
 - [Conclusion](#conclusion)
 - [Learn more](#learn-more)
 - [Acronyms](#acronyms)
@@ -177,7 +177,7 @@ Intel's Edge Insights for Industrial takes advantage of modern microservices arc
 Allowing machines to communicate interchangeably across different protocols and operating systems eases the process of data ingestion, analysis, storage, and management. Doing so also helps industrial companies build powerful analytics and machine learning models easily and generate actionable predictive insights at the edge.
 Edge computing software deployments occupy a middle layer between the operating system and applications built upon it. Intel's Edge Insights for Industrial is created and optimized for Intel® architecture-based platforms and validated for underlying operating systems. Its capability supports multiple edge-critical Intel® hardware components like CPUs, FPGAs, accelerators, and Intel® Movidius Vision Processing Unit (VPU). Also, its modular architecture offers OEMs, solution providers, and ISVs the flexibility to pick and choose the features and capabilities they wish to include or expand upon for customized solutions. As a result, they can bring solutions to market fast and accelerate customer deployments.
 
-For more about the supported EIS demos support see [EIS whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
+For more about the supported EII demos support see [EII whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
 
 ### CERA Near Edge hardware platform
 CERA is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Todays baseline requirements for servers are as follows:
@@ -205,7 +205,7 @@ In the current example when the HDDL is enabled on the platform, the OpenVINO to
 Note in future releases additional media analytics services will be enabled e.g VCAC-A card see for more info [OpenNESS VA Services](../applications/openness_va_services.md) 
 
 ### Data Flow
-Both use cases scenarios involve traffic flowing in the uplink direction from the access network. The traffic depends on the use case - could be video traffic from industrial camera inspecting conveyor belt as per EIS demo or traffic/pedestrian video as per OpenVINO demo. The below diagram shows the high level flow from an input video stream from a mobile device sent over the access network and processed by the OpenVINO toolkit sample application for inference. There are two types of traffic: one that is classified and sent to public cloud (green), and the other which is classified as video traffic and sent to the local data network where it is routed to OpenVINO toolkit sample application for inference and processing. Routing and classification is configured through the OpenNESS controller and CNCA micro service which request via AMF  to update the UL classification rules of the UPF and also the routing in the data plane. 
+Both use cases scenarios involve traffic flowing in the uplink direction from the access network. The traffic depends on the use case - could be video traffic from industrial camera inspecting conveyor belt as per EII demo or traffic/pedestrian video as per OpenVINO demo. The below diagram shows the high level flow from an input video stream from a mobile device sent over the access network and processed by the OpenVINO toolkit sample application for inference. There are two types of traffic: one that is classified and sent to public cloud (green), and the other which is classified as video traffic and sent to the local data network where it is routed to OpenVINO toolkit sample application for inference and processing. Routing and classification is configured through the OpenNESS controller and CNCA micro service which request via AMF  to update the UL classification rules of the UPF and also the routing in the data plane. 
 
 ![CERA Near Edge Data flow](cera-near-edge-images/cera-data-flow.png)
 
@@ -513,7 +513,7 @@ The `AMF-SMF` is configured automatically during the deployment.
 ### Remote-DN
 
 #### Overview
-Remote Data Network is component, which represents `“internet”` in networking. CERA Core Network manages which data should apply to `Near Edge Application(EIS/OpenVINO)` or go further to the network.
+Remote Data Network is component, which represents `“internet”` in networking. CERA Core Network manages which data should apply to `Near Edge Application(EII/OpenVINO)` or go further to the network.
 
 
 #### Prerequisites
@@ -522,7 +522,7 @@ Deployment of Remote-DN is completely automated, so there is no need to set or c
 
 ### Local-DN
 #### Overview
-Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EIS/OpenVino
+Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EII/OpenVino
 
 
 #### Prerequisites
@@ -576,10 +576,14 @@ The OpenVINO demo, saves its output to saved_video/ov-output.mjpeg file on the c
 - To stop the OpenVINO demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
 - To start the OpenVINO demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
 
-### EIS
-Deployment of EIS is completely automated, so there is no need to set or configure anything except providing release package archive.
+### EII
+For EII deployment following flags need to update on `ido-converged-edge-experience-kits/flavors/cera_5g_near_edge/all.yml` there after all EII deployment are automated.
 ```yaml
-# provide EIS release package archive absolute path
+# Choose which demo will be launched: exmaple `eis`
+deploy_demo_app: "eis"
+# For demo app type choose demo type as `pcb` or `safety`
+eis_demo_app_type: "pcb"
+# provide release package archive absolute path
 eis_release_package_path: ""
 ```
 
