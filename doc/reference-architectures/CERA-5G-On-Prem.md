@@ -12,7 +12,7 @@ The Converged Edge Reference Architectures (CERA) are a set of pre-integrated HW
     - [CERA 5G On Prem Deployment Architecture](#cera-5g-on-prem-deployment-architecture)
     - [CERA 5G On Prem Experience Kit Deployments](#cera-5g-on-prem-experience-kit-deployments)
   - [Edge Service Applications Supported by CERA 5G On Prem](#edge-service-applications-supported-by-cera-5g-on-prem)
-    - [OpenVINO™](#openvino)
+    - [OpenVINO](#openvino)
     - [Edge Insights Software](#edge-insights-software)
   - [CERA 5G On Prem Hardware Platform](#cera-5g-on-prem-hardware-platform)
     - [Hardware Acceleration](#hardware-acceleration)
@@ -138,7 +138,7 @@ Video processing is inherently compute intensive and, in most cases, especially 
 
 Therefore, pre-trained models, performing numerical precision conversions, offloading to video accelerators, heterogeneous processing and asynchronous execution across multiple types of processors all of which increase video throughput are extremely vital in edge video processing. However these requirements can significantly complicate software development, requiring expertise that is rare in engineering teams and increasing the time-to-market.
 
-#### OpenVINO™
+#### OpenVINO
 The Intel® Distribution of OpenVINO™ toolkit helps developers and data scientists speed up computer vision workloads, streamline deep learning inference and deployments, and enable easy, heterogeneous execution across Intel® architecture platforms from edge to cloud. It helps to unleash deep learning inference using a common API, streamlining deep learning inference and deployment using standard or custom layers without the overhead of frameworks.
 
 #### Edge Insights Software
@@ -219,9 +219,9 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
 
 2. Clone `ido-converged-edge-experience-kits` repo from `github.com/otcshare` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:otcshare/ido-converged-edge-experience-kits.git
+    git clone --recursive https://<GITHUB_TOKEN>@github.com:otcshare/ido-converged-edge-experience-kits.git
     ```
-    > NOTE: Replace GIT_TOKEN with your git token.
+    > NOTE: Replace <GITHUB_TOKEN> with your GitHub token.
 
 3. Update repositories by running following commands.
     ```shell

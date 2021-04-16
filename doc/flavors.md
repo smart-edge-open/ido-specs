@@ -338,7 +338,7 @@ The following are steps to install this flavor:
 
 This deployment flavor enables the following ingredients:
 
-- Kubernetes CNI: kube-ovn and SRIOV.
+- Kubernetes CNI: Calico and SRIOV.
 - SR-IOV support for kube-virt
 - Virtual Functions
 - CPU Manager for Kubernetes (CMK) with 16 exclusive cores and 1 core in shared pool.
