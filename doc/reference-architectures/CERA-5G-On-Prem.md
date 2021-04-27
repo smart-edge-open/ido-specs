@@ -12,7 +12,7 @@ The Converged Edge Reference Architectures (CERA) are a set of pre-integrated HW
     - [CERA 5G On Prem Deployment Architecture](#cera-5g-on-prem-deployment-architecture)
     - [CERA 5G On Prem Experience Kit Deployments](#cera-5g-on-prem-experience-kit-deployments)
   - [Edge Service Applications Supported by CERA 5G On Prem](#edge-service-applications-supported-by-cera-5g-on-prem)
-    - [OpenVINO™](#openvino)
+    - [OpenVINO](#openvino)
     - [Edge Insights Software](#edge-insights-software)
   - [CERA 5G On Prem Hardware Platform](#cera-5g-on-prem-hardware-platform)
     - [Hardware Acceleration](#hardware-acceleration)
@@ -138,7 +138,7 @@ Video processing is inherently compute intensive and, in most cases, especially 
 
 Therefore, pre-trained models, performing numerical precision conversions, offloading to video accelerators, heterogeneous processing and asynchronous execution across multiple types of processors all of which increase video throughput are extremely vital in edge video processing. However these requirements can significantly complicate software development, requiring expertise that is rare in engineering teams and increasing the time-to-market.
 
-#### OpenVINO™
+#### OpenVINO
 The Intel® Distribution of OpenVINO™ toolkit helps developers and data scientists speed up computer vision workloads, streamline deep learning inference and deployments, and enable easy, heterogeneous execution across Intel® architecture platforms from edge to cloud. It helps to unleash deep learning inference using a common API, streamlining deep learning inference and deployment using standard or custom layers without the overhead of frameworks.
 
 #### Edge Insights Software
@@ -219,9 +219,9 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
 
 2. Clone `ido-converged-edge-experience-kits` repo from `github.com/open-ness` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:open-ness/ido-converged-edge-experience-kits.git
+    git clone --recursive https://<GITHUB_TOKEN>@github.com:open-ness/ido-converged-edge-experience-kits.git
     ```
-    > NOTE: Replace GIT_TOKEN with your git token.
+    > NOTE: Replace <GITHUB_TOKEN> with your GitHub token.
 
 3. Update repositories by running following commands.
     ```shell
@@ -265,12 +265,12 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
         limit:
     controller_group:
       hosts:
-        co_controller:
+        controller:
           ansible_host: 172.16.1.1
           ansible_user: root
     edgenode_group:
       hosts:
-        co_node1:
+        node1:
           ansible_host: 172.16.1.1
           ansible_user: root
     edgenode_vca_group:
@@ -374,7 +374,7 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
     hugepage_amount: "40"
     ```
 
-9.  Set all necessary settings for `CERA 5G CO` in `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/all.yml`.
+9.  Set all necessary settings for `CERA 5G Central Office` node in `ido-converged-edge-experience-kits/flavors/cera_5g_central_office/all.yml`.
 
     ```yaml
     # PF interface name of N4, N6, N9 created VFs
@@ -411,12 +411,13 @@ The BIOS settings on the edge node must be properly set in order for the OpenNES
     hugepage_size: "1G"
     # Amount of hugepages
     hugepage_amount: "8"
+    ```
 
 12. Deploy Converged Edge Experience Kit (Near Edge and Central Office clusters simultaneously)
 
     Silent deployment:
     ```shell
-    python ./deploy.py
+    python3 deploy.py
     ```
 
     > NOTE: In multicluster deployment logs are hidden by default. To check the logs `tail` tool can be used on deployment log files.
@@ -430,7 +431,7 @@ This section describes in details how to build particular images and configure a
 
 The Distributed User Plane Function (dUPF) is a part of 5G Access Network, it is responsible for packets routing. It has 3 separate interfaces for `N3, N4/N9` and `N6` data lines. `N3` interface is used for connection with video stream source. `N4/N9` interface is used for connection with `UPF` and `AMF/SMF`. `N6` interface is used for connection with `EDGE-APP` (locally), `UPF` and `Remote-DN`
 
-The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. It is deployed as a POD - during deployment of CERA 5G On Prem automatically.
+The `CERA dUPF` component is deployed on `CERA 5G Near Edge` node. It is deployed as a POD - during deployment of `cera_5g_on_premise` flavor automatically.
 
 #### Deployment
 
@@ -460,7 +461,7 @@ The dUPF is configured automatically during the deployment.
 
 The `User Plane Function (UPF)` is a part of 5G Core Network, it is responsible for packets routing. It has 2 separate interfaces for `N4/N9` and `N6` data lines. `N4/N9` interface is used for connection with `dUPF` and `AMF/SMF` (locally). `N6` interface is used for connection with `EDGE-APP`, `dUPF` and `Remote-DN` (locally).
 
-The CERA UPF component is deployed on `CERA 5G Central Office` node. It is deployed as a POD - during deployment of CERA 5G Central Office flavor automatically.
+The CERA UPF component is deployed on `CERA 5G Central Office` node. It is deployed as a POD - during deployment of `cera_5g_central_office` flavor automatically.
 
 #### Deployment
 ##### Prerequisites
@@ -488,12 +489,12 @@ The `UPF` is configured automatically during the deployment.
 
 AMF-SMF is a part of 5G Core Architecture responsible for `Session Management(SMF)` and `Access and Mobility Management(AMF)` Functions - it establishes sessions and manages date plane packages.
 
-The CERA `AMF-SMF` component is deployed on `CERA 5G Core Network (cera_5g_cn)` node and communicates with UPF and dUPF, so they must be deployed and configured before `AMF-SMF`.
+The CERA `AMF-SMF` component is deployed on `CERA 5G Central Office` node and communicates with UPF and dUPF, so they must be deployed and configured before `AMF-SMF`.
 
 #### Deployment
 ##### Prerequisites
 
-To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(cera_5g_co). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/AMF_SMF` repository provided by CERA, which builds the image automatically.
+To deploy `AMF-SMF` correctly, one needs to provide a Docker image to Docker Repository on target machine(CERA 5G Central Office node). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/AMF_SMF` repository provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b amf-smf
@@ -518,7 +519,7 @@ Deployment of Remote-DN is completely automated, so there is no need to set or c
 
 ### Local-DN
 #### Overview
-Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EIS/OpenVino
+Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EIS
 
 
 #### Prerequisites
@@ -536,7 +537,7 @@ Several variables must be set in the file `ido-converged-edge-experience-kits/fl
 ```yaml
 model: "pedestrian-detection-adas-0002" - Model for which the OpenVINO demo will be run. Models which can be selected: pedestrian-detection-adas-0002, pedestrian-detection-adas-binary-0001, pedestrian-and-vehicle-detector-adas-0001, vehicle-detection-adas-0002, vehicle-detection-adas-binary-0001, person-vehicle-bike-detection-crossroad-0078, person-vehicle-bike-detection-crossroad-1016, person-reidentification-retail-0031, person-reidentification-retail-0248, person-reidentification-retail-0249, person-reidentification-retail-0300, road-segmentation-adas-0001
 
-save_video: "enable" - For value "enable" the output will be written to /root/saved_video/ov-output.mjpeg file on cera_5g_ne machine. This variable should not be changed.
+save_video: "enable" - For value "enable" the output will be written to /root/saved_video/ov-output.mjpeg file on CERA 5G On Premises node. This variable should not be changed.
 ```
 
 #### Deployment
@@ -567,10 +568,10 @@ Where:
     wget https://storage.googleapis.com/coverr-main/zip/Rainy_Street.zip
     ```
 
-The OpenVINO™ demo, saves its output to saved_video/ov-output.mjpeg file on the cera_5g_cn machine.
+The OpenVINO™ demo, saves its output to saved_video/ov-output.mjpeg file on the CERA 5G On Premises node.
 
-- To stop the OpenVINO™ demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
-- To start the OpenVINO™ demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
+- To stop the OpenVINO™ demo and interrupt creating the output video file - run on the CERA 5G On Premises node: kubectl delete -f /opt/openvino/yamls/openvino.yaml
+- To start the OpenVINO™ demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the CERA 5G On Premises node: kubectl apply -f /opt/openvino/yamls/openvino.yaml
 
 ### EIS
 Deployment of EIS is completely automated, so there is no need to set or configure anything except providing release package archive.
@@ -584,12 +585,12 @@ For more details about `eis-experience-kit` check [README.md](https://github.com
 ### gNodeB
 #### Overview
 
-`gNodeB` is a part of 5G Core Architecture and is deployed on `CERA 5G On Premise (cera_5g_ne)` node.
+`gNodeB` is a part of 5G Core Architecture and is deployed on `CERA 5G On Premises` node.
 
 #### Deployment
 #### Prerequisites
 
-To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(cera_5g_ne). There is a script on the `open-ness/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card. 
+To deploy `gNodeB` correctly it is required to provide a Docker image to Docker Repository on target machine(CERA 5G On Premises node). There is a script on the `open-ness/eddgeapps/network-functions/ran/5G/gnb` repository provided by CERA, which builds the image automatically. For `gNodeB` deployment FPGA card is required PAC N3000 and also QAT card. 
 
 #### Settings
 
@@ -726,12 +727,14 @@ CERA 5G On Premises deployment provides a reference implementation of how to use
 | AI          | Artificial intelligence                                       |
 | AN          | Access Network                                                |
 | CERA        | Converged Edge Reference Architecture                         |
+| CEEK        | Converged Edge Expierience Kits                               |
 | CN          | Core Network                                                  |
 | CNF         | Container Network Function                                    |
 | CO          | Central Office                                                |
 | CommSPs     | Communications Service Providers                              |
 | DPDK        | Data Plane Developer Kit                                      |
 | eNB         | e-NodeB                                                       |
+| gNB         | g-NodeB                                                       |
 | EPA         | Enhance Platform Awareness                                    |
 | EPC         | Extended Packet Core                                          |
 | FPGA        | Field Programmable Gate Array                                 |

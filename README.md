@@ -93,6 +93,8 @@ Below is the complete list of OpenNESS solution documentation
 
 * [<b>CERA-Near-Edge.md</b>: Converged Edge Reference Architecture Near Edge](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-Near-Edge.md)
 * [<b>CERA-5G-On-Prem.md</b>: Converged Edge Reference Architecture On Premises Edge](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/CERA-5G-On-Prem.md)
+* [<b>cera_sdwan.md</b>: Converged Edge Reference Architecture for SD-WAN](https://github.com/open-ness/ido-specs/blob/master/doc/reference-architectures/cera_sdwan.md)
+
 ## API and Schema
 
 * [<b>Edge Application API: EAA</b>](https://www.openness.org/api-documentation/?api=eaa)

@@ -54,7 +54,7 @@ Reference architecture combines wireless and high performance compute for IoT, A
     - [Settings](#settings-3)
     - [Deployment](#deployment-3)
     - [Streaming](#streaming)
-  - [EIS](#eis)
+  - [EII](#eii)
 - [Conclusion](#conclusion)
 - [Learn more](#learn-more)
 - [Acronyms](#acronyms)
@@ -102,7 +102,7 @@ The CERA Near edge deployment can be designed in several ways but the biggest de
 In order to support the most flexibility the first CERA Near Edge implementation in OpenNESS supports a single Orchestration domain, optimizing the edge node to support Network Functions (UPF) and Applications at the same time. This is also useful for demonstration purposes as the Near Edge deployment can be scaled down to a single server reducing HW and cost associated with setup. 
 
 #### CERA Near Edge OpenNESS Configuration 
-CERA Near edge is a combination of the existing OpenNESS Reference Architecture [CERA NGC](../flavors.md#core-control-plane-flavor), [CERA UPF](../flavors.md#core-user-plane-flavor), [CERA Apps](../flavors.md#minimal-flavor). CERA Near edge takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA Near edge also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
+CERA Near edge is a combination of the existing OpenNESS Reference Architecture [CERA NGC](../flavors.md#cera-core-control-plane-flavor), [CERA UPF](../flavors.md#cera-core-user-plane-flavor), [CERA Apps](../flavors.md#cera-minimal-flavor). CERA Near edge takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. CERA Near edge also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the OpenNESS micro services. 
 
 ![CERA Near Edge Architecture](cera-near-edge-images/cera-near-edge-arch.png)
 
@@ -141,7 +141,7 @@ The following EPA features are supported in OpenNESS
 - <b>Kubevirt</b>: Provides support for running legacy applications in VM mode and the allocation of SR-IOV ethernet interfaces to VMs. 
 
 #### CERA Near Edge Experience Kit Deployments
-The CERA Near edge experience kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposed. Note the Access network and UE simulators are not configured as part of the CERA Near Edge Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® rep for more information. 
+The CERA Near Edge Experience Kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposed. Note the Access network and UE simulators are not configured as part of the CERA Near Edge Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® rep for more information. 
 
 ![CERA Experience Kit](cera-near-edge-images/cera-full-setup.png)
 
@@ -177,7 +177,7 @@ Intel's Edge Insights for Industrial takes advantage of modern microservices arc
 Allowing machines to communicate interchangeably across different protocols and operating systems eases the process of data ingestion, analysis, storage, and management. Doing so also helps industrial companies build powerful analytics and machine learning models easily and generate actionable predictive insights at the edge.
 Edge computing software deployments occupy a middle layer between the operating system and applications built upon it. Intel's Edge Insights for Industrial is created and optimized for Intel® architecture-based platforms and validated for underlying operating systems. Its capability supports multiple edge-critical Intel® hardware components like CPUs, FPGAs, accelerators, and Intel® Movidius Vision Processing Unit (VPU). Also, its modular architecture offers OEMs, solution providers, and ISVs the flexibility to pick and choose the features and capabilities they wish to include or expand upon for customized solutions. As a result, they can bring solutions to market fast and accelerate customer deployments.
 
-For more about the supported EIS demos support see [EIS whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
+For more about the supported EII demos support see [EII whitepaper](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
 
 ### CERA Near Edge hardware platform
 CERA is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Todays baseline requirements for servers are as follows:
@@ -205,7 +205,7 @@ In the current example when the HDDL is enabled on the platform, the OpenVINO to
 Note in future releases additional media analytics services will be enabled e.g VCAC-A card see for more info [OpenNESS VA Services](../applications/openness_va_services.md) 
 
 ### Data Flow
-Both use cases scenarios involve traffic flowing in the uplink direction from the access network. The traffic depends on the use case - could be video traffic from industrial camera inspecting conveyor belt as per EIS demo or traffic/pedestrian video as per OpenVINO demo. The below diagram shows the high level flow from an input video stream from a mobile device sent over the access network and processed by the OpenVINO toolkit sample application for inference. There are two types of traffic: one that is classified and sent to public cloud (green), and the other which is classified as video traffic and sent to the local data network where it is routed to OpenVINO toolkit sample application for inference and processing. Routing and classification is configured through the OpenNESS controller and CNCA micro service which request via AMF  to update the UL classification rules of the UPF and also the routing in the data plane. 
+Both use cases scenarios involve traffic flowing in the uplink direction from the access network. The traffic depends on the use case - could be video traffic from industrial camera inspecting conveyor belt as per EII demo or traffic/pedestrian video as per OpenVINO demo. The below diagram shows the high level flow from an input video stream from a mobile device sent over the access network and processed by the OpenVINO toolkit sample application for inference. There are two types of traffic: one that is classified and sent to public cloud (green), and the other which is classified as video traffic and sent to the local data network where it is routed to OpenVINO toolkit sample application for inference and processing. Routing and classification is configured through the OpenNESS controller and CNCA micro service which request via AMF  to update the UL classification rules of the UPF and also the routing in the data plane. 
 
 ![CERA Near Edge Data flow](cera-near-edge-images/cera-data-flow.png)
 
@@ -264,7 +264,7 @@ Reboot platform, go to the BIOS setup during server boot process and set correct
     git submodule update --init --recursive
     ```
 
-4. Provide target machines IP addresses for CEEK deployment in `ido-converged-edge-experience-kits/inventory.yml`. For Singlenode setup, set the same IP address for both `controller` and `node01`. In the same file define the details for Central Office cluster deployment.
+4. Provide target machines IP addresses for IDO-CEEK deployment in `ido-converged-edge-experience-kits/inventory.yml`. For Singlenode setup, set the same IP address for both `controller` and `node01`. In the same file define the details for Central Office cluster deployment.
 
     Example:
     ```yaml
@@ -300,12 +300,12 @@ Reboot platform, go to the BIOS setup during server boot process and set correct
         limit:                        # Limit ansible deployment to certain inventory group or hosts
     controller_group:
       hosts:
-        co_controller:
+        controller:
           ansible_host: 172.16.1.1
           ansible_user: root
     edgenode_group:
       hosts:
-        co_node1:
+        node1:
           ansible_host: 172.16.1.1
           ansible_user: root
     edgenode_vca_group:
@@ -422,7 +422,7 @@ Reboot platform, go to the BIOS setup during server boot process and set correct
 
     Silent deployment:
     ```shell
-    python ./deploy.py
+    python3 ./deploy.py
     ```
 
     > NOTE: In multicluster deployment logs are hidden by default. To check the logs `tail` tool can be used on deployment log files.
@@ -436,13 +436,13 @@ This section describes in details how to build particular images and configure a
 
 The Distributed User Plane Function (dUPF) is a part of 5G Access Network, it is responsible for packets routing. It has 3 separate interfaces for `N3, N4/N9` and `N6` data lines. `N3` interface is used for connection with video stream source. `N4/N9` interface is used for connection with `UPF` and `AMF/SMF`. `N6` interface is used for connection with `EDGE-APP` (locally), `UPF` and `Remote-DN`
 
-The `CERA dUPF` component is deployed on `CERA 5G Near Edge (cera_5g_ne)` node. It is deployed as a POD - during deployment of OpenNESS with CERA 5G Near Edge flavor automatically.
+The `CERA dUPF` component is deployed on `CERA 5G Near Edge` node. It is deployed as a POD - during deployment of OpenNESS with `cera_5g_near_edge` flavor automatically.
 
 #### Deployment
 
 #### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_ne). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(CERA 5G Near Edge node). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b i-upf -i i-upf
@@ -463,13 +463,13 @@ The dUPF is configured automatically during the deployment.
 
 The `User Plane Function (UPF)` is a part of 5G Core Network, it is responsible for packets routing. It has 2 separate interfaces for `N4/N9` and `N6` data lines. `N4/N9` interface is used for connection with `dUPF` and `AMF/SMF` (locally). `N6` interface is used for connection with `EDGE-APP`, `dUPF` and `Remote-DN` (locally).
 
-The CERA UPF component is deployed on `CERA 5G Central Office (cera_5g_co)` node. It is deployed as a POD - during deployment of OpenNESS with CERA 5G Central Office flavor automatically.
+The CERA UPF component is deployed on `CERA 5G Central Office` node. It is deployed as a POD - during deployment of OpenNESS with `cera_5g_central_office` flavor automatically.
 
 #### Deployment
 
 #### Prerequisites
 
-To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(cera_5g_ne and cera_5g_co). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(CERA 5G Central Office node). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b psa-upf -i psa-upf
@@ -491,9 +491,9 @@ The `UPF` is configured automatically during the deployment.
 
 AMF-SMF is a part of 5G Core Architecture responsible for `Session Management(SMF)` and `Access and Mobility Management(AMF)` Functions - it establishes sessions and manages date plane packages.
 
-The CERA `AMF-SMF` component is deployed on `CERA 5G Central Office (cera_5g_co)` node and communicates with UPF and dUPF, so they must be deployed and configured before `AMF-SMF`.
+The CERA `AMF-SMF` component is deployed on `CERA 5G Central Office` node and communicates with UPF and dUPF, so they must be deployed and configured before `AMF-SMF`.
 
-It is deployed as a POD - during deployment of OpenNESS with CERA 5G Central Office flavor automatically.
+It is deployed as a POD - during deployment of OpenNESS with `cera_5g_central_office` flavor automatically.
 
 #### Deployment
 #### Prerequisites
@@ -513,7 +513,7 @@ The `AMF-SMF` is configured automatically during the deployment.
 ### Remote-DN
 
 #### Overview
-Remote Data Network is component, which represents `“internet”` in networking. CERA Core Network manages which data should apply to `Near Edge Application(EIS/OpenVINO)` or go further to the network.
+Remote Data Network is component, which represents `“internet”` in networking. CERA Core Network manages which data should apply to `Near Edge Application(EII/OpenVINO)` or go further to the network.
 
 
 #### Prerequisites
@@ -522,7 +522,8 @@ Deployment of Remote-DN is completely automated, so there is no need to set or c
 
 ### Local-DN
 #### Overview
-Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EIS/OpenVino
+
+Local Data Network is component, which is responsible for combining Core part with Edge applications. It can convert incoming video streaming protocol for acceptable format by EII/OpenVino
 
 
 #### Prerequisites
@@ -533,18 +534,18 @@ Deployment of Local-DN is completely automated, so there is no need to set or co
 #### Settings
 In the `ido-converged-edge-experience-kits/flavors/cera_5g_near_edge/all.yml` file can be chosen which application should be built and deploy. Set a proper value for the deploy_app variable.
 ```yaml
-deploy_demo_app: "" - Type openvino if OpenVINO demo should be launched.
+deploy_demo_app: "openvino"
 ```
 
-Several variables must be set in the file `host_vars/cera_5g_ne.yml`:
+Several variables must be set in the file `ido-converged-edge-experience-kits/flavors/cera_5g_near_edge/all.yml`:
 ```yaml
 model: "pedestrian-detection-adas-0002" - Model for which the OpenVINO demo will be run. Models which can be selected: pedestrian-detection-adas-0002, pedestrian-detection-adas-binary-0001, pedestrian-and-vehicle-detector-adas-0001, vehicle-detection-adas-0002, vehicle-detection-adas-binary-0001, person-vehicle-bike-detection-crossroad-0078, person-vehicle-bike-detection-crossroad-1016, person-reidentification-retail-0031, person-reidentification-retail-0248, person-reidentification-retail-0249, person-reidentification-retail-0300, road-segmentation-adas-0001
 
-save_video: "enable" - For value "enable" the output will be written to /root/saved_video/ov-output.mjpeg file on cera_5g_ne machine. This variable should not be changed.
+save_video: "enable" - For value "enable" the output will be written to /root/saved_video/ov-output.mjpeg file on CERA 5G Near Edge node. This variable should not be changed.
 ```
 
 #### Deployment
-After running the `deploy.py` script, pod ov-openvino should be available on `cera_5g_ne` machine. The status of the ov-openvino pod can be checked by use:
+After running the `deploy.py` script, pod ov-openvino should be available on CERA 5G Near Edge node. The status of the ov-openvino pod can be checked by use:
 ```shell
 kubectl get nodes,pods,svc -A -o wide|grep ov-openvino
 ```
@@ -571,15 +572,19 @@ Where:
     wget https://storage.googleapis.com/coverr-main/zip/Rainy_Street.zip
     ```
 
-The OpenVINO demo, saves its output to saved_video/ov-output.mjpeg file on the cera_5g_cn machine.
+The OpenVINO demo, saves its output to saved_video/ov-output.mjpeg file on the CERA 5G Near Edge node.
 
-- To stop the OpenVINO demo and interrupt creating the output video file - run on the cera_5g_cn: kubectl delete -f /opt/openvino/yamls/openvino.yaml
-- To start the OpenVINO demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the cera_5g_cn: kubectl apply -f /opt/openvino/yamls/openvino.yaml
+- To stop the OpenVINO demo and interrupt creating the output video file - run on the CERA 5G Near Edge node: kubectl delete -f /opt/openvino/yamls/openvino.yaml
+- To start the OpenVINO demo and start creating the output video file (use this command if ov-openvino pod does not exist) - run on the CERA 5G Near Edge node: kubectl apply -f /opt/openvino/yamls/openvino.yaml
 
-### EIS
-Deployment of EIS is completely automated, so there is no need to set or configure anything except providing release package archive.
+### EII
+For EII deployment following flags need to update on `ido-converged-edge-experience-kits/flavors/cera_5g_near_edge/all.yml` there after all EII deployment are automated.
 ```yaml
-# provide EIS release package archive absolute path
+# Choose which demo will be launched: exmaple `eis`
+deploy_demo_app: "eis"
+# For demo app type choose demo type as `pcb` or `safety`
+eis_demo_app_type: "pcb"
+# provide release package archive absolute path
 eis_release_package_path: ""
 ```
 
@@ -600,12 +605,14 @@ CERA Near Edge deployment provide a reference implementation on how to use OpenN
 | AI          | Artificial intelligence                                       |
 | AN          | Access Network                                                |
 | CERA        | Converged Edge Reference Architecture                         |
+| CEEK        | Converged Edge Experience Kits                                |
 | CN          | Core Network                                                  |
 | CNF         | Container Network Function                                    |
 | CO          | Central Office                                                |
 | CommSPs     | Communications service providers                              |
 | DPDK        | Data Plane Developer Kit                                      |
 | eNB         | e-NodeB                                                       |
+| gNB         | g-NodeB                                                       |
 | EPA         | Enhance Platform Awareness                                    |
 | EPC         | Extended Packet Core                                          |
 | FPGA        | Field programmable gate array                                 |

@@ -15,7 +15,7 @@ This document introduces the supported deployment flavors that are deployable th
 - [CERA Core Control Plane Flavor](#cera-core-control-plane-flavor)
 - [CERA Core User Plane Flavor](#cera-core-user-plane-flavor)
 - [CERA Untrusted Non3gpp Access Flavor](#cera-untrusted-non3gpp-access-flavor)
-- [CERA Near Edge Flavor](#cera-near-edge-flavor)
+- [CERA 5G Near Edge Flavor](#cera-5g-near-edge-flavor)
 - [CERA 5G On-Prem Flavor](#cera-5g-on-prem-flavor)
 - [CERA 5G Central Office Flavor](#cera-5g-central-office-flavor)
 - [Central Orchestrator Flavor](#central-orchestrator-flavor)
@@ -315,7 +315,7 @@ This deployment flavor enables the following ingredients:
 - Telemetry
 - HugePages of size 1Gi and the amount of HugePages as 10G for the nodes
 
-## CERA Near Edge Flavor
+## CERA 5G Near Edge Flavor
 
 The pre-defined CERA Near Edge flavor provisions the required set of configurations for a 5G Converged Edge Reference Architecture for Near Edge deployments on Intel® Xeon® platforms.
 
@@ -338,7 +338,7 @@ The following are steps to install this flavor:
 
 This deployment flavor enables the following ingredients:
 
-- Kubernetes CNI: kube-ovn and SRIOV.
+- Kubernetes CNI: Calico and SRIOV.
 - SR-IOV support for kube-virt
 - Virtual Functions
 - CPU Manager for Kubernetes (CMK) with 16 exclusive cores and 1 core in shared pool.
