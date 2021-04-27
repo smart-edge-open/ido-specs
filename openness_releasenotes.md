@@ -14,6 +14,8 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.09](#openness---2009)
   - [OpenNESS - 20.12](#openness---2012)
   - [OpenNESS - 21.03](#openness---2103)
+  - [OpenNESS - 21.03.01](#openness---210301)
+  - [OpenNESS - 21.03.02](#openness---210302)
 - [Changes to Existing Features](#changes-to-existing-features)
   - [OpenNESS - 19.06](#openness---1906-1)
   - [OpenNESS - 19.06.01](#openness---190601)
@@ -35,6 +37,8 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.12](#openness---2012-2)
   - [OpenNESS - 20.12.02](#openness---201202)
   - [OpenNESS - 21.03](#openness---2103-2)
+  - [OpenNESS - 21.03.01](#openness---210301-1)
+  - [OpenNESS - 21.03.02](#openness---210302-1)
 - [Known Issues and Limitations](#known-issues-and-limitations)
   - [OpenNESS - 19.06](#openness---1906-3)
   - [OpenNESS - 19.06.01](#openness---190601-3)
@@ -46,6 +50,7 @@ This document provides high-level system features, issues, and limitations infor
   - [OpenNESS - 20.12](#openness---2012-3)
   - [OpenNESS - 20.12.02](#openness---201202-1)
   - [OpenNESS - 21.03](#openness---2103-3)
+  - [OpenNESS - 21.03.02](#openness---210302-2)
 - [Release Content](#release-content)
   - [OpenNESS - 19.06](#openness---1906-4)
   - [OpenNESS - 19.06.01](#openness---190601-4)
@@ -307,6 +312,15 @@ This document provides high-level system features, issues, and limitations infor
 - Set Calico as a default cni for cdn-transcode, central_orchestrator, core-cplane, core-uplane, media-analytics and minimal flavor.
 - Intel CMK is replaced with Kubernetes native CPU manager for core resource allocation
 
+## OpenNESS - 21.03.01
+- Resolved an intermittent issue with Kubernetes repository signature verification
+
+## OpenNESS - 21.03.02
+- Kubernetes deployment support for Intel® QuickAssist Technology (Intel® QAT)
+- Provided an option to use CGroupFS as a CGroup driver for Kubernetes and Docker
+- EII upgraded from 2.4 to 2.4.1
+- VCA package upgraded from R5 to R5.1
+
 # Changes to Existing Features
 
 ## OpenNESS - 19.06
@@ -334,13 +348,15 @@ There are no unsupported or discontinued features relevant to this release.
 
 ## OpenNESS - 20.12
 There are no unsupported or discontinued features relevant to this release.
+
 ## OpenNESS - 21.03
-- FlexRAN/Access Edge CERA Flavor is only aviable in Intel Distribution of OpenNESS
+- FlexRAN/Access Edge CERA Flavor is only available in Intel Distribution of OpenNESS
 - OpenNESS repositories have been consolidated to the following 
   - https://github.com/otcshare/ido-converged-edge-experience-kits
   - https://github.com/otcshare/ido-specs
   - https://github.com/otcshare/ido-edgeservices
   - https://github.com/otcshare/ido-epcforedge
+
 # Fixed Issues
 
 ## OpenNESS - 19.06
@@ -389,6 +405,19 @@ There are no non-Intel issues relevant to this release.
 ## OpenNESS - 21.03
 - Offline deployment issues related to zlib-devel version 1.2.7-19
 - CAdvisor resource utilization has been optimized using "--docker_only=true" which decreased CPU usage from 15-25% to 5-6% (confirmed with ‘docker stats’ and ‘top’ commands). Memory usage also decreased by around 15-20%.
+
+## OpenNESS - 21.03.01
+- Resolved an intermittent issue with Kubernetes repository signature verification
+
+## OpenNESS - 21.03.02
+- Fixed DPDK compilation issue when primary CNI is Calico with eBPF and kernel is 5.X.
+- Resolved FlexRAN tests instability for Access Edge CERA by using CGroupFS as CGroup driver for Kubernetes and Docker.
+- Resolved intermittent Pip installation issues.
+- Corrected Azure single node deployment issues due to incorrect configuration in the setup script.
+- Resolved offline installation of Ansible prerequisites.
+- VCA card is now correctly brought up after node reboot.
+- Fixed EIS and gNB deployments.
+- Fixed interoperation issues with 5GC control plane functions.
 
 # Known Issues and Limitations
 ## OpenNESS - 19.06
@@ -449,6 +478,9 @@ There is one issue relevant to this release: it is not possible to remove the ap
 `kubectl patch node NODE_NAME -p '{ "spec":{ "podCIDR":"10.244.0.0/24" }}`
 command should be issued on controller to enable flannel CNI on that node.
 - Cloud native enablement for Access Edge CERA is functional, however FlexRAN tests in timermode shows instability in this release. This issue is being investigated and will be addressed with a hotfix post release.
+
+## OpenNESS - 21.03.02
+- Multi-node deployment through Azure cloud fails due to the default (Calico) CNI not being supported by Azure.
 
 # Release Content
 
