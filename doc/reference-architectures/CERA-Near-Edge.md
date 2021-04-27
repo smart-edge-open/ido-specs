@@ -251,9 +251,9 @@ Reboot platform, go to the BIOS setup during server boot process and set correct
     ```
     > NOTE: Replace TARGET_IP with the actual IP address of the target machine.
 
-2. Clone `ido-converged-edge-experience-kits` repo from `github.com/otcshare` using git token.
+2. Clone `ido-converged-edge-experience-kits` repo from `github.com/open-ness` using git token.
     ```shell
-    git clone --recursive GIT_TOKEN@github.com:otcshare/ido-converged-edge-experience-kits.git
+    git clone --recursive GIT_TOKEN@github.com:open-ness/ido-converged-edge-experience-kits.git
     ```
     > NOTE: Replace GIT_TOKEN with your git token.
 
@@ -442,7 +442,7 @@ The `CERA dUPF` component is deployed on `CERA 5G Near Edge` node. It is deploye
 
 #### Prerequisites
 
-To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(CERA 5G Near Edge node). There is a script on the `https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy dUPF correctly it is needed to provide Docker image to Docker repository on target machine(CERA 5G Near Edge node). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b i-upf -i i-upf
@@ -469,7 +469,7 @@ The CERA UPF component is deployed on `CERA 5G Central Office` node. It is deplo
 
 #### Prerequisites
 
-To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(CERA 5G Central Office node). There is a script on the `https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
+To deploy UPF correctly it is needed to provide a Docker image to Docker Repository on target machine(CERA 5G Central Office node). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/UPF` repo provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b psa-upf -i psa-upf
@@ -498,7 +498,7 @@ It is deployed as a POD - during deployment of OpenNESS with `cera_5g_central_of
 #### Deployment
 #### Prerequisites
 
-To deploy AMF-SMF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_co). There is a script on the `https://github.com/otcshare/edgeapps/tree/master/network-functions/core-network/5G/AMF_SMF` repo provided by CERA, which builds the image automatically.
+To deploy AMF-SMF correctly it is needed to provide Docker image to Docker repository on target machine(cera_5g_co). There is a script on the `https://github.com/open-ness/edgeapps/tree/master/network-functions/core-network/5G/AMF_SMF` repo provided by CERA, which builds the image automatically.
 
 ```sh
 ./build_image.sh -b amf-smf
@@ -588,7 +588,7 @@ eis_demo_app_type: "pcb"
 eis_release_package_path: ""
 ```
 
-For more details about `eis-experience-kit` check [README.md](https://github.com/otcshare/edgeapps/blob/master/applications/eis-experience-kit/README.md)
+For more details about `eis-experience-kit` check [README.md](https://github.com/open-ness/edgeapps/blob/master/applications/eis-experience-kit/README.md)
 
 ## Conclusion
 CERA Near Edge deployment provide a reference implementation on how to use OpenNESS software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the Near Edge Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, CERA systems can be customized for a wide range of applications. 

@@ -406,7 +406,7 @@ Modifying the certificates. Complete the following steps:
 
 For Network Edge mode, the CNCA provides a kubectl plugin to configure the 5G Core network. Kubernetes adopted plugin concepts to extend its functionality. The `kube-cnca` plugin executes CNCA related functions within the Kubernetes ecosystem. The plugin performs remote callouts against NGC OAM and AF microservice on the controller itself.
 
-The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md)
+The `kube-cnca` plugin is installed automatically on the control plane node during the installation phase of the [Converged Edge Experience Kits](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md)
 
 #### Edge Node services operations with 5G Core (through OAM interface)
 
