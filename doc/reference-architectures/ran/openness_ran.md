@@ -70,15 +70,15 @@ This section explains the steps involved in building the FlexRAN image. Only L1 
    # ./flexran_build.sh -r 5gnr_sub6 -m testmac -m wls -m l1app -b -c
    ```
 
-5. Once the build has completed, copy the required binary files to the folder where the Docker\* image is built. This can be done by using a provided example [build-du-dev-image.sh](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/5G/du-dev/build-du-dev-image.sh) script from Edge Apps OpenNESS repository, it will copy the files from the paths provided as environmental variables in previous step. The script will copy the files into the right directory containing the Dockerfile and commence the docker build.
+5. Once the build has completed, copy the required binary files to the folder where the Docker\* image is built. This can be done by using a provided example [build-du-dev-image.sh](https://github.com/open-ness/edgeapps/blob/master/network-functions/ran/5G/du-dev/build-du-dev-image.sh) script from Edge Apps OpenNESS repository, it will copy the files from the paths provided as environmental variables in previous step. The script will copy the files into the right directory containing the Dockerfile and commence the docker build.
 
    ```shell
-   # git clone https://github.com/otcshare/edgeapps.git
+   # git clone https://github.com/open-ness/edgeapps.git
    # cd edgeapps/network-functions/ran/5G/du-dev
    # ./build-du-dev-image.sh
    ```
 
-   The list of binary files that are used is documented in [dockerfile](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/5G/du-dev/Dockerfile)
+   The list of binary files that are used is documented in [dockerfile](https://github.com/open-ness/edgeapps/blob/master/network-functions/ran/5G/du-dev/Dockerfile)
    - ICC, IPP mpi and mkl Runtime
    - DPDK build target directory
    - FlexRAN test vectors (optional)
@@ -87,7 +87,7 @@ This section explains the steps involved in building the FlexRAN image. Only L1 
    - FlexRAN WLS share library
    - FlexRAN CPA libraries
 
-6. The following example reflects the Docker image [expected by Helm chart](https://github.com/otcshare/edgeapps/blob/master/network-functions/ran/charts/du-dev/values.yaml), user needs to adjust the IP address and port of the Harbor registry where Docker image will be pushed:
+6. The following example reflects the Docker image [expected by Helm chart](https://github.com/open-ness/edgeapps/blob/master/network-functions/ran/charts/du-dev/values.yaml), user needs to adjust the IP address and port of the Harbor registry where Docker image will be pushed:
 
    ```shell
    image:
@@ -105,7 +105,7 @@ This section explains the steps involved in building the FlexRAN image. Only L1 
    # docker push <harbor_registry_ip_address>:<port>/intel/flexran5g:3.10.0-1160.11.1.rt56
    ```
 
-By the end of step 7, the FlexRAN Docker image is created and available in the Harbor registry. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000. Please refer to the document [Using FPGA in OpenNESS: Programming, Resource Allocation, and Configuration](../../building-blocks/enhanced-platform-awareness/openness-fpga.md) for details on setting up the Intel® FPGA PAC N3000 with  vRAN FPGA image or alternatively to [Using the Intel vRAN Dedicated Accelerator ACC100 on OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md#using-the-intel-vran-dedicated-accelerator-acc100-on-openness) for details on setting up the Intel vRAN Dedicated Accelerator ACC100 for FEC acceleration.
+By the end of step 7, the FlexRAN Docker image is created and available in the Harbor registry. This image is copied to the edge node where FlexRAN will be deployed and that is installed with OpenNESS Network edge with all the required EPA features including Intel® FPGA Programmable Acceleration Card (Intel® FPGA PAC) N3000. Please refer to the document [Using FPGA in OpenNESS: Programming, Resource Allocation, and Configuration](../../building-blocks/enhanced-platform-awareness/openness-fpga.md) for details on setting up the Intel® FPGA PAC N3000 with  vRAN FPGA image or alternatively to [Using the Intel vRAN Dedicated Accelerator ACC100 on OpenNESS](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md#using-the-intel-vran-dedicated-accelerator-acc100-on-openness) for details on setting up the Intel vRAN Dedicated Accelerator ACC100 for FEC acceleration.
 
 # FlexRAN hardware platform configuration
 
@@ -131,32 +131,32 @@ Instructions on how to configure the kernel command line in OpenNESS can be foun
 
 # Deploying Access Edge CERA for FlexRAN
 
-Information about Access Edge CERA and other CERAs can be found in [flavours.md documentation](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md#cera-access-edge-flavor). Additionally users are encouraged to familiarize themselves with [converged-edge-experience-kits documentation](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
+Information about Access Edge CERA and other CERAs can be found in [flavours.md documentation](https://github.com/open-ness/ido-specs/blob/master/doc/flavors.md#cera-access-edge-flavor). Additionally users are encouraged to familiarize themselves with [converged-edge-experience-kits documentation](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
 
-1. Fulfill the [pre-conditions for deploying OpenNESS](https://github.com/otcshare/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions)
+1. Fulfill the [pre-conditions for deploying OpenNESS](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions)
 
 2. Configure the specification for the Access Edge CERA present under the `flavors/flexran` directory. The following may need to be adjusted.
 
 3. Edit `flavors/flexran/all.yml` as necessary.
 
-   - `fpga_sriov_userspace_enable` can be set to `true` (default) or `false` depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® FPGA PAC N3000](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
-   - `fpga_userspace_vf` can be set to `enable: true` (default) or `enabled: false` depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) and [Intel® FPGA PAC N3000](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
-   - `acc100_sriov_userspace_enable` can be set to `true` or `false` (default) depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) support in OpenNESS.
-   - `acc100_userspace_vf` can be set to `enable: true` or `enabled: false` (default)  depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) and [Intel® FPGA PAC N3000](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
-   - `ne_opae_fpga_enable` can be set to `true` (default) or `false` depending on the desire to support [Intel® FPGA PAC N3000](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) programming with OPAE within OpenNESS
-   - `reserved_cpus` needs to be set up accordingly to the CPU SKU, number of available CPUs and user's desire to [limit the OS and K8s processes only to non-RT CPUs](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-topology-manager.md#details---topology-manager-support-in-openness). It is critical that the CPUs selected for `reserved_cpus` do exist on the Edge Node, as forcing K8s processes to a CPU that does not exist will cause a K8s deployment failure. The usual choice (default) of CPUs used for the K8s and OS threads in FlexRAN deployment is a first CPU ID on each NUMA node (ie. on 24 core platform with two NUMA nodes `reserved_cpus: "0,24"`. In case of Hyper-threading enabled CPU, the CPU IDs of both siblings are expected ie. `reserved_cpus: "0,24,48,72`).
+   - `fpga_sriov_userspace_enable` can be set to `true` (default) or `false` depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® FPGA PAC N3000](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
+   - `fpga_userspace_vf` can be set to `enable: true` (default) or `enabled: false` depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) and [Intel® FPGA PAC N3000](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
+   - `acc100_sriov_userspace_enable` can be set to `true` or `false` (default) depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) support in OpenNESS.
+   - `acc100_userspace_vf` can be set to `enable: true` or `enabled: false` (default)  depending on the type of desired accelerator used by FlexRAN for FEC hardware offload. See [Intel® vRAN Dedicated Accelerator ACC100](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-acc100.md) and [Intel® FPGA PAC N3000](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) support in OpenNESS.
+   - `ne_opae_fpga_enable` can be set to `true` (default) or `false` depending on the desire to support [Intel® FPGA PAC N3000](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#intelr-fpga-pac-n3000-flexran-host-interface-overview) programming with OPAE within OpenNESS
+   - `reserved_cpus` needs to be set up accordingly to the CPU SKU, number of available CPUs and user's desire to [limit the OS and K8s processes only to non-RT CPUs](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-topology-manager.md#details---topology-manager-support-in-openness). It is critical that the CPUs selected for `reserved_cpus` do exist on the Edge Node, as forcing K8s processes to a CPU that does not exist will cause a K8s deployment failure. The usual choice (default) of CPUs used for the K8s and OS threads in FlexRAN deployment is a first CPU ID on each NUMA node (ie. on 24 core platform with two NUMA nodes `reserved_cpus: "0,24"`. In case of Hyper-threading enabled CPU, the CPU IDs of both siblings are expected ie. `reserved_cpus: "0,24,48,72`).
    - `e810_driver_enable` (default set to `true`) provides support for installing recommended version of the `ice` and `iavf` kernel drivers for E810 series Intel NICs. This can be disabled if the user does not require this functionality.
-   - `rmd_operator_enable` (default set to `true`) provides support for deploying [RMD operator](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-rmd.md) enabling configuration od LLC (Last Level Cache) and MBC (Memory Bandwidth Configuration) through RDT.
+   - `rmd_operator_enable` (default set to `true`) provides support for deploying [RMD operator](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-rmd.md) enabling configuration od LLC (Last Level Cache) and MBC (Memory Bandwidth Configuration) through RDT.
    > Note: At the time of writing the RMD operator version enabling the 3rd Generation Intel® Xeon® Scalable Processors, code named Ice Lake is not yet available. This may cause a crash of the RMD operator DaemonSet when deployed on Ice Lake.
 
 4. Depending on enabled features provide requested files under correct directories (the directories are to be created by the user).
 
    - When `ne_biosfw_enable` is enabled, create a `ido-converged-edge-experience-kits/ceek/biosfw` directory and copy the [syscfg_package.zip](https://downloadcenter.intel.com/download/29693?v=t) file into it.
    > Note: At the time of writing the version of SYSCFG utility supporting 3rd Generation Intel® Xeon® Scalable Processors platform is not yet generally available.
-   - When `ne_opae_fpga_enable` is enabled, create a `ido-converged-edge-experience-kits/ceek/opae_fpga` directory and copy the [OPAE_SDK_1.3.7-5_el7.zip](https://github.com/otcshare/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#converged-edge-experience-kits) file into it.
+   - When `ne_opae_fpga_enable` is enabled, create a `ido-converged-edge-experience-kits/ceek/opae_fpga` directory and copy the [OPAE_SDK_1.3.7-5_el7.zip](https://github.com/open-ness/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md#converged-edge-experience-kits) file into it.
    - When `e810_driver_enable` is enabled, create a `ido-converged-edge-experience-kits/ceek/nic_drivers` directory and copy the [ice-1.3.2.tar.gz](https://downloadcenter.intel.com/download/30303/Intel-Network-Adapter-Driver-for-E810-Series-Devices-under-Linux-) and [iavf-4.0.2.tar.gz](https://downloadcenter.intel.com/download/30305/Intel-Network-Adapter-Linux-Virtual-Function-Driver-for-Intel-Ethernet-Controller-700-and-E810-Series) files into it.
 
-5. Edit the [inventory.yml](https://github.com/otcshare/ido-converged-edge-experience-kits/blob/master/inventory.yml) as necessary. For more information see [sample deployment definitions](https://github.com/otcshare/specs/blob/master/doc/getting-started/converged-edge-experience-kits.md#sample-deployment-definitions). Below is an example to deploy OpenNESS on one Edge Controller and one Edge Node, as an `openness` user.
+5. Edit the [inventory.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/inventory.yml) as necessary. For more information see [sample deployment definitions](https://github.com/open-ness/specs/blob/master/doc/getting-started/converged-edge-experience-kits.md#sample-deployment-definitions). Below is an example to deploy OpenNESS on one Edge Controller and one Edge Node, as an `openness` user.
 
    ```yaml
    all:
@@ -197,7 +197,7 @@ Information about Access Edge CERA and other CERAs can be found in [flavours.md 
 
 # Deploying and Running the FlexRAN pod
 
-1. Deploy the OpenNESS cluster with [Access Edge CERA](https://github.com/otcshare/ido-specs/blob/master/doc/flavors.md#cera-access-edge-flavor) enabled.
+1. Deploy the OpenNESS cluster with [Access Edge CERA](https://github.com/open-ness/ido-specs/blob/master/doc/flavors.md#cera-access-edge-flavor) enabled.
 
 2. Confirm that there are no FlexRAN pods and the FPGA configuration pods are not deployed using `kubectl get pods`.
 
