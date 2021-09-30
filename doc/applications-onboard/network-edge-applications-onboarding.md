@@ -5,7 +5,7 @@ Copyright (c) 2019-2020 Intel Corporation
 <!-- omit in toc -->
 # Network Edge Applications Onboarding
 - [Introduction](#introduction)
-- [Installing OpenNESS](#installing-openness)
+- [Installing Smart Edge Open](#installing-smart-edge-open)
 - [Building applications](#building-applications)
   - [Building sample application images](#building-sample-application-images)
   - [Building the OpenVINO application images](#building-the-openvino-application-images)
@@ -32,26 +32,26 @@ Copyright (c) 2019-2020 Intel Corporation
   - [Useful Commands:](#useful-commands)
 
 # Introduction
-This document aims to familiarize users with the Open Network Edge Services Software (OpenNESS) application on-boarding process for the Network Edge. This document provides instructions on how to deploy an application from the Edge Controller to Edge Nodes in the cluster; it also provides sample deployment scenarios and traffic configuration for the application. The applications will be deployed from the Edge Controller via the Kubernetes `kubectl` command-line utility. Sample specification files for application onboarding are also provided.
+This document aims to familiarize users with the Smart Edge Open application on-boarding process for the Network Edge. This document provides instructions on how to deploy an application from the Edge Controller to Edge Nodes in the cluster; it also provides sample deployment scenarios and traffic configuration for the application. The applications will be deployed from the Edge Controller via the Kubernetes `kubectl` command-line utility. Sample specification files for application onboarding are also provided.
 
-# Installing OpenNESS
-The following application onboarding steps assume that OpenNESS was installed through [OpenNESS playbooks](../getting-started/openness-cluster-setup.md).
+# Installing Smart Edge Open
+The following application onboarding steps assume that Smart Edge Open was installed through [Smart Edge Open playbooks](../getting-started/smartedge-open-cluster-setup.md).
 
 # Building applications
-Users must provide the application to be deployed on the OpenNESS platform for Network Edge. The application must be provided in a Docker\* image format that is available either from an external Docker repository (Docker Hub) or a locally built Docker image. The image must be available on the Edge Node, which the application will be deployed on.
+Users must provide the application to be deployed on the Smart Edge Open platform for Network Edge. The application must be provided in a Docker\* image format that is available either from an external Docker repository (Docker Hub) or a locally built Docker image. The image must be available on the Edge Node, which the application will be deployed on.
 
 > **Note**: The Harbor registry setup is out of scope for this document. If users already have a docker container image file and would like to copy it to the node manually, they can use the `docker load` command to add the image. The success of using a pre-built Docker image depends on the application dependencies that users must know.
 
-The OpenNESS [edgeapps](https://github.com/open-ness/edgeapps) repository provides images for OpenNESS supported applications. Pull the repository to your Edge Node to build the images.
+The Smart Edge Open [edgeapps](https://github.com/smart-edge-open/edgeapps) repository provides images for Smart Edge Open supported applications. Pull the repository to your Edge Node to build the images.
 
 This document explains the build and deployment of two applications:
-1. Sample application: a simple “Hello, World!” reference application for OpenNESS
+1. Sample application: a simple “Hello, World!” reference application for Smart Edge Open
 2. OpenVINO™ application: A close to real-world inference application
 
 ## Building sample application images
-The sample application is available in [the edgeapps repository](https://github.com/open-ness/edgeapps/tree/master/applications/sample-app); further information about the application is contained within the `Readme.md` file.
+The sample application is available in [the edgeapps repository](https://github.com/smart-edge-open/edgeapps/tree/master/applications/sample-app); further information about the application is contained within the `Readme.md` file.
 
-The following steps are required to build the sample application Docker images for testing the OpenNESS Edge Application Agent (EAA) with consumer and producer applications:
+The following steps are required to build the sample application Docker images for testing the Smart Edge Open Edge Application Agent (EAA) with consumer and producer applications:
 
 1. To build the application binaries and Docker images run make:
    ```
@@ -64,7 +64,7 @@ The following steps are required to build the sample application Docker images f
    docker images | grep consumer
    ```
 ## Building the OpenVINO application images
-The OpenVINO application is available in [the EdgeApps repository](https://github.com/open-ness/edgeapps/tree/master/applications/openvino); further information about the application is contained within `Readme.md` file.
+The OpenVINO application is available in [the EdgeApps repository](https://github.com/smart-edge-open/edgeapps/tree/master/applications/openvino); further information about the application is contained within `Readme.md` file.
 
 The following steps are required to build the sample application Docker images for testing OpenVINO consumer and producer applications:
 
@@ -72,7 +72,7 @@ The following steps are required to build the sample application Docker images f
    ```
    ./build-image.sh
    ```
->**Note**: Only CPU inference support is currently available for OpenVINO application on OpenNESS Network Edge. The environmental variable `OPENVINO_ACCL` must be set to `CPU` within the Dockerfile available in the directory.
+>**Note**: Only CPU inference support is currently available for OpenVINO application on Smart Edge Open Network Edge. The environmental variable `OPENVINO_ACCL` must be set to `CPU` within the Dockerfile available in the directory.
 
 2. To build the consumer application image from the application directory, navigate to the `./consumer` directory and run:
    ```
@@ -96,11 +96,11 @@ Additionally, an application to generate sample traffic is provided. The applica
    ```
 
 # Onboarding sample application
-This section guides users through the complete process of onboarding a sample application and testing the EAA functionality of OpenNESS for the Network Edge. This process outlines how to start the application, setup network policies, and verify functionality.
+This section guides users through the complete process of onboarding a sample application and testing the EAA functionality of Smart Edge Open for the Network Edge. This process outlines how to start the application, setup network policies, and verify functionality.
 
 ## Prerequisites
 
-* OpenNESS for Network Edge is fully installed and set up.
+* Smart Edge Open for Network Edge is fully installed and set up.
 * Docker images for the sample application consumer and producer are available on Edge Node.
 
 ## Verifying image availability
@@ -135,9 +135,33 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
        - protocol: TCP
          port: 443
    ```
+
 2. Apply the network policy:
    ```
    kubectl apply -f sample_policy.yml
+   ```
+## Deploying crd for sriov cni
+   ```yml
+   apiVersion: "k8s.cni.cncf.io/v1"
+   kind: NetworkAttachmentDefinition
+   metadata:
+     name: sriov-openvino
+     annotations:
+       k8s.v1.cni.cncf.io/resourceName: intel.com/intel_sriov_netdevice
+   spec:
+     config: '{
+     "type": "sriov",
+     "cniVersion": "0.3.1",
+     "name": "sriov-network",
+     "ipam": {
+       "type": "host-local",
+       "subnet": "192.168.2.0/24",
+       "routes": [{
+         "dst": "0.0.0.0/0"
+       }],
+       "gateway": "192.168.2.1"
+     }
+   }'
    ```
 
 ## Deploying consumer and producer sample application
@@ -145,6 +169,160 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
 >**NOTE**: The producer application must be deployed before the consumer application. Also, the applications must be deployed within a short time of each other as they have a limited lifespan.
 <!-- what is the “short time”? Approximately how many seconds? Minutes? -->
 1. To deploy a sample producer application, create the following `sample_producer.yml` pod specification file.
+   ```yml
+   # SPDX-License-Identifier: Apache-2.0
+   # Copyright (c) 2019 Intel Corporation
+   
+   ---
+   apiVersion: v1
+   kind: ServiceAccount
+   metadata:
+     name: openvino-prod-app
+   
+   ---
+   kind: ClusterRoleBinding
+   apiVersion: rbac.authorization.k8s.io/v1
+   metadata:
+     name: openvino-prod-app-csr-requester
+   roleRef:
+     apiGroup: rbac.authorization.k8s.io
+     kind: ClusterRole
+     name: csr-requester
+   subjects:
+     - kind: ServiceAccount
+       name: openvino-prod-app
+       namespace: default
+   
+   ---
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: openvino-prod-app-csr-config
+   data:
+     certrequest.json: |
+       {
+           "CSR": {
+               "Name": "openvino-prod-app",
+               "Subject": {
+                   "CommonName": "openvino:producer",
+                   "Organization": ["Intel Corporation"]
+               },
+               "DNSSANs": [],
+               "IPSANs": [],
+               "KeyUsages": [
+                   "digital signature", "key encipherment", "client auth"
+               ]
+           },
+           "Signer": "openness.org/certsigner",
+           "WaitTimeout": "5m"
+       }
+   ---
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: openvino-prod-app
+   spec:
+     replicas: 1
+     selector:
+       matchLabels:
+         app: openvino-prod-app
+     template:
+       metadata:
+         labels:
+           app: openvino-prod-app
+       spec:
+         serviceAccountName: openvino-prod-app
+         initContainers:
+           - name: alpine
+             image: alpine:3.12.0
+             command: ["/bin/sh"]
+             args:
+               - "-c"
+               - "cp /root/ca-certrequester/cert.pem /root/certs/root.pem && chmod 0777 /root/certs/root.pem"
+             imagePullPolicy: IfNotPresent
+             resources:
+               requests:
+                 cpu: "0.1"
+               limits:
+                 cpu: "0.1"
+                 memory: "128Mi"
+             volumeMounts:
+               - name: ca-certrequester
+                 mountPath: /root/ca-certrequester
+               - name: certs
+                 mountPath: /root/certs
+           - name: certrequester
+             image: certrequester:1.0
+             imagePullPolicy: Never
+             args: ["--cfg", "/home/certrequester/config/certrequest.json"]
+             imagePullPolicy: IfNotPresent
+             resources:
+               requests:
+                 cpu: "0.1"
+               limits:
+                 cpu: "0.1"
+                 memory: "128Mi"
+             volumeMounts:
+               - name: config
+                 mountPath: /home/certrequester/config
+               - name: certs
+                 mountPath: /home/certrequester/certs
+         containers:
+           - name: openvino-prod-app
+             image: openvino-prod-app:1.0
+             imagePullPolicy: Never
+             ports:
+             - containerPort: 443
+             volumeMounts:
+               - name: tmp
+                 mountPath: /tmp
+               - name: certs
+                 mountPath: /var/user/certs
+             env:
+               - name: OPENVINO_ACCL
+                 value: "CPU"
+         volumes:
+           - name: tmp
+             hostPath:
+               path: /tmp
+               type: Directory
+           - name: config
+             configMap:
+               name: openvino-prod-app-csr-config
+           - name: ca-certrequester
+             secret:
+               secretName: ca-certrequester
+           - name: certs
+             emptyDir: {}
+   ```
+2. Deploy the pod:
+   ```
+   kubectl create -f sample_producer.yml
+   ```
+3. Accept the producer's CSR:
+   ```
+   kubectl certificate approve producer
+   ```
+4. Check that the pod is running:
+   ```
+   kubectl get pods | grep producer
+   ```
+5. Verify logs of the sample application producer:
+   ```
+   kubectl logs <producer_pod_name> -f
+
+   Expected output:
+   The Example Producer eaa.openness  [{ExampleNotification 1.0.0 Description for Event #1 by Example Producer}]}]}
+   Sending notification
+   ```
+6. Verify logs of EAA
+   ```
+   kubectl logs <eaa_pod_name> -f -n openness
+
+   Expected output:
+   RequestCredentials  request from CN: ExampleNamespace:ExampleProducerAppID, from IP: <IP_ADDRESS> properly handled
+   ```
+7. To deploy a sample consumer application, create the following `sample_consumer.yml` pod specification file.
    ```yml
    ---
    apiVersion: v1
@@ -193,32 +371,28 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
    apiVersion: apps/v1
    kind: Deployment
    metadata:
-     name: producer
-     labels:
-       app: producer
+     name: openvino-cons-app
    spec:
      replicas: 1
      selector:
        matchLabels:
-         app: producer
+         app: openvino-cons-app
      template:
        metadata:
          labels:
-           app: producer
+           app: openvino-cons-app
+         annotations:
+           k8s.v1.cni.cncf.io/networks: sriov-openvino
        spec:
-         securityContext:
-           runAsUser: 1000
-           runAsGroup: 3000
-         serviceAccountName: producer
+         serviceAccountName: openvino-cons-app
          initContainers:
            - name: alpine
-             image: alpine:latest
+             image: alpine:3.12.0
              command: ["/bin/sh"]
-             args: ["-c", "cp /root/ca-certrequester/cert.pem /root/certs/root.pem"]
+             args:
+               - "-c"
+               - "cp /ca-certrequester/cert.pem /root/certs/root.pem"
              imagePullPolicy: IfNotPresent
-             securityContext:
-               runAsUser: 0
-               runAsGroup: 0
              resources:
                requests:
                  cpu: "0.1"
@@ -227,160 +401,14 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
                  memory: "128Mi"
              volumeMounts:
                - name: ca-certrequester
-                 mountPath: /root/ca-certrequester
+                 mountPath: /ca-certrequester
                - name: certs
                  mountPath: /root/certs
            - name: certrequester
              image: certrequester:1.0
-             args: ["--cfg", "/home/certrequester/config/certrequest.json"]
-             imagePullPolicy: Never
-             resources:
-               requests:
-                 cpu: "0.1"
-               limits:
-                 cpu: "0.1"
-                 memory: "128Mi"
-             volumeMounts:
-               - name: config
-                 mountPath: /home/certrequester/config/
-               - name: certs
-                 mountPath: /home/certrequester/certs/
-         containers:
-         - name: producer
-           image: producer:1.0
-           imagePullPolicy: Never
-           volumeMounts:
-             - name: certs
-               mountPath: /home/sample/certs/
-           ports:
-           - containerPort: 443
-         volumes:
-           - name: config
-             configMap:
-               name: producer-csr-config
-           - name: ca-certrequester
-             secret:
-               secretName: ca-certrequester
-           - name: certs
-             emptyDir: {}
-   ```
-2. Deploy the pod:
-   ```
-   kubectl create -f sample_producer.yml
-   ```
-3. Accept the producer's CSR:
-   ```
-   kubectl certificate approve producer
-   ```
-4. Check that the pod is running:
-   ```
-   kubectl get pods | grep producer
-   ```
-5. Verify logs of the sample application producer:
-   ```
-   kubectl logs <producer_pod_name> -f
-
-   Expected output:
-   The Example Producer eaa.openness  [{ExampleNotification 1.0.0 Description for Event #1 by Example Producer}]}]}
-   Sending notification
-   ```
-6. Verify logs of EAA
-   ```
-   kubectl logs <eaa_pod_name> -f -n openness
-
-   Expected output:
-   RequestCredentials  request from CN: ExampleNamespace:ExampleProducerAppID, from IP: <IP_ADDRESS> properly handled
-   ```
-7. To deploy a sample consumer application, create the following `sample_consumer.yml` pod specification file.
-   ```yml
-   ---
-   apiVersion: v1
-   kind: ServiceAccount
-   metadata:
-     name: consumer
-
-   ---
-   kind: ClusterRoleBinding
-   apiVersion: rbac.authorization.k8s.io/v1
-   metadata:
-     name: consumer-csr-requester
-   roleRef:
-     apiGroup: rbac.authorization.k8s.io
-     kind: ClusterRole
-     name: csr-requester
-   subjects:
-     - kind: ServiceAccount
-       name: consumer
-       namespace: default
-
-   ---
-   apiVersion: v1
-   kind: ConfigMap
-   metadata:
-     name: consumer-csr-config
-   data:
-     certrequest.json: |
-       {
-           "CSR": {
-               "Name": "consumer",
-               "Subject": {
-                   "CommonName": "ExampleNamespace:ExampleConsumerAppID"
-               },
-               "DNSSANs": [],
-               "IPSANs": [],
-               "KeyUsages": [
-                   "digital signature", "key encipherment", "client auth"
-               ]
-           },
-           "Signer": "openness.org/certsigner",
-           "WaitTimeout": "5m"
-       }
-
-   ---
-   apiVersion: apps/v1
-   kind: Deployment
-   metadata:
-     name: consumer
-     labels:
-       app: consumer
-   spec:
-     replicas: 1
-     selector:
-       matchLabels:
-         app: consumer
-     template:
-       metadata:
-         labels:
-           app: consumer
-       spec:
-         securityContext:
-           runAsUser: 1000
-           runAsGroup: 3000
-         serviceAccountName: consumer
-         initContainers:
-           - name: alpine
-             image: alpine:latest
-             command: ["/bin/sh"]
-             args: ["-c", "cp /root/ca-certrequester/cert.pem /root/certs/root.pem"]
              imagePullPolicy: IfNotPresent
-             securityContext:
-               runAsUser: 0
-               runAsGroup: 0
-             resources:
-               requests:
-                 cpu: "0.1"
-               limits:
-                 cpu: "0.1"
-                 memory: "128Mi"
-             volumeMounts:
-               - name: ca-certrequester
-                 mountPath: /root/ca-certrequester
-               - name: certs
-                 mountPath: /root/certs
-           - name: certrequester
-             image: certrequester:1.0
              args: ["--cfg", "/home/certrequester/config/certrequest.json"]
-             imagePullPolicy: Never
+             imagePullPolicy: IfNotPresent
              resources:
                requests:
                  cpu: "0.1"
@@ -389,27 +417,62 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
                  memory: "128Mi"
              volumeMounts:
                - name: config
-                 mountPath: /home/certrequester/config/
+                 mountPath: /home/certrequester/config
                - name: certs
-                 mountPath: /home/certrequester/certs/
+                 mountPath: /home/certrequester/certs
+           - name: alpine2
+             image: alpine:3.12.0
+             command: ["/bin/sh"]
+             args:
+               - "-c"
+               - "chmod -R 0777 /root/certs"
+             imagePullPolicy: IfNotPresent
+             resources:
+               requests:
+                 cpu: "0.1"
+               limits:
+                 cpu: "0.1"
+                 memory: "128Mi"
+             volumeMounts:
+               - name: certs
+                 mountPath: /root/certs
          containers:
-         - name: consumer
-           image: consumer:1.0
-           imagePullPolicy: Never
-           volumeMounts:
-             - name: certs
-               mountPath: /home/sample/certs/
-           ports:
-           - containerPort: 443
+           - name: openvino-cons-app
+             image: openvino-cons-app:1.0
+             imagePullPolicy: IfNotPresent
+             ports:
+             - containerPort: 443
+             - containerPort: 5000
+               protocol: TCP
+             volumeMounts:
+               - name: certs
+                 mountPath: /home/openvino/certs
+               - name: tmp
+                 mountPath: /var/tmp
+               - name: shm
+                 mountPath: /dev/shm
+              resources:
+                requests:
+                  intel.com/intel_sriov_netdevice: '1'
+                limits:
+                  intel.com/intel_sriov_netdevice: '1'
          volumes:
            - name: config
              configMap:
-               name: consumer-csr-config
+               name: openvino-cons-app-csr-config
            - name: ca-certrequester
              secret:
                secretName: ca-certrequester
            - name: certs
              emptyDir: {}
+           - name: tmp
+             hostPath:
+               path: /var/tmp
+               type: Directory
+           - name: shm
+             hostPath:
+               path: /dev/shm
+               type: Directory
    ```
 8. Accept the consumer's CSR:
    ```
@@ -440,9 +503,143 @@ Kubernetes NetworkPolicy is a mechanism that enables control over how pods are a
 # Onboarding OpenVINO application
 This section guides users through the complete process of onboarding the OpenVINO producer and consumer applications. This process will also guide the user on setting up a network connection between Client Simulator (Traffic Generator), setting up network policies, and testing the application. The following sub-sections should be executed step by step.
 
+If you use kube-ovn as your primary CNI, please click [here](https://github.com/smart-edge-open/ido-specs/blob/openvino_spec/doc/applications-onboard/network-edge-applications-onboarding.md#onboarding-openvino-application-with-kube-ovn).
+
 ## Prerequisites
 
-* OpenNESS for Network Edge is fully installed and set up (kubeovn as cni to support Interfaceservice which is openness developed kubectl plugin.).
+* Smart Edge Open for Network Edge is fully installed and set up (calico as default cni and sriov as cni to support Interfaceservice which is openness developed kubectl plugin.).
+* The Docker images for OpenVINO are available on the Edge Node.
+* A separate host used for generating traffic via Client Simulator is set up.
+* The Edge Node host and traffic generating host are connected point to point via unused physical network interfaces.
+* The Docker image for the Client Simulator application is available on the traffic generating host.
+
+## Setting up networking interfaces
+1. Make sure the sriov CNI is setup on your cluster. Commands on the master node are below.
+   ```
+   [root@controller ~]# kubectl get pod -o custom-columns=NAME:.metadata.name -n kube-system | grep sriov
+   sriov-release-kube-sriov-cni-ds-amd64-vmsl5
+   sriov-release-kube-sriov-device-plugin-amd64-2l5pq 
+   ```
+
+2. On the traffic generating host setup to run Client Simulator, configure the network interface connected to Edge Node host. External client traffic in the Smart Edge Open Network Edge configuration is routed via 192.168.2.1, the IP address of traffic generating host must be one from the same subnet. Configure the routing accordingly:
+   ```
+   ifconfig <client_interface_name> 192.168.2.10/24
+   ```
+
+## Deploying the Application
+
+1. An application `yaml` specification file for the OpenVINO producer that is used to deploy the K8s pod can be found in the Edge Apps repository at [./applications/openvino/producer/openvino-prod-app.yaml](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/producer/openvino-prod-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the producer application by running:
+   ```
+   kubectl apply -f openvino-prod-app.yaml
+   kubectl certificate approve openvino-prod-app
+   ```
+2. An application `yaml` specification file for the OpenVINO consumer that is used to deploy K8s pod can be found in the Edge Apps repository at [./applications/openvino/consumer/openvino-cons-app.yaml](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/consumer/openvino-cons-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the consumer application by running:
+   ```
+   kubectl apply -f openvino-cons-app.yaml
+   kubectl certificate approve openvino-cons-app
+   ```
+3. Verify that no errors show up in the logs of the OpenVINO consumer application:
+   ```
+   kubectl logs openvino-cons-app
+   kubectl get po -o custom-columns=NAME:.metadata.name,IP:.status.podIP | grep cons-app | awk '{print $2}'
+   <ip>
+   ```
+
+## Applying Kubernetes network policies
+The Kubernetes NetworkPolicy is a mechanism that enables control over how pods are allowed to communicate with each other and other network endpoints.
+
+By default, in a Network Edge environment, all *ingress* traffic is blocked (services running inside of deployed applications are not reachable) and all *egress* traffic is enabled (pods can reach the Internet). The following NetworkPolicy definition is used:
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   metadata:
+     name: block-all-ingress
+     namespace: default        # selects default namespace
+   spec:
+     podSelector: {}           # matches all the pods in the default namespace
+     policyTypes:
+     - Ingress
+     ingress: []               # no rules allowing ingress traffic = ingress blocked
+   ```
+
+>**NOTE**: When adding the first egress rule, all egress is blocked except for that rule.
+
+1. To deploy a Network Policy allowing ingress traffic on port 5000 (tcp and udp) from 192.168.1.0/24 network to the OpenVINO consumer application pod, create the following specification file for this Network Policy:
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   kind: NetworkPolicy
+   metadata:
+     name: openvino-policy
+     namespace: default
+   spec:
+     podSelector:
+       matchLabels:
+         app: openvino-cons-app
+     policyTypes:
+     - Ingress
+     ingress:
+     - from:
+       - ipBlock:
+           cidr: 192.168.1.0/24
+       ports:
+       - protocol: TCP
+         port: 5000
+       - protocol: UDP
+         port: 5000
+   ```
+2. Create the network policy:
+   ```
+   kubectl apply -f network_policy.yml
+   ```
+
+## Setting up Edge DNS
+Edge DNS enables the user to resolve addresses of Edge Applications using domain names.
+The following is an example of how to set up DNS resolution for OpenVINO consumer application.
+
+1. Find Edge DNS pod:
+   ```
+   kubectl get pods -n openness | grep edgedns
+   ```
+2. Get the IP address of the Edge DNS pod and take note of it (this will be used to [allow remote host](#Starting-traffic-from-Client-Simulator) to access Edge DNS):
+   ```
+   kubectl exec -it <edgedns-pod-name> -n openness ip a
+   ```
+## Starting traffic from Client Simulator
+
+1. Configure nameserver to allow a connection to Edge DNS (confirm that `openvino.openness` is not defined in `/etc/hosts`). Modify `/etc/resolv.conf` and add IP address of [Edge DNS server](#Setting-up-Edge-DNS).
+   ```
+   vim /etc/resolv.conf
+
+   Add to the file:
+   nameserver <edge_dns_ip_address>
+   ```
+2. On the traffic generating host build the image for the [Client Simulator](#building-openvino-application-images)
+3. Run the following from [edgeapps/applications/openvino/clientsim](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/clientsim/run-docker.sh) to start the video traffic via the containerized Client Simulator. A graphical user environment is required to view the results of the returning augmented videos stream.
+   ```
+   ./run_docker.sh
+   ```
+
+> **NOTE**: If a problem is encountered when running the `client-sim ` docker as `Could not initialize SDL - No available video device`. Disable SELinux through this command:
+>  ```shell
+>  $ setenforce 0
+>  ```
+
+> **NOTE:**  If the video window is not popping up and/or an error like `Could not find codec parameters for stream 0` appears, do the following: 1) check whether receive traffic on port `5001` via tcpdump 2) add a rule in the firewall to permit ingress traffic on port `5001` if observe `host administratively prohibited`:
+<!-- if you observe the message `host administratively…`?-->
+>  ```shell
+>  firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 0 -p udp --dport 5000 -j ACCEPT
+>  firewall-cmd --reload
+>  ```
+> or directly shutdown firewall as
+>  ```shell
+>  systemctl stop firewalld.service
+>  ```
+
+# Onboarding OpenVINO application with kube-ovn
+This section guides users through the complete process of onboarding the OpenVINO producer and consumer applications. This process will also guide the user on setting up a network connection between Client Simulator (Traffic Generator), setting up network policies, and testing the application. The following sub-sections should be executed step by step.
+
+## Prerequisites
+
+* Smart Edge Open for Network Edge is fully installed and set up (kubeovn as cni to support Interfaceservice which is openness developed kubectl plugin.).
 * The Docker images for OpenVINO are available on the Edge Node.
 * A separate host used for generating traffic via Client Simulator is set up.
 * The Edge Node host and traffic generating host are connected point to point via unused physical network interfaces.
@@ -450,7 +647,7 @@ This section guides users through the complete process of onboarding the OpenVIN
 
 ## Setting up networking interfaces
 
-1. On the traffic generating host setup to run Client Simulator, configure the network interface connected to Edge Node host. External client traffic in the OpenNESS Network Edge configuration is routed via 192.168.1.1, the IP address of traffic generating host must be one from the same subnet. Configure the routing accordingly:
+1. On the traffic generating host setup to run Client Simulator, configure the network interface connected to Edge Node host. External client traffic in the Smart Edge Open Network Edge configuration is routed via 192.168.1.1, the IP address of traffic generating host must be one from the same subnet. Configure the routing accordingly:
    ```
    ip a a 192.168.1.10/24 dev <client_interface_name>
    route add -net 10.16.0.0/24 gw 192.168.1.1 dev <client_interface_name>
@@ -491,12 +688,12 @@ This section guides users through the complete process of onboarding the OpenVIN
 
 ## Deploying the Application
 
-1. An application `yaml` specification file for the OpenVINO producer that is used to deploy the K8s pod can be found in the Edge Apps repository at [./applications/openvino/producer/openvino-prod-app.yaml](https://github.com/open-ness/edgeapps/blob/master/applications/openvino/producer/openvino-prod-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the producer application by running:
+1. An application `yaml` specification file for the OpenVINO producer that is used to deploy the K8s pod can be found in the Edge Apps repository at [./applications/openvino/producer/openvino-prod-app.yaml](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/producer/openvino-prod-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the producer application by running:
    ```
    kubectl apply -f openvino-prod-app.yaml
    kubectl certificate approve openvino-prod-app
    ```
-2. An application `yaml` specification file for the OpenVINO consumer that is used to deploy K8s pod can be found in the Edge Apps repository at [./applications/openvino/consumer/openvino-cons-app.yaml](https://github.com/open-ness/edgeapps/blob/master/applications/openvino/consumer/openvino-cons-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the consumer application by running:
+2. An application `yaml` specification file for the OpenVINO consumer that is used to deploy K8s pod can be found in the Edge Apps repository at [./applications/openvino/consumer/openvino-cons-app.yaml](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/consumer/openvino-cons-app.yaml). The pod will use the Docker image, which must be [built](#building-openvino-application-images) and available on the platform. Deploy the consumer application by running:
    ```
    kubectl apply -f openvino-cons-app.yaml
    kubectl certificate approve openvino-cons-app
@@ -593,7 +790,7 @@ The following is an example of how to set up DNS resolution for OpenVINO consume
    dig openvino.openness
    ```
 3. On the traffic generating host build the image for the [Client Simulator](#building-openvino-application-images)
-4. Run the following from [edgeapps/applications/openvino/clientsim](https://github.com/open-ness/edgeapps/blob/master/applications/openvino/clientsim/run-docker.sh) to start the video traffic via the containerized Client Simulator. A graphical user environment is required to view the results of the returning augmented videos stream.
+4. Run the following from [edgeapps/applications/openvino/clientsim](https://github.com/smart-edge-open/edgeapps/blob/master/applications/openvino/clientsim/run-docker.sh) to start the video traffic via the containerized Client Simulator. A graphical user environment is required to view the results of the returning augmented videos stream.
    ```
    ./run_docker.sh
    ```
@@ -606,7 +803,7 @@ The following is an example of how to set up DNS resolution for OpenVINO consume
 > **NOTE:**  If the video window is not popping up and/or an error like `Could not find codec parameters for stream 0` appears, do the following: 1) check whether receive traffic on port `5001` via tcpdump 2) add a rule in the firewall to permit ingress traffic on port `5001` if observe `host administratively prohibited`:
 <!-- if you observe the message `host administratively…`?-->
 >  ```shell
->  firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 0 -p udp --dport 5001 -j ACCEPT
+>  firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 0 -p udp --dport 5000 -j ACCEPT
 >  firewall-cmd --reload
 >  ```
 > or directly shutdown firewall as
@@ -614,32 +811,31 @@ The following is an example of how to set up DNS resolution for OpenVINO consume
 >  systemctl stop firewalld.service
 >  ```
 
-
 # Onboarding Smart City sample application
 
 The Smart City sample application is built on the OpenVINO and Open Visual Cloud (OVC) software stacks for media processing and analytics. It simulates regional offices that aggregate multiple (simulated) IP cameras and associated analytics. Each simulated office is deployed on an edge node. The sample app demonstrates the ability to reduce latency by running the media processing and analytics workloads on edge nodes.
 
-The full pipeline of the Smart City sample application on OpenNESS is distributed across three regions:
+The full pipeline of the Smart City sample application on Smart Edge Open is distributed across three regions:
 
  1. Client-side Cameras Simulator(s)
- 2. OpenNESS Cluster
+ 2. Smart Edge Open Cluster
  3. Smart City Cloud Cluster
 
-The Smart City setup with OpenNESS should typically be deployed as shown in this Figure. The drawing depicts two offices but there is no limitation to the number of offices.
+The Smart City setup with Smart Edge Open should typically be deployed as shown in this Figure. The drawing depicts two offices but there is no limitation to the number of offices.
 
 ![Smart City Setup](network-edge-app-onboarding-images/ovc-smartcity-setup.png)
 
-_Figure - Smart City Setup with OpenNESS_
+_Figure - Smart City Setup with Smart Edge Open_
 
 
 ## Setting up networking interfaces
 
-> **NOTE**: At the time of writing this guide, there was no [Network Policy for Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) defined yet for the Smart City application. Therefore, users are advised to remove the default OpenNESS network policies with the following command:
+> **NOTE**: At the time of writing this guide, there was no [Network Policy for Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) defined yet for the Smart City application. Therefore, users are advised to remove the default Smart Edge Open network policies with the following command:
 > ```shell
 > kubectl delete netpol block-all-ingress cdi-upload-proxy-policy
 > ```
 
-From the OpenNESS Controller, attach the physical ethernet interface to be used for dataplane traffic using the `interfaceservice` kubectl plugin by providing the office hostname and the PCI Function ID corresponding to the ethernet interface (the PCI ID below is just a sample and may vary on other setups):
+From the Smart Edge Open Controller, attach the physical ethernet interface to be used for dataplane traffic using the `interfaceservice` kubectl plugin by providing the office hostname and the PCI Function ID corresponding to the ethernet interface (the PCI ID below is just a sample and may vary on other setups):
 ```shell
 kubectl interfaceservice get <officeX_host_name>
 ...
@@ -661,9 +857,9 @@ kubectl interfaceservice get <officeX_host_name>
 
 ## Building Smart City ingredients
 
-   1. Clone the Smart City Reference Pipeline source code from [GitHub](https://github.com/OpenVisualCloud/Smart-City-Sample.git) to the following: 1) Camera simulator machines, 2) OpenNESS Controller machine, and 3) Smart City cloud control plane machine.
+   1. Clone the Smart City Reference Pipeline source code from [GitHub](https://github.com/OpenVisualCloud/Smart-City-Sample.git) to the following: 1) Camera simulator machines, 2) Smart Edge Open Controller machine, and 3) Smart City cloud control plane machine.
 
-   2. Build the Smart City application on all of the machines as explained in [Smart City deployment on OpenNESS](https://github.com/OpenVisualCloud/Smart-City-Sample/tree/openness-k8s/deployment/openness). At least 2 offices (edge nodes) must be installed on OpenNESS.
+   2. Build the Smart City application on all of the machines as explained in [Smart City deployment on Smart Edge Open](https://github.com/OpenVisualCloud/Smart-City-Sample/tree/openness-k8s/deployment/openness). At least 2 offices (edge nodes) must be installed on Smart Edge Open.
 
 ## Running Smart City
 
@@ -675,7 +871,7 @@ kubectl interfaceservice get <officeX_host_name>
       route add -net 10.16.0.0/24 gw 192.168.1.1 dev <office1_interface_name>
       ```
 
-      > **NOTE**: When adding office 2 and so on, change the CIDR (i.e: `192.168.1.0/24`) to the corresponding subnet. Allocated subnets to individual offices can be retrieved by entering the following command in the OpenNESS controller shell:
+      > **NOTE**: When adding office 2 and so on, change the CIDR (i.e: `192.168.1.0/24`) to the corresponding subnet. Allocated subnets to individual offices can be retrieved by entering the following command in the Smart Edge Open controller shell:
       > ```shell
       > kubectl get subnets
       > ```
@@ -704,9 +900,9 @@ kubectl interfaceservice get <officeX_host_name>
        > systemctl stop firewalld
        > ```
 
-       > **NOTE**: Do not stop the firewall on OpenNESS nodes.
+       > **NOTE**: Do not stop the firewall on Smart Edge Open nodes.
 
-   4. On the OpenNESS Controller machine, build and run the Smart City cloud containers:
+   4. On the Smart Edge Open Controller machine, build and run the Smart City cloud containers:
        ```shell
        export CAMERA_HOSTS=192.168.1.10,192.168.2.10
        export CLOUD_HOST=<cloud-control-plane-ip>
@@ -723,15 +919,15 @@ kubectl interfaceservice get <officeX_host_name>
 ## Inter application communication
 The IAC is available via the default overlay network used by Kubernetes - Kube-OVN.
 
-For more information on Kube-OVN, refer to the Kube-OVN support in OpenNESS [documentation](../building-blocks/dataplane/openness-interapp.md#interapp-communication-support-in-openness-network-edge)
+For more information on Kube-OVN, refer to the Kube-OVN support in Smart Edge Open [documentation](../building-blocks/dataplane/smartedge-open-interapp.md#interapp-communication-support-in-smartedge-open-network-edge)
 
 # Enhanced Platform Awareness
-Enhanced platform awareness (EPA) is supported in OpenNESS via the use of the Kubernetes NFD plugin. This plugin is enabled in OpenNESS for Network Edge by default. Refer to the [NFD whitepaper](../building-blocks/enhanced-platform-awareness/openness-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
+Enhanced platform awareness (EPA) is supported in Smart Edge Open via the use of the Kubernetes NFD plugin. This plugin is enabled in Smart Edge Open for Network Edge by default. Refer to the [NFD whitepaper](../building-blocks/enhanced-platform-awareness/smartedge-open-node-feature-discovery.md) for information on how to make your application pods aware of the supported platform capabilities.
 
-Refer to Building Blocks / Enhanced Platform Awareness section for the list of supported EPA features on OpenNESS network edge.
+Refer to Building Blocks / Enhanced Platform Awareness section for the list of supported EPA features on Smart Edge Open network edge.
 
 # VM support for Network Edge
-Support for VM deployment on OpenNESS for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [VM support in OpenNESS for Network Edge](../applications-onboard/openness-network-edge-vm-support.md) section.
+Support for VM deployment on Smart Edge Open for Network Edge is available and enabled by default, where certain configuration and prerequisites may need to be fulfilled to use all capabilities. For information on application deployment in VM, see [VM support in Smart Edge Open for Network Edge](../applications-onboard/smartedge-open-network-edge-vm-support.md) section.
 
 # Troubleshooting
 This section covers steps for debugging edge applications in Network Edge.

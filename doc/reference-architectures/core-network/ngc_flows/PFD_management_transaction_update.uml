@@ -12,7 +12,7 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title PFD flow between Openness and 5G core
+title PFD flow between Smart Edge Open and 5G core
 
 actor Admin as user
 participant "UI/CLI" as UI 
@@ -20,7 +20,7 @@ participant "Af Microservice" as AF
 participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
 
-box "OpenNESS Controller Components" #LightBlue
+box "Smart Edge Open Controller Components" #LightBlue
 	participant UI
     participant AF
 end box
@@ -28,7 +28,7 @@ end box
 box "5G Core Components" #LightGreen
 	participant NEF
     note over NEF 
-        OpenNESS provided 
+        Smart Edge Open provided 
         Core component with 
         limited functionality
     end note    
@@ -40,7 +40,7 @@ group Update PFD transaction with transactionId
     user -> UI : Update request by transactionId
     UI -> AF : af/v1/pfd/transactions/{transactionId} PUT
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId} PUT
-    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    NEF -> 5GC : {Open: 3rd party NGC integration with Smart Edge Open(NEF)}
     5GC --> NEF :
 
     NEF --> AF : OK: Updated PFD information \ ERROR 
@@ -52,7 +52,7 @@ group Update applicationId PFD in a transaction
     user -> UI : Update request with applicationId
     UI -> AF : af/v1/pfd/transactions/{transactionId}/applications/{appId} PUT
     AF -> NEF : 3gpp-pfd-management/v1/{scsAsId}/transactions/{transactionId}/applications/{appId} PUT
-    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    NEF -> 5GC : {Open: 3rd party NGC integration with Smart Edge Open(NEF)}
     5GC --> NEF :
 
     NEF --> AF : OK: Updated PFD information \ ERROR 

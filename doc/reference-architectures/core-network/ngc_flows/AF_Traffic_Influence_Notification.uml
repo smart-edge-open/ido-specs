@@ -12,7 +12,7 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title Traffic Influence Notification(UP_PATH_CHANGE) flow between OpenNESS and 5G core
+title Traffic Influence Notification(UP_PATH_CHANGE) flow between Smart Edge Open and 5G core
 
 
 actor "Consumer" as user
@@ -21,7 +21,7 @@ participant "Af Microservice" as AF
 participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
 
-box "OpenNESS Controller Components" #LightBlue
+box "Smart Edge Open Controller Components" #LightBlue
 	participant CLI
     participant AF
 end box
@@ -30,7 +30,7 @@ box "5G Core Components" #LightGreen
 	participant NEF
     participant 5GC
     note over NEF 
-        OpenNESS provided 
+        Smart Edge Open provided 
         Core component with 
         limited functionality
     end note    
@@ -41,7 +41,7 @@ group Traffic Influence - Notification(UP_PATH_CHANGE) flow
 
     user -> AF : /af/v1/subscriptions POST
     AF -> NEF : /3gpp-traffic-influence/v1/{afId}/subscriptions POST
-    NEF -> 5GC: {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    NEF -> 5GC: {Open: 3rd party NGC integration with Smart Edge Open(NEF)}
 
     5GC --> NEF : 201 Created: subscriptionId\ ERROR 
     NEF --> AF : 201 Created: subscriptionId\ ERROR 
@@ -64,7 +64,7 @@ group Traffic Influence - Notification(UP_PATH_CHANGE) flow
 
     user -> AF : /af/v1/subscriptions/{subscriptionId} PUT
     AF -> NEF : /3gpp-traffic-influence/v1/{afId}/subscriptions/{subscriptionId} PUT
-    NEF -> 5GC : {Open: 3rd party NGC integration with OpenNESS(NEF)}
+    NEF -> 5GC : {Open: 3rd party NGC integration with Smart Edge Open(NEF)}
 
     5GC --> NEF : 200 OK or 204 No Content : subscription information \ ERROR 
     NEF --> AF : 200 OK or 204 No Content : subscription information\ ERROR
