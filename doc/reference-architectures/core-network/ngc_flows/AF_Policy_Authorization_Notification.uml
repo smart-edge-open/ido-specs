@@ -12,7 +12,7 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title Policy Authorization Notification(UP_PATH_CHANGE) flow between OpenNESS and 5G core
+title Policy Authorization Notification(UP_PATH_CHANGE) flow between Smart Edge Open and 5G core
 
 
 actor "Consumer" as user
@@ -21,7 +21,7 @@ participant "Af Microservice" as AF
 participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
 
-box "OpenNESS Controller Components" #LightBlue
+box "Smart Edge Open Controller Components" #LightBlue
 	participant CLI
     participant AF
 end box
@@ -30,7 +30,7 @@ box "5G Core Components" #LightGreen
 	participant NEF
     participant 5GC
     note over NEF 
-        OpenNESS provided 
+        Smart Edge Open provided 
         Core component with 
         limited functionality
     end note    

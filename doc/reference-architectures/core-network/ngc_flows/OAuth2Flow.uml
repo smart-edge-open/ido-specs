@@ -12,7 +12,7 @@ skinparam sequenceArrowThickness 3
 header Intel Corporation
 footer Proprietary and Confidential
 
-title OAuth2 flow between Openness AF and NEF
+title OAuth2 flow between Smart Edge Open AF and NEF
 
 actor Admin as user
 participant "UI/CLI" as UI 
@@ -21,7 +21,7 @@ participant "NEF" as NEF
 participant "NGC CP Function" as 5GC
 participant "OAuth2" as OAUTH2
 
-box "OpenNESS Controller Components" #LightBlue
+box "Smart Edge Open Controller Components" #LightBlue
 	participant UI
     participant AF
 end box
@@ -31,7 +31,7 @@ box "5G Core Components" #LightGreen
 	participant NEF
     participant 5GC
     note over NEF 
-        OpenNESS provided 
+        Smart Edge Open provided 
         Core component with 
         limited functionality
     end note    

@@ -1189,11 +1189,11 @@
 		</g>
 		<g id="shape392-294" v:mID="392" v:groupContext="shape" transform="translate(389.005,-654.065)">
 			<title>Sheet.392</title>
-			<desc>OpenNESS Experience Kit</desc>
+			<desc>Smart Edge Open Experience Kit</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="51.7323" cy="687.478" width="103.47" height="30.0769"/>
 			<rect x="0" y="672.44" width="103.465" height="30.0769" class="st9"/>
-			<text x="15.8" y="691.08" class="st25" v:langID="1033"><v:paragraph v:horizAlign="1"/><v:tabList/>OpenNESS Experience Kit</text>		</g>
+			<text x="15.8" y="691.08" class="st25" v:langID="1033"><v:paragraph v:horizAlign="1"/><v:tabList/>Smart Edge Open Experience Kit</text>		</g>
 		<g id="shape394-297" v:mID="394" v:groupContext="shape" v:layerMember="1" transform="translate(389.005,-635.953)">
 			<title>Dynamic connector.394</title>
 			<path d="M0 702.52 L-19.13 702.52 L-19.13 877.95 L-26.28 877.95" class="st26"/>

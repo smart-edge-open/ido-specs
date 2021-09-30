@@ -3,17 +3,17 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019-2020 Intel Corporation
 ```
 <!-- omit in toc -->
-- [OpenNESS Network Edge: Offline Deployment](#openness-network-edge-offline-deployment)
-  - [OpenNESS support in offline environment](#openness-support-in-offline-environment)
+- [Smart Edge Open Network Edge: Offline Deployment](#smart-edge-open-network-edge-offline-deployment)
+  - [Smart Edge Open support in offline environment](#smart-edge-open-support-in-offline-environment)
   - [Setup prerequisites](#setup-prerequisites)
   - [Creating the offline package from an online node](#creating-the-offline-package-from-an-online-node)
   - [Placing the complete offline package in offline environment](#placing-the-complete-offline-package-in-offline-environment)
   - [Deployment in offline environment](#deployment-in-offline-environment)
-# OpenNESS Network Edge: Offline Deployment
+# Smart Edge Open Network Edge: Offline Deployment
 
-## OpenNESS support in offline environment
+## Smart Edge Open support in offline environment
 
-The OpenNESS projects supports a deployment of the solution in an air-gapped, offline environment. The support is currently limited to "[flexran" deployment flavor of Converged Edge Experience Kits](https://github.com/open-ness/ido-converged-edge-experience-kits/tree/master/flavors/flexran) only and it allows for offline deployment of vRAN specific components. Internet connection is needed to create the offline package, a script to download and build all necessary components will create an archive of all the necessary files. Once the offline package is created the installation of Converged Edge Experience Kits will be commenced as usual, in the same way as the default online installation would.
+The Smart Edge Open projects supports a deployment of the solution in an air-gapped, offline environment. The support is currently limited to "[flexran" deployment flavor of Converged Edge Experience Kits](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/tree/master/flavors/flexran) only and it allows for offline deployment of vRAN specific components. Internet connection is needed to create the offline package, a script to download and build all necessary components will create an archive of all the necessary files. Once the offline package is created the installation of Converged Edge Experience Kits will be commenced as usual, in the same way as the default online installation would.
 
 It can be deployed in two different scenarios. The first scenario is to deploy the Converged Edge Experience Kits from the online "jumper" node which is being used to create the offline package, this internet connected node must have a network connection to the air-gapped/offline nodes. The second scenario is to copy the whole Converged Edge Experience Kits directory with the already archived packages to the air-gapped/offline environment (for example via USB or other media or means) and run the Converged Edge Experience Kits from within the offline environment. All the nodes within the air-gapped/offline cluster need to able to SSH into each other.
 
@@ -26,10 +26,10 @@ Figure 2. Scenario two - CEEK copied to the air-gapped network
 
 * A node with access to internet to create the offline package.
 * Cluster set up in an air-gapped environment.
-* Clean setup, see [pre-requisites](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md#preconditions)
+* Clean setup, see [pre-requisites](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/smartedge-open-cluster-setup.md#preconditions)
 * [Optional] If CEEK is run from an online jumper node, the node needs to be able to SSH into each machine in air-gapped environment.
 * [Optional] A media such as USB drive to copy the offline CEEK package to the air-gapped environment if there is no connection from online node.
-* All the nodes in air-gapped environment must be able to SSH to each other without requiring password input, see [getting-started.md](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md#exchanging-ssh-keys-between-hosts).
+* All the nodes in air-gapped environment must be able to SSH to each other without requiring password input, see [getting-started.md](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/smartedge-open-cluster-setup.md#exchanging-ssh-keys-between-hosts).
 * The control plane node needs to be able to SSH itself.
 * The time and date of the nodes in offline environment is manually synchronized by the cluster's admin.
 * User provided files - OPAE_SDK_1.3.7-5_el7.zip and syscfg_package.zip.
@@ -37,7 +37,7 @@ Figure 2. Scenario two - CEEK copied to the air-gapped network
 
 ## Creating the offline package from an online node
 
-To create the offline package the user must have an access to an online node from which the offline package creator can download all necessary files and build Docker images. The list of files to be downloaded/build is provided in a form of a package definition list (Only package definition list for "flexran" flavor of OpenNESS is provided at the time of writing). Various categories of files to be downloaded are provided within this list including: RPMs, PIP pacakges, Helm charts, Dockerfiles, Go modules, and miscellaneous downloads. According to the category of a file the logic of offline package creator script will handle the download/build accordingly. Some files such as proprietary packages need to be provided by user in specified directories (see following steps). Once the offline package creator collects all necessary components it will pack them into an archive and then place them in appropriate place within the Converged Edge Experience Kits directory. Once the packages are archived the Converged Edge Experience Kits are ready to be deployed in air-gapped environment. The following diagram illustrates the workflow of the offline package creator. Additional information regarding the offline package creator can be found in the [README.md file](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/offline_package_creator/README.md).
+To create the offline package the user must have an access to an online node from which the offline package creator can download all necessary files and build Docker images. The list of files to be downloaded/build is provided in a form of a package definition list (Only package definition list for "flexran" flavor of Smart Edge Open is provided at the time of writing). Various categories of files to be downloaded are provided within this list including: RPMs, PIP pacakges, Helm charts, Dockerfiles, Go modules, and miscellaneous downloads. According to the category of a file the logic of offline package creator script will handle the download/build accordingly. Some files such as proprietary packages need to be provided by user in specified directories (see following steps). Once the offline package creator collects all necessary components it will pack them into an archive and then place them in appropriate place within the Converged Edge Experience Kits directory. Once the packages are archived the Converged Edge Experience Kits are ready to be deployed in air-gapped environment. The following diagram illustrates the workflow of the offline package creator. Additional information regarding the offline package creator can be found in the [README.md file](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/blob/master/offline_package_creator/README.md).
 
 Figure 3. Offline package creator workflow
 ![OPC flow](offline-images/offline-flow.png)
@@ -48,7 +48,7 @@ To run the offline package creator, follow the steps as below:
 Clone the Converged Edge Experience Kits repo to an online node:
 
 ```shell
-# https://github.com/open-ness/ido-converged-edge-experience-kits.git
+# https://github.com/smart-edge-open/ido-converged-edge-experience-kits.git
 ```
 
 Navigate to offline package creator directory:
@@ -78,10 +78,10 @@ Create the `ido-converged-edge-experience-kits/ceek/nic_drivers` directory and c
 # cp iavf-4.0.2.tar.gz ./ceek/nic_drivers
 ```
 
-Edit [ido-converged-edge-experience-kits/offline_package_creator/scripts/initrc](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
+Edit [ido-converged-edge-experience-kits/offline_package_creator/scripts/initrc](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/blob/master/offline_package_creator/scripts/initrc) file and update with GitHub username/token if necessary, HTTP/GIT proxy if behind firewall and provide paths to file dependencies.
 
 ```shell
-# open-ness token
+# smart-edge-open token
 GITHUB_TOKEN=""
 
 # User add ones
@@ -100,13 +100,13 @@ BUILD_COLLECTD_FPGA=disable
 DIR_OF_FPGA_ZIP="/<usr>/<provided>/<directory>"
 ```
 
-Start the offline package creator script [ido-converged-edge-experience-kits/offline_package_creator/offline_package_creator.sh](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
+Start the offline package creator script [ido-converged-edge-experience-kits/offline_package_creator/offline_package_creator.sh](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/blob/master/offline_package_creator/offline_package_creator.sh)
 
 ```shell
 # bash offline_package_creator.sh  all 
 ```
 
-The script will download all the files define in the [pdl_flexran.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
+The script will download all the files define in the [pdl_flexran.yml](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/blob/master/offline_package_creator/package_definition_list/pdl_flexran.yml) and build other necessary images, then copy them to a designated directory. Once the script is finished executing the user should expect three files under the `ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files` directory:
 
 ```shell
 # ls ido-converged-edge-experience-kits/roles/offline_roles/unpack_offline_package/files
@@ -128,13 +128,13 @@ Regardless of the scenario in which the CEEK will be deployed the deployment met
 
 ## Deployment in offline environment
 
-Once all the previous steps provided within this document are completed and the CEEK with offline archives is placed on the node which will run the CEEK automation, the user should get familiar with the ["Running-playbooks"](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md#running-playbooks) and ["Preconditions"](https://github.com/open-ness/ido-specs/blob/master/doc/getting-started/openness-cluster-setup.md#preconditions) sections of getting started guide and deploy the OpenNESS as per usual deployment steps. Please note only deployment of "flexran" flavour is supported for offline/air-gapped environment, other flavours/configurations and default deployment may fail due to missing dependencies, the support for ACC100 accelerator is not available for offline deployment of "flexran" flavour at the time of writing. Both multi-node and single node modes are supported.
+Once all the previous steps provided within this document are completed and the CEEK with offline archives is placed on the node which will run the CEEK automation, the user should get familiar with the ["Running-playbooks"](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/smartedge-open-cluster-setup.md#running-playbooks) and ["Preconditions"](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/smartedge-open-cluster-setup.md#preconditions) sections of getting started guide and deploy the Smart Edge Open as per usual deployment steps. Please note only deployment of "flexran" flavour is supported for offline/air-gapped environment, other flavours/configurations and default deployment may fail due to missing dependencies, the support for ACC100 accelerator is not available for offline deployment of "flexran" flavour at the time of writing. Both multi-node and single node modes are supported.
 
-During the deployment of the offline version of the CEEK the archived files created by the offline package creator will be extracted and placed in appropriate directory. The CEEK will set up a local file share server on the control plane node and move the files to the said server. The CEEK will also create a local yum repo. All the files and packages will be pulled from this file share server by nodes across the air-gapped OpenNESS cluster. During the execution of the CEEK the Ansible scripts will follow the same logic as per the online mode with the difference that all the components will be pulled locally from the file share server instead of the internet.
+During the deployment of the offline version of the CEEK the archived files created by the offline package creator will be extracted and placed in appropriate directory. The CEEK will set up a local file share server on the control plane node and move the files to the said server. The CEEK will also create a local yum repo. All the files and packages will be pulled from this file share server by nodes across the air-gapped Smart Edge Open cluster. During the execution of the CEEK the Ansible scripts will follow the same logic as per the online mode with the difference that all the components will be pulled locally from the file share server instead of the internet.
 
 The following are the specific steps to enable offline/air-gaped deployment from CEEK:
 
-Enable the offline deployment in [ido-converged-edge-experience-kits/inventory/default/group_vars/all/10-open.yml](https://github.com/open-ness/ido-converged-edge-experience-kits/blob/master/inventory/default/group_vars/all/10-open.yml)
+Enable the offline deployment in [ido-converged-edge-experience-kits/inventory/default/group_vars/all/10-open.yml](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/blob/master/inventory/default/group_vars/all/10-open.yml)
 
 ```yaml
 ## Offline Mode support
@@ -159,9 +159,9 @@ If a non-root user is being used (ie. openness) to deploy the cluster, a rule ne
 $ ssh-copy-id openness@<local IP>
 ```
 
-Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see configs in flavor directory](https://github.com/open-ness/ido-converged-edge-experience-kits/tree/master/flavors/flexran).
+Make sure the CPUs allocation in "flexran" flavor is configured as desired, [see configs in flavor directory](https://github.com/smart-edge-open/ido-converged-edge-experience-kits/tree/master/flavors/flexran).
 
-Deploy OpenNESS using FlexRAN flavor for multi or single node:
+Deploy Smart Edge Open using FlexRAN flavor for multi or single node:
 
 1. Update the `inventory.yaml` file by setting the deployment flavor as `flexran` and set single node deployment flag to `true` for single node deployment:
     ```yaml
