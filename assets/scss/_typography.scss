@@ -1,0 +1,118 @@
+*{
+    font: 18px/23px 'Intel One Display Light', Arial;
+    letter-spacing: 0.8px;
+    color:$menuColor;
+    box-sizing: border-box;
+}
+h1{
+    font: 34px/43px 'Intel One Display Medium';
+    letter-spacing: 0.9px;
+    color: $black;
+    margin: 0 auto 30px;
+}
+h2{
+    font: 28px/1.4 'Intel One Display Medium';
+    letter-spacing: 0.9px;
+    color: $black;
+    margin: 0 auto 20px;
+}
+h3{
+    font: 20px/26px 'Intel One Display Regular';
+    letter-spacing: 0.8px;
+    color: $black;
+    margin: 0 auto 20px;
+}/* 
+.headLine{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+} */
+p{
+    margin: 0 auto 20px;
+    clear: both;
+    word-break: break-word;
+}
+ul, li{
+    text-align: left;
+    margin-top: 0;
+    clear: both;
+    word-break: break-word;
+}
+svg, svg *{
+    color: $blue;
+}
+.lead{
+    font: 20px/26px 'Intel One Display Light';
+    color: $menuColor;
+    letter-spacing: 0.5px;
+    max-width: 70%;
+    margin: 0 auto;
+}
+a{
+    color: $blue;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    &:hover{
+        text-decoration: underline;
+        color: $blue;
+    }
+}
+.uk-button-primary{
+    background-color: $blue;
+    transition: 0.3s;
+    &:hover, &:focus{
+        background-color: darken($blue, 10%);
+    }
+}
+.uk-article-title{
+    display: none;
+}
+@media (max-width:1199px){
+    *{
+        font: 16px/1.4 'Intel One Display Light', Arial;
+    }
+    h1{
+        font: 32px/1.4 'Intel One Display Medium';
+        letter-spacing: 0.8px;
+        margin: 0 auto 25px;
+    }
+    h2{
+        font: 26px/1.4 'Intel One Display Medium';
+        letter-spacing: 0.8px;
+        color: $black;
+        margin: 0 auto 15px;
+    }
+    h3{
+        font: 18px/26px 'Intel One Display Regular';
+        letter-spacing: 0.7px;
+        margin: 0 auto 15px;
+    }
+    .lead{
+        max-width:90%;
+    }
+}
+@media (max-width:991px){
+    *{
+        font: 14px/1.4 'Intel One Display Light', Arial;
+    }
+    h1{
+        font: 28px/1.4 'Intel One Display Medium';
+        letter-spacing: 0.8px;
+        margin: 0 auto 25px;
+    }
+    h2{
+        font: 22px/1.4 'Intel One Display Medium';
+        letter-spacing: 0.8px;
+        color: $black;
+        margin: 0 auto 15px;
+    }
+    h3{
+        font: 16px/26px 'Intel One Display Regular';
+        letter-spacing: 0.7px;
+        margin: 0 auto 15px;
+    }
+    .lead{
+        width: 100%;
+        font-size: 16px;
+    }
+}

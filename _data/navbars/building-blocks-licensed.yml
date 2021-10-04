@@ -1,0 +1,87 @@
+title: "Previous Building Blocks (Licensed)"
+path: /building-blocks-licensed/
+order: 8
+section:
+    - title: Inter-app communication
+      path: /ido-specs/doc/building-blocks/dataplane/openness-interapp
+      meta_title:
+      meta_description: 
+      
+    - title: OVN/OVS
+      path: /ido-specs/doc/building-blocks/dataplane/openness-ovn
+      meta_title: 
+      meta_description:
+      
+    - title: Userspace CNI
+      path: /ido-specs/doc/building-blocks/dataplane/openness-userspace-cni
+      meta_title: 
+      meta_description: 
+      
+    - title: Hugepage Support
+      path:  /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-hugepage
+      meta_title: 
+      meta_description:
+      
+    - title: Node Feature Discovery
+      path:  /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-node-feature-discovery
+      meta_title: 
+      meta_description: 
+      
+    - title: Multiple Interface & PCIe SRIOV Support
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-sriov-multiple-interfaces
+      meta_title: 
+      meta_description:
+      
+    - title: Dedicated CPU Core
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-dedicated-core
+      meta_title: 
+      meta_description:
+      
+    - title: BIOS & Firmware Configuration
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-bios
+      meta_title: 
+      meta_description:
+      
+    - title: FPGA Support
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-fpga
+      meta_title:
+      meta_description: 
+      
+    - title: Intel® vRAN Dedicated Accelerator ACC100
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-acc100
+      meta_title: 
+      meta_description: 
+      
+    - title: Intel® Movidius™ Myriad™ X HDDL Support
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness_hddl
+      meta_title: 
+      meta_description: 
+      
+    - title: Visual Compute Accelerator Card - Analytics (VCA-A)
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-vcac-a
+      meta_description:
+      
+    - title: Intel QuickAssist Adapter
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-qat
+      meta_title: 
+      meta_description: 
+      
+    - title: Topology Manager Support
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-topology-manager
+      meta_title: 
+      meta_description: 
+      
+    - title: Telemetry Support
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-telemetry
+      meta_title: 
+      meta_description: 
+      
+    - title: Resource Management Daemon
+      path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-rmd
+      meta_title: 
+      meta_description:
+      
+    - title: Edge Multi-Cluster Orchestrator
+      path: /ido-specs/doc/building-blocks/emco/openness-emco
+      meta_title:
+      meta_description: 

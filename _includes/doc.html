@@ -1,0 +1,95 @@
+<script src="{{ "/assets/js/jquery.js" | relative_url }}"></script>
+<link rel="stylesheet" href="{{ "/assets/css/ido-specs.css" | relative_url }}" type="text/css" />
+<script src="{{ "/assets/js/instantsearch.min.js" | relative_url }}"></script>
+<script src="{{ "/assets/js/bootstrap.js" | relative_url }}"></script>
+<script src="{{ "/assets/js/doc-search.js" | relative_url }}"></script>
+<script src="{{ "/assets/js/ido-specs.js" | relative_url }}"></script>
+<div class="uk-section">
+    <div class="uk-container">
+        <div class="uk-grid-large" data-uk-grid>
+            <div class="sidebar-fixed-width uk-visible@m">
+                <div class="sidebar-docs uk-position-fixed">
+                    <div class="container dashboardPage">
+                        <div class="leftSection sideBar-wrap">
+                            <div id="contact-button">
+                                <div class="rotated-text">Quick Links <i class="fa-arrow-up"></i><i class="fa-arrow-down"></i></div>
+                            </div>
+                            <div class="searchBar-section">
+                                <div class="input-section" data-toggle="popover" data-placement="bottom"></div>
+                                <div class="output-section">
+                                    <div id="search-result"></div>
+                                    <div id="search-result-pagination"></div>
+                                </div>
+                            </div><!-- omit in toc -->
+                            <div class="collapsedArea">
+                                {% assign navigations = "" | split:"|" %}
+                                {% for navbars_data in site.data.navbars %}
+                                {% assign nav = navbars_data[1] %}
+                                {% assign navigations = navigations | push: nav %}
+                                {% if pageName == nav.path %}
+                                    {% assign this_pages_navbar = nav %}
+                                    {% else %}
+                                    {% assign not_this_page = nav %}
+                                {% endif %}
+                                {% endfor %}
+                                {% assign navbars = navigations | sort:"order" %}
+                                
+                                {% for navbar in navbars %}
+                                    <h5>{{ navbar.title }}</h5>
+                                    <ul class="uk-nav uk-nav-default doc-nav">
+                                    {% assign repo_path = page.url | prepend:site.baseurl | prepend:site.url %}
+                                    {% for nav in navbar.section %}
+                                    {% assign doc_url = nav.path | append:"/" %}
+                                    <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><a href="{{ nav.path}}">{{ nav.title }}</a></li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uk-width-1-1 uk-width-expand@m">
+
+                <article class="uk-article">
+
+                    <h1 class="uk-article-title">{{ page.title | escape }}</h1>
+
+                    {% if page.subtitle %}<p class="uk-text-lead uk-text-muted">{{ page.subtitle }}</p>{% endif %}
+
+                    <div class="uk-article-meta uk-flex uk-flex-middle">
+                        {% include post-meta.html %}
+                    </div>
+
+                    <div class="article-content link-primary">
+                        {{ content }}
+                        {% if site.share.doc %}
+                        {% include share.html %}
+                        {% endif %}
+                    </div>
+
+                    {% include hook-post-content-doc.html %}
+
+                    <hr class="uk-margin-medium">
+
+                    {% include paginate-doc.html %}
+
+                    {% include related-docs.html %}
+
+                    {% if site.disqus.shortname %}
+                    {% include disqus_comments.html %}
+                    {% endif %}
+                </article>
+
+                <script>
+                    // Table of contents scroll to
+                    UIkit.scroll('#markdown-toc a', {
+                        duration: 400,
+                        offset: 120
+                    });
+                </script>
+
+            </div>
+    </div>
+</div>

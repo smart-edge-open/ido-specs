@@ -1,0 +1,8 @@
+title: "Edge Applications (Licensed)"
+path: /applications-licensed/
+order: 10
+section:
+  - title: O-RAN Front Haul Network Radio Access Network
+    path: /ido-specs/doc/reference-architectures/ran/openness_xran
+    meta_title: 
+    meta_description: 

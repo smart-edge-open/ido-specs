@@ -1,0 +1,17 @@
+.noteLeft, .noteRight{
+    width:20%;
+    float: left;
+    *{
+        text-align: left;
+    }
+}
+.noteLeft{
+    clear: both;
+}
+.noteRight{
+    width: 60%;
+    &:not(:last-child){
+        border-bottom: 1px solid $menuColor;
+        margin-bottom: 40px;
+    }
+}

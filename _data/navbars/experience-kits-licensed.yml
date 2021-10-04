@@ -1,0 +1,23 @@
+title: "Experience Kits (Licensed)"
+path: /experience-kits-licensed/
+order: 7
+section:
+  - title: uCPE
+    path: /ido-specs/doc/reference-architectures/cera_sdwan
+    meta_title: 
+    meta_description: 
+    
+  - title: Private Wireless
+    path: /ido-specs/doc/reference-architectures/CERA-5G-On-Prem
+    meta_title: 
+    meta_description: 
+    
+  - title: Access Edge
+    path: /ido-specs/doc/reference-architectures/ran/openness_ran
+    meta_title: 
+    meta_description: 
+    
+  - title: Near Edge
+    path: /ido-specs/doc/reference-architectures/CERA-Near-Edge
+    meta_title: 
+    meta_description: 

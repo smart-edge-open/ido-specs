@@ -1,0 +1,82 @@
+form{
+    label:not(.form-check-label){
+        margin: 20px 0 10px;
+        display:block;
+        .star{
+            color: red;
+        }
+    }
+    small.error{
+        color: red;
+        font-size: 14px !important;
+        margin-left: 2px;
+        text-transform: capitalize;
+        display: block;
+    }
+    input[type="text"], input[type="password"], input[type="email"], select, textarea{
+        width: 100%;
+        padding: 6px 12px;
+        border:1px solid $menuColor;
+        outline: 0;
+        resize: vertical;
+        background-color: #fff;
+        &:focus{
+            border-color: $blue;
+        }
+    }
+    input[type="radio"], input[type="checkbox"]{
+        margin-right: 10px;
+    }
+    .uk-button{
+        width: 100%;
+        text-align: center;
+    }
+}
+.formLeft, .formRight{
+    width: 50%;
+    text-align: left;
+    padding-right: 20px;
+    float: left;
+    margin-bottom: 50px;
+    *{
+        text-align: left;
+    }
+}
+.formRight{
+    padding-left: 20px;
+    padding-right: 0px;
+    h2{
+        margin-top: 50px;
+    }
+}
+.colLeft, .colRight{
+    width: 50%;
+    text-align: left;
+    padding-right: 20px;
+    float: left;
+}
+.colRight{
+    padding-left: 20px;
+    padding-right: 0;
+}
+@media (max-width:991px){
+    .colLeft{
+        padding-right: 10px;
+    }
+    .colRight{
+        padding-left: 10px;
+    }
+    .formLeft{
+        padding-right: 15px;
+    }
+    .formRight{
+        padding-left: 15px;
+    }
+}
+@media (max-width:767px){
+    .formLeft, .formRight{
+        padding-right: 0px;
+        padding-left: 0px;
+        width:100%;
+    }
+}

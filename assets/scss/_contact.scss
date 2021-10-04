@@ -1,0 +1,27 @@
+.uk-list{
+    li{
+        a{
+            padding-right: 60px;
+            position: relative;
+            .linkHead{
+                color:$black;
+                display: block;
+                line-height: 1;
+            }
+            .linkText{
+                color: $menuColor;
+                font-size: 16px;
+            }
+            svg{
+                position: absolute;
+                right: 20px;
+                top:calc(50% - 10px);
+                border: 1px solid $blue;
+                border-radius: 50%;
+            }
+            &:after{
+                display:none;
+            }
+        }
+    }
+}

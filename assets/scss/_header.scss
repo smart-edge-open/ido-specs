@@ -1,0 +1,63 @@
+.uk-navbar-container{
+    .uk-navbar-center, .uk-navbar-right{
+        display: none;
+    }
+    .uk-navbar-left{
+        width:100%;
+        .uk-logo{
+            color: $blue;
+            font-weight: inherit;
+            font: 36px/47px 'Intel One Display Regular';
+            letter-spacing: 1px;
+            height: 103px;
+        }
+        .uk-navbar-nav{
+            margin-left: auto;
+            li{
+                a{
+                    color: $menuColor;
+                    height: 103px;
+                    font: 18px/22px 'Intel One Display Regular';
+                    letter-spacing: 0.7px;
+                    &:hover{
+                        color: $blue;
+                    }
+                }
+                &.uk-active{
+                    a{
+                        color: $blue;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width:959px){
+    .uk-navbar-toggle[aria-expanded="true"] + .uk-navbar-nav{
+        display: block !important;
+        margin-left: 0;
+        z-index: 1001;
+        position: fixed;
+        top: 0;
+        padding-top: 100px;
+        width: 250px;
+        li{
+            a{
+                text-align: left;
+                display: block;
+                height: auto;
+                padding: 15px;
+            }
+        }
+    }
+    .uk-navbar-container{
+        .uk-navbar-left{
+            .uk-navbar-toggle{
+                .uk-margin-small-left{
+                    color: $blue;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

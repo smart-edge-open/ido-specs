@@ -1,0 +1,100 @@
+.boxHead{
+    .boxHeadBox{
+        margin-top: 30px;
+        .uk-card{
+            box-shadow: none;
+            padding: 0;
+            border: 0;
+        }
+        span{
+            float: left;
+            margin-right: 15px;
+            svg{
+                width: 100px;
+                height: 100px;
+            }
+        }
+        h3{
+            text-align: left;
+            color: $blue;
+            width: calc(100% - 150px);
+            display: inline-block;
+            margin-top: 0;
+            float: left;
+            margin-bottom: 10px;
+        }
+        p{
+            text-align: left;
+            clear: none;
+            float: right;
+            width: calc(100% - 115px);
+            font-size: 16px;
+            line-height: 1.4;
+        }
+    }
+    &.boxes5{
+        .boxHeadBox{
+            position: relative;
+            padding-right: 50px;
+            &:not(:nth-child(3n)){
+                &:after{
+                    content: "";
+                    position: absolute;
+                    width: 4px;
+                    height: 100%;
+                    background-color: $blue;
+                    right: 0px;
+                }
+            }
+            &:last-child{
+                &:after{
+                    display: none;
+                }
+            }
+            p{
+                width: 100%;
+            }
+        }
+    }
+    &.boxHeadExplore{
+        .boxHeadBox{
+            border:1px solid #e7e7e7;
+            border-radius: 15px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35);
+            padding: 15px;
+            span{
+                margin-right: 15px;
+                svg{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            h3{
+                color: $black;
+                width: calc(100% - 65px);
+                line-height: 45px;
+                margin-bottom: 0;
+            }
+            ul{
+                padding-left: 65px;
+                margin-bottom: 15px;
+                list-style-type: none;
+            }
+        }
+    }
+}
+@media (max-width:1199px){
+    .boxHead{
+        .boxHeadBox{
+            h3, p{
+                width:calc(100% - 90px);
+            }
+            span{
+                svg{
+                    width: 75px;
+                    height: 75px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+title: "Application Onboarding (Licensed)"
+path: /applications-onboard-licensed/
+order: 9
+section:
+  - title: Network Edge Application Onboarding
+    path: /ido-specs/doc/applications-onboard/network-edge-applications-onboarding
+    meta_title: 
+    meta_description: 
+    
+  - title: Edge DNS
+    path: /ido-specs/doc/applications-onboard/openness-edgedns
+    meta_title: 
+    meta_description: 
+    
+  - title: Edge Application Agent (EAA)
+    path: /ido-specs/doc/applications-onboard/openness-eaa
+    meta_title:
+    meta_description: 
+    
+  - title: Certificate Signing
+    path: /ido-specs/doc/applications-onboard/openness-certsigner
+    meta_title:
+    meta_description:
+    
+  - title: Interface Service
+    path: /ido-specs/doc/applications-onboard/openness-interface-service
+    meta_title:
+    meta_description:
+    
+  - title: VM Support in Intel® Smart Edge Open for Network Edge
+    path: /ido-specs/doc/applications-onboard/openness-network-edge-vm-support
+    meta_title: 
+    meta_description: 
+    
+  - title: Core Network Configuration Agent  (CNCA)
+    path: /ido-specs/doc/applications-onboard/using-openness-cnca
+    meta_title: 
+    meta_description: 

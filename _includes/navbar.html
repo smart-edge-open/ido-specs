@@ -1,0 +1,75 @@
+<div{% if site.navbar.sticky %} data-uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent; top: 200"{% endif %}>
+    <nav class="uk-navbar-container">
+        <div class="uk-container">
+            <div data-uk-navbar>
+                <div class="uk-navbar-left">
+                    <!-- <a class="uk-navbar-item uk-logo uk-visible@m" href="{{ "/" | relative_url }}">{% if site.logo %}<img src="{{ site.uploads | absolute_url }}{{ site.logo }}" alt="{{ site.title | escape }}">{% else %}{{ site.title | escape }}{% endif %}</a> -->
+                    <a class="uk-navbar-item uk-logo uk-visible@m" href="{{ site.main_url }}">{% if site.logo %}<img src="{{ site.uploads | absolute_url }}{{ site.logo }}" alt="{{ site.title | escape }}">{% else %}Intel&reg; Smart Edge Open{% endif %}</a>
+                    <!-- {% if site.data.translation[site.lang].mobile_nav_docs %}
+                        <a class="uk-navbar-toggle uk-hidden@m" href="#offcanvas-docs" data-uk-toggle><span data-uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Intel&reg; Smart Edge Open</span></a>
+                    {% else %}
+                        <a class="uk-navbar-toggle uk-hidden@m" href="#offcanvas-docs" data-uk-navbar-toggle-icon data-uk-toggle></a>
+                    {% endif %} -->
+                    <span class="uk-navbar-toggle uk-hidden@m toggleMenu">
+                        <svg class="menuIcon mainIcon" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect style="fill:#0068b5" y="9" width="20" height="3"></rect><rect style="fill:#0068b5" y="3" width="20" height="3"></rect><rect style="fill:#0068b5" y="15" width="20" height="3"></rect></svg>
+                        <svg class="menuIcon crossIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><defs><style>.a{fill:#0068b5;}</style></defs><path class="a" d="M25,7.014,22.986,5,15,12.986,7.014,5,5,7.014,12.986,15,5,22.986,7.014,25,15,17.014,22.986,25,25,22.986,17.014,15Z" transform="translate(-5 -5)"/></svg>
+                        <a href="/">Intel&reg; Smart Edge Open</a>
+                    </span>
+
+                    <ul class="uk-navbar-nav uk-visible@m">
+                        {% for link in site.data.navigation_header.left %}
+                            {% if link.url contains 'http' %}
+                                {% assign domain = '' %}
+                            {% else %}
+                                {% assign domain = '' | relative_url %}
+                            {% endif %}
+                            {% if link.url == page.url %}
+                                {% assign current = ' class="uk-active"' %}
+                            {% else %}
+                                {% assign current = null %}
+                            {% endif %}
+                            {% if link.title %}
+                                {% if link.button %}
+                                    <li><div class="uk-navbar-item"><a class="uk-button uk-button-{{ link.button }}" href="{{ site.main_url }}{{ link.url }}" {% if link.url contains 'http' %}target="_blank" {% endif %}>{{ link.title }}</a></div></li>
+                                {% else %}
+                                    {% if link.url %}
+                                        <li{{ current }}><a href="{{ site.main_url }}{{ link.url }}" {% if link.url contains 'http' %}target="_blank" {% endif %}>{{ link.title }}</a></li>
+                                    {% else %}
+                                        <li><a href="#">{{ link.title }}</a>
+                                        {% if link.dropdown != null %}
+                                            <div class="uk-navbar-dropdown">
+                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                    {% for child in link.dropdown %}
+                                                    {% if child.url != null %}
+                                                        {% if child.url contains 'http' %}
+                                                            {% assign domain = '' %}
+                                                        {% else %}
+                                                            {% assign domain = '' | relative_url %}
+                                                        {% endif %}
+                                                        {% if child.url == page.url %}
+                                                            {% assign current = ' class="uk-active"' %}
+                                                        {% else %}
+                                                            {% assign current = null %}
+                                                        {% endif %}
+                                                        <li{{ current }}><a href="{{ domain }}{{ child.url }}">{{ child.title }}</a></li>
+                                                    {% else %}
+                                                        <li class="uk-nav-header">{{ child.title }}</li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                        </li>
+                                    {% endif %}                                                                    
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="uk-navbar-center uk-hidden@m">
+                    <a class="uk-navbar-item uk-logo" href="{{ site.main_url }}">{% if site.logo %}<img src="{{ site.uploads | absolute_url }}{{ site.logo }}" alt="{{ site.title | escape }}">{% else %}{{ site.title | escape }}{% endif %}</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

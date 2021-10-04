@@ -1,0 +1,109 @@
+{% if include.columns %}
+    {% assign columns = include.columns %}
+    {% if columns == '1' %}
+        {% assign container = ' uk-container-xsmall' %}
+    {% elsif columns == '2' %}
+        {% assign container = ' uk-container-small' %}
+    {% else %}
+        {% assign container = '' %}
+    {% endif %}
+{% else %}
+    {% assign columns = 3 %}
+    {% assign container = '' %}
+{% endif %}
+
+<div class="uk-section boxHead boxHeadExplore">
+    <div class="uk-container{{container}}">
+        <h2 class="uk-text-center">Explore</h2>
+        <p class="lead uk-text-center">Get started by exploring documentation below</p>
+        <div class="uk-child-width-1-{{ columns }}@m uk-grid-match uk-text-center uk-margin-medium-top" data-uk-grid>
+            <div>
+                <div class="boxHeadBox uk-card uk-card-default uk-box-shadow-medium uk-card-hover uk-card-body uk-inline border-radius-large border-xlight">
+                    <span class="uk-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+                            <g id="Group_14" data-name="Group 14" transform="translate(-251 -1229)">
+                              <g id="Ellipse_8" data-name="Ellipse 8" transform="translate(251 1229)" fill="none" stroke="#0068b5" stroke-width="1">
+                                <circle cx="30" cy="30" r="30" stroke="none"/>
+                                <circle cx="30" cy="30" r="29.5" fill="none"/>
+                              </g>
+                              <g id="settings" transform="translate(258.501 1239.622)">
+                                <g id="Group_13" data-name="Group 13">
+                                  <path id="Path_15" data-name="Path 15" d="M26.518,113.927a.789.789,0,0,0-.159-.454q-1.273-1.523-2.045-2.613a11.163,11.163,0,0,0,.727-1.727l3.522-.545a.529.529,0,0,0,.364-.238.742.742,0,0,0,.158-.443v-4.2a.677.677,0,0,0-.158-.443.656.656,0,0,0-.386-.238l-3.454-.523a15.547,15.547,0,0,0-.773-1.863q.34-.5,1.023-1.363t.954-1.227a.76.76,0,0,0,.159-.432q0-.614-3.272-3.636A.754.754,0,0,0,22.7,93.8a.665.665,0,0,0-.455.159l-2.681,2.022a10,10,0,0,0-1.7-.7L17.338,91.8a.585.585,0,0,0-.227-.4.693.693,0,0,0-.455-.17H12.43a.665.665,0,0,0-.682.545,26.12,26.12,0,0,0-.523,3.5A11.051,11.051,0,0,0,9.476,96L6.863,93.954a.818.818,0,0,0-.477-.159q-.432,0-1.8,1.341a19.269,19.269,0,0,0-1.863,2.022.665.665,0,0,0-.159.455.865.865,0,0,0,.159.454Q4,99.59,4.772,100.68a11.207,11.207,0,0,0-.727,1.727l-3.522.545a.528.528,0,0,0-.364.238.741.741,0,0,0-.159.443v4.2a.676.676,0,0,0,.159.443.559.559,0,0,0,.387.216L4,109.041a11.636,11.636,0,0,0,.8,1.863q-.364.5-1.068,1.386T2.8,113.5a.763.763,0,0,0-.159.431q0,.614,3.272,3.636a.754.754,0,0,0,.477.181.613.613,0,0,0,.454-.159l2.681-2.022a9.953,9.953,0,0,0,1.7.7l.523,3.477a.585.585,0,0,0,.227.4.693.693,0,0,0,.455.17h4.226a.665.665,0,0,0,.682-.545,27.093,27.093,0,0,0,.523-3.522,10.288,10.288,0,0,0,1.75-.7l2.613,2.045a.817.817,0,0,0,.477.159q.432,0,1.784-1.352a23.761,23.761,0,0,0,1.875-2.034A.582.582,0,0,0,26.518,113.927Zm-7.863-4.044a5.605,5.605,0,0,1-4.113,1.7,5.817,5.817,0,0,1,0-11.634,5.817,5.817,0,0,1,4.113,9.93Z" transform="translate(0 -85.773)" fill="#0068b5"/>
+                                  <path id="Path_16" data-name="Path 16" d="M342.97,321.129a6.363,6.363,0,0,0-.681-1.182,12.6,12.6,0,0,0,1.159-3.136.2.2,0,0,0-.091-.159q-2.727-1.59-2.818-1.591l-.136.046a20.912,20.912,0,0,0-2.09,2.545q-.454-.045-.681-.046c-.152,0-.379.016-.682.046q-.317-.478-1.181-1.534t-1.045-1.057a5.557,5.557,0,0,0-.682.364q-.636.364-1.341.773t-.8.455a.2.2,0,0,0-.091.159,12.606,12.606,0,0,0,1.159,3.136,6.389,6.389,0,0,0-.681,1.181q-3.386.34-3.386.7v3.181q0,.364,3.386.7a6.572,6.572,0,0,0,.681,1.181,12.612,12.612,0,0,0-1.159,3.136.2.2,0,0,0,.091.159q2.772,1.613,2.818,1.613.182,0,1.045-1.068t1.181-1.545q.454.044.682.045t.681-.045q.317.477,1.181,1.545t1.045,1.068q.045,0,2.818-1.613a.2.2,0,0,0,.091-.159,12.621,12.621,0,0,0-1.159-3.136,6.586,6.586,0,0,0,.681-1.181q3.386-.341,3.386-.7v-3.181Q346.356,321.47,342.97,321.129Zm-3.284,4.351a2.879,2.879,0,1,1,.853-2.056A2.8,2.8,0,0,1,339.687,325.48Z" transform="translate(-302.727 -291.793)" fill="#0068b5"/>
+                                  <path id="Path_17" data-name="Path 17" d="M342.97,28.769a6.356,6.356,0,0,0-.681-1.182,12.591,12.591,0,0,0,1.159-3.136.2.2,0,0,0-.091-.159q-2.727-1.591-2.818-1.591l-.136.045a20.922,20.922,0,0,0-2.09,2.545q-.454-.045-.681-.045c-.152,0-.379.015-.682.045q-.317-.477-1.181-1.534T334.722,22.7a5.579,5.579,0,0,0-.682.364q-.636.364-1.341.773t-.8.454a.2.2,0,0,0-.091.159,12.6,12.6,0,0,0,1.159,3.136,6.373,6.373,0,0,0-.681,1.182q-3.386.341-3.386.7v3.181q0,.363,3.386.7a6.612,6.612,0,0,0,.681,1.182,12.605,12.605,0,0,0-1.159,3.136.2.2,0,0,0,.091.159q2.772,1.613,2.818,1.613.182,0,1.045-1.068t1.181-1.545q.454.045.682.045t.681-.045q.317.477,1.181,1.545t1.045,1.068q.045,0,2.818-1.613a.2.2,0,0,0,.091-.159,12.616,12.616,0,0,0-1.159-3.136,6.618,6.618,0,0,0,.681-1.182q3.386-.341,3.386-.7V29.474Q346.356,29.11,342.97,28.769Zm-3.284,4.352a2.88,2.88,0,1,1,.853-2.056A2.8,2.8,0,0,1,339.687,33.121Z" transform="translate(-302.727 -22.702)" fill="#0068b5"/>
+                                </g>
+                              </g>
+                            </g>
+                        </svg>
+                    </span>
+                    <h3 class="uk-card-title">Explore Experience Kits</h3>
+                    <ul>
+                        <li><a href="">Overview</a></li>
+                        <li><a href="">Developer</a></li>
+                        <li><a href="">Private Wireless</a></li>
+                        <li><a href="">uCPE</a></li>
+                        <li><a href="">Near Edge</a></li>
+                        <li><a href="">Access</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="boxHeadBox uk-card uk-card-default uk-box-shadow-medium uk-card-hover uk-card-body uk-inline border-radius-large border-xlight">
+                    <span class="uk-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+                            <g id="Group_89" data-name="Group 89" transform="translate(-251 -1229)">
+                              <g id="Ellipse_8" data-name="Ellipse 8" transform="translate(251 1229)" fill="none" stroke="#0068b5" stroke-width="1">
+                                <circle cx="30" cy="30" r="30" stroke="none"/>
+                                <circle cx="30" cy="30" r="29.5" fill="none"/>
+                              </g>
+                              <g id="magnifying-glass" transform="translate(263 1240.999)">
+                                <path id="Path_18" data-name="Path 18" d="M35.2,31.287l-7.421-7.42a14.817,14.817,0,0,0,2.683-8.632,14.961,14.961,0,0,0-1.2-5.917A14.916,14.916,0,0,0,21.149,1.2a15.18,15.18,0,0,0-11.835,0A14.915,14.915,0,0,0,1.2,9.317a15.179,15.179,0,0,0,0,11.834,14.919,14.919,0,0,0,8.113,8.113,14.968,14.968,0,0,0,5.917,1.2,14.818,14.818,0,0,0,8.633-2.683l7.421,7.4A2.57,2.57,0,0,0,33.231,36,2.769,2.769,0,0,0,35.2,31.287ZM22.079,22.081a9.334,9.334,0,0,1-6.848,2.845,9.335,9.335,0,0,1-6.847-2.845,9.333,9.333,0,0,1-2.845-6.847A9.335,9.335,0,0,1,8.384,8.387a9.333,9.333,0,0,1,6.847-2.845,9.336,9.336,0,0,1,6.848,2.845,9.333,9.333,0,0,1,2.845,6.847A9.334,9.334,0,0,1,22.079,22.081Z" transform="translate(0 -0.003)" fill="#0068b5"/>
+                              </g>
+                            </g>
+                          </svg>
+                    </span>
+                    <h3 class="uk-card-title">Explore Building Blocks</h3>
+                    <ul>
+                        <li><a href="">Overview</a></li>
+                        <li><a href="">Telemetry Support</a></li>
+                        <li><a href="">Resource Management</a></li>
+                        <li><a href="">Node Feature Discovery</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="boxHeadBox uk-card uk-card-default uk-box-shadow-medium uk-card-hover uk-card-body uk-inline border-radius-large border-xlight">
+                    <span class="uk-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+                            <g id="Group_90" data-name="Group 90" transform="translate(-251 -1229)">
+                              <g id="Ellipse_8" data-name="Ellipse 8" transform="translate(251 1229)" fill="none" stroke="#0068b5" stroke-width="1">
+                                <circle cx="30" cy="30" r="30" stroke="none"/>
+                                <circle cx="30" cy="30" r="29.5" fill="none"/>
+                              </g>
+                              <g id="outline-description-24px" transform="translate(258.206 1236.206)">
+                                <g id="Bounding_Boxes">
+                                  <path id="Path_2324" data-name="Path 2324" d="M0,0H45.077V45.077H0Z" fill="none"/>
+                                </g>
+                                <g id="Outline" transform="translate(7.513 3.756)">
+                                  <g id="Group_47" data-name="Group 47">
+                                    <rect id="Rectangle_27" data-name="Rectangle 27" width="15" height="4" transform="translate(7.487 26.244)" fill="#0068b5"/>
+                                    <rect id="Rectangle_28" data-name="Rectangle 28" width="15" height="3" transform="translate(7.487 19.244)" fill="#0068b5"/>
+                                    <path id="Path_2325" data-name="Path 2325" d="M22.782,2H7.756A3.767,3.767,0,0,0,4,5.756V35.807a3.751,3.751,0,0,0,3.738,3.756H30.295a3.767,3.767,0,0,0,3.756-3.756V13.269Zm7.513,33.807H7.756V5.756H20.9v9.391h9.391Z" transform="translate(-4 -2)" fill="#0068b5"/>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </svg>
+                    </span>
+                    <h3 class="uk-card-title">Onboard Applications</h3>
+                    <ul>
+                        <li><a href="">Overview</a></li>
+                        <li><a href="">Edge DNS</a></li>
+                        <li><a href="">VM Support</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
