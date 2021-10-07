@@ -1,23 +1,27 @@
 title: "Experience Kits (Licensed)"
 path: /experience-kits-licensed/
-order: 7
+order: 8
 section:
   - title: uCPE
-    path: /ido-specs/doc/reference-architectures/cera_sdwan
+    #path: /ido-specs/doc/reference-architectures/cera_sdwan
+    path: /ido-specs/doc/reference-architectures/smartedge-open-experience-kit_sdwan
     meta_title: 
     meta_description: 
     
-  - title: Private Wireless
-    path: /ido-specs/doc/reference-architectures/CERA-5G-On-Prem
+  #- title: Private Wireless
+  - title: 5G Private Wireless with Integrated RAN
+    path: /ido-specs/doc/reference-architectures/smartedge-open-experience-kit-pwek-all-in-one
     meta_title: 
     meta_description: 
     
   - title: Access Edge
-    path: /ido-specs/doc/reference-architectures/ran/openness_ran
+    #path: /ido-specs/doc/reference-architectures/ran/openness_ran
+    path: /ido-specs/doc/reference-architectures/ran/smartedge-open_ran
     meta_title: 
     meta_description: 
     
   - title: Near Edge
-    path: /ido-specs/doc/reference-architectures/CERA-Near-Edge
+    #path: /ido-specs/doc/reference-architectures/CERA-Near-Edge
+    path: /ido-specs/doc/reference-architectures/Smartedge-Open-Experience-Kit-Near-Edge
     meta_title: 
     meta_description: 

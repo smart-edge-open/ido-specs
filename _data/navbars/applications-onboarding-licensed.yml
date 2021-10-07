@@ -1,38 +1,45 @@
 title: "Application Onboarding (Licensed)"
 path: /applications-onboard-licensed/
-order: 9
+order: 10
 section:
   - title: Network Edge Application Onboarding
+    #path: /ido-specs/doc/applications-onboard/network-edge-applications-onboarding
     path: /ido-specs/doc/applications-onboard/network-edge-applications-onboarding
     meta_title: 
     meta_description: 
     
   - title: Edge DNS
-    path: /ido-specs/doc/applications-onboard/openness-edgedns
+    #path: /ido-specs/doc/applications-onboard/openness-edgedns
+    path: /ido-specs/doc/applications-onboard/smartedge-open-edgedns
     meta_title: 
     meta_description: 
     
   - title: Edge Application Agent (EAA)
-    path: /ido-specs/doc/applications-onboard/openness-eaa
+    #path: /ido-specs/doc/applications-onboard/openness-eaa
+    path: /ido-specs/doc/applications-onboard/smartedge-open-eaa
     meta_title:
     meta_description: 
     
   - title: Certificate Signing
-    path: /ido-specs/doc/applications-onboard/openness-certsigner
+    #path: /ido-specs/doc/applications-onboard/openness-certsigner
+    path: /ido-specs/doc/applications-onboard/smartedge-open-certsigner
     meta_title:
     meta_description:
     
   - title: Interface Service
-    path: /ido-specs/doc/applications-onboard/openness-interface-service
+    #path: /ido-specs/doc/applications-onboard/openness-interface-service
+    path: /ido-specs/doc/applications-onboard/smartedge-open-interface-service
     meta_title:
     meta_description:
     
   - title: VM Support in Intel® Smart Edge Open for Network Edge
-    path: /ido-specs/doc/applications-onboard/openness-network-edge-vm-support
+    #path: /ido-specs/doc/applications-onboard/openness-network-edge-vm-support
+    path: /ido-specs/doc/applications-onboard/smartedge-open-network-edge-vm-support
     meta_title: 
     meta_description: 
     
   - title: Core Network Configuration Agent  (CNCA)
-    path: /ido-specs/doc/applications-onboard/using-openness-cnca
+    #path: /ido-specs/doc/applications-onboard/using-openness-cnca
+    path: /ido-specs/doc/applications-onboard/using-smartedge-open-cnca
     meta_title: 
     meta_description: 

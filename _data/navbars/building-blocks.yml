@@ -1,6 +1,6 @@
 title: "Building Blocks (Open)"
 path: /building-blocks/
-order: 3
+order: 4
 section:
     - title: Core Pinning
       path: /docs/components/resource-management/core-pinning
@@ -17,7 +17,8 @@ section:
       meta_title: 
       meta_description: 
       
-    - title: SRIOV
+    #- title: SRIOV
+    - title: SR-IOV Network Operator
       path: /docs/components/networking/sriov-network-operator
       meta_title: 
       meta_description: 
