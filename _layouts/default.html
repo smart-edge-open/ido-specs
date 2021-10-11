@@ -28,7 +28,41 @@
     {% endif %}
 
     {% include hook-pre-closing-body.html %}
-
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery('.article-content .link-primary a').each(function(e){
+                var url = jQuery(this).attr('href');
+                if(typeof url != 'undefined'){
+                    var urlFound = url.indexOf(base_url);
+                    var httpUrl = url.indexOf('http://');
+                    var httpsUrl = url.indexOf('https://');
+                    var hashCheck = url.indexOf('#');
+                    if(urlFound == '-1' && httpUrl == '-1' && httpsUrl == '-1' && hashCheck == '-1'){
+                        //Check Image
+                        var checkImage = url.split('/');
+                        //Remove .md From href
+                        url = url.replace(".md", "/");
+                        var new_url = "";
+                        if(typeof checkImage[0] != 'undefined' && checkImage[0] == 'images'){
+                            new_url = jQuery(this).children("img").attr("src");
+                        }else{
+                            if(url.startsWith("../../") == true){
+                                url = url.replace("../../", "");
+                            }
+                            new_url = (url.startsWith("/") == true)?base_url+"/doc"+url:base_url+"/doc/"+url;
+                            console.log(new_url);
+                        }
+                        jQuery(this).attr('href',new_url);
+                    }else{
+                        if(hashCheck != '-1'){
+                            //Remove .md From href
+                            jQuery(this).attr('href', url.replace(".md", "/"));
+                        }
+                    }
+                }
+            });
+        });
+    </script>
     </body>
-
 </html>
