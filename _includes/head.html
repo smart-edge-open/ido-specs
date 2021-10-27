@@ -2,7 +2,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% seo %}
+  {% if page.name == 'index.md' %}
+  {% assign pageName = 'Home' %}
+  {% elsif page.name == 'index.html' %}
+  {% assign pageName = 'Blog' %}
+  {% else %}
+  {% assign pageName = page.name %}
+  {% endif %}
+  {% assign title = pageName | replace: "-"," " | replace: "_"," " | split: ".md" | first %}
+  {% assign pageTitle = title | split: ' ' %}
+  {% capture pageTitleUpper %}{% for word in pageTitle %}{{ word | capitalize }} {% endfor %}{% endcapture %}
+  <title>Intel® Smart Edge Open | {{ pageTitleUpper }}</title>
+  {% seo title=false %}
   <meta property="og:image" content="{% if site.logo contains 'http' %}{{ site.logo }}{% else %}{{ site.uploads | absolute_url }}{{ site.logo }}{% endif %}"/>
   <!-- <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}"> -->
   <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
