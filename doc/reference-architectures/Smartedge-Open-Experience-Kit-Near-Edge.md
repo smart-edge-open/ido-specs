@@ -3,28 +3,28 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
-# Converged Edge Reference Architecture Near Edge
+# Converged Edge Reference Architecture Near Edge (Intel® Smart Edge Open Near Edge Experience Kit)
 Reference architecture combines wireless and high performance compute for IoT, AI, video and other services.
 
 - [Introduction](#introduction)
-- [Smart Edge Open Converged Edge Reference Architectures](#smart-edge-open-converged-edge-reference-architectures)
-- [Smart Edge Open Experience Kit Near Edge](#smart-edge-open-experience-kit-near-edge)
-  - [Smart Edge Open Experience Kit Near Edge Experience Kit](#smart-edge-open-experience-kit-near-edge-experience-kit)
-    - [Smart Edge Open Experience Kit Near Edge Smart Edge Open Configuration](#smart-edge-open-experience-kit-near-edge-smart-edge-open-configuration)
-    - [Smart Edge Open Experience Kit Near Edge Deployment Architecture](#smart-edge-open-experience-kit-near-edge-deployment-architecture)
-    - [Smart Edge Open Experience Kit Near Edge Experience Kit Deployments](#smart-edge-open-experience-kit-near-edge-experience-kit-deployments)
-  - [Edge service applications supported on Smart Edge Open Experience Kit Near Edge](#edge-service-applications-supported-on-smart-edge-open-experience-kit-near-edge)
+- [Intel® Smart Edge Open Converged Edge Reference Architectures](#intel-smart-edge-open-converged-edge-reference-architectures)
+- [Intel® Smart Edge Open Near Edge Experience Kit](#intel-smart-edge-open-near-edge-experience-kit)
+  - [Near Edge Experience Kit](#near-edge-experience-kit)
+    - [Near Edge Experience Kit Configuration](#near-edge-experience-kit-configuration)
+    - [Near Edge Experience Kit Deployment Architecture](#near-edge-experience-kit-deployment-architecture)
+    - [Near Edge Experience Kit Deployments](#near-edge-experience-kit-deployments)
+  - [Edge service applications supported by the Near Edge Experience Kit](#edge-service-applications-supported-by-the-near-edge-experience-kit)
     - [OpenVINO](#openvino)
     - [Edge Insights Software](#edge-insights-software)
-  - [Smart Edge Open Experience Kit Near Edge hardware platform](#smart-edge-open-experience-kit-near-edge-hardware-platform)
+  - [Near Edge Experience Kit hardware platform](#near-edge-experience-kit-hardware-platform)
     - [Hardware acceleration](#hardware-acceleration)
   - [Data Flow](#data-flow)
-  - [Smart Edge Open Experience Kit Near Edge Smart Edge Open deployment](#smart-edge-open-experience-kit-near-edge-smart-edge-open-deployment)
+  - [Near Edge Experience Kit deployment](#near-edge-experience-kit-deployment)
     - [Setting up target platform before deployment](#setting-up-target-platform-before-deployment)
   - [BIOS Setup](#bios-setup)
     - [Manual setup](#manual-setup)
-  - [Setting up machine with Ansible](#setting-up-machine-with-ansible)
-    - [Steps to be performed on the machine, where the Ansible playbook is going to be run](#steps-to-be-performed-on-the-machine-where-the-ansible-playbook-is-going-to-be-run)
+  - [Setting up the machine with Ansible](#setting-up-the-machine-with-ansible)
+    - [Steps to be performed on the machine where the Ansible playbook will be run](#steps-to-be-performed-on-the-machine-where-the-ansible-playbook-will-be-run)
 - [5G Core Components](#5g-core-components)
   - [dUPF](#dupf)
     - [Overview](#overview)
@@ -64,7 +64,7 @@ Reference architecture combines wireless and high performance compute for IoT, A
 
 Intel® is a leader in the move to edge computing. The company has championed the development of the multi-access edge computing (MEC) standard and has fostered an ecosystem of hundreds of network functions software and services providers with solutions for edge computing. This technology innovation and ecosystem help with the challenges of building, testing, onboarding and managing the life cycle of services deployed various edge locations e.g., on a customer premises and network edge locations.
 
-The Converged Edge Reference Architecture (Smart Edge Open Experience Kit) platform expands the cloud native platform in order to unify and converge networking, media and analytics workloads across various edge locations. The resulting platform simplifies workload convergence at the edge and adds base station density to wireless networks (see Figure 1). The Smart Edge Open Experience Kit platform abstracts network complexity and streamlines the solution go-to-market process from development to deployment, enabling solution providers to consume, deploy, and scale their services to offer new value to their customers. This reference architecture provides more detail on how to design, build and deploy Smart Edge Open Experience Kit Near Edge systems.
+The Converged Edge Reference Architecture (Intel® Smart Edge Open Experience Kit) platform expands the cloud native platform in order to unify and converge networking, media and analytics workloads across various edge locations. The resulting platform simplifies workload convergence at the edge and adds base station density to wireless networks (see Figure 1). The Intel® Smart Edge Open Experience Kit platform abstracts network complexity and streamlines the solution go-to-market process from development to deployment, enabling solution providers to consume, deploy, and scale their services to offer new value to their customers. This reference architecture provides more detail on how to design, build and deploy Intel® Smart Edge Open Near Edge systems.
 
 ![Converged workloads](smartedge-open-experience-kit-near-edge-images/image-20200826-122458.png)
 
@@ -72,9 +72,9 @@ The Converged Edge Reference Architecture (Smart Edge Open Experience Kit) platf
 
 Edge computing use cases's including artificial intelligence (AI), wireless and cloud native services have become more cost-effective to deploy as powerful universal customer premises equipment (uCPE) products facilitate advanced workload processing and services delivery. Cloud Native infrastructure combined with cloud native services and edge intelligence layered onto the uCPE provide agile and innovative workload processing and services with reasonable deployment and operational costs. 
 
-Cloud native edge platforms based on Smart Edge Open Experience Kit offer a new value proposition to enterprise vertical market segments, such as smart city, transportation, industrial, and media (see Figure 2) by enabling new video and analytics use cases and delivering improvements in key performance indicators (KPIs) such as reduced latency, back haul savings, data privacy and reliability.
+Cloud native edge platforms based on the Intel® Smart Edge Open Experience Kit offer a new value proposition to enterprise vertical market segments, such as smart city, transportation, industrial, and media (see Figure 2) by enabling new video and analytics use cases and delivering improvements in key performance indicators (KPIs) such as reduced latency, back haul savings, data privacy and reliability.
 
-## Smart Edge Open Converged Edge Reference Architectures 
+## Intel® Smart Edge Open Converged Edge Reference Architectures 
 Converged Edge Reference Architectures manifest themselves as a collection of Ansible playbook, Helm charts and scripts which acts a single interface for users to deploy Smart Edge Open and optionally network functions and edge applications. The Reference Architecture organizes all the relevant Smart Edge Open microservices, Kubernetes extensions, enhancements and optimizations under easy to deploy solutions.
 
 The Converged Edge Reference Architectures are categorized into the different edge network locations, each network location has its own unique set of HW and SW requirements that are implemented in the reference architecture. As described in the [Smart Edge Open Architecture](../architecture.md) the below diagram shows the different network locations.
@@ -85,36 +85,36 @@ The Converged Edge Reference Architectures are categorized into the different ed
 
 This paper will detail the Converged Edge Reference Architecture for Near Edge deployments. 
 
-## Smart Edge Open Experience Kit Near Edge
-The Smart Edge Open Experience Kit Near Edge deployment focuses on network edge aggregation points, mini central office and presents a scalable solution across the near edge network scaling from a single edge node to a multi cluster deployment services many edge nodes. The assumed 3GPP deployment architecture is based on below figure from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) will be deployed on the Smart Edge Open Experience Kit Near Edge. 
+## Intel® Smart Edge Open Near Edge Experience Kit 
+The Smart Edge Open Near Edge Experience Kit deployment focuses on network edge aggregation points, mini central office and presents a scalable solution across the near edge network scaling from a single edge node to a multi cluster deployment services many edge nodes. The assumed 3GPP deployment architecture is based on below figure from 3GPP 23.501 Rel15 which shows the reference point representation for concurrent access to two (e.g. local and central) data networks (single PDU Session option). The highlighted yellow blocks - UPF and Data Network (edge apps) will be deployed on the Intel® Smart Edge Open Near Edge Experience Kit. 
 
 ![3GPP Network](smartedge-open-experience-kit-near-edge-images/3gpp_near_edge.png)
 
 > Figure 3 - 3GPP Network
 
-The Smart Edge Open Experience Kit Near edge deployment can be designed in several ways but the biggest design impact is whether near edge deployments support a single or dual orchestration domains. In a single orchestration domain a single Kubernetes cluster is deployed that has edge nodes capable of hosting Network Functions (UPF in this case) and or Applications at the same time. In deployments with dual orchestration domains, network functions and applications are separated into two different Kubernetes clusters. Edge nodes are optimized for the specific type of deployment (network function or applications). 
+The Near Edge Experience Kit deployment can be designed in several ways but the biggest design impact is whether near edge deployments support a single or dual orchestration domains. In a single orchestration domain a single Kubernetes cluster is deployed that has edge nodes capable of hosting Network Functions (UPF in this case) and or Applications at the same time. In deployments with dual orchestration domains, network functions and applications are separated into two different Kubernetes clusters. Edge nodes are optimized for the specific type of deployment (network function or applications). 
 
 ![Dual orchestration domains or single domain](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-near-edge-orchestration-domains.png)
 
 > Figure 4 - Dual orchestration domains or single domain
 
-### Smart Edge Open Experience Kit Near Edge Experience Kit
-In order to support the most flexibility the first Smart Edge Open Experience Kit Near Edge implementation in Smart Edge Open supports a single Orchestration domain, optimizing the edge node to support Network Functions (UPF) and Applications at the same time. This is also useful for demonstration purposes as the Near Edge deployment can be scaled down to a single server reducing HW and cost associated with setup. 
+### Near Edge Experience Kit
+In order to support the most flexibility, the first Near Edge Experience Kit implementation in Intel® Smart Edge Open supports a single orchestration domain, optimizing the edge node to support Network Functions (UPF) and Applications at the same time. This is also useful for demonstration purposes as the Near Edge deployment can be scaled down to a single server reducing HW and cost associated with setup. 
 
-#### Smart Edge Open Experience Kit Near Edge Smart Edge Open Configuration 
-Smart Edge Open Experience Kit Near edge is a combination of the existing Smart Edge Open Reference Architecture [Smart Edge Open Experience Kit NGC](../flavors.md#smart-edge-open-experience-kit-core-control-plane-flavor), [Smart Edge Open Experience Kit UPF](../flavors.md#smart-edge-open-experience-kit-core-user-plane-flavor), [Smart Edge Open Experience Kit Apps](../flavors.md#smart-edge-open-experience-kit-minimal-flavor). Smart Edge Open Experience Kit Near edge takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. Smart Edge Open Experience Kit Near edge also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the Smart Edge Open micro services. 
+#### Near Edge Experience Kit Configuration 
+The Near Edge Experience Kit is a combination of the existing Smart Edge Open Reference Architecture [Smart Edge Open Experience Kit NGC](../flavors.md#smart-edge-open-experience-kit-core-control-plane-flavor), [Intel® Smart Edge Open Experience Kit UPF](../flavors.md#smart-edge-open-experience-kit-core-user-plane-flavor), [Intel® Smart Edge Open Experience Kit Apps](../flavors.md#smart-edge-open-experience-kit-minimal-flavor). The Near Edge Experience Kit takes the NGC Reference Architecture as a base and adds the additional service required to run applications and their associated HW Acceleration for AI workloads. The Near Edge Experience Kit also adds CMK and RMD to better support workload isolation and mitigate any interference from applications affecting the performance of the network functions. The below diagram shows the logical deployment with the Intel® Smart Edge Open micro services. 
 
-![Smart Edge Open Experience Kit Near Edge Architecture](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-near-edge-arch.png)
+![Intel® Smart Edge Open Near Edge Experience Kit Architecture](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-near-edge-arch.png)
 
-> Figure 5 - Smart Edge Open Experience Kit Near Edge Architecture
+> Figure 5 - Intel® Smart Edge Open Near Edge Experience Kit Architecture
 
-#### Smart Edge Open Experience Kit Near Edge Deployment Architecture
+#### Near Edge Experience Kit Deployment Architecture
 
-![Smart Edge Open Experience Kit Near Edge Deployment](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit_deployment.png)
+![Intel® Smart Edge Open Near Edge Experience Kit Deployment](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit_deployment.png)
 
-> Figure 6 - Smart Edge Open Experience Kit Near Edge Deployment
+> Figure 6 - Intel® Smart Edge Open Near Edge Experience Kit Deployment
 
-The Smart Edge Open Experience Kit Near Edge architecture consists of a multi node (Xeon(R) SP based servers) cluster which can also be modified to support a single platform that hosts both the Edge Node and the Kubernetes Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads like UPF network function, it is recommended to use single root input/output (SR-IOV) pass through of the physical function (PF) or the virtual function (VF) as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another as there is a direct path of communication required between the UPF and the Data plane this becomes an option. It should be noted the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
+The Near Edge Experience Kit architecture consists of a multi node (Xeon® SP based servers) cluster which can also be modified to support a single platform that hosts both the Edge Node and the Kubernetes Control Plane. The UPF is deployed using SRIOV-Device plugin and SRIOV-CNI allowing direct access to the network interfaces used for connection to the gNB and back haul. For high throughput workloads like UPF network function, it is recommended to use single root input/output (SR-IOV) pass through of the physical function (PF) or the virtual function (VF) as required. Also, in some cases, the simple switching capability in the NIC can be used to send traffic from one application to another as there is a direct path of communication required between the UPF and the Data plane this becomes an option. It should be noted the VF-to-VF option is only suitable when there is a direct connection between PODs on the same PF with no support for advanced switching. In this scenario it is advantageous to configure the UPF with three separate interfaces for the different types of traffic flowing in the system. This eliminates the need for additional traffic switching at the host. In this case there is a separate interface for N3 traffic to the Access Network, N9 and N4 traffic can share an interface to the backhaul network. While local data network traffic on the N6 can be switched directly to the local applications. Depending on performance requirements, a mix of data planes can be used on the platform to meet the varying requirements of the workloads. 
 
 The applications are deployed on the same edge node as the UPF. Using CMK the applications can be deployed on the same CPU Socket or on separate CPU socket depending on the requirements. CPU pinning provides resource partitioning by pinning the workloads to specific CPU cores to ensure the low priority workloads don't interfere with the high priority NF workloads.
 
@@ -140,15 +140,15 @@ The following EPA features are supported in Smart Edge Open
 - <b>Topology Manager</b>: This component allows users to align their CPU and peripheral device allocations by NUMA node.
 - <b>Kubevirt</b>: Provides support for running legacy applications in VM mode and the allocation of SR-IOV ethernet interfaces to VMs. 
 
-#### Smart Edge Open Experience Kit Near Edge Experience Kit Deployments
-The Smart Edge Open Experience Kit Near Edge Experience Kits deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposed. Note the Access network and UE simulators are not configured as part of the Smart Edge Open Experience Kit Near Edge Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact local Intel® rep for more information. 
+#### Near Edge Experience Kit Deployments
+The Near Edge Experience Kit deploys both the near edge cluster and also a second cluster to host the 5GC control plane functions and provide an additional Data Network POD to act as public network for testing purposed. Note the Access network and UE simulators are not configured as part of the Near Edge Experience Kit. Also required but not provided is a binary iUPF, UPF and 5GC components. Please contact your local Intel® rep for more information. 
 
-![Smart Edge Open Experience Kit Experience Kit](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-full-setup.png)
+![Intel® Smart Edge Open Near Edge Experience Kit](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-full-setup.png)
 
-> Figure 7 - Smart Edge Open Experience Kit Experience Kit
+> Figure 7 - Intel® Smart Edge Open Near Edge Experience Kit
 
-### Edge service applications supported on Smart Edge Open Experience Kit Near Edge
-The Smart Edge Open Experience Kit architectural paradigm enables convergence of edge services and applications across different market segments. This is demonstrated by taking diverse workloads native to different segments and successfully integrating within a common platform. The reference considers workloads segments across the following applications:
+### Edge service applications supported by the Near Edge Experience Kit
+The Intel® Smart Edge Open experience kit architectural paradigm enables convergence of edge services and applications across different market segments. This is demonstrated by taking diverse workloads native to different segments and successfully integrating within a common platform. The reference considers workloads segments across the following applications:
 
 Security: Capture of video and facilitating facial recognition to identified bona fide individuals to determine access to a security perimeter
 
@@ -179,8 +179,8 @@ Edge computing software deployments occupy a middle layer between the operating 
 
 For more about the supported EII demos support see [EII whitepaper](https://github.com/smart-edge-open/edgeapps/blob/master/applications/eis-experience-kit/docs/whitepaper.md) 
 
-### Smart Edge Open Experience Kit Near Edge hardware platform
-Smart Edge Open Experience Kit is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Todays baseline requirements for servers are as follows:
+### Near Edge Experience Kit hardware platform
+The Near Edge Experience Kit is designed to run on standard, off-the-shelf servers with Intel® Xeon CPUs. Todays baseline requirements for servers are as follows:
 
 Servers with Intel® Xeon Scalable processors or 2nd generation Intel® Xeon Scalable processors 
 
@@ -207,12 +207,12 @@ Note in future releases additional media analytics services will be enabled e.g 
 ### Data Flow
 Both use cases scenarios involve traffic flowing in the uplink direction from the access network. The traffic depends on the use case - could be video traffic from industrial camera inspecting conveyor belt as per EII demo or traffic/pedestrian video as per OpenVINO demo. The below diagram shows the high level flow from an input video stream from a mobile device sent over the access network and processed by the OpenVINO toolkit sample application for inference. There are two types of traffic: one that is classified and sent to public cloud (green), and the other which is classified as video traffic and sent to the local data network where it is routed to OpenVINO toolkit sample application for inference and processing. Routing and classification is configured through the Smart Edge Open controller and CNCA micro service which request via AMF  to update the UL classification rules of the UPF and also the routing in the data plane. 
 
-![Smart Edge Open Experience Kit Near Edge Data flow](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-data-flow.png)
+![Intel® Smart Edge Open Near Edge Experience Kit data flow](smartedge-open-experience-kit-near-edge-images/smartedge-open-experience-kit-data-flow.png)
 
-> Figure 8 - Smart Edge Open Experience Kit Near Edge Data flow
+> Figure 8 - Intel® Smart Edge Open Near Edge Experience Kit data flow
 
 
-### Smart Edge Open Experience Kit Near Edge Smart Edge Open deployment
+### Near Edge Experience Kit deployment
 
 #### Setting up target platform before deployment
 
@@ -238,9 +238,9 @@ There are two possibilities to change BIOS settings. The most important paramete
 #### Manual setup
 Reboot platform, go to the BIOS setup during server boot process and set correct options.
 
-### Setting up machine with Ansible
+### Setting up the machine with Ansible
 
-#### Steps to be performed on the machine, where the Ansible playbook is going to be run
+#### Steps to be performed on the machine where the Ansible playbook will be run
 
 1. Copy SSH key from machine, where the Ansible playbook is going to be run, to the target machines. Example commands:
     > NOTE: Generate ssh key if is not present on the machine: `ssh-keygen -t rsa` (Press enter key to apply default values)
@@ -591,7 +591,7 @@ eis_release_package_path: ""
 For more details about `eis-experience-kit` check [README.md](https://github.com/smart-edge-open/edgeapps/blob/master/applications/eis-experience-kit/README.md)
 
 ## Conclusion
-Smart Edge Open Experience Kit Near Edge deployment provide a reference implementation on how to use Smart Edge Open software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the Near Edge Network. With the power of Intel® architecture CPUs and the flexibility to add hardware accelerators, Smart Edge Open Experience Kit systems can be customized for a wide range of applications. 
+The Intel® Smart Edge Open Near Edge Experience Kit deployment provides a reference implementation on how to use Intel® Smart Edge Open software to efficiently deploy, manage and optimize the performance of network functions and applications suited to running at the Near Edge Network. With the power of Intel architecture CPUs and the flexibility to add hardware accelerators, Intel® Smart Edge Open Experience Kit systems can be customized for a wide range of applications. 
 
 ## Learn more
 * [Building on NFVI foundation from Core to Cloud to Edge with Intel® Architecture](https://networkbuilders.intel.com/social-hub/video/building-on-nfvi-foundation-from-core-to-cloud-to-edge-with-intel-architecture)

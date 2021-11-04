@@ -2,6 +2,11 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019 Intel Corporation
 ```
+> # A newer version of this document exists.
+> This document applies to experience kits deployed using Ansible.
+>  
+> See the updated [Node Feature Discovery documentation](https://smart-edge-open.github.io/docs/components/resource-management/node-feature-discovery) for kits that use the Edge Software Provisioner for deployment, such as the Developer Experience Kit.
+> 
 <!-- omit in toc -->
 # Node Feature Discovery support in Smart Edge Open
 - [Overview of NFD and Edge usecase](#overview-of-nfd-and-edge-usecase)
