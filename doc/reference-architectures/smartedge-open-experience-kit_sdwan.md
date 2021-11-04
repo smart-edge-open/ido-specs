@@ -3,7 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation  
 ```
 <!-- omit in toc -->
-# Converged Edge Reference Architecture for SD-WAN
+# Converged Edge Reference Architecture for SD-WAN (Intel® Smart Edge Open uCPE Experience Kit)
 - [Introduction](#introduction)
 - [Universal Customer Premises Equipment (u-CPE)](#universal-customer-premises-equipment-u-cpe)
 - [Software-Defined Wide Area Network (SD-WAN)](#software-defined-wide-area-network-sd-wan)
@@ -16,10 +16,10 @@ Copyright (c) 2020 Intel Corporation
   - [Firewall (fw3)](#firewall-fw3)
   - [IPSec](#ipsec)
 - [SD-WAN CNF Packet Flow](#sd-wan-cnf-packet-flow)
-- [Smart Edge Open Integration](#smart-edge-open-integration)
+- [Intel® Smart Edge Open Integration](#intel-smart-edge-open-integration)
   - [Goals](#goals)
   - [Networking Implementation](#networking-implementation)
-  - [Converged Edge Reference Architectures (Smart Edge Open Experience Kit)](#converged-edge-reference-architectures-smart-edge-open-experience-kit)
+  - [Converged Edge Reference Architectures (Intel® Smart Edge Open Experience Kit)](#converged-edge-reference-architectures-intel-smart-edge-open-experience-kit)
     - [SD-WAN Edge Reference Architecture](#sd-wan-edge-reference-architecture)
     - [SD-WAN Hub Reference Architecture](#sd-wan-hub-reference-architecture)
 - [Deployment](#deployment)
@@ -67,10 +67,10 @@ In this figure, the SD-WAN implementation is depicted in "SD-WAN NFs" boxes appe
 
 The next section describes the SD-WAN implementation.
 
-![Smart Edge Open reference solution for SD-WAN ](sdwan-images/smartedge-open-sdwan-ref.png)
+![Intel® Smart Edge Open reference solution for SD-WAN ](sdwan-images/smartedge-open-sdwan-ref.png)
 
 ## SD-WAN Implementation
-The Smart Edge Open Experience Kit SD-WAN is based on OpenWrt, an embedded version of Linux designed for use in routers and other communication devices. OpenWrt is highly customizable, allowing it to be deployed with a small footprint, and has a fully-writable filesystem. More details about OpenWRT can be found [here](https://openwrt.org/).
+The Intel® Smart Edge Open uCPE Experience Kit is based on OpenWrt, an embedded version of Linux designed for use in routers and other communication devices. OpenWrt is highly customizable, allowing it to be deployed with a small footprint, and has a fully-writable filesystem. More details about OpenWRT can be found [here](https://openwrt.org/).
 
 The OpenWrt project provides a number of kernel images. The “x86-generic rootfs” image is used in the SD-WAN implementation
 
@@ -241,11 +241,11 @@ The following figure shows the typical packet flow through the SD-WAN CNF for Tx
 
 ![SD-WAN Tx packet flow ](sdwan-images/packet-flow-tx.png)
 
-## Smart Edge Open Integration
-The previous sections of this document describe the operation of an SD-WAN implemention built from OpenWrt and its various packages. We now turn to the subject of how the SD-WAN is integrated with Smart Edge Open.
+## Intel® Smart Edge Open Integration
+The previous sections of this document describe the operation of an SD-WAN implemention built from OpenWrt and its various packages. We now turn to the subject of how the SD-WAN is integrated with Intel® Smart Edge Open.
 
 ### Goals
-Smart Edge Open leverages the SD-WAN project to offer SD-WAN service within an on-premise edge, to enable secure and optimized inter-edge data transfer. This functionality is sought by global corporations with  branch offices distributed across many geographical locations, as it creates an optimized WAN between edge locations implemented on top of a public network.
+Intel® Smart Edge Open leverages the SD-WAN project to offer SD-WAN service within an on-premise edge, to enable secure and optimized inter-edge data transfer. This functionality is sought by global corporations with  branch offices distributed across many geographical locations, as it creates an optimized WAN between edge locations implemented on top of a public network.
 
 At least one SD-WAN CNF is expected to run on each Smart Edge Open cluster (as shown in a previous figure), and act as a proxy for edge applications traffic entering and exiting the cluster. The primary task for the CNF is to provide software-defined routes connecting the edge LANs with the (public network) WAN.
 
@@ -254,7 +254,7 @@ Currently, the Smart Edge Open SD-WAN is intended only for single node clusters,
 
 
 ### Networking Implementation
-Smart Edge Open deployment featuring SD-WAN implements networking within the cluster with three CNIs: 
+Intel® Smart Edge Open deployment featuring SD-WAN implements networking within the cluster with three CNIs: 
 
   - calico CNI, that acts as the primary CNI. 
   - ovn4nfv k8s plugin CNI  that acts as the secondary CNI. 
@@ -269,10 +269,10 @@ In order for the SD-WAN CNF to act as a proxy between the virtual LANs in the cl
  -  A virtual LAN network on one of the CNF's virtual interfaces. This connects  application pods belonging to the same OVN network in the cluster. The ovn4nfv plugin allows for simplified creation of a virtual OVN network based on the provided configuration. The network is then attached on one of the CNF's interfaces.
  -  A provider network, to connect the CNF pod to an external network (WAN). The provider network is attached to the physical network infrastructure via layer-2 (i.e., via bridging/switching).
 
-### Converged Edge Reference Architectures (Smart Edge Open Experience Kit)
-Smart Edge Open Experience Kit is a business program that creates and maintains validated reference architectures of edge networks, including both hardware and software elements. The reference architectures are used by ISVs, system integrators, and others to accelerate the development of production edge computing systems.
+### Converged Edge Reference Architectures (Intel® Smart Edge Open Experience Kits)
+Intel® Smart Edge Open Experience Kit is a business program that creates and maintains validated reference architectures of edge networks, including both hardware and software elements. The reference architectures are used by ISVs, system integrators, and others to accelerate the development of production edge computing systems.
 
-The Smart Edge Open project has created a Smart Edge Open Experience Kit reference architecture for SD-WAN edge and SD-WAN hub. They are used, with Smart Edge Open, to create a uCPE platform for an SD-WAN CNF on edge and hub accordingly. Even though there is only one implementation of CNF, it can be used for two different purposes, as described below.
+The Intel® Smart Edge Open project has created an Intel® Smart Edge Open Experience Kit reference architecture for SD-WAN edge and SD-WAN hub. They are used, with Intel® Smart Edge Open, to create a uCPE platform for an SD-WAN CNF on edge and hub accordingly. Even though there is only one implementation of CNF, it can be used for two different purposes, as described below.
 
 #### SD-WAN Edge Reference Architecture
 The SD-WAN Edge Smart Edge Open Experience Kit reference implementation is used to deploy SD-WAN CNF on a single-node edge cluster that will also accomodate enterprize edge applications. The major goal of SD-WAN Edge is to support the creation of a Kubernetes-based platform that boosts the performance of deployed edge applications and reduces resource usage by the Kubernetes system. To accomplish this, the underlying platform must be optimized and made ready to use IA accelerators. Smart Edge Open provides support for the deployment of OpenVINO™ applications and workloads acceleration with the Intel® Movidius™ VPU HDDL-R add-in card.  SD-WAN Edge also enables the Node Feature Discovery (NFD) building block on the cluster to provide awareness of the nodes’ features to  edge applications. Finally, SD-WAN Edge implements Istio Service Mesh (SM) in the default namespace to connect the edge applications. SM acts as a middleware between  edge applications/services and the Smart Edge Open platform, and provides abstractions for traffic management, observability, and security of the building blocks in the platform. Istio is a cloud-native service mesh that provides capabilities such as Traffic Management, Security, and Observability uniformly across a network of services. Smart Edge Open integrates with Istio to reduce the complexity of large scale edge applications, services, and network functions. More information on SM in Smart Edge Open can be found on the Smart Edge Open [website](https://smartedge-open.org/developers/).

@@ -1,4 +1,5 @@
-title: "Previous Building Blocks (Licensed)"
+#title: "Previous Building Blocks (Licensed)"
+title: "Building Blocks (Licensed)"
 path: /building-blocks-licensed/
 order: 9
 section:
@@ -71,6 +72,7 @@ section:
     - title: Visual Compute Accelerator Card - Analytics (VCA-A)
       #path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/openness-vcac-a
       path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-vcac-a
+      meta_title:
       meta_description:
       
     - title: Intel QuickAssist Adapter

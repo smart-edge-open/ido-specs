@@ -1,0 +1,48 @@
+{% assign navigations = "" | split:"|" %}
+{% for navbars_data in site.data.navbars %}
+  {% assign nav = navbars_data[1] %}
+  {% assign navigations = navigations | push: nav %}
+{% endfor %}
+{% assign navbars = navigations | sort:"order" %}
+
+{% assign title = page.name | replace: "-"," " | replace: "_"," " | split: ".md" | first %}
+{% assign pageTitle = title | split: ' ' %}
+{% capture pageTitleUpper %}{% for word in pageTitle %}{{ word | capitalize }} {% endfor %}{% endcapture %}
+<div id="breadcrumbs">
+  {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
+  <a href="{{ site.main_url }}">Home</a>
+  {% if pageTitleUpper != 'index.html' %}
+    {% assign pagePath = page.path | remove: ".md" | prepend:"/" | prepend: site.baseurl | append:'/' %}
+    {% for navbar in navbars %}
+      {% for breadcrumb in navbar.section %}
+
+        {% assign crumbs = breadcrumb.path | remove:'/index.html' | split: '/' %}
+        {% assign cur_path = breadcrumb.path | append:'/' %}
+        {% if pagePath == cur_path %}
+          {% for crumb in crumbs offset: 1 %}
+            {% if site.baseurl == '/ido-specs' %}
+              {% if forloop.last %}
+                > {{ breadcrumb.title }}
+              {% elsif forloop.first %}
+
+              {% comment %}
+              {% else %}
+              {% endcomment %}
+                > <a href="{{ site.main_url | append: '/docs/product-overview/' }}">{{ 'Documentation' }}</a>
+
+                {% comment %}
+                {% if forloop.index >= 2 %}
+                  {% assign crumb_main = crumb %}{% assign crumb_limit = forloop.index | plus: 1 %}{% for crumb in crumbs limit: crumb_limit %}{% if forloop.index > 2 %}{% if crumb_main == 'doc' %}{{ site.main_url | append: '/docs/product-overview/' }}{% else %}{% if forloop.index > 3 %}{{ breadcrumb.path | append: '/' }}{% endif %}{% endif %}{% endif %}{% endfor %}
+                > <a href="{% assign crumb_main = crumb %}{% assign crumb_limit = forloop.index | plus: 1 %}{% for crumb in crumbs limit: crumb_limit %}{% if forloop.index > 2 %}{% if crumb_main == 'doc' %}{{ site.main_url | append: '/docs/product-overview/' }}{% else %}{% if forloop.index > 3 %}{{ breadcrumb.path | append: '/' }}{% endif %}{% endif %}{% endif %}{% endfor %}">{% if crumb == 'doc' %}{{ 'Documentation' }}{% else %}{{ crumb | replace:'-',' ' | remove:'.html' | capitalize }}{% endif %}</a>
+                {% endif %}
+                {% endcomment %}
+
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+</div>

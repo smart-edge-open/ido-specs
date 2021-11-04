@@ -2,6 +2,11 @@
 SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2019-2020 Intel Corporation
 ```
+> # A newer version of this document exists.
+> This document applies to experience kits deployed using Ansible.
+>
+> See the updated docs for [Multus](https://smart-edge-open.github.io/docs/components/networking/multus) and the [SR-IOV Network Operator](https://smart-edge-open.github.io/docs/components/networking/sriov-network-operator) for kits that use the Edge Software Provisioner for deployment, such as the Developer Experience Kit.
+>
 <!-- omit in toc -->
 # Multiple Interface and PCIe\* SR-IOV Support in Smart Edge Open
 - [Overview](#overview)
