@@ -3,14 +3,14 @@ SPDX-License-Identifier: Apache-2.0
 Copyright (c) 2020 Intel Corporation
 ```
 <!-- omit in toc -->
-# Smart Edge Open Radio Access Network (RAN)
+# Smart Edge Open Radio Access Network (Intel® Smart Edge Open Access Edge Experience Kit)
 - [Introduction](#introduction)
 - [Building the FlexRAN image](#building-the-flexran-image)
 - [FlexRAN hardware platform configuration](#flexran-hardware-platform-configuration)
   - [BIOS](#bios)
   - [Setting up CPU Uncore frequency](#setting-up-cpu-uncore-frequency)
   - [Host kernel command line](#host-kernel-command-line)
-- [Deploying Access Edge Smart Edge Open Experience Kit for FlexRAN](#deploying-access-edge-smart-edge-open-experience-kit-for-flexran)
+- [Deploying the Access Edge Experience Kit for FlexRAN](#deploying-the-access-edge-experience-kit-for-flexran)
 - [Deploying and Running the FlexRAN pod](#deploying-and-running-the-flexran-pod)
 - [Setting up 1588 - PTP based Time synchronization](#setting-up-1588---ptp-based-time-synchronization)
   - [Setting up PTP](#setting-up-ptp)
@@ -129,13 +129,13 @@ Host kernel version - 3.10.0-1160.11.1.rt56.1145.el7.x86_64
 
 Instructions on how to configure the kernel command line in Smart Edge Open can be found in [Smart Edge Open getting started documentation](../../getting-started/converged-edge-experience-kits.md#customizing-kernel-grub-parameters-and-tuned-profile--variables-per-host)
 
-# Deploying Access Edge Smart Edge Open Experience Kit for FlexRAN
+# Deploying the Access Edge Experience Kit for FlexRAN
 
-Information about Access Edge Smart Edge Open Experience Kit and other Smart Edge Open Experience Kits can be found in [flavours.md documentation](https://github.com/smart-edge-open/ido-specs/blob/master/doc/flavors.md#smart-edge-open-experience-kit-access-edge-flavor). Additionally users are encouraged to familiarize themselves with [converged-edge-experience-kits documentation](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
+Information about Access Edge and other Intel® Smart Edge Open Experience Kits can be found in [flavours.md documentation](https://github.com/smart-edge-open/ido-specs/blob/master/doc/flavors.md#smart-edge-open-experience-kit-access-edge-flavor). Additionally users are encouraged to familiarize themselves with [converged-edge-experience-kits documentation](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/converged-edge-experience-kits.md)
 
 1. Fulfill the [pre-conditions for deploying Smart Edge Open](https://github.com/smart-edge-open/ido-specs/blob/master/doc/getting-started/network-edge/controller-edge-node-setup.md#preconditions)
 
-2. Configure the specification for the Access Edge Smart Edge Open Experience Kit present under the `flavors/flexran` directory. The following may need to be adjusted.
+2. Configure the specification for the Access Edge Experience Kit present under the `flavors/flexran` directory. The following may need to be adjusted.
 
 3. Edit `flavors/flexran/all.yml` as necessary.
 
@@ -197,7 +197,7 @@ Information about Access Edge Smart Edge Open Experience Kit and other Smart Edg
 
 # Deploying and Running the FlexRAN pod
 
-1. Deploy the Smart Edge Open cluster with [Access Edge Smart Edge Open Experience Kit](https://github.com/smart-edge-open/ido-specs/blob/master/doc/flavors.md#smart-edge-open-experience-kit-access-edge-flavor) enabled.
+1. Deploy the Smart Edge Open cluster with the [Access Edge Experience Kit](https://github.com/smart-edge-open/ido-specs/blob/master/doc/flavors.md#smart-edge-open-experience-kit-access-edge-flavor) enabled.
 
 2. Confirm that there are no FlexRAN pods and the FPGA configuration pods are not deployed using `kubectl get pods`.
 

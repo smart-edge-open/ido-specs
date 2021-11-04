@@ -189,7 +189,7 @@ The Intel® FPGA PAC plays a key role in accelerating certain types of workloads
 
 The Intel® FPGA PAC N3000 is a full-duplex, 100 Gbps in-system, re-programmable acceleration card for multi-workload networking application acceleration. It has an optimal memory mixture designed for network functions, with an integrated network interface card (NIC) in a small form factor that enables high throughput, low latency, and low power per bit for a custom networking pipeline.
 
-For more references see [<b>openness-fpga.md:</b> Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/smart-edge-open/idospecs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
+For more references see [<b>openness-fpga.md:</b> Dedicated FPGA IP resource allocation support for Edge Applications and Network Functions](https://github.com/smart-edge-open/ido-specs/blob/master/doc/building-blocks/enhanced-platform-awareness/openness-fpga.md)
 
 > NOTE: Intel® ACC100 eASIC and Intel® FPGA PAC N3000 are alternative.
 
@@ -286,7 +286,7 @@ These steps are performed on the machine where the Ansible playbook will be run.
 3. Update repositories by running following commands.
     ```shell
     cd ido-converged-edge-experience-kits
-    git submodule foreach --recursive git checkout master
+    git submodule foreach --recursive git checkout smart-edge-open-21.09
     git submodule update --init --recursive
     ```
 
@@ -341,7 +341,7 @@ These steps are performed on the machine where the Ansible playbook will be run.
     proxy_noproxy: "127.0.0.1,localhost,192.168.1.0/24"
     ```
 
-6. Edit `ido-converged-edge-experience-kits/pwek-all-in-one/all.yml`.
+6. Edit `ido-converged-edge-experience-kits/flavors/pwek-all-in-one/all.yml`.
 
     Set interface name and SRIOV configuration for fronthaul connection to RRU:
     ```yaml
@@ -380,7 +380,7 @@ These steps are performed on the machine where the Ansible playbook will be run.
         pf: "p7p4"        # PF based PCI-passthrough is used 
     ```
 
-    Set the interface name for N6 on the UPF side:
+    Set the interface name on N6 for UPF data out-side:
     ```yaml
     upf_data:
       pf: "p7p1"
@@ -472,7 +472,7 @@ These steps are performed on the machine where the Ansible playbook will be run.
     ne_opae_fpga_enable: false
     ```
 
-7. Edit `ido-converged-edge-experience-kits/pwek-all-in-one/controller_group.yml`. 
+7. Edit `ido-converged-edge-experience-kits/flavors/pwek-all-in-one/controller_group.yml`. 
     Set up ntp server
     ```yaml
     ntp_servers: ["ccr.corp.intel.com"]
@@ -510,14 +510,21 @@ These steps are performed on the machine where the Ansible playbook will be run.
   - Intel® SYSCFG must be manually downloaded by the user after accepting the license. [Download the utility here](https://downloadcenter.intel.com/download/29693/Save-and-Restore-System-Configuration-Utility-SYSCFG).
   - The SYSCFG package must be downloaded and stored inside Converged Edge Experience Kits `biosfw/` directory as `syscfg_package.zip`: `ido-converged-edge-experience-kits/ceek/biosfw/syscfg_package.zip`
     
-    > For more details about BIOS-FW feature please refer to [openness-bios](../building-blocks/enhanced-platform-awareness/openness-bios.md).
+    > For more details about BIOS-FW feature please refer to [openness-bios](../building-blocks/enhanced-platform-awareness/smartedge-open-bios.md).
 
 10. Provide OPAE package ( Optional step with FPGA N3000 ):
   - Place `OPAE_SDK_1.3.7-5_el7.zip` inside `ido-converged-edge-experience-kits/ceek/opae_fpga` directory. The package can be obtained as part of Intel® FPGA PAC N3000 OPAE beta release. To obtain the package, contact your Intel representative.
     
-    > For more details about FPGA support please refer to [openness-fpga](../building-blocks/enhanced-platform-awareness/openness-fpga.md).
+    > For more details about FPGA support please refer to [openness-fpga](../building-blocks/enhanced-platform-awareness/smartedge-open-fpga.md).
 
-11. Deploy the experience kit.
+11. Copy gNodeB and 5GCN images and deployment files
+
+The binaries from gNodeB and 5GCN are required to be copied from the deployment machine so it needs to have atleast 50-60 GB of storage available. 
+
+gNodeB: `/opt/pwek_offline_files/edge_node`
+5GCN: `/opt/pwek_offline_files/controller`
+
+12. Deploy the experience kit.
 
     Silent deployment:
     ```shell
@@ -712,23 +719,6 @@ To deploy `UPF` correctly you must provide a Docker image to Docker Repository o
 ```
 
 ##### Settings
-
-Update the interface name and CPU allocation settings in the `ido-converged-edge-experience-kits/flavors/pwek-all-in-one/all.yml` file. This file defines the connection to the near edge cluster and distributed UPF (dUPF).
-
-```yaml
-backhaul:
-  upf_side:
-    pf: "p2p1"
-    vf_num: "0"
-
-# 5GC N6
-upf_data:
-  pf: "p2p4"
-  vf_num: "0"
-
-dedicated_cpu:
-  i_upf: "43-45"
-```
 
 PWEK 5GC path in file `ido-converged-edge-experience-kits/roles/applications/pwek_5gc/defaults/main.yml` used for docker images, shell scripts and helm-charts.
 ```yaml
