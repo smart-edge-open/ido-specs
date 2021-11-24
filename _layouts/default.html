@@ -49,15 +49,29 @@
                         }else{
                             if(url.startsWith("../../") == true){
                                 url = url.replace("../../", "");
+                            }else if(url.startsWith("../") == true){
+                                url = url.replace("../", "");
                             }
                             new_url = (url.startsWith("/") == true)?base_url+"/doc"+url:base_url+"/doc/"+url;
-                            console.log(new_url);
                         }
+                        //Update Url
                         jQuery(this).attr('href',new_url);
                     }else{
-                        if(hashCheck != '-1'){
+                        /*if(hashCheck != '-1'){
                             //Remove .md From href
                             jQuery(this).attr('href', url.replace(".md", "/"));
+                        }*/
+                        if(hashCheck == '-1' || hashCheck != '-1'){
+                            //Remove .md From href
+                            if(url.indexOf('/blob/master') != '-1'){
+                                url = url.replace("/blob/master", "");
+                                if(url.indexOf('https://github.com/smart-edge-open') != '-1'){
+                                    url = url.replace("https://github.com/smart-edge-open", "");
+                                }
+                                jQuery(this).attr('href', url.replace(".md", "/"));
+                            }else{
+                                jQuery(this).attr('href', url.replace(".md", "/"));
+                            }
                         }
                     }
                 }
