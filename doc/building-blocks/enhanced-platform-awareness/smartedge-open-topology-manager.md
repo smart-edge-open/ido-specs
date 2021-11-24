@@ -6,7 +6,8 @@ Copyright (c) 2019-2021 Intel Corporation
 > This document applies to experience kits deployed using Ansible.
 >  
 > See the updated [Topology Manager documentation](https://smart-edge-open.github.io/docs/components/resource-management/topology-manager) for kits that use the Edge Software Provisioner for deployment, such as the Developer Experience Kit.
->
+
+
 <!-- omit in toc -->
 # Resource Locality Awareness Support Through Topology Manager in Smart Edge Open
 - [Overview](#overview)

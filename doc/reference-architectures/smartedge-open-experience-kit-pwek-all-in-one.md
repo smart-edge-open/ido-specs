@@ -549,7 +549,8 @@ The following are required for `gNodeB` deployment:
 
 #### Settings
 
-1. Edit the `ido-converged-edge-experience-kits/pwek-all-in-one/all.yml` file.
+1. Edit the `ido-converged-edge-experience-kits/flavors/pwek-all-in-one/all.yml` file.
+
 ```yaml
 # PWEK All in One
 pwek_enable: true
@@ -564,6 +565,7 @@ pwek_gnodeb_enable: true
 2. Set the upload path for `GNodeB` prerequisites. 
 
 Edit the `ido-converged-edge-experience-kits/flavors/pwek-all-in-one/all.yml` file to customize the upload path.
+
 ```yaml
 remote_pwek_path: "/opt/pwek"
 # on edge node
@@ -721,6 +723,7 @@ To deploy `UPF` correctly you must provide a Docker image to Docker Repository o
 ##### Settings
 
 PWEK 5GC path in file `ido-converged-edge-experience-kits/roles/applications/pwek_5gc/defaults/main.yml` used for docker images, shell scripts and helm-charts.
+
 ```yaml
 # Paths for storing pwek related resources
 remote_pwek_path: "/opt/pwek"
@@ -759,11 +762,13 @@ This section describes how to onboard the Intel® Distribution of OpenVINO™ to
 ### Setting - OpenVINO
 
 1. Clone the `edgeapps` repository to the edge node.
+
 ```shell
 [root@node]# git clone https://github.com/smart-edge-open/edgeapps.git
 ```
 
 2. Build the Docker image.
+
 ```shell
 [root@node]# cd edgeapps/applications/openvino/producer
 [root@node]# bash ./build-image.sh
@@ -773,6 +778,7 @@ This section describes how to onboard the Intel® Distribution of OpenVINO™ to
 
 3. Attach a VF NIC to the OpenVINO pod. 
 Make sure the VF number of [PF interface p5p1](#edgeapp-n6-interface) defined for EdgeApp above and that sriov_numvfs is set to a non-zero value.
+
 ```shell
 [root@node]# cat /sys/class/net/p5p1/device/sriov_numvfs
 5
@@ -780,6 +786,7 @@ Make sure the VF number of [PF interface p5p1](#edgeapp-n6-interface) defined fo
 
 4. Verify `sriov-net-openvino` configuration.
 `sriov-net-openvino` is a resource of type NetworkAttachmentDefinition. Ensure it is defined in the default namespace with the subnet set to 6.6.6.0/24.
+
 ```shell
 [root@controller]# get net-attach-def sriov-net-openvino -o yaml
 apiVersion: k8s.cni.cncf.io/v1
@@ -822,6 +829,7 @@ spec:
 ### Deploy the OpenVINO Application
 
 1. Apply the yaml file on the controller node.
+
 ```shell
 [root@controller]# kubectl apply -f openvino-prod-app.yaml
 [root@controller]# kubectl apply -f openvino-cons-sriov-app.yaml
@@ -834,6 +842,7 @@ openvino-prod-app-79d5756d76-hhmjg   1/1     Running   0          3d8h
 ```
 
 2. To apply a new NetworkPolicy for the OpenVINO application, please refer the [document](https://github.com/smart-edge-open/ido-specs/blob/mainline/doc/applications-onboard/network-edge-applications-onboarding.md#applying-kubernetes-network-policies-1). Or delete the block-all NetworkPolicy in the default namespace.
+
 ```shell
 [root@controller]# kubectl delete networkpolicy block-all-ingress
 ```
