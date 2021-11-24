@@ -3,6 +3,7 @@ Copyright (c) 2020 Intel Corporation
 
 Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 =========
+- [Edge Cloud Deployment with 3GPP 5G Non Stand Alone](#edge-cloud-deployment-with-3gpp-5g-non-stand-alone)
 - [Introduction](#introduction)
 - [5G NSA Option-3 Architecture aspects](#5g-nsa-option-3-architecture-aspects)
   - [Option-3](#option-3)
@@ -22,7 +23,7 @@ Edge Cloud Deployment with 3GPP 5G Non Stand Alone
 
 Edge Compute is highlighted as a key deployment mechanism for delivering services to end users by placing applications closer to the user. Network and Enterprise operators are trying to take advantage of this advancement to provide low latency, user centric and secure edge services.
 
-Smart Edge Open supports edge compute deployment for LTE Control and User Plane Separation(CUPS) as described  in[Smart Edge Open_EPC] and 5G Stand Alone as described in  [Smart Edge Open_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (Stand Alone) options consist of only one generation of radio access technology and NSA (Non Stand Alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment** and how Smart Edge Open supports those deployment models.
+Smart Edge Open supports edge compute deployment for LTE Control and User Plane Separation(CUPS) as described  in [Smart Edge Open_EPC] and 5G Stand Alone as described in  [Smart Edge Open_NGC]. 5G can be deployed in five different deployment options as described in [3GPP 23.799][3GPP_23799], where SA (Stand Alone) options consist of only one generation of radio access technology and NSA (Non Stand Alone) options consist of two generations of radio access technologies (4G LTE and 5G). The early deployments of 5G will be adopting either NSA option 3 or standalone option 2 as the standardization of these two options have already been completed. The focus of this paper is towards the edge deployment using the **5G NSA Option-3 deployment** and how Smart Edge Open supports those deployment models.
 
 # 5G NSA Option-3 Architecture aspects
 
@@ -139,9 +140,9 @@ This white paper describes an investigation of how the Smart Edge Open support f
 
 [GSMA_5G_NSA]: <https://www.gsma.com/futurenetworks/wp-content/uploads/2019/03/5G-Implementation-Guidelines-NSA-Option-3-v2.1.pdf> "GSMA 5G Implementation Guidelines: NSA Option 3 February 2020"
 
-[Smart Edge Open_EPC]: <https://github.com/smart-edge-open/ido-specs/blob/master/doc/core-network/smartedge-open_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
+[Smart Edge Open_EPC]: <https://github.com/smart-edge-open/ido-specs/blob/master/doc/reference-architectures/core-network/smartedge-open_epc.md> "Edge Cloud Deployment with 3GPP 4G LTE CUPS of EPC"
 
-[Smart Edge Open_NGC]: <https://github.com/smart-edge-open/ido-specs/blob/master/doc/core-network/smartedge-open_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
+[Smart Edge Open_NGC]: <https://github.com/smart-edge-open/ido-specs/blob/master/doc/reference-architectures/core-network/smartedge-open_ngc.md> "Edge Cloud Deployment with 3GPP 5G Stand Alone"
 
 [4G CUPS Management API]: <https://github.com/smart-edge-open/ido-specs/tree/master/schema/cups> "4G Control and User Plane Separation (CUPS) Management API"
 

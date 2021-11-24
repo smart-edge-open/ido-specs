@@ -6,7 +6,8 @@ Copyright (c) 2020 Intel Corporation
 > This document applies to experience kits deployed using Ansible.
 >  
 > See the updated [Telemetry documentation](https://smart-edge-open.github.io/docs/components/telemetry/telemetry) for kits that use the Edge Software Provisioner for deployment, such as the Developer Experience Kit.
->
+
+
 <!-- omit in toc -->
 # Telemetry Support in Smart Edge Open
 - [Overview](#overview)
