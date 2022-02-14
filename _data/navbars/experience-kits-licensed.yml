@@ -9,8 +9,8 @@ section:
     meta_description: 
     
   #- title: Private Wireless
-  - title: 5G Private Wireless with Integrated RAN
-    path: /ido-specs/doc/reference-architectures/smartedge-open-experience-kit-pwek-all-in-one
+  - title: Private Wireless
+    path: /docs/experience-kits/private-wireless-experience-kit
     meta_title: 
     meta_description: 
     
