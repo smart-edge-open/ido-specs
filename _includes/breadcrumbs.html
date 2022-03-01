@@ -10,7 +10,8 @@
 {% capture pageTitleUpper %}{% for word in pageTitle %}{{ word | capitalize }} {% endfor %}{% endcapture %}
 <div id="breadcrumbs">
   {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
-  <a href="{{ site.main_url }}">Home</a>
+  <a href="{{ site.main_url }}">Home</a> > 
+  {% comment %}
   {% if pageTitleUpper != 'index.html' %}
     {% assign pagePath = page.path | remove: ".md" | prepend:"/" | prepend: site.baseurl | append:'/' %}
     {% for navbar in navbars %}
@@ -45,4 +46,5 @@
       {% endfor %}
     {% endfor %}
   {% endif %}
+  {% endcomment %}
 </div>

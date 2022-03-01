@@ -2,7 +2,12 @@ title: "Product Overview"
 path: /docs/product-overview
 order: 0
 section:
-  - title: Overview
+  - title: About
     path: /docs/product-overview
+    meta_title: 
+    meta_description: 
+
+  - title: Licensing
+    path: /request-license
     meta_title: 
     meta_description: 

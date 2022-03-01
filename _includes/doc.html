@@ -33,17 +33,87 @@
                                 {% endif %}
                                 {% endfor %}
                                 {% assign navbars = navigations | sort:"order" %}
-                                
+                                <!-- Start Comment -->
+                                {% comment %}
                                 {% for navbar in navbars %}
                                     <h5>{{ navbar.title }}</h5>
                                     <ul class="uk-nav uk-nav-default doc-nav">
                                     {% assign repo_path = page.url | prepend:site.baseurl | prepend:site.url %}
                                     {% for nav in navbar.section %}
                                     {% assign doc_url = nav.path | append:"/" %}
-                                    <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><a href="{{ nav.path}}">{{ nav.title }}</a></li>
+                                    <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><a href="{{ nav.path }}">{{ nav.title }}</a></li>
                                     {% endfor %}
                                     </ul>
                                 {% endfor %}
+                                {% endcomment %}
+                                <!-- End Comment -->
+
+                                <ul>
+                                {% for navbar in navbars %}
+                                    {% if navbar.section %}
+                                    <li class="hasChild">
+                                        <span>{{ navbar.title }}</span>
+                                        <ul class="uk-nav uk-nav-default doc-nav">
+                                        {% assign repo_path = page.url | prepend:site.baseurl | prepend:site.url %}
+                                        {% for a in navbar.section %}
+                                        {% assign doc_url = a.path | append:"/" %}
+                                            {% if a.section %}
+                                            <li class="hasChild">
+                                                <span>{{ a.title }}</span>
+                                                <ul class="uk-nav uk-nav-default doc-nav">
+                                                    {% for b in a.section %}
+                                                    {% assign doc_url = b.path | append:"/" %}
+                                                    {% if b.section %}
+                                                    <li class="hasChild">
+                                                        <span>{{ b.title }}</span>
+                                                        <ul class="uk-nav uk-nav-default doc-nav">
+                                                        {% for c in b.section %}
+                                                        {% assign doc_url = c.path | append:"/" %}
+                                                            {% if c.section %}
+                                                            <li class="hasChild">
+                                                                <span>{{ c.title }}</span>
+                                                                <ul class="uk-nav uk-nav-default doc-nav">
+                                                                    {% for d in c.section %}
+                                                                    {% assign doc_url = d.path | append:"/" %}
+                                                                        {% if d.section %}
+                                                                        <li class="hasChild">
+                                                                            <span>{{ d.title }}</span>
+                                                                            <ul class="uk-nav uk-nav-default doc-nav">
+                                                                                {% for e in d.section %}
+                                                                                {% assign doc_url = e.path | append:"/" %}
+                                                                                <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><span><a href="{{ e.path }}">{{ e.title }}</a></span></li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        </li>
+                                                                        {% else %}
+                                                                        <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><span><a href="{{ d.path }}">{{ d.title }}</a></span></li>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                            {% else %}
+                                                            <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><span><a href="{{ c.path }}">{{ c.title }}</a></span></li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                    {% else %}
+                                                    <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><span><a href="{{ b.path }}">{{ b.title }}</a></span></li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            {% else %}
+                                            <li class="{% if doc_url == repo_path %}uk-active{% endif %}"><span><a href="{{ a.path }}">{{ a.title }}</a></span></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% else %}
+                                    <li><span>{{ navbar.title }}</span></li>
+                                    {% endif %}
+                                {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -89,7 +159,6 @@
                         offset: 120
                     });
                 </script>
-
             </div>
     </div>
 </div>
