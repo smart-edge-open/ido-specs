@@ -1,0 +1,115 @@
+title: "Access Edge Experience Kit"
+order: 6
+section:
+  - title: "Getting Started"
+    order: 1
+    section:
+      - title: Cluster Setup
+        path: /ido-specs/doc/getting-started/smartedge-open-cluster-setup/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title: Converged Edge Experience Kits
+        path: /ido-specs/doc/getting-started/converged-edge-experience-kits/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+      - title: Offline Deployment
+        path: /ido-specs/doc/getting-started/offline-edge-deployment/?page=access-edge-experience-kit
+        meta_title:
+        meta_description:
+      - title: Non-root User
+        path: /ido-specs/doc/getting-started/non-root-user/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+      - title: Harbor Registry Service
+        path: /ido-specs/doc/getting-started/harbor-registry/?page=access-edge-experience-kit
+        meta_title:
+        meta_description:
+      - title: Kubernetes
+        path: /ido-specs/doc/getting-started/kubernetes-dashboard/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+  - title: "Building Blocks"
+    order: 2
+    section:
+      - title: Inter-app Communication
+        path: /ido-specs/doc/building-blocks/dataplane/smartedge-open-interapp/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+        
+      - title: Hugepage
+        path:  /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-hugepage/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+        
+      - title: Node Feature Discovery
+        path:  /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-node-feature-discovery/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description: 
+        
+      - title: Multiple Interface & PCIe SRIOV
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-sriov-multiple-interfaces/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+        
+      - title: Dedicated CPU Core
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-dedicated-core/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+        
+      - title: BIOS & Firmware Configuration
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-bios/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+        
+      - title: FPGA Support
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-fpga/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+        
+      - title: Intel® vRAN Dedicated Accelerator ACC100
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-acc100/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description: 
+        
+      - title: Topology Manager
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-topology-manager/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description: 
+        
+      - title: Telemetry
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-telemetry/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description: 
+        
+      - title: Resource Management Daemon
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-rmd/?page=access-edge-experience-kit
+        meta_title: 
+        meta_description:
+        
+  - title: "Application Onboarding"
+    order: 3
+    section:
+      - title: Network Edge Application Onboarding
+        path: /ido-specs/doc/applications-onboard/network-edge-applications-onboarding/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title: Edge DNS
+        path: /ido-specs/doc/applications-onboard/smartedge-open-edgedns/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title: Edge Application Agent (EAA)
+        path: /ido-specs/doc/applications-onboard/smartedge-open-eaa/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title: Certificate Signing
+        path: /ido-specs/doc/applications-onboard/smartedge-open-certsigner/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title: Interface Service
+        path: /ido-specs/doc/applications-onboard/smartedge-open-interface-service/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 
+      - title:  VM Support
+        path: /ido-specs/doc/applications-onboard/smartedge-open-network-edge-vm-support/?page=access-edge-experience-kit
+        meta_title:
+        meta_description: 

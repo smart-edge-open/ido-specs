@@ -1,3 +1,68 @@
-title: "Open - Apache 2.0"
+title: "Developer Experience Kit"
 path: /open-apache/
 order: 2
+section:
+  - title: "Overview"
+    path: /docs/experience-kits/developer-experience-kit/#overview
+  - title: "How it works"
+    path: /docs/experience-kits/developer-experience-kit/#how-it-works
+  - title: "Get Started"
+    path: /docs/experience-kits/developer-experience-kit/#get-started
+  - title: "Building Blocks"
+    path: /building-blocks/
+    section:
+      - title: Networking
+        path: /docs/components/resource-management/core-pinning
+        meta_title: 
+        meta_description: 
+        section:
+          - title: Multus CNI
+            path: /docs/components/networking/multus/?page=building-blocks
+            meta_title: 
+            meta_description: 
+          - title: SR-IOV Network Operator
+            path: /docs/components/networking/sriov-network-operator/?page=building-blocks
+            meta_title: 
+            meta_description:     
+
+      - title: Resource Management
+        path: /docs/components/resource-management/node-feature-discovery
+        meta_title: 
+        meta_description:
+        section: 
+          - title: CPU Manager
+            path: /docs/components/resource-management/cpu-manager/?page=building-blocks
+            meta_title: 
+            meta_description:
+          - title: Node Feature Discovery
+            path: /docs/components/resource-management/node-feature-discovery/?page=building-blocks
+            meta_title: 
+            meta_description:
+          - title: Topology Manager
+            path: /docs/components/resource-management/topology-manager/?page=building-blocks
+            meta_title: 
+            meta_description:      
+      - title: Security
+        path: /docs/components/networking/multus
+        meta_title: 
+        meta_description:
+        section: 
+          - title: Application Security
+            path: /docs/components/security/application-security-using-sgx/?page=building-blocks
+            meta_title: 
+            meta_description:
+          - title: Platform Attestation
+            path: /docs/components/security/platform-attestation-using-isecl/?page=building-blocks
+            meta_title: 
+            meta_description:   
+      
+      #- title: SRIOV
+      - title: Telemetry
+        path: /docs/components/telemetry/telemetry/?page=building-blocks
+        meta_title: 
+        meta_description: 
+      
+      - title: Application Onboarding
+        path: /docs/application-onboarding/application-onboarding-cmdline/?page=building-blocks
+        meta_title: 
+        meta_description: 
