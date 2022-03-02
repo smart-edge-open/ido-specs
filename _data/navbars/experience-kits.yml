@@ -18,7 +18,7 @@ section:
             meta_title: 
             meta_description: 
           - title: "SR-IOV FEC Operator"
-            path: /docs/blob/main/components/resource-management/sriov-fec-operator/?page=private-wireless-experience-kit
+            path: /docs/components/resource-management/sriov-fec-operator/?page=private-wireless-experience-kit
             meta_title: 
             meta_description:  
           - title: "Multus CNI"
