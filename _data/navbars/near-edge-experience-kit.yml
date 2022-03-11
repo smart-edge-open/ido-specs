@@ -1,6 +1,8 @@
 title: "Near Edge Experience Kit"
 order: 6
 section:
+  - title: "Overview"
+    path: /ido-specs/doc/reference-architectures/Smartedge-Open-Experience-Kit-Near-Edge
   - title: "Getting Started"
     order: 1
     section:
