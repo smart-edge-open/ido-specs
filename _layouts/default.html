@@ -13,22 +13,22 @@
     
     {% include doc.html %}
 
-
-
     {% include offcanvas-docs.html %}
 
     {% include offcanvas.html %}
 
-   <!--  {% if page.layout != 'doc' %}
+    {% if page.layout != 'doc' %}
         {% include footer.html %}
-    {% endif %} -->
+    {% endif %}
 
+    {% comment %}
     {% if page.layout == 'doc' %}
         {% include hook-pre-closing-body-doc.html %}
     {% endif %}
 
     {% include hook-pre-closing-body.html %}
-    
+    {% endcomment %}
+
     <script type="text/javascript">
         jQuery(document).ready(function(){
             jQuery('.article-content .link-primary a').each(function(e){
