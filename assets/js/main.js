@@ -9689,7 +9689,11 @@ jQuery(window).on('load', function(){
                 //console.log(nodeList);
             });
             const linkText =  jQuery('.sidebar-docs .leftSection .collapsedArea ul li span a[href="'+pathname+'"]').text();
-            breadcrumbs.insertAdjacentHTML("beforeend", nodeList+ " > " +linkText);
+            if(nodeList != ''){
+                breadcrumbs.insertAdjacentHTML("beforeend", nodeList+ " > " +linkText);
+            }else{
+                breadcrumbs.insertAdjacentHTML("beforeend", linkText);
+            }
 
         }, 10)
     }
