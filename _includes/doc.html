@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2021 Intel Corporation
+-->
 <script src="{{ "/assets/js/jquery.js" | relative_url }}"></script>
 <link rel="stylesheet" href="{{ "/assets/css/ido-specs.css" | relative_url }}" type="text/css" />
 <script src="{{ "/assets/js/instantsearch.min.js" | relative_url }}"></script>
@@ -110,7 +114,7 @@
                                         </ul>
                                     </li>
                                     {% else %}
-                                    <li><span>{{ navbar.title }}</span></li>
+                                    <li class="noChild"><span><a href="{{ navbar.path }}">{{ navbar.title }}</a></span></li>
                                     {% endif %}
                                 {% endfor %}
                                 </ul>

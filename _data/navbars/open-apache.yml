@@ -1,13 +1,27 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2021 Intel Corporation
 title: "Developer Experience Kit"
 path: /open-apache/
 order: 2
 section:
-  - title: "Overview"
-    path: /docs/experience-kits/developer-experience-kit/#overview
-  - title: "How it works"
-    path: /docs/experience-kits/developer-experience-kit/#how-it-works
-  - title: "Get Started"
-    path: /docs/experience-kits/developer-experience-kit/#get-started
+  - title: "Default Installation"
+    path:
+    section:
+      - title: "Overview"
+        path: /docs/experience-kits/developer-experience-kit-default-install/#overview
+      - title: "How it works"
+        path: /docs/experience-kits/developer-experience-kit-default-install/#how-it-works
+      - title: "Get Started"
+        path: /docs/experience-kits/developer-experience-kit-default-install/#get-started
+  - title: "Advanced Installation"
+    path:
+    section:
+      - title: "Overview"
+        path: /docs/experience-kits/developer-experience-kit-advanced-install/#overview
+      - title: "How it works"
+        path: /docs/experience-kits/developer-experience-kit-advanced-install/#how-it-works
+      - title: "Get Started"
+        path: /docs/experience-kits/developer-experience-kit-advanced-install/#get-started
   - title: "Building Blocks"
     path: /building-blocks/
     section:
