@@ -1,0 +1,32 @@
+title: "Secure Access Service Edge Experience Kit"
+path: /experience-kits/
+order: 5
+section:
+  - title: "Overview"
+    path: /ido-specs/doc/reference-architectures/smartedge-open-experience-kit_sdwan/?page=secure-access-service-edge-experience-kit
+  - title: "Getting Started"
+    section:
+      - title: "Cluster Setup"
+        path: /ido-specs/doc/getting-started/smartedge-open-cluster-setup/?page=secure-access-service-edge-experience-kit
+      - title: "Converged Edge Experience Kits"
+        path: /ido-specs/doc/getting-started/converged-edge-experience-kits/?page=secure-access-service-edge-experience-kit
+      - title: "Non-root User"
+        path: /ido-specs/doc/getting-started/non-root-user/?page=secure-access-service-edge-experience-kit
+      - title: "Harbor Registry Service"
+        path: /ido-specs/doc/getting-started/harbor-registry/?page=secure-access-service-edge-experience-kit
+      - title: "Kubernetes Dashboard"
+        path: /ido-specs/doc/getting-started/kubernetes-dashboard/?page=secure-access-service-edge-experience-kit
+  - title: "Building Blocks"
+    section:
+      - title: "Node Feature Discovery"
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-node-feature-discovery/?page=secure-access-service-edge-experience-kit
+      - title: "Multiple Interface & PCIe SRIOV"
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-sriov-multiple-interfaces/?page=secure-access-service-edge-experience-kit
+      - title: "Intel® Movidius™ Myriad™ X HDDL"
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open_hddl/?page=secure-access-service-edge-experience-kit
+      - title: "Telemetry"
+        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-telemetry/?page=secure-access-service-edge-experience-kit
+  - title: "Application Onboarding"
+    section:
+      - title: "Network Edge Application Onboarding"
+        path: /ido-specs/doc/applications-onboard/network-edge-applications-onboarding/?page=secure-access-service-edge-experience-kit
