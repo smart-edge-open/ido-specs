@@ -18,14 +18,46 @@ section:
         path: /ido-specs/doc/getting-started/kubernetes-dashboard/?page=secure-access-service-edge-experience-kit
   - title: "Building Blocks"
     section:
-      - title: "Node Feature Discovery"
-        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-node-feature-discovery/?page=secure-access-service-edge-experience-kit
-      - title: "Multiple Interface & PCIe SRIOV"
-        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-sriov-multiple-interfaces/?page=secure-access-service-edge-experience-kit
-      - title: "Intel® Movidius™ Myriad™ X HDDL"
-        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open_hddl/?page=secure-access-service-edge-experience-kit
-      - title: "Telemetry"
-        path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-telemetry/?page=secure-access-service-edge-experience-kit
+      # Secure Access Service Edge Experience Kit Updation on 07/07/2022 Start
+      #- title: "Node Feature Discovery"
+      #  path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-node-feature-discovery/?page=secure-access-service-edge-experience-kit
+      #- title: "Multiple Interface & PCIe SRIOV"
+      #  path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-sriov-multiple-interfaces/?page=secure-access-service-edge-experience-kit
+      #- title: "Intel® Movidius™ Myriad™ X HDDL"
+      #  path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open_hddl/?page=secure-access-service-edge-experience-kit
+      #- title: "Telemetry"
+      #  path: /ido-specs/doc/building-blocks/enhanced-platform-awareness/smartedge-open-telemetry/?page=secure-access-service-edge-experience-kit
+      # Secure Access Service Edge Experience Kit Updation on 07/07/2022 End
+      - title: Networking
+        section:
+          - title: Multus CNI
+            path: /docs/components/networking/multus/?page=secure-access-service-edge-experience-kit
+          - title: Nodus
+            path: /docs/components/networking/nodus/?page=secure-access-service-edge-experience-kit
+          - title: SR-IOV Network Operator
+            path: /docs/components/networking/sriov-network-operator/?page=secure-access-service-edge-experience-kit
+      - title: Resource Management
+        section:
+          - title: KubeVirt
+            path: /docs/components/resource-management/kubevirt/?page=secure-access-service-edge-experience-kit
+          - title: Node Feature Discovery
+            path: /docs/components/resource-management/node-feature-discovery/?page=secure-access-service-edge-experience-kit
+          - title: Topology Manager
+            path: /docs/components/resource-management/topology-manager/?page=secure-access-service-edge-experience-kit
+          - title: CPU Manager
+            path: /docs/components/resource-management/cpu-manager/?page=secure-access-service-edge-experience-kit
+      - title: Storage
+        section:
+          - title: Rook-Ceph
+            path: /docs/components/storage/rook-ceph/?page=secure-access-service-edge-experience-kit
+      - title: Security
+        section:
+          - title: Intel ISecL
+            path: /docs/components/security/platform-attestation-using-isecl/?page=secure-access-service-edge-experience-kit
+          - title: Intel SGX
+            path: /docs/components/security/application-security-using-sgx/?page=secure-access-service-edge-experience-kit
+      - title: Telemetry
+        path: /docs/components/telemetry/telemetry/?page=secure-access-service-edge-experience-kit
   - title: "Application Onboarding"
     section:
       - title: "Network Edge Application Onboarding"
