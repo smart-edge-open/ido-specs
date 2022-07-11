@@ -13,6 +13,9 @@ left:
   - title: APIs
     url: /api-documentation/
 
+  - title: Blog
+    url: /blog/
+
   - title: Contact
     url: /contact/
    # dropdown:

@@ -78,6 +78,33 @@
                 }
             });
         });
+
+        //Add highlight class if not have in pre tag
+        document.querySelector('.article-content').querySelectorAll('pre').forEach(function (pre){
+            if(pre.classList.contains('highlight') == false){
+                pre.classList.add("highlight");
+            }
+        });
+        //Add Copy Button Functionality
+        document.querySelector('.article-content').querySelectorAll('pre.highlight').forEach(function (pre) {
+            var button = document.createElement('button');
+            var copyText = '';
+            button.className = 'copyBtn';
+            button.type = 'button';
+            button.ariaLabel = 'Copy code to clipboard';
+            button.innerText = copyText;
+            button.addEventListener('click', function () {
+                var code = pre.querySelector('code').innerText.trim();
+                navigator.clipboard.writeText(code);
+                button.innerText = 'Copied';
+                button.className = 'copyBtn copiedBtn';
+                setTimeout(function () {
+                    button.innerText = copyText;
+                    button.className = 'copyBtn';
+                }, 4000);
+            });
+            pre.appendChild(button);
+        });
     </script>
     </body>
 </html>
