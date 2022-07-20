@@ -9620,7 +9620,6 @@ jQuery(document).ready(function() {
             $(".cn-yes").hide();
         }
     });
-
     jQuery('.collapsedArea ul li > span').on('click', function(){
         if(jQuery(this).next('ul').is(':visible')){
             jQuery(this).next('ul').slideUp();
@@ -9640,6 +9639,12 @@ function cleanString(str) {
 jQuery(window).on('load', function(){
     var pathURL = window.location.pathname + window.location.search + window.location.hash;
     var pathname = pathURL.replace(/\/$/, "");
+    var pathnameAfterHash = pathname.split('#')[1]
+    jQuery('.sidebar-fixed-width+.uk-width-1-1 .rightSidebar ul li a[href="#'+pathnameAfterHash+'"]').addClass('active');
+    jQuery('.sidebar-fixed-width+.uk-width-1-1 .rightSidebar ul li a').on('click', function(){
+        jQuery('.sidebar-fixed-width+.uk-width-1-1 .rightSidebar ul li a').removeClass('active');
+        jQuery(this).addClass('active');
+    })
     if(pathname.includes('/docs/') || pathname.includes('/ido-specs/')){
         jQuery('.sidebar-docs .leftSection .collapsedArea ul li span a[href="'+pathname+'"]').parent('span').parent('li').addClass('uk-active');
     }
@@ -9697,7 +9702,6 @@ jQuery(window).on('load', function(){
             }else{
                 breadcrumbs.insertAdjacentHTML("beforeend", linkText);
             }
-
         }, 10)
     }
 })

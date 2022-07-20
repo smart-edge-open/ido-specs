@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2021 Intel Corporation
 # Navbar left menu navigation links
 
 left:
@@ -12,6 +14,9 @@ left:
 
   - title: APIs
     url: /api-documentation/
+
+  - title: Blog
+    url: /blog/
 
   - title: Contact
     url: /contact/

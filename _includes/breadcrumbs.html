@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2021 Intel Corporation
+-->
 {% assign navigations = "" | split:"|" %}
 {% for navbars_data in site.data.navbars %}
   {% assign nav = navbars_data[1] %}
@@ -8,6 +12,20 @@
 {% assign title = page.name | replace: "-"," " | replace: "_"," " | split: ".md" | first %}
 {% assign pageTitle = title | split: ' ' %}
 {% capture pageTitleUpper %}{% for word in pageTitle %}{{ word | capitalize }} {% endfor %}{% endcapture %}
+
+<!-- Github Page Url Start  -->
+{% if site.main_url == 'https://onsumaye-team.github.io' %}
+  {% assign githubUrl = 'https://github.com/onsumaye-team' | append:site.baseurl | append:'/blob' %}
+{% else %}
+  {% assign githubUrl = 'https://github.com/smart-edge-open' | append:site.baseurl | append:'/blob' %}
+{% endif %}
+{% assign githubUrl = githubUrl | append:'/gh-pages' | append:'/' | append:page.path %}
+{% comment %}
+{{ githubUrl }}
+{% endcomment %}
+<!-- Github Page Url End  -->
+
+<a href="{{ githubUrl }}" target="_blank" class="uk-button uk-button-primary-outline breadcrumbRightBtn">View <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" xmlns:v="https://vecta.io/nano"><path d="M7.993.219C3.577.217 0 3.792 0 8.204c0 3.489 2.238 6.455 5.354 7.545.42.105.355-.193.355-.396v-1.384c-2.423.284-2.521-1.32-2.684-1.588-.329-.561-1.105-.704-.873-.971.552-.284 1.114.071 1.766 1.034.471.698 1.391.58 1.857.464.102-.42.32-.795.62-1.086-2.511-.45-3.557-1.982-3.557-3.804 0-.884.291-1.696.863-2.352-.364-1.08.034-2.005.087-2.143 1.038-.093 2.116.743 2.2.809.589-.159 1.263-.243 2.016-.243s1.432.087 2.027.248c.202-.154 1.202-.871 2.166-.784.052.138.441 1.041.098 2.107.579.657.873 1.477.873 2.363 0 1.825-1.054 3.359-3.571 3.802.216.212.387.465.504.744s.177.579.177.881v2.009c.014.161 0 .32.268.32 3.162-1.066 5.439-4.054 5.439-7.573A7.99 7.99 0 0 0 7.993.219z"></path></svg></a>
 <div id="breadcrumbs">
   {% assign crumbs = page.url | remove:'/index.html' | split: '/' %}
   <a href="{{ site.main_url }}">Home</a> > 
