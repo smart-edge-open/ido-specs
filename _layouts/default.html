@@ -35,7 +35,7 @@ Copyright (c) 2021 Intel Corporation
     
     <script type="text/javascript">
         jQuery(document).ready(function(){
-            jQuery('.article-content .link-primary a').each(function(e){
+            jQuery('.article-content .link-primary a').not(':first').each(function(e){
                 var url = jQuery(this).attr('href');
                 if(typeof url != 'undefined'){
                     var urlFound = url.indexOf(base_url);
